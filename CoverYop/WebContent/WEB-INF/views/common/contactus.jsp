@@ -1,0 +1,96 @@
+<!-- ############################# Ajax Page Container ############################# -->
+ <section id="page" data-title="Noisa - Contact">
+
+	<!-- ############################# Intro ############################# -->
+	<section id="contact-map" class="gmap section border-bottom" data-address="Via Vetoio 1, L'Aquila, AQ" data-zoom="16" data-zoom_control="true" data-scrollwheel="false">
+
+	
+		
+	</section>
+	<!-- /intro -->
+
+	<!-- ############################# Content ############################# -->
+	<section class="content section">
+		<!-- container -->
+		<div class="container">
+
+			<!-- ############################# Page ############################# -->
+
+			<!-- Article -->
+			<article>
+				<h1 class="entry-title">Contact Details</h1>
+				<div class="row clearfix">
+					<div class="col-1-2">
+						<p>Cras venenatis justo mi, non posuere enim aliquet malesuada. Nullam orci sem, adipiscing id rutrum et, blandit quis lorem. Phasellus lacus orci, cursus vitae mi eget, sagittis congue elit. Donec ac tincidunt tortor. Duis vel neque eleifend odio hendrerit consequat sed vel massa. Praesent tempor libero quis tincidunt fringilla. Aliquam congue, neque et aliquam eleifend, lacus diam aliquet urna, in sollicitudin neque nisl facilisis urna.</p>
+						<p>Praesent tempor libero quis tincidunt fringilla. Aliquam congue, neque et aliquam eleifend, lacus diam aliquet urna, in sollicitudin neque nisl facilisis urna. Cras venenatis justo mi, non posuere enim aliquet malesuada. Nullam orci sem, adipiscing id rutrum et.</p>
+					</div>
+					<div class="col-1-2 last">
+						<img src="${pageContext.request.contextPath}/resources/placeholders/contact-img.jpg" alt="Contact image" class="aligncenter">
+					</div>
+				</div>
+				<div class="row clearfix">
+					<!-- column icon -->
+					<div class="col-1-4 column-icon">
+						<span class="icon-home icon"></span>
+						<span class="txt"><strong>Level 13, 2 Elizabeth St, Melbourne Victoria </strong><br>3000 Australia</span>
+					</div>
+					<!-- /column icon -->
+					<!-- column icon -->
+					<div class="col-1-4 column-icon">
+						<span class="icon-phone icon"></span>
+						<span class="txt"><strong>(123) 563-9899-234</strong><br>(123) 123-9899-234 (FAX)</span>
+					</div>
+					<!-- /column icon -->
+					<!-- column icon -->
+					<div class="col-1-4 column-icon">
+						<span class="icon-pencil icon"></span>
+						<span class="txt"><strong><a href="mailto:noisa@noisa.com">noisa@noisa.com</a></strong><br><a href="mailto:booking@noisa.com">booking@noisa.com</a> </span>
+					</div>
+					<!-- /column icon -->
+					<!-- column icon -->
+					<div class="col-1-4 last column-icon">
+						<span class="icon-share icon"></span>
+						<span class="txt"><strong><a href="http://facebook.com">facebook</a></strong><br><a href="http://twitter.com">twitter</a><br><a href="http://soundcloud.com">soundcloud</a></span>
+					</div>
+					<!-- /column icon -->
+				</div>
+		
+				<hr class="divider">
+
+				<h2>Send Us a Message:</h2>
+				<!-- contact form -->
+		        <form action="plugins/contact-form.php" method="post" class="form contact-form">
+		        	<div class="row clearfix">
+		 				<div class="col-1-3">
+		 					<label for="contact-name"><strong>Name</strong> (required)</label>
+							<input type="text" name="name" value="" id="contact-name" required>
+		 				</div>
+		 				<div class="col-1-3">
+		 					<label for="contact-email"><strong>Email</strong> (required)</label>
+							<input type="email" name="email" value="" id="contact-email" required>
+		 				</div>
+		 				<div class="col-1-3 last">
+		 					<label for="contact-www"><strong>Subject</strong></label>
+							<input type="text" name="subject" value="" id="contact-www">
+		 				</div>
+		        	</div>
+		        	<div class="row clearfix">
+		        		<div class="col-1-1">
+		        			<label for="contact-message"><strong>Message</strong> (required)</label>
+							<textarea name="message" id="contact-message" cols="88" rows="6" required></textarea>
+						</div>
+		        	</div>
+					<input type="submit" value="Submit Comment" class="large invert">
+					<div class="clear"></div>
+		        </form>
+		        <!-- /contact form -->
+			</article>
+			<!-- /article -->
+
+		</div>
+		<!-- /container -->
+	</section>
+	<!-- /Content -->
+
+</section>
+<!-- /page -->

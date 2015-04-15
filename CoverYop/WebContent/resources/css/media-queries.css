@@ -1,0 +1,597 @@
+/* ----------------------------------------------------------------------
+	Media Queries
+/* ---------------------------------------------------------------------- */
+
+
+/* ----------------------------------------------------------------------
+	For Small Desktop Devices [ 960px ]
+/* ---------------------------------------------------------------------- */
+@media only screen and (max-width: 1200px) {
+
+
+	/* Basic Elements & Classes
+ 	 ---------------------------------------------------------------------- */
+ 	body { font-size:  13px; }
+ 	 
+
+	/* Layout and content
+	 ---------------------------------------------------------------------- */
+
+	/* Container */
+	.container { width: 960px; }
+
+			
+		/* Columns
+		 -------------------------------- */
+		.col-1-1, .col-1-2, .col-1-3, .col-2-3, .col-1-4, .col-3-4 {
+			margin-right: 20px;
+		}
+		.col-1-2 { width: 460px; }
+		.col-1-3 { width: 300px; }
+		.col-1-4 { width: 220px; }
+		.col-2-3 { width: 620px; }
+		.col-3-4 { width: 700px; }
+
+
+		/* Main
+		 -------------------------------- */
+		#main, #main.main-medium { width: 700px; }
+		#main.main-right { margin-left: 20px; }
+		#main.main-left { margin-right: 20px; }
+
+
+		/* Sidebar
+		 -------------------------------- */
+		.sidebar, .sidebar.main-medium { width: 220px; }
+
+
+	/* Sections
+ 	 ---------------------------------------------------------------------- */
+
+ 	/* Newsletter
+ 	 ------------------------------------ */
+	#subscribe-email {
+		width: 352px;
+	}
+
+
+	/* Events List
+ 	 ------------------------------------ */
+
+	.events-list .event-meta { width: 330px; }
+
+
+	/* Elements
+ 	---------------------------------------------------------------------- */
+
+
+	/* Masonry grids
+	 ------------------------------------ */
+	.masonry { margin-right: -20px; }
+	
+}
+
+
+/* ----------------------------------------------------------------------
+	For Tablet Devices [ 748px ]
+/* ---------------------------------------------------------------------- */
+@media only screen and (min-width: 768px) and (max-width: 980px) {
+
+
+	/* Layout and content
+	 ---------------------------------------------------------------------- */
+
+	/* Container */
+	.container { width: 748px; }
+		.container img { 
+			max-width:100%;
+			max-height:100%;
+		}
+			
+
+		/* Columns
+		 -------------------------------- */
+		.col-1-2 { width: 364px; }
+		.col-1-3 { width: 236px; }
+		.col-2-3 { width: 492px; }
+		.col-1-4 { width: 172px; }
+		.col-3-4 { width: 556px; }
+
+
+		/* Main
+		 -------------------------------- */
+		#main, #main.main-medium { width: 556px; }
+		#main.main-right { margin-left: 20px; }
+		#main.main-left { margin-right: 20px; }
+
+
+		/* Sidebar
+		 -------------------------------- */
+		.sidebar, .sidebar.main-medium { width: 172px; }
+
+
+	/* Navigation
+	 ---------------------------------------------------------------------- */
+
+
+ 	/* Main Navigation
+	 -------------------------------- */
+
+	/* Menu height */
+ 	#main-nav-wrapper, #main-nav { height: 64px; }
+ 	#search-wrap { top:64px; }
+
+	/* Navigation list */
+ 	#nav { display: none; }
+
+	/* Responsive Nav */
+	.dl-menuwrapper {
+		float: right;
+		display: block;
+		position: absolute;
+		right: 0px;
+		top:0;
+	}
+
+
+	/* Icon navigation
+	 -------------------------------- */
+	#icon-nav { 
+		position: absolute;
+		right: 60px;
+		top: 0;
+		border: 0;
+		z-index: 100;
+		margin-top: 26px;
+	}
+	#icon-nav a span { font-size: 18px; }
+
+
+ 	/* Logo
+	 -------------------------------- */
+	#logo { top: 16px; }
+
+
+	/* Sections
+ 	---------------------------------------------------------------------- */
+
+
+ 	/* Resize Intro
+ 	 --------------------------------*/
+ 	#ticker {
+		height: 76px;
+		font-size: 56px;
+	}
+	#ticker li {height: 56px;}
+
+
+	/* Featured Events
+ 	 ------------------------------------ */
+	/* Meta */
+	.events-grid .event-meta {
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+		padding: 15px;
+		color: #fff;
+	}
+		.events-grid .event-meta > span { display:  block; }
+		.events-grid .event-location {
+			font-size: 11px;
+		}
+		.events-grid .event-date {
+			margin-top: 5px;
+			font-size: 24px;
+			font-weight: bold;
+		}
+		.events-grid .event-title {
+			font-size: 14px;
+			font-weight: bold;
+		}
+		.events-grid .event-artists {
+			font-size: 12px;
+			color: #fff;
+			color: rgba( 255, 255, 255, 0.7 );
+		}
+
+
+	/* Newsletter
+ 	 ------------------------------------ */
+	#subscribe-email {
+		width: 246px;
+	}
+
+
+	/* Events List
+ 	 ------------------------------------ */
+	.events-list .event-date-body {
+		width: 90px;
+		margin-left: 20px;
+	}
+	.events-list .event-meta {
+		margin-left: 20px;
+		margin-top: 30px;
+		width: 290px;
+	}
+
+
+	/* Widgets
+ 	---------------------------------------------------------------------- */
+ 	.details-countdown .days, .details-countdown .hours, .details-countdown .minutes, .details-countdown .seconds {
+		font-size: 30px;
+	}
+
+
+	/* Shortcodes
+ 	 ---------------------------------------------------------------------- */
+
+
+	/* Tabs
+	 ------------------------------------ */
+	ul.tabs { 
+		width:100%;
+		height: auto;
+		border: none;
+		overflow: hidden;
+	}
+		ul.tabs li { 
+			width: 100%;
+		}
+		ul.tabs li a { 
+			margin: 0;
+			width: 100%;
+			border-width: 0px 1px 1px 1px;
+		}
+		ul.tabs li:first-child a { border-width: 1px 1px 1px 1px;}
+
+}
+
+
+/* ----------------------------------------------------------------------
+	For Mobile Devices [ 300px ]
+/* ---------------------------------------------------------------------- */
+@media only screen and (max-width: 767px) {
+
+	/* Layout and content
+	 ---------------------------------------------------------------------- */
+
+	/* Container */
+	.container { width: 300px; }
+		.container img { 
+			max-width: 100%;
+			max-height:100%;
+		}
+		
+			
+		/* Columns
+		 -------------------------------- */
+		.col-1-2,
+		.col-1-3,
+		.col-1-4,
+		.col-1-5,
+		.col-2-3,
+		.col-3-4 { 
+			width: 300px;
+			margin-right:0;
+		}
+		.flex-col-1-2, 
+		.flex-col-1-3,
+		.flex-col-1-4,
+		.flex-col-1-5  { 
+			width: 50%;
+		}
+
+
+		/* Main
+		 -------------------------------- */
+		#main, #main.main-medium { width: 100% }
+		#main.main-right { margin-left: 0; }
+		#main.main-left { margin-right: 0; }
+
+
+		/* Sidebar
+		 -------------------------------- */
+		.sidebar, .sidebar.main-medium { width: 100% }
+
+
+	/* Navigation
+	 ---------------------------------------------------------------------- */
+
+
+ 	/* Main Navigation
+	 -------------------------------- */
+
+	/* Menu height */
+ 	#main-nav-wrapper, #main-nav { height: 64px; }
+ 	#search-wrap { top:64px; }
+
+	/* Navigation list */
+ 	#nav { display: none; }
+
+	/* Responsive Nav */
+	.dl-menuwrapper {
+		float: right;
+		display: block;
+		position: absolute;
+		right: 0px;
+		top:0;
+	}
+
+
+	/* Icon navigation
+	 -------------------------------- */
+	#icon-nav { 
+		position: absolute;
+		right: 60px;
+		top: 0;
+		border: 0;
+		z-index: 100;
+		margin-top: 26px;
+	}
+	#icon-nav a span { font-size: 18px; }
+
+
+ 	/* Logo
+	 -------------------------------- */
+	#logo { top: 16px; }
+
+
+	/* Sections
+ 	---------------------------------------------------------------------- */
+
+
+ 	/* Resize Intro
+ 	 --------------------------------*/
+ 	.intro-bg { display: none; }
+ 	#ticker-wrap { padding: 10px 0 20px; }
+ 	#ticker {
+		height: 38px;
+		font-size: 28px;
+	}
+	#ticker li {height: 28px;}
+
+
+	/* Countdown
+ 	 ------------------------------------ */
+	.countdown-wrap .days, .countdown-wrap .hours, .countdown-wrap .minutes, .countdown-wrap .seconds {
+		font-size: 36px;
+	}
+
+
+	/* Newsletter
+ 	 ------------------------------------ */
+ 	 #newsletter { background-color: #121212; }
+	.newsletter-left { display: none; }
+	.newsletter-right { 
+		width: 300px;
+		padding: 22px 0;
+	}
+	.newsletter-title { display: none; }
+	#subscribe-email { width: 216px; }
+
+	/* Gallery
+ 	------------------------------------ */
+	.gallery-2-col .gallery-item,
+	.gallery-3-col .gallery-item,
+	.gallery-4-col .gallery-item { width: 50%; }
+
+
+	/* Events List
+ 	 ------------------------------------ */
+
+	.events-list .event-date {
+		display: block;
+		position: relative;
+		height: 40px;
+	}
+	.events-list .event-date .month {
+		font-size: 22px;
+		text-align:left;
+		display:inline-block;
+		margin-top: 8px;
+		font-weight: bold;
+	}
+	.events-list .event-date .year {
+		font-size: 14px;
+		text-align:left;
+		display:inline-block;
+		margin-left: 0;
+		top: 0;
+	}
+	.events-list .event-body { margin-left: 0; }
+		.events-list .event-date-body {
+			width: 90px;
+			margin-left: 20px;
+		}
+			.events-list .event-meta {
+				margin-left: 20px;
+				margin-top: 30px;
+				width: 290px;
+			}
+			.events-list a.event-button {
+				float: right;
+				margin:40px 30px 30px 30px;
+			}
+
+
+	/* Footer
+ 	 ---------------------------------------------------------------------- */
+ 	.footer-copyrights { text-align: left; }
+
+
+ 	/* Shortcodes
+ 	 ---------------------------------------------------------------------- */
+
+
+	/* Tabs
+	 ------------------------------------ */
+	ul.tabs { 
+		width:100%;
+		height: auto;
+		border: none;
+		overflow: hidden;
+	}
+		ul.tabs li { 
+			width: 100%;
+		}
+		ul.tabs li a { 
+			margin: 0;
+			width: 100%;
+			border-width: 0px 1px 1px 1px;
+		}
+		ul.tabs li:first-child a { border-width: 1px 1px 1px 1px;}
+
+
+
+	/* Plugins
+ 	 ---------------------------------------------------------------------- */
+
+ 	/* Carousel
+ 	 -------------------------------- */
+ 	.carousel-item { margin: 0; }
+
+
+ 	/* Nice Select
+ 	 -------------------------------- */
+	.select_style.filter { width: 100%; margin-right: 0; }
+
+
+	/* Page navigations
+ 	 ---------------------------------------------------------------------- */
+
+
+	/* Page Nav
+	 ------------------------------------ */
+	.page-nav a { min-width: 148px; }
+
+
+}
+
+
+/* ----------------------------------------------------------------------
+	For Mobile Devices [ 440px ] [ Horizontal ]
+/* ---------------------------------------------------------------------- */
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+	
+
+	/* Layout and content
+	 ---------------------------------------------------------------------- */
+
+	/* Container */
+	.container { width: 440px; }
+
+
+		/* Columns
+		 -------------------------------- */
+		.col-1-2,
+		.col-1-3,
+		.col-1-4,
+		.col-1-5,
+		.col-2-3,
+		.col-3-4 { 
+			width: 440px;
+			margin-right:0;
+		}
+		.flex-col-1-3,
+		.flex-col-1-2,
+		.flex-col-1-4,
+		.flex-col-1-5 { 
+			width: 50%;
+		}
+
+
+	/* Sections
+ 	---------------------------------------------------------------------- */
+
+	/* Countdown
+ 	 ------------------------------------ */
+	.countdown-wrap .days, .countdown-wrap .hours, .countdown-wrap .minutes, .countdown-wrap .seconds {
+		font-size: 48px;
+	}
+
+
+	/* Newsletter
+ 	 ------------------------------------ */
+ 	#newsletter { background-color: #666; }
+	.newsletter-left { 
+		width: 86px;
+		display: block;
+	}
+	.newsletter-right { 
+		width: 354px;
+		padding: 22px;
+	}
+	.newsletter-icon {
+		display: block;
+	}
+	.newsletter-title { display: none; }
+	#subscribe-email { width: 226px; }
+
+
+	/* Plugins
+ 	 ---------------------------------------------------------------------- */
+
+		/* Carousel
+	 	 ------------------------------------ */
+		.carousel-item {
+			width: 200px;
+			margin: 0 10px;
+		}
+}
+
+
+/* ----------------------------------------------------------------------
+	For Events Table Only
+/* ---------------------------------------------------------------------- */
+@media (max-width: 50em) {
+	table.responsive-table {
+		box-shadow: none;  
+	}
+	table.responsive-table thead {
+		display: none; 
+	}
+	table.display th,
+	table.display td {
+		padding: .8em 1em;
+		border: 1px solid #444;
+	}
+	table.responsive-table td:nth-child(1):before {
+		/*content: 'Date';*/
+	}
+	table.responsive-table td:nth-child(2):before {
+		/*content: 'Event';*/
+	}
+	table.responsive-table td:nth-child(1),
+	table.responsive-table td:nth-child(2) {
+		/*padding-left: 25%;*/
+	}
+	table.responsive-table td:nth-child(1):before,
+	table.responsive-table td:nth-child(2):before {
+		position: absolute;
+		left: .5em;
+		font-weight: bold;
+	}
+
+	table.responsive-table tr,
+	table.responsive-table td {
+		display: block;
+	}
+	table.responsive-table tr {
+		position: relative;
+		margin-bottom: 1em;
+	}
+	table.responsive-table td {
+		border-top: none;
+	}
+	table.responsive-table td.table-date {
+		border-top: 1px solid #444;
+	}
+	table.responsive-table td.actions{
+		position: absolute;
+		top: 0;
+		right: 0;
+		border: none;
+		background: none;
+	}
+}

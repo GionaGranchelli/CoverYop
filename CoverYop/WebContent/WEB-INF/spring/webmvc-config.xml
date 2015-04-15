@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans 
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" 
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.2.xsd
+	http://www.springframework.org/schema/mvc
+	http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+	http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util-3.2.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
+
+	<mvc:annotation-driven />
+
+	<!-- ================= MISC. ================= -->
+	<!-- Message properties -->
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>classpath:yop</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- Nuovo Auth Holder -->
+	
+	<bean id="authenticationHolder"
+  			class="it.univaq.mwt.common.spring.security.AuthenticationHolder" />
+
+ 	<bean scope="request" factory-bean="authenticationHolder"
+  			factory-method="getUser">
+  			<aop:scoped-proxy/> 
+ 	</bean>
+ 	
+	<!-- Declare the Interceptor -->
+	<mvc:interceptors>
+		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+			<property name="paramName" value="lang" />
+		</bean>
+	</mvc:interceptors>
+
+	<!-- Declare the Resolver -->
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver" />
+
+	<!-- Forwards requests to the "/" resource to the "home" view -->
+	<mvc:view-controller path="/" view-name="common.index"/>
+	<mvc:view-controller path="/index.do" view-name="common.index"/>
+	<mvc:view-controller path="/common/ok.do" view-name="common.ok"/>
+
+	<mvc:view-controller path="/common/welcome.do" view-name="common.welcome"/>
+
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving  up static resources in the ${webappRoot}/resources/ directory -->
+	<mvc:resources mapping="/resources/**" location="/resources/"/>
+
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
+	
+	
+	<!-- ================= TILES ================= -->
+	<bean id="tilesConfigurer"
+		class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+		<property name="definitions">
+			<list>
+				<value>/WEB-INF/spring/tiles-defs.xml</value>
+			</list>
+		</property>
+	</bean>
+ 	<bean id="tilesViewResolver" class="org.springframework.web.servlet.view.tiles3.TilesViewResolver"/>
+
+	
+	<context:component-scan base-package="it.univaq.mwt.presentation"/>
+</beans>

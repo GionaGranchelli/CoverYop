@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+	<definition name="standard" template="/WEB-INF/views/layout/layout.jsp">
+		<put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
+		<put-attribute name="menu" value="/WEB-INF/views/layout/menu.jsp" />
+	</definition>
+
+	<definition name="common.index" extends="standard">
+		<put-attribute name="body" value="/WEB-INF/views/common/index.jsp" />
+	</definition>
+
+	<definition name="common.ok" extends="standard">
+		<put-attribute name="body" value="/WEB-INF/views/common/ok.jsp" />
+	</definition>
+
+	<definition name="common.welcome" extends="standard">
+		<put-attribute name="body" value="/WEB-INF/views/common/welcome.jsp" />
+	</definition>
+
+	<definition name="common.contactus" extends="standard">
+		<put-attribute name="body"
+			value="/WEB-INF/views/common/contactus.jsp" />
+	</definition>
+	<definition name="common.register" extends="standard">
+		<put-attribute name="body" value="/WEB-INF/views/common/register.jsp" />
+	</definition>
+	<definition name="common.howto" extends="standard">
+		<put-attribute name="body" value="/WEB-INF/views/common/about.jsp" />
+	</definition>
+	<definition name="common.conferma" extends="standard">
+		<put-attribute name="body" value="/WEB-INF/views/common/conferma.jsp" />
+	</definition>
+	<definition name="group.welcome" extends="standard">
+		<put-attribute name="body" value="/WEB-INF/views/group/welcome.jsp" />
+	</definition>
+
+	<definition name="group.profile" extends="standard">
+		<put-attribute name="body" value="/WEB-INF/views/group/profile.jsp" />
+	</definition>
+	<definition name="profilo.loggato" extends="standard">
+		<put-attribute name="body"
+			value="/WEB-INF/views/group/profile_logged.jsp" />
+	</definition>
+	<definition name="profiloUtente.loggato" extends="standard">
+		<put-attribute name="body"
+			value="/WEB-INF/views/group/user_profile_logged.jsp" />
+	</definition>
+	<definition name="profiloMultimedia.loggato" extends="standard">
+		<put-attribute name="body"
+			value="/WEB-INF/views/group/user_multimedia_logged.jsp" />
+	</definition>
+	<definition name="profiloEventi.loggato" extends="standard">
+		<put-attribute name="body"
+			value="/WEB-INF/views/group/user_event_logged.jsp" />
+	</definition>
+	
+	
+	<definition name="local.welcome" extends="standard">
+		<put-attribute name="body" value="/WEB-INF/views/local/welcome.jsp" />
+	</definition>
+	<definition name="local.profile" extends="standard">
+		<put-attribute name="body" value="/WEB-INF/views/local/profile.jsp" />
+	</definition>
+	<definition name="local.loggato" extends="standard">
+		<put-attribute name="body"
+			value="/WEB-INF/views/local/profile_logged.jsp" />
+	</definition>
+	<definition name="localeUtente.loggato" extends="standard">
+		<put-attribute name="body"
+			value="/WEB-INF/views/local/user_profile_logged.jsp" />
+	</definition>
+	<definition name="localeMultimedia.loggato" extends="standard">
+		<put-attribute name="body"
+			value="/WEB-INF/views/local/user_multimedia_logged.jsp" />
+	</definition>
+	<definition name="localeEventi.loggato" extends="standard">
+		<put-attribute name="body"
+			value="/WEB-INF/views/local/user_event_logged.jsp" />
+	</definition>
+
+
+	<definition name="list.event" extends="standard">
+		<put-attribute name="body"
+			value="/WEB-INF/views/event/event_list.jsp" />
+	</definition>
+
+	<definition name="evento.profile" extends="standard">
+		<put-attribute name="body" value="/WEB-INF/views/event/profile.jsp" />
+	</definition>
+	
+	
+	
+	 <definition name="list.conversation" extends="standard">
+        <put-attribute name="body" value="/WEB-INF/views/inbox/inbox.jsp"/>
+    </definition>
+    <definition name="show.conversation" extends="standard">
+        <put-attribute name="body" value="/WEB-INF/views/inbox/conversation.jsp"/>
+    </definition>
+    
+    
+    
+</tiles-definitions>
+	
+
+

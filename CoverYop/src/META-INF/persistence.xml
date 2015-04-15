@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1"
+	xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="Yop-domain">
+		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+		<jta-data-source>yop-ds</jta-data-source>
+		<class>it.univaq.mwt.business.model.Album</class>
+		<class>it.univaq.mwt.business.model.AlbumFotografico</class>
+		<class>it.univaq.mwt.business.model.Cachet</class>
+		<class>it.univaq.mwt.business.model.Canale</class>
+		<class>it.univaq.mwt.business.model.Canzone</class>
+		<class>it.univaq.mwt.business.model.Categoria</class>
+		<class>it.univaq.mwt.business.model.Componente</class>
+		<class>it.univaq.mwt.business.model.Evento</class>
+		<class>it.univaq.mwt.business.model.Foto</class>
+		<class>it.univaq.mwt.business.model.Genere</class>
+		<class>it.univaq.mwt.business.model.Gruppo</class>
+		<class>it.univaq.mwt.business.model.GruppoDiRiferimento</class>
+		<class>it.univaq.mwt.business.model.Locale</class>
+		<class>it.univaq.mwt.business.model.Ruolo</class>
+		<class>it.univaq.mwt.business.model.Scaletta</class>
+		<class>it.univaq.mwt.business.model.ServiceMusicale</class>
+		<class>it.univaq.mwt.business.model.Strumento</class>
+		<class>it.univaq.mwt.business.model.TipologiaEvento</class>
+		<class>it.univaq.mwt.business.model.Tour</class>
+		<class>it.univaq.mwt.business.model.Utente</class>
+		<class>it.univaq.mwt.business.model.Video</class>
+		<properties>
+			<property name="eclipselink.target-database" value="Oracle" />
+			<property name="eclipselink.weaving" value="static" />
+		</properties>
+	</persistence-unit>
+</persistence>
+
+
+
+
+

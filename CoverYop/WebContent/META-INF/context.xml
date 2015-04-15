@@ -1,0 +1,8 @@
+<Context path="/CoverBand"> 
+
+    <Resource name="jdbc/yop" scope="Unshareable" type="javax.sql.DataSource"
+              maxActive="100" maxIdle="30" maxWait="5000"
+              username="yop" password="yop" driverClassName="oracle.jdbc.OracleDriver"
+              url="jdbc:oracle:thin:@127.0.0.1:1521:XE"/>
+         
+</Context>

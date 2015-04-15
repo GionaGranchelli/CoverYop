@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd 
+            http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.2.xsd
+            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+          
+          <context:component-scan base-package="it.univaq.mwt.business.impl"/>
+			<context:component-scan base-package="net.viralpatel.spring.autocomplete" />	
+    <jee:jndi-lookup id="dataSource" jndi-name="jdbc/yop"/>
+
+    <bean id="myEmf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="persistenceUnitName" value="Yop-domain"/>
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter"></bean>
+        </property>
+<!--         <property name="loadTimeWeaver">  -->
+<!--         <bean class="org.springframework.instrument.classloading.SimpleLoadTimeWeaver " />  -->
+<!--     </property>  -->
+    </bean>
+
+    <!-- Transaction Manager -->
+    <bean id="txManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="entityManagerFactory" ref="myEmf"/>
+    </bean>
+    <tx:annotation-driven transaction-manager="txManager"/>
+          
+          
+           <tx:annotation-driven />
+          
+<!--         <context:component-scan base-package="it.univaq.mwt.business.impl"/> -->
+<!--         <bean id="emf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" > -->
+<!-- 					<property name = "dataSource" ref="dataSource" /> -->
+<!-- 					<property name= "jpaVendorAdapter" ref="EclipseLinkJpaVendorAdapter" /> -->
+<!-- 					</bean>	  -->
+<!--           <jee:jndi-lookup id="dataSource" jndi-name="jdbc/yop"/> -->
+          <!-- 
+     <jee:remote-slsb id="CanzoniService" 
+	 	resource-ref="true" 
+	 	cache-session-bean="false" 
+	 	lookup-home-on-startup="false" 
+	 	business-interface="it.univaq.mwt.business.CanzoniService" 
+	 	jndi-name="java:global/yop-ear/yop-ejb/EJBCanzoni!it.univaq.mwt.business.CanzoniService" >
+		<jee:environment>
+			java.naming.factory.initial=com.sun.enterprise.naming.SerialInitContextFactory
+  			java.naming.factory.url.pkgs=com.sun.enterprise.naming
+  			java.naming.factory.state=com.sun.corba.ee.impl.presentation.rmi.JNDIStateFactoryImpl    
+  			org.omg.CORBA.ORBInitialHost=localhost
+  			org.omg.CORBA.ORBInitialPort=3700
+		</jee:environment>
+	</jee:remote-slsb>
+	
+ <jee:remote-slsb id="FotoService" 
+	 	resource-ref="true" 
+	 	cache-session-bean="false" 
+	 	lookup-home-on-startup="false" 
+	 	business-interface="it.univaq.mwt.business.FotoService" 
+	 	jndi-name="java:global/yop-ear/yop-ejb/EJBFoto!it.univaq.mwt.business.FotoService" >
+		<jee:environment>
+			java.naming.factory.initial=com.sun.enterprise.naming.SerialInitContextFactory
+  			java.naming.factory.url.pkgs=com.sun.enterprise.naming
+  			java.naming.factory.state=com.sun.corba.ee.impl.presentation.rmi.JNDIStateFactoryImpl    
+  			org.omg.CORBA.ORBInitialHost=localhost
+  			org.omg.CORBA.ORBInitialPort=3700
+		</jee:environment>
+	</jee:remote-slsb>
+	
+<jee:remote-slsb id="LocaleService" 
+	 	resource-ref="true" 
+	 	cache-session-bean="false" 
+	 	lookup-home-on-startup="false" 
+	 	business-interface="it.univaq.mwt.business.LocaleService" 
+	 	jndi-name="java:global/yop-ear/yop-ejb/EJBLocale!it.univaq.mwt.business.LocaleService" >
+		<jee:environment>
+			java.naming.factory.initial=com.sun.enterprise.naming.SerialInitContextFactory
+  			java.naming.factory.url.pkgs=com.sun.enterprise.naming
+  			java.naming.factory.state=com.sun.corba.ee.impl.presentation.rmi.JNDIStateFactoryImpl    
+  			org.omg.CORBA.ORBInitialHost=localhost
+  			org.omg.CORBA.ORBInitialPort=3700
+		</jee:environment>		
+	</jee:remote-slsb>
+
+<jee:remote-slsb id="CanaleService" 
+	 	resource-ref="true" 
+	 	cache-session-bean="false" 
+	 	lookup-home-on-startup="false" 
+	 	business-interface="it.univaq.mwt.business.CanaleService" 
+	 	jndi-name="java:global/yop-ear/yop-ejb/EJBCanale!it.univaq.mwt.business.CanaleService" >
+		<jee:environment>
+			java.naming.factory.initial=com.sun.enterprise.naming.SerialInitContextFactory
+  			java.naming.factory.url.pkgs=com.sun.enterprise.naming
+  			java.naming.factory.state=com.sun.corba.ee.impl.presentation.rmi.JNDIStateFactoryImpl    
+  			org.omg.CORBA.ORBInitialHost=localhost
+  			org.omg.CORBA.ORBInitialPort=3700
+		</jee:environment>		
+	</jee:remote-slsb>
+	
+	<jee:remote-slsb id="StrumentoService" 
+	 	resource-ref="true" 
+	 	cache-session-bean="false" 
+	 	lookup-home-on-startup="false" 
+	 	business-interface="it.univaq.mwt.business.StrumentoService" 
+	 	jndi-name="java:global/yop-ear/yop-ejb/EJBStrumento!it.univaq.mwt.business.StrumentoService" >
+		<jee:environment>
+			java.naming.factory.initial=com.sun.enterprise.naming.SerialInitContextFactory
+  			java.naming.factory.url.pkgs=com.sun.enterprise.naming
+  			java.naming.factory.state=com.sun.corba.ee.impl.presentation.rmi.JNDIStateFactoryImpl    
+  			org.omg.CORBA.ORBInitialHost=localhost
+  			org.omg.CORBA.ORBInitialPort=3700
+		</jee:environment>		
+	</jee:remote-slsb>
+	
+		<jee:remote-slsb id="TipologiaEventoService" 
+	 	resource-ref="true" 
+	 	cache-session-bean="false" 
+	 	lookup-home-on-startup="false" 
+	 	business-interface="it.univaq.mwt.business.TipologiaEventoService" 
+	 	jndi-name="java:global/yop-ear/yop-ejb/EJBTipologiaEvento!it.univaq.mwt.business.TipologiaEventoService" >
+		<jee:environment>
+			java.naming.factory.initial=com.sun.enterprise.naming.SerialInitContextFactory
+  			java.naming.factory.url.pkgs=com.sun.enterprise.naming
+  			java.naming.factory.state=com.sun.corba.ee.impl.presentation.rmi.JNDIStateFactoryImpl    
+  			org.omg.CORBA.ORBInitialHost=localhost
+  			org.omg.CORBA.ORBInitialPort=3700
+		</jee:environment>		
+	</jee:remote-slsb>
+	
+	<jee:remote-slsb id="EventoService" 
+	 	resource-ref="true" 
+	 	cache-session-bean="false" 
+	 	lookup-home-on-startup="false" 
+	 	business-interface="it.univaq.mwt.business.EventoService" 
+	 	jndi-name="java:global/yop-ear/yop-ejb/EJBEvento!it.univaq.mwt.business.EventoService" >
+		<jee:environment>
+			java.naming.factory.initial=com.sun.enterprise.naming.SerialInitContextFactory
+  			java.naming.factory.url.pkgs=com.sun.enterprise.naming
+  			java.naming.factory.state=com.sun.corba.ee.impl.presentation.rmi.JNDIStateFactoryImpl    
+  			org.omg.CORBA.ORBInitialHost=localhost
+  			org.omg.CORBA.ORBInitialPort=3700
+		</jee:environment>		
+	</jee:remote-slsb>
+	
+	<jee:remote-slsb id="AlbumService" 
+	 	resource-ref="true" 
+	 	cache-session-bean="false" 
+	 	lookup-home-on-startup="false" 
+	 	business-interface="it.univaq.mwt.business.AlbumService" 
+	 	jndi-name="java:global/yop-ear/yop-ejb/EJBAlbum!it.univaq.mwt.business.AlbumService" >
+		<jee:environment>
+			java.naming.factory.initial=com.sun.enterprise.naming.SerialInitContextFactory
+  			java.naming.factory.url.pkgs=com.sun.enterprise.naming
+  			java.naming.factory.state=com.sun.corba.ee.impl.presentation.rmi.JNDIStateFactoryImpl    
+  			org.omg.CORBA.ORBInitialHost=localhost
+  			org.omg.CORBA.ORBInitialPort=3700
+		</jee:environment>		
+	</jee:remote-slsb>
+	
+	<jee:remote-slsb id="TourService" 
+	 	resource-ref="true" 
+	 	cache-session-bean="false" 
+	 	lookup-home-on-startup="false" 
+	 	business-interface="it.univaq.mwt.business.TourService" 
+	 	jndi-name="java:global/yop-ear/yop-ejb/EJBTour!it.univaq.mwt.business.TourService" >
+		<jee:environment>
+			java.naming.factory.initial=com.sun.enterprise.naming.SerialInitContextFactory
+  			java.naming.factory.url.pkgs=com.sun.enterprise.naming
+  			java.naming.factory.state=com.sun.corba.ee.impl.presentation.rmi.JNDIStateFactoryImpl    
+  			org.omg.CORBA.ORBInitialHost=localhost
+  			org.omg.CORBA.ORBInitialPort=3700
+		</jee:environment>		
+	</jee:remote-slsb>
+	
+	<jee:remote-slsb id="ComponenteService" 
+	 	resource-ref="true" 
+	 	cache-session-bean="false" 
+	 	lookup-home-on-startup="false" 
+	 	business-interface="it.univaq.mwt.business.ComponenteService" 
+	 	jndi-name="java:global/yop-ear/yop-ejb/EJBComponente!it.univaq.mwt.business.ComponenteService" >
+		<jee:environment>
+			java.naming.factory.initial=com.sun.enterprise.naming.SerialInitContextFactory
+  			java.naming.factory.url.pkgs=com.sun.enterprise.naming
+  			java.naming.factory.state=com.sun.corba.ee.impl.presentation.rmi.JNDIStateFactoryImpl    
+  			org.omg.CORBA.ORBInitialHost=localhost
+  			org.omg.CORBA.ORBInitialPort=3700
+		</jee:environment>		
+	</jee:remote-slsb>
+	
+	<jee:remote-slsb id="GenereService" 
+	 	resource-ref="true" 
+	 	cache-session-bean="false" 
+	 	lookup-home-on-startup="false" 
+	 	business-interface="it.univaq.mwt.business.GenereService" 
+	 	jndi-name="java:global/yop-ear/yop-ejb/EJBGenere!it.univaq.mwt.business.GenereService" >
+		<jee:environment>
+			java.naming.factory.initial=com.sun.enterprise.naming.SerialInitContextFactory
+  			java.naming.factory.url.pkgs=com.sun.enterprise.naming
+  			java.naming.factory.state=com.sun.corba.ee.impl.presentation.rmi.JNDIStateFactoryImpl    
+  			org.omg.CORBA.ORBInitialHost=localhost
+  			org.omg.CORBA.ORBInitialPort=3700
+		</jee:environment>		
+	</jee:remote-slsb>
+	
+	<jee:remote-slsb id="AlbumFotograficoService" 
+	 	resource-ref="true" 
+	 	cache-session-bean="false" 
+	 	lookup-home-on-startup="false" 
+	 	business-interface="it.univaq.mwt.business.AlbumFotograficoService" 
+	 	jndi-name="java:global/yop-ear/yop-ejb/EJBAlbumFotografico!it.univaq.mwt.business.AlbumFotograficoService" >
+		<jee:environment>
+			java.naming.factory.initial=com.sun.enterprise.naming.SerialInitContextFactory
+  			java.naming.factory.url.pkgs=com.sun.enterprise.naming
+  			java.naming.factory.state=com.sun.corba.ee.impl.presentation.rmi.JNDIStateFactoryImpl    
+  			org.omg.CORBA.ORBInitialHost=localhost
+  			org.omg.CORBA.ORBInitialPort=3700
+		</jee:environment>		
+	</jee:remote-slsb>
+	
+	<jee:remote-slsb id="VideoService" 
+	 	resource-ref="true" 
+	 	cache-session-bean="false" 
+	 	lookup-home-on-startup="false" 
+	 	business-interface="it.univaq.mwt.business.VideoService" 
+	 	jndi-name="java:global/yop-ear/yop-ejb/EJBVideo!it.univaq.mwt.business.VideoService" >
+		<jee:environment>
+			java.naming.factory.initial=com.sun.enterprise.naming.SerialInitContextFactory
+  			java.naming.factory.url.pkgs=com.sun.enterprise.naming
+  			java.naming.factory.state=com.sun.corba.ee.impl.presentation.rmi.JNDIStateFactoryImpl    
+  			org.omg.CORBA.ORBInitialHost=localhost
+  			org.omg.CORBA.ORBInitialPort=3700
+		</jee:environment>		
+	</jee:remote-slsb>
+	
+	<jee:remote-slsb id="ServiceMusicaleService" 
+	 	resource-ref="true" 
+	 	cache-session-bean="false" 
+	 	lookup-home-on-startup="false" 
+	 	business-interface="it.univaq.mwt.business.ServiceMusicaleService" 
+	 	jndi-name="java:global/yop-ear/yop-ejb/EJBServiceMusicale!it.univaq.mwt.business.ServiceMusicaleService" >
+		<jee:environment>
+			java.naming.factory.initial=com.sun.enterprise.naming.SerialInitContextFactory
+  			java.naming.factory.url.pkgs=com.sun.enterprise.naming
+  			java.naming.factory.state=com.sun.corba.ee.impl.presentation.rmi.JNDIStateFactoryImpl    
+  			org.omg.CORBA.ORBInitialHost=localhost
+  			org.omg.CORBA.ORBInitialPort=3700
+		</jee:environment>		
+	</jee:remote-slsb>
+	
+	<jee:remote-slsb id="RuoliService" 
+	 	resource-ref="true" 
+	 	cache-session-bean="false" 
+	 	lookup-home-on-startup="false" 
+	 	business-interface="it.univaq.mwt.business.RuoliService" 
+	 	jndi-name="java:global/yop-ear/yop-ejb/EJBRuoli!it.univaq.mwt.business.RuoliService" >
+		<jee:environment>
+			java.naming.factory.initial=com.sun.enterprise.naming.SerialInitContextFactory
+  			java.naming.factory.url.pkgs=com.sun.enterprise.naming
+  			java.naming.factory.state=com.sun.corba.ee.impl.presentation.rmi.JNDIStateFactoryImpl    
+  			org.omg.CORBA.ORBInitialHost=localhost
+  			org.omg.CORBA.ORBInitialPort=3700
+		</jee:environment>		
+	</jee:remote-slsb>
+	
+	<jee:remote-slsb id="FeedbackService" 
+	 	resource-ref="true" 
+	 	cache-session-bean="false" 
+	 	lookup-home-on-startup="false" 
+	 	business-interface="it.univaq.mwt.business.FeedbackService" 
+	 	jndi-name="java:global/yop-ear/yop-ejb/EJBFeedback!it.univaq.mwt.business.FeedbackService" >
+		<jee:environment>
+			java.naming.factory.initial=com.sun.enterprise.naming.SerialInitContextFactory
+  			java.naming.factory.url.pkgs=com.sun.enterprise.naming
+  			java.naming.factory.state=com.sun.corba.ee.impl.presentation.rmi.JNDIStateFactoryImpl    
+  			org.omg.CORBA.ORBInitialHost=localhost
+  			org.omg.CORBA.ORBInitialPort=3700
+		</jee:environment>		
+	</jee:remote-slsb>
+	
+	<jee:remote-slsb id="ScalettaService" 
+	 	resource-ref="true" 
+	 	cache-session-bean="false" 
+	 	lookup-home-on-startup="false" 
+	 	business-interface="it.univaq.mwt.business.ScalettaService" 
+	 	jndi-name="java:global/yop-ear/yop-ejb/EJBScaletta!it.univaq.mwt.business.ScalettaService" >
+		<jee:environment>
+			java.naming.factory.initial=com.sun.enterprise.naming.SerialInitContextFactory
+  			java.naming.factory.url.pkgs=com.sun.enterprise.naming
+  			java.naming.factory.state=com.sun.corba.ee.impl.presentation.rmi.JNDIStateFactoryImpl    
+  			org.omg.CORBA.ORBInitialHost=localhost
+  			org.omg.CORBA.ORBInitialPort=3700
+		</jee:environment>		
+	</jee:remote-slsb>
+	
+	<jee:remote-slsb id="CachetService" 
+	 	resource-ref="true" 
+	 	cache-session-bean="false" 
+	 	lookup-home-on-startup="false" 
+	 	business-interface="it.univaq.mwt.business.CachetService" 
+	 	jndi-name="java:global/yop-ear/yop-ejb/EJBCachet!it.univaq.mwt.business.CachetService" >
+		<jee:environment>
+			java.naming.factory.initial=com.sun.enterprise.naming.SerialInitContextFactory
+  			java.naming.factory.url.pkgs=com.sun.enterprise.naming
+  			java.naming.factory.state=com.sun.corba.ee.impl.presentation.rmi.JNDIStateFactoryImpl    
+  			org.omg.CORBA.ORBInitialHost=localhost
+  			org.omg.CORBA.ORBInitialPort=3700
+		</jee:environment>		
+	</jee:remote-slsb>
+	
+	<jee:remote-slsb id="CategoriaService" 
+	 	resource-ref="true" 
+	 	cache-session-bean="false" 
+	 	lookup-home-on-startup="false" 
+	 	business-interface="it.univaq.mwt.business.CategoriaService" 
+	 	jndi-name="java:global/yop-ear/yop-ejb/EJBCategoria!it.univaq.mwt.business.CategoriaService" >
+		<jee:environment>
+			java.naming.factory.initial=com.sun.enterprise.naming.SerialInitContextFactory
+  			java.naming.factory.url.pkgs=com.sun.enterprise.naming
+  			java.naming.factory.state=com.sun.corba.ee.impl.presentation.rmi.JNDIStateFactoryImpl    
+  			org.omg.CORBA.ORBInitialHost=localhost
+  			org.omg.CORBA.ORBInitialPort=3700
+		</jee:environment>		
+	</jee:remote-slsb>
+	
+	<jee:remote-slsb id="GruppoDiRiferimentoService" 
+	 	resource-ref="true" 
+	 	cache-session-bean="false" 
+	 	lookup-home-on-startup="false" 
+	 	business-interface="it.univaq.mwt.business.GruppoDiRiferimentoService" 
+	 	jndi-name="java:global/yop-ear/yop-ejb/EJBGruppoDiRiferimento!it.univaq.mwt.business.GruppoDiRiferimentoService" >
+		<jee:environment>
+			java.naming.factory.initial=com.sun.enterprise.naming.SerialInitContextFactory
+  			java.naming.factory.url.pkgs=com.sun.enterprise.naming
+  			java.naming.factory.state=com.sun.corba.ee.impl.presentation.rmi.JNDIStateFactoryImpl    
+  			org.omg.CORBA.ORBInitialHost=localhost
+  			org.omg.CORBA.ORBInitialPort=3700
+		</jee:environment>		
+	</jee:remote-slsb> -->
+
+</beans>

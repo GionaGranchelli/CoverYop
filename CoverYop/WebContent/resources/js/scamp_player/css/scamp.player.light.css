@@ -1,0 +1,106 @@
+/* ----------------------------------------------------------------------
+
+Scamp Player - Dark Skin
+
+---------------------------------------------------------------------- */
+
+/* Tracklist */ 
+#sp-wrap {
+    background: #333;
+}
+#scamp_player.sp-show-list #sp-wrap {
+    background: #ddd;
+}
+#scamp_player.sp-show-list #sp-tracklist-wrap {
+    border-top:1px solid #ccc
+}    
+#sp-loader { color: #999; }
+
+    .sp-track:hover {
+        background-color: #eee;
+    }
+
+        .sp-tl-title { color: #666; }
+        .sp-track:hover .sp-tl-title { color: #222;}
+
+        .sp-tl-icon {
+            background-color: #000;
+            background-color: rgba(0,0,0,0.8);
+        }
+        .sp-tl-track.paused .sp-tl-icon:after { color: #fff; }
+
+        /* Remove track */
+        .sp-tl-remove {
+            color: #666;
+            background-color: #fff;
+        }
+        .sp-tl-remove:hover { color: #ea4233; }
+
+
+/* Tracklist scroller */
+#scamp_player .iScrollIndicator {
+    background: #aaa;
+}
+#scamp_player .iScrollHorizontalScrollbar:after {
+    background-color: #ccc;
+}
+#scamp_player .iScrollIndicator:hover, #scamp_player .iScrollIndicator:hover {
+    background: #999;
+}
+
+/* Toggle */
+#sp-toggle {
+    color: #222;
+    background-color: #eee;
+
+}
+#sp-toggle:hover {
+    color: #222;
+}
+
+/* Player wrapper */
+#sp-player-wrap { 
+    background-color: #eee;
+}
+    /* Controls */
+    #sp-controls span { color: #888; }
+    #sp-controls span:hover { color: #666; }
+
+    /* Track details */
+    #scamp_player.playing .sp-track-title  {
+        color: #777;
+    }
+    #scamp_player.paused .sp-track-title, #scamp_player .sp-track-title {
+        color: #aaa;
+    }
+
+    /* Time */
+    #sp-time {
+        color: #999;
+    }
+
+    /* Progress */
+    #scamp_player .ui.progress {
+        border-color: #c1c1c1;
+        background-color: #ddd;
+    }
+    #scamp_player.paused .ui.progress {
+        background-color: #ddd;
+    }
+    #scamp_player .ui.progress .loading {
+        background-color: #ccc;
+    }
+    #scamp_player.playing .ui.progress .position {
+        background-color: #ea4233;
+    }
+    #scamp_player.paused .ui.progress .position {
+        background-color: #999;
+    }
+
+    /* Volume */
+    #scamp_player .ui.volume, #scamp_player.paused .ui.volume { 
+        border-color: #c1c1c1;
+        background-color: #ddd;
+    }
+    #scamp_player .ui.volume .vol-position { background-color: #aaa; }
+    #scamp_player .ui.volume:before { color: #999 }

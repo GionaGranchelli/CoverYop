@@ -1,0 +1,73 @@
+@font-face {
+	font-family: 'Scamp-Player';
+	src:url('Scamp-Player.eot?-3n8v2p');
+	src:url('Scamp-Player.eot?#iefix-3n8v2p') format('embedded-opentype'),
+		url('Scamp-Player.woff?-3n8v2p') format('woff'),
+		url('Scamp-Player.ttf?-3n8v2p') format('truetype'),
+		url('Scamp-Player.svg?-3n8v2p#Scamp-Player') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+	font-family: 'Scamp-Player';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.icon-uniE600:before {
+	content: "\e600";
+}
+.icon-uniE601:before {
+	content: "\e601";
+}
+.icon-uniE60A:before {
+	content: "\e60a";
+}
+.icon-uniE60E:before {
+	content: "\e60e";
+}
+.icon-uniE61A:before {
+	content: "\e61a";
+}
+.icon-uniE683:before {
+	content: "\e683";
+}
+.icon-uniE6C9:before {
+	content: "\e6c9";
+}
+.icon-uniE6CB:before {
+	content: "\e6cb";
+}
+.icon-uniE6CC:before {
+	content: "\e6cc";
+}
+.icon-uniE6D2:before {
+	content: "\e6d2";
+}
+.icon-uniE6D3:before {
+	content: "\e6d3";
+}
+.icon-uniE6D4:before {
+	content: "\e6d4";
+}
+.icon-uniE6D5:before {
+	content: "\e6d5";
+}
+.icon-uniE6DA:before {
+	content: "\e6da";
+}
+.icon-uniE7A7:before {
+	content: "\e7a7";
+}
+.icon-uniE7BC:before {
+	content: "\e7bc";
+}

@@ -1,0 +1,556 @@
+/* ----------------------------------------------------------------------
+
+Scamp Player Stylesheet
+
+---------------------------------------------------------------------- */
+
+/* Import fonts */
+@import url(../fonts/style.css);
+
+/* Global settings */
+
+/* Main container */
+#sm2-container {
+    height:0px;
+    overflow: hidden;
+}
+#soundmanager-debug { display: none; }
+
+
+/* Main styles
+------------------------------- */
+#scamp_player {
+    width: 100%;
+    clear: both;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    bottom: -100%;
+    z-index: 999;
+}
+#scamp_player > a { display: none; }
+#scamp_player,  #sp-controls span {
+    -webkit-transition: all .2s ease-out;
+       -moz-transition: all .2s ease-out;
+        -ms-transition: all .2s ease-out;
+         -o-transition: all .2s ease-out;
+            transition: all .2s ease-out;
+}
+
+#scamp_player.sp-show {
+    bottom: 0px;
+}
+
+/* Toggle */
+#sp-toggle-wrap {
+    overflow: hidden;
+}
+    #sp-toggle {
+        float: right;
+        border-radius: 5px 5px 0 0;
+        width: 30px;
+        height: 15px;
+        z-index: 10;
+        cursor: pointer;
+        text-align: center;
+        font-size: 18px;
+        font-weight: normal;
+        line-height: 15px;
+    }
+    #sp-toggle:after {
+        content: "\002B";
+        display: inline-block;
+    }
+    #scamp_player.sp-show-player #sp-toggle:after {
+        content: "\00D7";
+        display: inline-block;
+    }
+
+/* Show player */
+#sp-wrap { 
+    height: 0;
+    position: relative;
+    overflow: hidden;
+}
+#scamp_player.sp-show-player #sp-wrap {
+    height: 64px;
+}
+#scamp_player.sp-show-player.sp-show-list #sp-wrap {
+    height: 219px;
+}
+.sp-container {
+    width: 1170px;
+    margin: 0 auto;
+}
+
+    #sp-player-wrap {
+        width: 100%;
+        z-index: 2;
+    }
+
+    #sp-main {
+        position: relative;
+        overflow: hidden;
+    }
+
+        /* Controls */
+        #sp-controls {
+            float: left;
+            width: 140px;
+        }
+
+            #sp-controls span {
+                font-family: 'Scamp-Player';
+                display: inline-block;
+                margin-right: 8px;
+                cursor: pointer;
+                font-size: 16px;
+                position: relative;
+                font-weight: normal;
+            }
+            #sp-controls span:hover { }
+            #sp-controls span.play { top: 9px; }
+            #sp-controls span.play:after {
+                content: "\e7a7";
+                font-size: 30px;
+            }
+            #scamp_player.playing #sp-controls span.play:after {
+                content: "\e6c9";
+                font-size: 30px;
+            }
+            #sp-controls span.next, #sp-controls span.prev { top: 6px; }
+            #sp-controls span.next:after { 
+                content: "\e6cc";
+                font-size: 24px;
+            }
+            #sp-controls span.prev:after { 
+                content: "\e6cb";
+                font-size: 24px;
+            }
+            #sp-controls span.list { top: 2px; }
+            #sp-controls span.list:after { content: "\e683"; }
+
+        /* Player */
+        #sp-player {
+            float: left;
+            width: 930px;
+            margin-top: 6px;
+            margin-bottom: 6px;
+            position: relative;
+        }
+            /* Track details */
+            #sp-track-info { 
+                width: 930px;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                text-overflow: ellipsis;
+                -o-text-overflow: ellipsis;
+                -ms-text-overflow: ellipsis;
+            }
+            #scamp_player .sp-track-title {
+                font-weight: bold;
+                font-size: 12px;
+            }
+
+            /* Progress */
+            #sp-track-progress {}
+                #scamp_player .ui.progress,
+                #scamp_player .ui.progress .loading,
+                #scamp_player .ui.progress .position {
+                    height: 10px;
+                    display: block;
+                }
+                #scamp_player .ui.progress {
+                    position: relative;
+                    border: 1px solid transparent;
+                    margin: .25em 0 0 0;
+                    overflow: hidden;
+                    cursor:ew-resize;
+                    cursor:-moz-grab;
+                    cursor:grab;
+                }
+                #scamp_player .ui.progress .loading,
+                #scamp_player .ui.progress .position {
+                    display: block;
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                }
+
+        /* Time */
+        #sp-time {
+            width: 100%;
+            font-size: 10px;
+            margin-top: 2px;
+            display: block;
+            overflow: hidden;
+            min-height: 16px;
+        }
+            #sp-time-elapsed {
+                float: left;
+            }
+
+            #sp-time-total {
+                float: right;
+            }
+
+        /* Volume */
+        #sp-volume {
+            width: 100px;
+            float: left;
+        }
+        #scamp_player .ui.volume { 
+            position: relative;
+            width: 60px;
+            height: 10px;
+            float: right;
+            margin: .25em 0 0 0;
+            border: 1px solid transparent;
+            cursor:ew-resize;
+            cursor:-moz-grab;
+            cursor:grab;
+            margin-top: 28px;
+        }
+        #scamp_player .ui.volume:before {
+            font-family: 'Scamp-Player';
+            content: "\e6d2";
+            display: block;
+            position: absolute;
+            left: -25px;
+            top: -7px;
+            font-size: 16px;
+        }
+            #scamp_player #sp-volume.vol-medium .ui.volume:before { content: "\e6d3"; }
+            #scamp_player #sp-volume.vol-low .ui.volume:before { content: "\e6d4"; }
+            #scamp_player #sp-volume.vol-mute .ui.volume:before { content: "\e6d5"; }
+
+        #scamp_player .ui.volume .vol-position {
+            display: block;
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 9px;
+            width: 70%;
+        }
+
+/* Tracklist */
+#sp-tracklist-wrap, #sp-wrap, #sp-loader {
+    -webkit-transition: all 700ms cubic-bezier(0.25, 0.1, 0.25, 1);
+    -moz-transition: all 700ms cubic-bezier(0.25, 0.1, 0.25, 1);
+    -o-transition: all 700ms cubic-bezier(0.25, 0.1, 0.25, 1);
+    transition: all 700ms cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+#sp-tracklist-wrap {
+    -webkit-transform: rotateX(-90deg);
+    -moz-transform: rotateX(-90deg);
+    -o-transform: rotateX(-90deg);
+    transform: rotateX(-90deg);
+    -webkit-transform-origin: 0 0 0;
+    -moz-transform-origin: 0 0 0;
+    -o-transform-origin: 0 0 0;
+    transform-origin: 0 0 0;
+     height: 0;
+     opacity: 0;
+     filter: Alpha(Opacity=0);/*IE7 fix*/
+}
+#scamp_player.sp-show-list #sp-tracklist-wrap {
+    height: 155px;
+    opacity: 1;
+    filter: Alpha(Opacity=100);/*IE7 fix*/
+    overflow: visible;
+    -webkit-transform: rotateX(0deg);
+    -moz-transform: rotateX(0deg);
+    -o-transform: rotateX(0deg);
+    transform: rotateX(0deg);
+}
+    /* Loader */
+    #sp-loader {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 32px;
+        height: 32px;
+        font-size: 32px;
+        margin-left: -16px;
+        margin-top: -16px;
+        font-family: 'Scamp-Player';
+        z-index: 3;
+        opacity: 0;
+        filter: Alpha(Opacity=0);/*IE7 fix*/
+        line-height: 32px;
+    }
+    #sp-loader:after{
+       content: "\e6da";
+    }
+    #scamp_player.sp-show-list.sp-loading #sp-loader {
+        -webkit-animation:spin 4s linear infinite;
+        -moz-animation:spin 4s linear infinite;
+        animation:spin 4s linear infinite;
+        opacity: 1;
+        filter: Alpha(Opacity=100);/*IE7 fix*/
+    }
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+    
+    #sp-tracklist {
+        position: relative;
+        z-index: 1;
+        height: 140px;
+        overflow: hidden;
+        -ms-touch-action: none;
+    }
+    #sp-scroller {
+        position: absolute;
+        z-index: 1;
+        width: 0;
+        height: 100%;
+        -webkit-transform: translateZ(0);
+        -moz-transform: translateZ(0);
+        -ms-transform: translateZ(0);
+        -o-transform: translateZ(0);
+        transform: translateZ(0);
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        -webkit-text-size-adjust: none;
+        -moz-text-size-adjust: none;
+        -ms-text-size-adjust: none;
+        -o-text-size-adjust: none;
+        text-size-adjust: none;
+    }
+
+    #sp-tracklist ul {
+        list-style: none;
+        width: 100%;
+        padding: 0;
+        margin: 10px 0 10px 0;
+    }
+
+    #sp-tracklist li {
+        width: 94px;
+        height: 112px;
+        float: left;
+        position: relative;
+        padding: 0;
+        margin: 0;
+         -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+
+    }
+
+    /* Single track */
+    #sp-tracklist li .sp-tl-track {
+        padding: 6px;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+    }
+    .sp-track:hover {
+        
+    }
+        .sp-tl-track {
+            display: block;
+            position: relative;
+        }
+
+        /* Track cover */
+        .sp-tl-img {
+            display: block;
+            margin-bottom:0;
+            position: relative;
+        }
+            .sp-tl-img img {
+                margin-bottom: 0;
+                max-width: 100%;
+                max-height: 100%;
+            }
+
+        /* Title */
+        .sp-tl-title {
+            text-align: center;
+            font-size: 11px;
+            width: 100%;
+            display: block;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            text-overflow: ellipsis;
+            -o-text-overflow: ellipsis;
+            -ms-text-overflow: ellipsis;
+        }
+        .sp-track:hover .sp-tl-title { }
+
+        /* Remove track */
+        .sp-tl-remove {
+            font-family: 'Scamp-Player';
+            position: absolute;
+            right: 0px;
+            top: 0px;
+            width: 20px;
+            height: 20px;
+            font-size: 16px;
+            z-index: 5;
+            display: none;
+            cursor: pointer;
+            -webkit-border-radius: 20px;
+            -moz-border-radius: 20px;
+            border-radius: 20px;
+        }
+        .sp-tl-remove:hover {}
+        .sp-tl-remove:after {
+            position: relative;
+            top: -2px;
+            left: 2px;
+            content: "\e600";
+        }
+        .sp-track:hover .sp-tl-remove { display:  block; }
+
+        /* Icon */
+        .sp-tl-icon {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-top: -20px;
+            margin-left: -20px;
+            width: 40px;
+            height: 40px;
+            -webkit-border-radius: 40px;
+            -moz-border-radius: 40px;
+            border-radius: 40px;
+            z-index: 5;
+            text-align: center;
+        }
+        .sp-tl-track.paused .sp-tl-icon {
+            display: block;
+        }
+        .sp-tl-track.paused .sp-tl-icon:after {
+            font-family: 'Scamp-Player';
+            font-size: 16px;
+            line-height: 40px;
+            content: "\e6c9";
+        }
+
+        .sp-tl-track.playing .sp-tl-icon {
+            display: block;
+            background-image: url(../img/eq.gif);
+            background-position: center center;
+            background-repeat: no-repeat;
+        }
+
+/* List scroller */
+#scamp_player .iScrollHorizontalScrollbar {
+    position: absolute;
+    z-index: 9999;
+    height: 7px;
+    left: 2px;
+    right: 2px;
+    bottom: 2px;
+    width: 100%;
+}
+
+#scamp_player .iScrollHorizontalScrollbar.iScrollBothScrollbars {
+    right: 18px;
+}
+
+#scamp_player .iScrollIndicator {
+    position: absolute;
+    cursor: pointer;
+}
+#scamp_player .iScrollIndicator:hover { }
+
+#scamp_player .iScrollHorizontalScrollbar .iScrollIndicator {
+    height: 7px;
+    z-index: 2;
+}
+#scamp_player .iScrollHorizontalScrollbar:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 3px;
+    height: 1px;
+    width: 100%;
+    z-index: 1;
+}
+
+
+/* ----------------------------------------------------------------------
+    MEDIA QUERIES
+/* ---------------------------------------------------------------------- */
+
+/* ----------------------------------------------------------------------
+    For Small Desktop Devices [ 960px ]
+/* ---------------------------------------------------------------------- */
+@media only screen and (max-width: 1200px) {
+
+    /* Container */
+    .sp-container { width: 960px; }
+
+    /* Player */
+    #sp-player, #sp-track-info { width: 720px; }
+
+    
+}
+
+/* ----------------------------------------------------------------------
+    For Tablet Devices [ 748px ]
+/* ---------------------------------------------------------------------- */
+@media only screen and (min-width: 768px) and (max-width: 959px) {
+
+    /* Container */
+    .sp-container { width: 748px; }
+
+    /* Player */
+    #sp-player, #sp-track-info { width: 508px; }
+
+     
+}
+
+
+/* ----------------------------------------------------------------------
+    For Mobile Devices [ 300px ]
+/* ---------------------------------------------------------------------- */
+@media only screen and (max-width: 767px) {
+
+    /* Player wrapper */
+    /*#scamp_player { position: relative; }*/
+
+    /* Container */
+    .sp-container { width: 300px; }
+
+    /* Remove track */
+    .sp-tl-remove { display: block; }
+
+    /* Player */
+    #sp-player, #sp-track-info { width: 160px; }
+
+    /* Volume */
+    #sp-volume { display: none; }
+
+    /* Remove 3D effect for mobile devices*/
+    #sp-tracklist-wrap {
+        -webkit-transform: rotateX(0deg);
+        -moz-transform: rotateX(0deg);
+        -o-transform: rotateX(0deg);
+        transform: rotateX(0deg);
+        opacity: 1;
+}
+
+
+/* ----------------------------------------------------------------------
+    For Mobile Devices [ 420px ] [ Horizontal ]
+/* ---------------------------------------------------------------------- */
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+
+    /* Container */
+    .sp-container { width: 420px; }
+
+     /* Player */
+    #sp-player, #sp-track-info { width: 280px; }
+
+}

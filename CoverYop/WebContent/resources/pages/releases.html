@@ -1,0 +1,325 @@
+<!-- ############################# Ajax Page Container ############################# -->
+<section id="page" data-title="Noisa - Releases">
+
+	<!-- ############################# Intro ############################# -->
+	<section class="intro-title section border-bottom" style="background-image: url(placeholders/releases-bg.jpg)">
+		<h1 class="heading-l">Awesome <span class="color">Releases</span></h1>
+	</section>
+	<!-- /intro -->
+
+	<!-- ############################# Content ############################# -->
+	<section class="content section">
+		<!-- container -->
+		<div class="container">
+
+			<!-- Filters -->
+			<div class="row clearfix filters" data-id="releases">
+
+				<!-- Genres -->
+				<select class='nice-select filter' name="genres">
+					<option value="placeholder">All Genres</option>
+					<option value="*">All Genres</option>
+					<option value="drum-and-bass">Drum and Bass</option>
+					<option value="glitch">Glitch Hop</option>
+					<option value="breakbeat">Breakbeat</option>
+					<option value="uk-funky">UK Funky</option>
+					<option value="dubstep">Dubstep</option>
+				</select>
+
+				<!-- Artists -->
+				<select class='nice-select filter' name="artists">
+					<option value="placeholder">All Artists</option>
+					<option value="*">All Artists</option>
+					<option value="obiekt-zero">Obiekt ZERO</option>
+					<option value="dj-nando">DJ Nando</option>
+					<option value="dj-john-doe">DJ John Doe</option>
+					<option value="noisa">NOISA</option>
+					<option value="general-midi">General Midi</option>
+					<option value="various-artists">VA Various Artists</option>
+				</select>
+
+				<!-- categories -->
+				<select class='nice-select filter' name="categories">
+					<option value="placeholder">All Categories</option>
+					<option value="*">All Categories</option>
+					<option value="new-tracks">NEW Tracks</option>
+					<option value="free-tracks">FREE Tracks</option>
+					<option value="soundcloud-tracks">Soundcloud</option>
+				</select>
+			</div>
+			<!-- /filters -->
+			<!-- Releases Grid -->
+
+			<!-- Releases -->
+			<div id="releases" class="masonry clearfix">
+
+				<!-- Release -->
+				<div class="col-1-4 item" data-genres="glitch" data-artists="dj-nando" data-categories="new-tracks">
+					<!-- Thumbnail -->
+					<a href="#!/pages/release-single" class="thumb-glitch release tip" data-thumbicon="plus">
+						<span class="hoverlayer"></span>
+						<span class="release-badge">new</span>
+						<span class="img">
+							<img src="placeholders/release-image01.jpg" alt="Release Image" />
+						</span>
+						<!-- tooltip -->
+						<div class="tip-content hidden">
+							<span>Load Details</span>
+							Load and open release page.
+						</div>
+						<!-- /tooltip -->
+					</a>
+					<!-- /Thumbnail -->
+					<!-- Release footer -->
+					<div class="release-footer">
+						<h2 class="release-title"><a href="#!/pages/release-single">Nothing Even Matters</a></h2>
+						<span class="release-artists">DJ Nando</span>
+					</div>
+					<!-- /release footer -->
+					<!-- Release social -->
+					<div class="release-social">
+						<a href="javascript:;" class="facebook-share"><i class="icon icon-facebook"></i></a>
+						<a href="javascript:;" class="twitter-share"><i class="icon icon-twitter"></i></a>
+						<a href="javascript:;" class="googleplus-share"><i class="icon icon-googleplus"></i></a>
+						<a href="javascript:;" class="googleplus-share floatright"><i class="icon icon-download"></i></a>
+					</div>
+					<!-- /release social -->
+				</div>
+				<!-- /release -->
+
+				<!-- Release -->
+				<div class="col-1-4 item" data-genres="glitch drum-and-bass" data-artists="dj-john-doe dj-nando" data-categories="new-tracks soundcloud-tracks">
+					<!-- Thumbnail -->
+					<a href="https://soundcloud.com/trapmusic/torture-by-jacuzzi-ft-mr" class="thumb-glitch release sp-play-track tip" data-thumbicon="soundcloud">
+						<span class="hoverlayer"></span>
+						<span class="release-badge">new</span>
+						<span class="img">
+							<img src="placeholders/release-image02.jpg" alt="Release Image" />
+						</span>
+						<span class="badge black player-badge-play">Play</span>
+						<span class="badge black player-badge-pause">Pause</span>
+						<!-- tooltip -->
+						<div class="tip-content hidden">
+							<span>Play Soundcloud</span>
+							Add and play Soundcloud track in Scamp Player.
+						</div>
+						<!-- /tooltip -->
+					</a>
+					<!-- /Thumbnail -->
+					<!-- Release footer -->
+					<div class="release-footer">
+						<h2 class="release-title"><a href="#!/pages/release-single">Strike Back!</a></h2>
+						<span class="release-artists">DJ Nando, DJ John Doe</span>
+					</div>
+					<!-- Release social -->
+					<div class="release-social">
+						<a href="javascript:;" class="facebook-share"><i class="icon icon-facebook"></i></a>
+						<a href="javascript:;" class="twitter-share"><i class="icon icon-twitter"></i></a>
+						<a href="javascript:;" class="googleplus-share"><i class="icon icon-googleplus"></i></a>
+						<a href="javascript:;" class="googleplus-share floatright"><i class="icon icon-soundcloud"></i></a>
+					</div>
+					<!-- /release social -->
+				</div>
+				<!-- /release -->
+
+				<!-- Release -->
+				<div class="col-1-4 item" data-genres="breakbeat dubstep" data-artists="noisa" data-categories="free-tracks soundcloud-tracks">
+					<!-- Thumbnail -->
+					<a href="https://soundcloud.com/trapsounds" class="thumb-glitch release sp-play-track tip" data-thumbicon="soundcloud">
+						<span class="hoverlayer"></span>
+						<span class="img">
+							<img src="placeholders/release-image03.jpg" alt="Release Image" />
+						</span>
+						<span class="badge black player-badge-play">Play</span>
+						<span class="badge black player-badge-pause">Pause</span>
+						<!-- tooltip -->
+						<div class="tip-content hidden">
+							<span>Play Soundcloud Group</span>
+							Add and play Soundcloud Group in Scamp Player. Trap Sounds Yeah (50 Tracks)!
+						</div>
+						<!-- /tooltip -->
+					</a>
+					<!-- /Thumbnail -->
+					<!-- Release footer -->
+					<div class="release-footer">
+						<h2 class="release-title"><a href="#!/pages/release-single">Speakerz Massive</a></h2>
+						<span class="release-artists">NOISA</span>
+					</div>
+					<!-- /release footer -->
+					<!-- Release social -->
+					<div class="release-social">
+						<a href="javascript:;" class="facebook-share"><i class="icon icon-facebook"></i></a>
+						<a href="javascript:;" class="twitter-share"><i class="icon icon-twitter"></i></a>
+						<a href="javascript:;" class="googleplus-share"><i class="icon icon-googleplus"></i></a>
+						<a href="javascript:;" class="googleplus-share floatright"><i class="icon icon-soundcloud"></i></a>
+					</div>
+					<!-- /release social -->
+				</div>
+				<!-- /release -->
+				
+				<!-- Release -->
+				<div class="col-1-4 item" data-genres="breakbeat uk-funky" data-artists="obiekt-zero" data-categories="soundcloud-tracks">
+					<!-- Thumbnail -->
+					<a href="javascript:;" class="thumb-glitch release sp-play-list tip" data-thumbicon="headphones" data-id="dragon-fly">
+						<span class="hoverlayer"></span>
+						<span class="img">
+							<img src="placeholders/release-image04.jpg" alt="Release Image" />
+						</span>
+						<span class="badge black player-badge-play">Play</span>
+						<span class="badge black player-badge-pause">Pause</span>
+						<!-- tooltip -->
+						<div class="tip-content hidden">
+							<span>Play Local MP3 Tracklist</span>
+							<span>01 ADG3 Studios - Chucked Nuckles</span>
+							<span>02 ADG3 Studios - Cloudlessdays</span>
+							<span>03 ADG3 Studios - Core Issues</span>
+							<span>04 ADG3 Studios - Electro Freak</span>
+
+						</div>
+						<!-- /tooltip -->
+					</a>
+					<!-- /Thumbnail -->
+					<!-- Hidden playlist -->
+					<ul id="dragon-fly" class="hidden">
+						<li><a href="placeholders/mp3/adg3com_chuckedknuckles.mp3" data-cover="placeholders/release-image02.jpg" class="sp-play-track">ADG3 Studios - Chucked Nuckles</a></li>
+			            <li><a href="placeholders/mp3/adg3com_cloudlessdays.mp3" data-cover="placeholders/release-image03.jpg" class="sp-play-track">ADG3 Studios - Cloudlessdays</a></li>
+			            <li><a href="placeholders/mp3/adg3com_coreissues.mp3" data-cover="placeholders/release-image04.jpg" class="sp-play-track">ADG3 Studios - Core Issues</a></li>
+			            <li><a href="placeholders/mp3/adg3com_electrofreak.mp3" data-cover="placeholders/release-image05.jpg" class="sp-play-track">ADG3 Studios - Electro Freak</a></li>
+					</ul>
+					<!-- /hidden playlist -->
+					<!-- Release footer -->
+					<div class="release-footer">
+						<h2 class="release-title"><a href="#!/pages/release-single">Legacy of Bass</a></h2>
+						<span class="release-artists">Obiekt ZERO</span>
+					</div>
+					<!-- /release footer -->
+					<!-- Release social -->
+					<div class="release-social">
+						<a href="javascript:;" class="facebook-share"><i class="icon icon-facebook"></i></a>
+						<a href="javascript:;" class="twitter-share"><i class="icon icon-twitter"></i></a>
+						<a href="javascript:;" class="googleplus-share"><i class="icon icon-googleplus"></i></a>
+						<a href="javascript:;" class="googleplus-share floatright"><i class="icon icon-download"></i></a>
+					</div>
+					<!-- /release social -->
+				</div>
+				<!-- /release -->
+
+				<!-- Release -->
+				<div class="col-1-4 item" data-genres="dubstep" data-artists="dj-nando noisa" data-categories="free-tracks">
+					<!-- Thumbnail -->
+					<a href="#!/pages/release-single" class="thumb-glitch release" data-thumbicon="plus">
+						<span class="hoverlayer"></span>
+						<span class="img">
+							<img src="placeholders/release-image05.jpg" alt="Release Image" />
+						</span>
+					</a>
+					<!-- /Thumbnail -->
+					<!-- Release footer -->
+					<div class="release-footer">
+						<h2 class="release-title"><a href="#!/pages/release-single">Cell Teraphy</a></h2>
+						<span class="release-artists">DJ Nando, NOISA</span>
+					</div>
+					<!-- /release footer -->
+					<!-- Release social -->
+					<div class="release-social">
+						<a href="javascript:;" class="facebook-share"><i class="icon icon-facebook"></i></a>
+						<a href="javascript:;" class="twitter-share"><i class="icon icon-twitter"></i></a>
+						<a href="javascript:;" class="googleplus-share"><i class="icon icon-googleplus"></i></a>
+						<a href="javascript:;" class="googleplus-share floatright"><i class="icon icon-download"></i></a>
+					</div>
+					<!-- /release social -->
+				</div>
+				<!-- /release -->
+
+				<!-- Release -->
+				<div class="col-1-4 item" data-genres="breakbeat" data-artists="general-midi" data-categories="soundcloud-tracks">
+					<!-- Thumbnail -->
+					<a href="#!/pages/release-single" class="thumb-glitch release" data-thumbicon="plus">
+						<span class="hoverlayer"></span>
+						<span class="img">
+							<img src="placeholders/release-image06.jpg" alt="Release Image" />
+						</span>
+					</a>
+					<!-- /Thumbnail -->
+					<!-- Release footer -->
+					<div class="release-footer">
+						<h2 class="release-title"><a href="#!/pages/release-single">Final Frontier</a></h2>
+						<span class="release-artists">General Midi</span>
+					</div>
+					<!-- /release footer -->
+					<!-- Release social -->
+					<div class="release-social">
+						<a href="javascript:;" class="facebook-share"><i class="icon icon-facebook"></i></a>
+						<a href="javascript:;" class="twitter-share"><i class="icon icon-twitter"></i></a>
+						<a href="javascript:;" class="googleplus-share"><i class="icon icon-googleplus"></i></a>
+						<a href="javascript:;" class="googleplus-share floatright"><i class="icon icon-download"></i></a>
+					</div>
+					<!-- /release social -->
+				</div>
+				<!-- /release -->
+
+				<!-- Release -->
+				<div class="col-1-4 item" data-genres="breakbeat dubstep" data-artists="general-midi dj-nando">
+					<!-- Thumbnail -->
+					<a href="#!/pages/release-single" class="thumb-glitch release" data-thumbicon="plus">
+						<span class="hoverlayer"></span>
+						<span class="img">
+							<img src="placeholders/release-image07.jpg" alt="Release Image" />
+						</span>
+					</a>
+					<!-- /Thumbnail -->
+					<!-- Release footer -->
+					<div class="release-footer">
+						<h2 class="release-title"><a href="#!/pages/release-single">The Point of No Return</a></h2>
+						<span class="release-artists">General Midi, DJ Nando</span>
+					</div>
+					<!-- /release footer -->
+					<!-- Release social -->
+					<div class="release-social">
+						<a href="javascript:;" class="facebook-share"><i class="icon icon-facebook"></i></a>
+						<a href="javascript:;" class="twitter-share"><i class="icon icon-twitter"></i></a>
+						<a href="javascript:;" class="googleplus-share"><i class="icon icon-googleplus"></i></a>
+						<a href="javascript:;" class="googleplus-share floatright"><i class="icon icon-download"></i></a>
+					</div>
+					<!-- /release social -->
+				</div>
+				<!-- /release -->
+
+				<!-- Release -->
+				<div class="col-1-4 item" data-genres="breakbeat dubstep glitch drum-and-bass" data-artists="various-artists">
+					<!-- Thumbnail -->
+					<a href="#!/pages/release-single" class="thumb-glitch release" data-thumbicon="plus">
+						<span class="hoverlayer"></span>
+						<span class="img">
+							<img src="placeholders/release-image08.jpg" alt="Release Image" />
+						</span>
+					</a>
+					<!-- /Thumbnail -->
+					<!-- Release footer -->
+					<div class="release-footer">
+						<h2 class="release-title"><a href="#!/pages/release-single">Never Let Go</a></h2>
+						<span class="release-artists">Variuos Artists</span>
+					</div>
+					<!-- /release footer -->
+					<!-- Release social -->
+					<div class="release-social">
+						<a href="javascript:;" class="facebook-share"><i class="icon icon-facebook"></i></a>
+						<a href="javascript:;" class="twitter-share"><i class="icon icon-twitter"></i></a>
+						<a href="javascript:;" class="googleplus-share"><i class="icon icon-googleplus"></i></a>
+						<a href="javascript:;" class="googleplus-share floatright"><i class="icon icon-download"></i></a>
+					</div>
+					<!-- /release social -->
+				</div>
+				<!-- /release -->
+
+			</div>
+			<!-- /releases -->
+		 
+
+		</div>
+		<!-- /container -->
+	</section>
+	<!-- /Content -->
+
+</section>
+<!-- /page-->
