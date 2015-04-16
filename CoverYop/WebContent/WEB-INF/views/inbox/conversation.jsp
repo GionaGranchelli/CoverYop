@@ -27,17 +27,7 @@
 		<!-- container -->
 		<div class="container">
 
-	<!-- <c:choose>
-    <c:when test="${salary <= 0}">
-       Salary is very low to survive.
-    </c:when>
-    <c:when test="${salary > 1000}">
-        Salary is very good.
-    </c:when>
-    <c:otherwise>
-        No comment sir...
-    </c:otherwise>
-</c:choose> -->
+	
             
             <!-- Comment -->
             <c:forEach items="${messages}" var="message">
@@ -58,7 +48,7 @@
 							</article>
 					   </c:when>
 				  <c:otherwise>
-                            <article style="left: 85% ;">
+                            <article class="message-response">
 								<div class="avatar">
 									<img src="${pageContext.request.contextPath}/${fotoprofilo2}">
 								</div>
