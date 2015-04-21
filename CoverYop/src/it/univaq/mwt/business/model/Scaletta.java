@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 
 import java.util.Collection;
 import java.util.Set;
@@ -64,7 +65,9 @@ public class Scaletta implements Serializable {
 	}
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	//@GeneratedValue(strategy=GenerationType.SEQUENCE)
+	@GeneratedValue(generator="ScaSeq")
+    @SequenceGenerator(name="ScaSeq",sequenceName="SCALETTA_SEQ",allocationSize=1)
 	public int getId() {
 		return id;
 	}

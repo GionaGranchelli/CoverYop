@@ -16,9 +16,6 @@ import java.util.Set;
 @Embeddable
 public class Canale implements Serializable{
 	
-	
-	
-	
 	private String facebook;
 	
 	private String youtube;

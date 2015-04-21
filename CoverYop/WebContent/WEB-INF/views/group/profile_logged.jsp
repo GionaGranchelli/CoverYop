@@ -98,11 +98,14 @@
 						<!-- /tabs navigation -->
 
 
-						<form action="${pageContext.request.contextPath}/BackStage/updateGruppo" method="POST" class="form contact-form">
+						<form:form action="${pageContext.request.contextPath}/BackStage/updateGruppo" 	
+									method="POST"  
+									modelAttribute="" 
+									class="form contact-form">
 
 							<div class="tab-content" id="tab-biograf">
 								<h2>Info Base</h2>
-								<input name="id" id="id" type="hidden" value="${gruppo.id}"/>
+								<%--<input name="id" id="id" type="hidden" value="${gruppo.id}"/>
 								<input name="nome" id="nome" type="hidden" value="${gruppo.nome}"/>
 								<input name="password" id="password" type="hidden" value="${gruppo.password}"/>
 								<input name="cognome" id="cognome" type="hidden" value="${gruppo.cognome}"/>
@@ -111,9 +114,9 @@
 								<input name="lat" id="lat" type="hidden" value="${gruppo.lat}"/>
 								<input name="lng" id="lng" type="hidden" value="${gruppo.lng}"/>
 								<input name="username" id="username" type="hidden" value="${gruppo.username}"/>
-<%-- 								<input name="scaletta" id="scaletta" type="hidden" value="${gruppo.scaletta.id}"/> --%>
-<%-- 								<input name="ruolo" id="ruolo" type="hidden" value="${gruppo.ruolo.id}"/> --%>
-								<input name="telefono" id="telefono" type="hidden" value="${gruppo.telefono}"/>
+ 								<input name="scaletta" id="scaletta" type="hidden" value="${gruppo.scaletta.id}"/>
+ 								<input name="ruolo" id="ruolo" type="hidden" value="${gruppo.ruolo.id}"/> 
+								<input name="telefono" id="telefono" type="hidden" value="${gruppo.telefono}"/> --%>
 								
 								
 								<label for="nomeGruppo">Nome Gruppo</label> <input type="text"
@@ -279,7 +282,7 @@
 								
 							</div>
 							<input type="submit" value="Invia"/>
-						</form>
+						</form:form>
 					</div>
 
 				</article>

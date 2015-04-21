@@ -15,6 +15,7 @@ import javax.persistence.Id;
 
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 
 import java.util.Collection;
 import java.util.Set;
@@ -77,7 +78,9 @@ public class Strumento implements Serializable{
 	}
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	//@GeneratedValue(strategy=GenerationType.SEQUENCE)
+	@GeneratedValue(generator="StruSeq")
+    @SequenceGenerator(name="StruSeq",sequenceName="STRUMENTO_SEQ",allocationSize=1)
 	public int getId() {
 		return id;
 	}

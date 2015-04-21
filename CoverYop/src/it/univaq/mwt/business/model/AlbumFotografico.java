@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Access;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 
 import static javax.persistence.AccessType.PROPERTY;
@@ -85,7 +86,9 @@ public class AlbumFotografico implements Serializable {
 		this.tag = tag;
 	}
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	//@GeneratedValue(strategy=GenerationType.SEQUENCE)
+	@GeneratedValue(generator="AlbFotSeq")
+    @SequenceGenerator(name="AlbFotSeq",sequenceName="ALBUMFOTOGRAFICO_SEQ",allocationSize=1)
 	public int getId() {
 		return id;
 	}

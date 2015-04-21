@@ -12,6 +12,7 @@ import javax.persistence.Id;
 
 
 import javax.persistence.ManyToMany;
+import javax.persistence.SequenceGenerator;
 
 import java.util.Set;
 import java.util.Set;
@@ -62,7 +63,9 @@ public class Genere implements Serializable{
 		this.genere = genere;
 	}
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	//@GeneratedValue(strategy=GenerationType.SEQUENCE)
+	@GeneratedValue(generator="GenSeq")
+    @SequenceGenerator(name="GenSeq",sequenceName="GENERE_SEQ",allocationSize=1)
 	public int getId() {
 		return id;
 	}

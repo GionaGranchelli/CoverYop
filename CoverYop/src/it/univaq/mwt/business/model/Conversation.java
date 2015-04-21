@@ -20,6 +20,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -58,12 +59,6 @@ public class Conversation {
 		this.titolo = titolo;
 	}
 
-
-
-
-
-
-
 	public Conversation(int id, Utente mittente, Utente destinatario,
 			Calendar data, int status, String titolo) {
 		super();
@@ -74,11 +69,6 @@ public class Conversation {
 		this.status = status;
 		this.titolo = titolo;
 	}
-
-
-
-
-
 
 
 	public Conversation(Utente mittente, Utente destinatario, Calendar data,
@@ -93,7 +83,9 @@ public class Conversation {
 	}
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	//@GeneratedValue(strategy=GenerationType.SEQUENCE)
+	@GeneratedValue(generator="ConvSeq")
+    @SequenceGenerator(name="ConvSeq",sequenceName="CONVERSATION_SEQ",allocationSize=1)
 	public int getId() {
 		return id;
 	}

@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 
 import java.util.Collection;
 import java.util.Set;
@@ -86,7 +87,9 @@ public class Album implements Serializable {
 		this.anno = anno;
 	}
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	//@GeneratedValue(strategy=GenerationType.SEQUENCE)
+	@GeneratedValue(generator="AlbSeq")
+    @SequenceGenerator(name="AlbSeq",sequenceName="ALBUM_SEQ",allocationSize=1)
 	public int getId() {
 		return id;
 	}

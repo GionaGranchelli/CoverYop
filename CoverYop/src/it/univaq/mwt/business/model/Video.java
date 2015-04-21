@@ -11,6 +11,7 @@ import javax.persistence.Id;
 
 
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 
 import java.util.Collection;
@@ -85,7 +86,9 @@ public class Video implements Serializable{
 		this.url = url;
 	}
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	//@GeneratedValue(strategy=GenerationType.SEQUENCE)
+	@GeneratedValue(generator="VidSeq")
+    @SequenceGenerator(name="VidSeq",sequenceName="VIDEO_SEQ",allocationSize=1)
 	public int getId() {
 		return id;
 	}

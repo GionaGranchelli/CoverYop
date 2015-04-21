@@ -15,6 +15,7 @@ import javax.persistence.Id;
 
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 
 import java.util.Collection;
 import java.util.Set;
@@ -67,7 +68,9 @@ public class Foto implements Serializable{
 		this.url = url;
 	}
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	//@GeneratedValue(strategy=GenerationType.SEQUENCE)
+	@GeneratedValue(generator="FotoSeq")
+    @SequenceGenerator(name="FotoSeq",sequenceName="FOTO_SEQ",allocationSize=1)
 	public int getId() {
 		return id;
 	}
