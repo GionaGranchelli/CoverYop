@@ -11,6 +11,7 @@ import javax.persistence.Id;
 
 
 import javax.persistence.ManyToMany;
+import javax.persistence.SequenceGenerator;
 
 import java.util.Set;
 import java.util.HashSet;
@@ -65,7 +66,9 @@ public class GruppoDiRiferimento implements Serializable{
 		this.nome = nome;
 	}
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	//@GeneratedValue(strategy=GenerationType.SEQUENCE)
+	@GeneratedValue(generator="GdrSeq")
+    @SequenceGenerator(name="GdrSeq",sequenceName="GRUPPODIRIFERIMENTO_SEQ",allocationSize=1)
 	public int getId() {
 		return id;
 	}

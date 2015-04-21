@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 
 import java.util.Collection;
 import java.util.Set;
@@ -63,7 +64,9 @@ public class Ruolo implements Serializable{
 	}
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	//@GeneratedValue(strategy=GenerationType.SEQUENCE)
+	@GeneratedValue(generator="RuoSeq")
+    @SequenceGenerator(name="RuoSeq",sequenceName="RUOLO_SEQ",allocationSize=1)
 	public int getId() {
 		return id;
 	}

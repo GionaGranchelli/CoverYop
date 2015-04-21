@@ -185,7 +185,7 @@ public class ControllerLocale {
 				
 				Random m = new Random();
 				int rand = m.nextInt((1000 - 10)+1);
-				f.setId(rand);
+				//f.setId(rand);
 				newAlbumFoto.addFoto(f);
 				newAlbumFoto.setTag("profile");
 				newAlbumFoto.setTitolo("Immagini del Profilo Locale");
@@ -212,7 +212,7 @@ public class ControllerLocale {
 				
 				Random m = new Random();
 				int rand = m.nextInt((1000 - 10)+1);
-				f.setId(rand);
+				//f.setId(rand);
 				newAlbumFoto.addFoto(f);
 				newAlbumFoto.setTag("profile");
 				newAlbumFoto.setTitolo("Immagini del Profilo Locale");

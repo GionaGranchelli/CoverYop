@@ -124,9 +124,10 @@ public class ControllerYop {
 	
 	@RequestMapping(value="/createGroup")
 	public String createGroup( @ModelAttribute Gruppo gruppo, BindingResult bindingResult, Model model) throws Exception {
-	Random rand = new Random();
-	int randomNum = rand.nextInt((1000 - 10) + 1) + 10;
-	gruppo.setId(randomNum);
+	
+	//Random rand = new Random();
+	//int randomNum = rand.nextInt((1000 - 10) + 1) + 10;//CI DEVO METTERE LA SEQUENZA
+	//gruppo.setId(randomNum); //QUA DEVO SETTARE LA SEQUENZA AL POSTO DELL'ID
 	
 	String address = gruppo.getCitta()+" "+gruppo.getIndirizzo();
 	
@@ -152,8 +153,8 @@ public class ControllerYop {
 
 	    // nextInt is normally exclusive of the top value,
 	    // so add 1 to make it inclusive
-	    int randomNum = rand.nextInt((1000 - 10) + 1) + 10;
-	    locale.setId(randomNum);
+	    //int randomNum = rand.nextInt((1000 - 10) + 1) + 10;
+	    //locale.setId(randomNum);
 	    
 	    String address = locale.getCitta()+" "+locale.getIndirizzo();
 		

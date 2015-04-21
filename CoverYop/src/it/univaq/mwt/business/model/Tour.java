@@ -14,6 +14,7 @@ import javax.persistence.Id;
 
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 
 import java.util.Collection;
 import java.util.Set;
@@ -82,7 +83,9 @@ public class Tour implements Serializable{
 	}
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	//@GeneratedValue(strategy=GenerationType.SEQUENCE)
+	@GeneratedValue(generator="TourSeq")
+    @SequenceGenerator(name="TourSeq",sequenceName="TOUR_SEQ",allocationSize=1)
 	public int getId() {
 		return id;
 	}
