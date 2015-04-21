@@ -1,6 +1,7 @@
 package it.univaq.mwt.presentation;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -102,20 +103,24 @@ public class ControllerGruppo {
 	List<Locale> countryList;
 	
 	@RequestMapping("/")
-	public String welcome(@ModelAttribute("formGruppo") FormGruppo formGruppo,Model model) throws NamingException {
+	public String welcome(@ModelAttribute("formGruppo") Gruppo formGruppo,Model model) throws NamingException {
 		
+		//Prendo le informazioni relativi al Gruppo
 		int id = utente.getId();
-		
 		Gruppo view_group = new Gruppo();
 		view_group = gs.findGruppoById(id);
 		model.addAttribute("gruppo", view_group);
 		
 		if (view_group == null) return null; //Inserire Controllo migliore e 404!!
+		
+		//Serve per Splittare il nome del Gruppo per l'header del profilo
 		String[] title = view_group.getNomeGruppo().split(" ");
 		if (title.length == 2){
 			model.addAttribute("titolo_page_1", title[0]);
 			model.addAttribute("titolo_page_2", title[1]);
 		}
+		
+		
 		List<Genere> generi = new ArrayList<Genere>();
 		generi = gens.findAllGeneri();
 		model.addAttribute("generi", generi);
@@ -125,14 +130,14 @@ public class ControllerGruppo {
 		model.addAttribute("gruppirif", gruppirif);
 		
 		Canale channel = new Canale();
-		 channel = view_group.getCanale();
-		 model.addAttribute("canali",channel);
+		channel = view_group.getCanale();
+		model.addAttribute("canali",channel);
 		 
 		return "profilo.loggato";
 	}
 	
 	@RequestMapping(value= "/updateGruppo", method = RequestMethod.POST)
-	private String modificaGruppo(@ModelAttribute FormGruppo gruppo,
+	private String modificaGruppo(@ModelAttribute Gruppo gruppo,
 			//BindingResult bindingResult,
 			Model model){
 		
@@ -482,7 +487,12 @@ public class ControllerGruppo {
 		if(photoFileUploaded != null){
 			SaveFile sF = new SaveFile();
 			Foto f = new Foto();
-			f = sF.savePhoto(photoFileUploaded, utente.getId());
+			try {
+				f = sF.savePhoto(photoFileUploaded, utente.getId());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			//Salvo oggetto Foto
 			fotoServ.insertFoto(f);
 			ev.setLocandina(f.getUrl());

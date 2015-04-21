@@ -40,9 +40,6 @@ import static javax.persistence.CascadeType.REMOVE;
 @DiscriminatorValue("group")
 public class Gruppo extends Utente implements Serializable{
 	
-	
-	
-	
 	private String biografia;
 	
 	private Date data;
@@ -55,29 +52,20 @@ public class Gruppo extends Utente implements Serializable{
 		
 	private Cachet cachet;
 	
-	
-	
 	private Set<Album> albums = new HashSet<Album>();  // togliere - unidirezionale
-	
-	
+		
 	private Set<Componente> componente = new HashSet<Componente>(); //  bidirezionale join column 
 	
-	
 	private Set<Evento> eventi = new HashSet<Evento>(); 
-	
-	
+		
 	private Set<Genere> generi = new HashSet<Genere>();  
-	
-	
+		
 //	private Set<Feedback> feedback;
-	
-	
+		
 	private Set<Tour> tour = new HashSet<Tour>();
-	
-	
+		
 	private Set<GruppoDiRiferimento> gruppi_rif = new HashSet<GruppoDiRiferimento>() ; 
-	
-	
+		
 //	private Set<TipologiaEvento> tipologia_eventi = new HashSet<TipologiaEvento>();
 	
 	private Scaletta scaletta;
@@ -87,11 +75,6 @@ public class Gruppo extends Utente implements Serializable{
 	public Gruppo() {
 		super();
 	}
-
-	
-
-
-
 
 	public Gruppo(String biografia, Date data, int cover_Band,
 			String nomeGruppo, ServiceMusicale service, Cachet cachet,
@@ -114,7 +97,6 @@ public class Gruppo extends Utente implements Serializable{
 //		this.tipologia_eventi = tipologia_eventi;
 	}
 
-
 	public Gruppo(String biografia, Date data, int cover_Band,
 			String nomeGruppo) {
 		super();
@@ -124,7 +106,6 @@ public class Gruppo extends Utente implements Serializable{
 		this.nomeGruppo = nomeGruppo;
 	}
 	
-
 	public String getBiografia() {
 		return biografia;
 	}
@@ -173,7 +154,6 @@ public class Gruppo extends Utente implements Serializable{
 	public void setCachet(Cachet cachet) {
 		this.cachet = cachet;
 	}
-
 
 	@OneToMany(fetch=FetchType.EAGER, mappedBy="gruppo",cascade={PERSIST, REFRESH, REMOVE})
 	public Set<Album> getAlbums() {
