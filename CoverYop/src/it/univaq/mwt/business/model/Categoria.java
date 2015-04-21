@@ -19,8 +19,6 @@ import static javax.persistence.AccessType.PROPERTY;
 @Access(PROPERTY)
 public class Categoria implements Serializable{
 	
-	
-	
 	private String nomeCat;
 	
 	private String descrizioneCat;

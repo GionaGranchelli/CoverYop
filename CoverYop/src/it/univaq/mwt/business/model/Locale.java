@@ -91,13 +91,6 @@ public class Locale extends Utente implements Serializable{
 		this.descrizione = descrizione;
 	}
 	
-
-
-
-	
-	
-
-
 	public String getNomeLocale() {
 		return nomeLocale;
 	}

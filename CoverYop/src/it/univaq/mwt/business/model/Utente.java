@@ -27,6 +27,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Transient;
 
 import java.util.Collection;
@@ -165,7 +166,9 @@ public abstract class Utente implements Serializable{
 
 	@Id
 	@Column(name = "USER_ID")
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	//@GeneratedValue(strategy=GenerationType.SEQUENCE)
+	@GeneratedValue(generator="UteSeq")
+    @SequenceGenerator(name="UteSeq",sequenceName="UTENTE_SEQ", allocationSize=1)
 	public int getId() {
 		return id;
 	}

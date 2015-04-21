@@ -85,9 +85,9 @@ public class ControllerMessage {
 		msg.setDataInvio(Calendar.getInstance());
 		msg.setStatus(1);
 		conv.addMessage(msg);
-		Random rand = new Random();
-		int randomNum = rand.nextInt((1000 - 10) + 1) + 10;
-		conv.setId(randomNum);
+		//Random rand = new Random();
+		//int randomNum = rand.nextInt((1000 - 10) + 1) + 10;
+		//conv.setId(randomNum);
 		Conversation cv = cs.createConversation(conv);
 		
 		List<Conversation> cl = new ArrayList<Conversation>(cs.findAllConversationByUserId(id));
@@ -138,9 +138,9 @@ public String addreply(@PathVariable("id") int id, @ModelAttribute("messaggio") 
 		messaggio.setConversation(conversation);
 		messaggio.setStatus(1);
 		messaggio.setDataInvio(cal);
-		 Random rand = new Random();
-		 int randomNum = rand.nextInt((1000 - 10) + 1) + 10;
-		messaggio.setId(randomNum);
+		 //Random rand = new Random();
+		 //int randomNum = rand.nextInt((1000 - 10) + 1) + 10;
+		//messaggio.setId(randomNum);
 		conversation.addMessage(messaggio);
 		conversation=cs.updateConversation(conversation);
 		//Message msg = ms.createMessage(messaggio);

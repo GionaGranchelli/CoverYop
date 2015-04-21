@@ -12,6 +12,7 @@ import javax.persistence.Id;
 
 
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 
 import java.util.Collection;
 import java.util.Set;
@@ -83,7 +84,9 @@ public class Canzone implements Serializable{
 		this.url = url;
 	}
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	//@GeneratedValue(strategy=GenerationType.SEQUENCE)
+	@GeneratedValue(generator="CanSeq")
+    @SequenceGenerator(name="CanSeq",sequenceName="CANZONE_SEQ",allocationSize=1)
 	public int getId() {
 		return id;
 	}
