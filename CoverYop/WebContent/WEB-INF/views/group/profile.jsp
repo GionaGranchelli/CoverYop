@@ -106,7 +106,7 @@
 					</div>
 	        	</div>
 			<div class="clear"></div>
-			<input type="submit"  class="action-button" value="Submit" />
+			<input type="submit"  class="action-button" value="Invia" />
 	        </form>
 					
 					</div>

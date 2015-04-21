@@ -29,6 +29,10 @@ public interface GruppoService {
 	
 	
 	public List<Gruppo> findGruppoByName(String name);
+
+	public List findLastSubscribed(int i);
+
+
 	
 	
 }

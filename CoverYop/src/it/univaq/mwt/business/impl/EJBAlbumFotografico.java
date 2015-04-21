@@ -109,6 +109,15 @@ public class EJBAlbumFotografico implements AlbumFotograficoService {
 		int result = query.executeUpdate();
 		em.getEntityManagerFactory().getCache().evict(AlbumFotografico.class);
 	}
+	@Override
+	public List getLastSubscribed(int i) {
+		String queryString = "select af from AlbumFotografico af ORDER BY af.id";
+		Query query = em.createQuery(queryString);
+		query.setMaxResults(i);
+		List result = query.getResultList();
+		return result;
+		
+	}
 	
 
 }

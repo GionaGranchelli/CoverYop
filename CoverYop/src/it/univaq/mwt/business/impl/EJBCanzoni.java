@@ -70,6 +70,19 @@ public class EJBCanzoni implements CanzoneService {
 		
 	}
 
+	@Override
+	public List findLastSong(int i) {
+		
+			String queryString="select cz from Gruppo grp, Album alb, Canzone cz where cz.album = alb and alb.gruppo = grp  ORDER BY cz.id DESC";
+		
+		//String queryString = "select c from Canzone c ORDER BY c.id";
+		Query query = em.createQuery(queryString);
+		query.setMaxResults(i);
+		List result = query.getResultList();
+		return result;
+	
+	}
+
 
 	
 }

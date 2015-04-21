@@ -5,98 +5,97 @@
 <footer id="footer">
 	<!-- container -->
 	<div class="container footer-widgets">
-		<div class="col-1-4">
+		<div class="col-1-2">
 			<div class="widget text-widget">
-				<h3>About Us</h3>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque porttitor fermentum ullamcorper. Aliquam erat volutpat. </p>
-				<p>
-				Nullam purus metus, interdum ac lacinia non, sodales non arcu. In eleifend vestibulum eleifend. Maecenas ut felis mi, vitae pharetra justo. Ut lacus lacus, fermentum sed tincidunt eget, suscipit nec orci. </p>
+				<h3>Chi Siamo</h3>
+				<p>CoverYop nasce come luogo d'incontro per <strong>gruppi e locali</strong> </p>
+				
+				<p> Su Yop le giovani Band Nascono e si pubblicizzano </p>
+				
+				<p> Su Yop i Locali vengono trovati e aiutati per le loro serate </p>
 			</div>
 		</div>
 
-		<div class="col-1-4">
-			<div class="widget widget_recent_entries">
-				<h3>Latest Posts</h3>
-				<ul>
-					<li>
-						<a href="${pageContext.request.contextPath}/resources/javascript:;">Post with Slider.</a>
-					</li>
-					<li>
-						<a href="${pageContext.request.contextPath}/resources/javascript:;">Music Post.</a>
-					</li>
-					<li>
-						<a href="${pageContext.request.contextPath}/resources/javascript:;">Wide Post.</a>
-					</li>
-					<li>
-						<a href="${pageContext.request.contextPath}/resources/javascript:;">Vimeo video.</a>
-					</li>
-					<li>
-						<a href="${pageContext.request.contextPath}/resources/javascript:;">Post with Quote.</a>
-					</li>
-				</ul>
-			</div>
+<!-- 		<div class="col-1-4"> -->
+<!-- 			<div class="widget widget_recent_entries"> -->
+<!-- 				<h3>Latest Posts</h3> -->
+<!-- 				<ul> -->
+<!-- 					<li> -->
+<%-- 						<a href="${pageContext.request.contextPath}/resources/javascript:;">Post with Slider.</a> --%>
+<!-- 					</li> -->
+<!-- 					<li> -->
+<%-- 						<a href="${pageContext.request.contextPath}/resources/javascript:;">Music Post.</a> --%>
+<!-- 					</li> -->
+<!-- 					<li> -->
+<%-- 						<a href="${pageContext.request.contextPath}/resources/javascript:;">Wide Post.</a> --%>
+<!-- 					</li> -->
+<!-- 					<li> -->
+<%-- 						<a href="${pageContext.request.contextPath}/resources/javascript:;">Vimeo video.</a> --%>
+<!-- 					</li> -->
+<!-- 					<li> -->
+<%-- 						<a href="${pageContext.request.contextPath}/resources/javascript:;">Post with Quote.</a> --%>
+<!-- 					</li> -->
+<!-- 				</ul> -->
+<!-- 			</div> -->
 
+<!-- 		</div> -->
+
+		<div class="col-1-2 last">
+			            <a class="twitter-timeline"  href="https://twitter.com/CoverYop" data-widget-id="590459636567908352">Tweet di @CoverYop</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+          
 		</div>
 
-		<div class="col-1-4">
-			<div class="widget widget_recent_tweets">
-				<h3>Latest Tweets</h3>
-				<ul class="tweets" data-tweets-count="2">
-					<li>Please Wait...</li>
-				</ul>
-			</div>
-		</div>
-
-		<div class="col-1-4 last">
+<!-- 		<div class="col-1-4 last"> -->
 			
-			<div class="widget widget_recent_gallery">
-				<h3>Latest Gallery Albums</h3>
-				<div class="gallery-3-col">
-					<a href="${pageContext.request.contextPath}/resources/placeholders/gallery-thumb01.jpg" class="gallery-item imagebox thumb-icon" title="Image Title" data-group="group1">
-                        <img src="${pageContext.request.contextPath}/resources/placeholders/gallery-thumb01.jpg" alt="Image Title">
-                        <span class="icon-wrap">
-                            <!-- icon from icomoon -->
-                            <span class="icon icon-search"></span>
-                        </span>
-                    </a>
-                    <a href="${pageContext.request.contextPath}/resources/placeholders/gallery-thumb02.jpg" class="gallery-item imagebox thumb-icon" title="Image Title" data-group="group1">
-                        <img src="${pageContext.request.contextPath}/resources/placeholders/gallery-thumb02.jpg" alt="Image Title">
-                        <span class="icon-wrap">
-                            <!-- icon from icomoon -->
-                            <span class="icon icon-search"></span>
-                        </span>
-                    </a>
-                    <a href="${pageContext.request.contextPath}/resources/placeholders/gallery-thumb03.jpg" class="gallery-item imagebox thumb-icon" title="Image Title" data-group="group1">
-                        <img src="${pageContext.request.contextPath}/resources/placeholders/gallery-thumb03.jpg" alt="Image Title">
-                        <span class="icon-wrap">
-                            <!-- icon from icomoon -->
-                            <span class="icon icon-search"></span>
-                        </span>
-                    </a>
-                    <a href="${pageContext.request.contextPath}/resources/placeholders/gallery-thumb04.jpg" class="gallery-item imagebox thumb-icon" title="Image Title" data-group="group1">
-                        <img src="${pageContext.request.contextPath}/resources/placeholders/gallery-thumb04.jpg" alt="Image Title">
-                        <span class="icon-wrap">
-                            <!-- icon from icomoon -->
-                            <span class="icon icon-search"></span>
-                        </span>
-                    </a>
-                    <a href="${pageContext.request.contextPath}/resources/placeholders/gallery-thumb05.jpg" class="gallery-item imagebox thumb-icon" title="Image Title" data-group="group1">
-                        <img src="${pageContext.request.contextPath}/resources/placeholders/gallery-thumb05.jpg" alt="Image Title">
-                        <span class="icon-wrap">
-                            <!-- icon from icomoon -->
-                            <span class="icon icon-search"></span>
-                        </span>
-                    </a>
-                    <a href="${pageContext.request.contextPath}/resources/placeholders/gallery-thumb06.jpg" class="gallery-item imagebox thumb-icon" title="Image Title" data-group="group1">
-                        <img src="${pageContext.request.contextPath}/resources/placeholders/gallery-thumb06.jpg" alt="Image Title">
-                        <span class="icon-wrap">
-                            <!-- icon from icomoon -->
-                            <span class="icon icon-search"></span>
-                        </span>
-                    </a>
-				</div>
-			</div>
-		</div>
+<!-- 			<div class="widget widget_recent_gallery"> -->
+<!-- 				<h3>Latest Gallery Albums</h3> -->
+<!-- 				<div class="gallery-3-col"> -->
+<%-- 					<a href="${pageContext.request.contextPath}/resources/placeholders/gallery-thumb01.jpg" class="gallery-item imagebox thumb-icon" title="Image Title" data-group="group1"> --%>
+<%--                         <img src="${pageContext.request.contextPath}/resources/placeholders/gallery-thumb01.jpg" alt="Image Title"> --%>
+<!--                         <span class="icon-wrap"> -->
+<!--                             icon from icomoon -->
+<!--                             <span class="icon icon-search"></span> -->
+<!--                         </span> -->
+<!--                     </a> -->
+<%--                     <a href="${pageContext.request.contextPath}/resources/placeholders/gallery-thumb02.jpg" class="gallery-item imagebox thumb-icon" title="Image Title" data-group="group1"> --%>
+<%--                         <img src="${pageContext.request.contextPath}/resources/placeholders/gallery-thumb02.jpg" alt="Image Title"> --%>
+<!--                         <span class="icon-wrap"> -->
+<!--                             icon from icomoon -->
+<!--                             <span class="icon icon-search"></span> -->
+<!--                         </span> -->
+<!--                     </a> -->
+<%--                     <a href="${pageContext.request.contextPath}/resources/placeholders/gallery-thumb03.jpg" class="gallery-item imagebox thumb-icon" title="Image Title" data-group="group1"> --%>
+<%--                         <img src="${pageContext.request.contextPath}/resources/placeholders/gallery-thumb03.jpg" alt="Image Title"> --%>
+<!--                         <span class="icon-wrap"> -->
+<!--                             icon from icomoon -->
+<!--                             <span class="icon icon-search"></span> -->
+<!--                         </span> -->
+<!--                     </a> -->
+<%--                     <a href="${pageContext.request.contextPath}/resources/placeholders/gallery-thumb04.jpg" class="gallery-item imagebox thumb-icon" title="Image Title" data-group="group1"> --%>
+<%--                         <img src="${pageContext.request.contextPath}/resources/placeholders/gallery-thumb04.jpg" alt="Image Title"> --%>
+<!--                         <span class="icon-wrap"> -->
+<!--                             icon from icomoon -->
+<!--                             <span class="icon icon-search"></span> -->
+<!--                         </span> -->
+<!--                     </a> -->
+<%--                     <a href="${pageContext.request.contextPath}/resources/placeholders/gallery-thumb05.jpg" class="gallery-item imagebox thumb-icon" title="Image Title" data-group="group1"> --%>
+<%--                         <img src="${pageContext.request.contextPath}/resources/placeholders/gallery-thumb05.jpg" alt="Image Title"> --%>
+<!--                         <span class="icon-wrap"> -->
+<!--                             icon from icomoon -->
+<!--                             <span class="icon icon-search"></span> -->
+<!--                         </span> -->
+<!--                     </a> -->
+<%--                     <a href="${pageContext.request.contextPath}/resources/placeholders/gallery-thumb06.jpg" class="gallery-item imagebox thumb-icon" title="Image Title" data-group="group1"> --%>
+<%--                         <img src="${pageContext.request.contextPath}/resources/placeholders/gallery-thumb06.jpg" alt="Image Title"> --%>
+<!--                         <span class="icon-wrap"> -->
+<!--                             icon from icomoon -->
+<!--                             <span class="icon icon-search"></span> -->
+<!--                         </span> -->
+<!--                     </a> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+<!-- 		</div> -->
 	</div>
 	<!-- /container -->
 

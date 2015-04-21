@@ -97,8 +97,25 @@ public class ControllerYop {
 	// private Gruppo view_group;
 
 	@RequestMapping("/")
-	public String welcome() throws NamingException {
+	public String welcome(Model model) throws NamingException {
 		
+		//ultimi artisti
+		
+		List ultimiGruppi = gs.findLastSubscribed(4);
+		List generi = ges.findAllGeneri();
+		List<Canzone> ultimeSong = cs.findLastSong(4);
+		
+		
+		List ultimiLocali = ls.findlastSubscribed(4);
+		List ultimeGallery = as.getLastSubscribed(4);
+		
+		
+		
+		model.addAttribute("gruppi", ultimiGruppi);
+		model.addAttribute("generiGruppi", generi);
+		model.addAttribute("song", ultimeSong);
+		model.addAttribute("locali", ultimiLocali);
+		model.addAttribute("gallery", ultimeGallery);
 		return "common.index";
 	}
 

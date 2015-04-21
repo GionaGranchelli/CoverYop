@@ -1,3 +1,5 @@
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <!-- ############################# Ajax Page Container ############################# -->
 <section id="page" data-title="Noisa - Ultimate Music Theme Home ver 2">
 
@@ -105,30 +107,28 @@
 			<!-- Releases -->
 			<div id="featured-releases"
 				class="owl-carousel carousel featured-releases-list">
-
+			<c:forEach  items="${song}" var="song" varStatus="status">
 				<!-- Release -->
 				<div class="col-1-4 carousel-item featured-release">
 					<!-- Thumbnail -->
-					<a href="${pageContext.request.contextPath}#!/pages/release-single"
-						class="thumb-glitch release tip" data-thumbicon="plus"> <span
-						class="hoverlayer"></span> <span class="release-badge">new</span>
+					<a class="thumb-glitch release tip sp-play-track" href="${pageContext.request.contextPath}/resources/${song.url}"
+						 data-thumbicon="plus"> <span
+						class="hoverlayer"></span> <span class="release-badge">${song.titolo.substring(0, 25).concat("...")}</span>
 						<span class="img"> <img
-							src="${pageContext.request.contextPath}/resources/placeholders/release-image01.jpg"
+							src="${pageContext.request.contextPath}/${song.getAlbum().getGruppo().getFotoProfilo().url}"
 							alt="Release Image" />
 					</span> <!-- tooltip -->
 						<div class="tip-content hidden">
-							<span>Load Details</span> Load and open release page.
+							<span>${song.durata}</span> ${song.titolo}
 						</div> <!-- /tooltip -->
 					</a>
 					<!-- /Thumbnail -->
 					<!-- Release footer -->
 					<div class="release-footer">
 						<h2 class="release-title">
-							<a
-								href="${pageContext.request.contextPath}/#!/pages/release-single">Nothing
-								Even Matters</a>
+							<a class="track sp-play-track" href="${pageContext.request.contextPath}/resources/${song.url}">${song.getAlbum().nome}</a>
 						</h2>
-						<span class="release-artists">DJ Nando</span>
+						<span class="release-artists"> ${song.getAlbum().getGruppo().getNomeGruppo()}</span>
 					</div>
 					<!-- /release footer -->
 					<!-- Release social -->
@@ -146,203 +146,12 @@
 					<!-- /release social -->
 				</div>
 				<!-- /release -->
-
-				<!-- Release -->
-				<div class="col-1-4 carousel-item featured-release">
-					<!-- Thumbnail -->
-					<a href="https://soundcloud.com/trapmusic/torture-by-jacuzzi-ft-mr"
-						class="thumb-glitch release sp-play-track tip"
-						data-thumbicon="soundcloud"> <span class="hoverlayer"></span>
-						<span class="release-badge">new</span> <span class="img"> <img
-							src="${pageContext.request.contextPath}/resources/placeholders/release-image02.jpg"
-							alt="Release Image" />
-					</span> <span class="badge black player-badge-play">Play</span> <span
-						class="badge black player-badge-pause">Pause</span> <!-- tooltip -->
-						<div class="tip-content hidden">
-							<span>Play Soundcloud</span> Add and play Soundcloud track in
-							Scamp Player.
-						</div> <!-- /tooltip -->
-					</a>
-					<!-- /Thumbnail -->
-					<!-- Release footer -->
-					<div class="release-footer">
-						<h2 class="release-title">
-							<a
-								href="${pageContext.request.contextPath}/#!/pages/release-single">Strike
-								Back!</a>
-						</h2>
-						<span class="release-artists">DJ Nando, DJ John Doe</span>
-					</div>
-					<!-- Release social -->
-					<div class="release-social">
-						<a href="${pageContext.request.contextPath}/javascript:;"
-							class="facebook-share"><i class="icon icon-facebook"></i></a> <a
-							href="${pageContext.request.contextPath}/javascript:;"
-							class="twitter-share"><i class="icon icon-twitter"></i></a> <a
-							href="${pageContext.request.contextPath}/javascript:;"
-							class="googleplus-share"><i class="icon icon-googleplus"></i></a>
-						<a href="${pageContext.request.contextPath}/javascript:;"
-							class="googleplus-share floatright"><i
-							class="icon icon-soundcloud"></i></a>
-					</div>
-					<!-- /release social -->
-				</div>
-				<!-- /release -->
-
-				<!-- Release -->
-				<div class="col-1-4 carousel-item featured-release">
-					<!-- Thumbnail -->
-					<a href="https://soundcloud.com/trapsounds"
-						class="thumb-glitch release sp-play-track tip"
-						data-thumbicon="soundcloud"> <span class="hoverlayer"></span>
-						<span class="img"> <img
-							src="${pageContext.request.contextPath}/resources/placeholders/release-image03.jpg"
-							alt="Release Image" />
-					</span> <span class="badge black player-badge-play">Play</span> <span
-						class="badge black player-badge-pause">Pause</span> <!-- tooltip -->
-						<div class="tip-content hidden">
-							<span>Play Soundcloud Group</span> Add and play Soundcloud Group
-							in Scamp Player. Trap Sounds Yeah (50 Tracks)!
-						</div> <!-- /tooltip -->
-					</a>
-					<!-- /Thumbnail -->
-					<!-- Release footer -->
-					<div class="release-footer">
-						<h2 class="release-title">
-							<a
-								href="${pageContext.request.contextPath}/#!/pages/release-single">Speakerz
-								Massive</a>
-						</h2>
-						<span class="release-artists">NOISA</span>
-					</div>
-					<!-- /release footer -->
-					<!-- Release social -->
-					<div class="release-social">
-						<a href="${pageContext.request.contextPath}/javascript:;"
-							class="facebook-share"><i class="icon icon-facebook"></i></a> <a
-							href="${pageContext.request.contextPath}/javascript:;"
-							class="twitter-share"><i class="icon icon-twitter"></i></a> <a
-							href="${pageContext.request.contextPath}/javascript:;"
-							class="googleplus-share"><i class="icon icon-googleplus"></i></a>
-						<a href="${pageContext.request.contextPath}/javascript:;"
-							class="googleplus-share floatright"><i
-							class="icon icon-soundcloud"></i></a>
-					</div>
-					<!-- /release social -->
-				</div>
-				<!-- /release -->
-
-				<!-- Release -->
-				<div class="col-1-4 carousel-item featured-release">
-					<!-- Thumbnail -->
-					<a
-						href="${pageContext.request.contextPath}/#!/pages/release-single"
-						class="thumb-glitch release sp-play-list tip"
-						data-thumbicon="headphones" data-id="dragon-fly"> <span
-						class="hoverlayer"></span> <span class="img"> <img
-							src="${pageContext.request.contextPath}/resources/placeholders/release-image04.jpg"
-							alt="Release Image" />
-					</span> <span class="badge black player-badge-play">Play</span> <span
-						class="badge black player-badge-pause">Pause</span> <!-- tooltip -->
-						<div class="tip-content hidden">
-							<span>Play Local MP3 Tracklist</span> <span>01 ADG3
-								Studios - Chucked Nuckles</span> <span>02 ADG3 Studios -
-								Cloudlessdays</span> <span>03 ADG3 Studios - Core Issues</span> <span>04
-								ADG3 Studios - Electro Freak</span>
-
-						</div> <!-- /tooltip -->
-					</a>
-					<!-- /Thumbnail -->
-					<!-- Hidden playlist -->
-					<ul id="dragon-fly" class="hidden">
-						<li><a
-							href="${pageContext.request.contextPath}/resources/placeholders/mp3/adg3com_chuckedknuckles.mp3"
-							data-cover="placeholders/release-image02.jpg"
-							class="sp-play-track">ADG3 Studios - Chucked Nuckles</a></li>
-						<li><a
-							href="${pageContext.request.contextPath}/resources/placeholders/mp3/adg3com_cloudlessdays.mp3"
-							data-cover="placeholders/release-image03.jpg"
-							class="sp-play-track">ADG3 Studios - Cloudlessdays</a></li>
-						<li><a
-							href="${pageContext.request.contextPath}/resources/placeholders/mp3/adg3com_coreissues.mp3"
-							data-cover="placeholders/release-image04.jpg"
-							class="sp-play-track">ADG3 Studios - Core Issues</a></li>
-						<li><a
-							href="${pageContext.request.contextPath}/resources/placeholders/mp3/adg3com_electrofreak.mp3"
-							data-cover="placeholders/release-image05.jpg"
-							class="sp-play-track">ADG3 Studios - Electro Freak</a></li>
-					</ul>
-					<!-- /hidden playlist -->
-					<!-- Release footer -->
-					<div class="release-footer">
-						<h2 class="release-title">
-							<a
-								href="${pageContext.request.contextPath}/#!/pages/release-single">Legacy
-								of Bass</a>
-						</h2>
-						<span class="release-artists">Obiekt ZERO</span>
-					</div>
-					<!-- /release footer -->
-					<!-- Release social -->
-					<div class="release-social">
-						<a href="${pageContext.request.contextPath}/javascript:;"
-							class="facebook-share"><i class="icon icon-facebook"></i></a> <a
-							href="${pageContext.request.contextPath}/javascript:;"
-							class="twitter-share"><i class="icon icon-twitter"></i></a> <a
-							href="${pageContext.request.contextPath}/javascript:;"
-							class="googleplus-share"><i class="icon icon-googleplus"></i></a>
-						<a href="${pageContext.request.contextPath}/javascript:;"
-							class="googleplus-share floatright"><i
-							class="icon icon-download"></i></a>
-					</div>
-					<!-- /release social -->
-				</div>
-				<!-- /release -->
-
-				<!-- Release -->
-				<div class="col-1-4 carousel-item featured-release">
-					<!-- Thumbnail -->
-					<a
-						href="${pageContext.request.contextPath}/#!/pages/release-single"
-						class="thumb-glitch release" data-thumbicon="plus"> <span
-						class="hoverlayer"></span> <span class="img"> <img
-							src="${pageContext.request.contextPath}/resources/placeholders/release-image05.jpg"
-							alt="Release Image" />
-					</span>
-					</a>
-					<!-- /Thumbnail -->
-					<!-- Release footer -->
-					<div class="release-footer">
-						<h2 class="release-title">
-							<a
-								href="${pageContext.request.contextPath}/#!/pages/release-single">Cell
-								Teraphy</a>
-						</h2>
-						<span class="release-artists">DJ Nando, NOISA</span>
-					</div>
-					<!-- /release footer -->
-					<!-- Release social -->
-					<div class="release-social">
-						<a href="${pageContext.request.contextPath}/javascript:;"
-							class="facebook-share"><i class="icon icon-facebook"></i></a> <a
-							href="${pageContext.request.contextPath}/javascript:;"
-							class="twitter-share"><i class="icon icon-twitter"></i></a> <a
-							href="${pageContext.request.contextPath}/javascript:;"
-							class="googleplus-share"><i class="icon icon-googleplus"></i></a>
-						<a href="${pageContext.request.contextPath}/javascript:;"
-							class="googleplus-share floatright"><i
-							class="icon icon-download"></i></a>
-					</div>
-					<!-- /release social -->
-				</div>
-				<!-- /release -->
+		</c:forEach>
+				
 
 			</div>
 			<!-- /releases -->
-			<div class="text-center">
-				<a href="${pageContext.request.contextPath}/#!/pages/releases"
-					class="by-ajax btn">View More</a>
-			</div>
+			
 		</div>
 		<!-- /container -->
 	</section>
@@ -368,11 +177,10 @@
 					<select class='nice-select filter' name="genres">
 						<option value="placeholder">All Genres</option>
 						<option value="*">All Genres</option>
-						<option value="drum-and-bass">Drum and Bass</option>
-						<option value="glitch">Glitch Hop</option>
-						<option value="breakbeat">Breakbeat</option>
-						<option value="uk-funky">UK Funky</option>
-						<option value="dubstep">Dubstep</option>
+		<c:forEach  items="${generiGruppi}" var="generi" varStatus="status">
+						<option value="${generi.getGenere()}">${generi.getGenere()}</option>
+		</c:forEach>
+						
 					</select>
 
 				</div>
@@ -381,15 +189,19 @@
 
 				<!-- Artists -->
 				<div id="artists" class="masonry clearfix">
-
+				
+				
+	<c:forEach  items="${gruppi}" var="gruppi" varStatus="status">	
 					<!-- Artist -->
-					<div class="col-1-4 item" data-genres="glitch uk-funky">
+					<div class="col-1-4 item" data-genres=<c:forEach  items="${gruppi.getGeneri()}" var="generi">
+															"${generi.genere}"
+															</c:forEach> >
 						<!-- Thumbnail -->
 						<a
-							href="${pageContext.request.contextPath}/#!/pages/artist-single"
+							href="${pageContext.request.contextPath}/Group/${gruppi.id}"
 							class="thumb-glitch artist" data-thumbicon="plus"> <span
 							class="hoverlayer"></span> <span class="img"> <img
-								src="${pageContext.request.contextPath}/resources/placeholders/artist01.jpg"
+								src="${pageContext.request.contextPath}/${gruppi.getFotoProfilo().url}"
 								alt="Artist Image" />
 						</span>
 						</a>
@@ -398,10 +210,10 @@
 						<div class="artist-footer">
 							<h2 class="artist-title">
 								<a
-									href="${pageContext.request.contextPath}/#!/pages/artist-single">DJ
-									Nando</a>
+									href="${pageContext.request.contextPath}/Group/${gruppi.id}">${gruppi.nomeGruppo}</a>
 							</h2>
-							<span class="artist-genres">Glitch Hop / UK Funky</span>
+							<span class="artist-genres">
+															</span>
 						</div>
 						<!-- /artist footer -->
 						<!-- Artist social -->
@@ -416,111 +228,7 @@
 						<!-- /artist social -->
 					</div>
 					<!-- /artist -->
-
-					<!-- Artist -->
-					<div class="col-1-4 item" data-genres="glitch breakbeat">
-						<!-- Thumbnail -->
-						<a
-							href="${pageContext.request.contextPath}/#!/pages/artist-single"
-							class="thumb-glitch artist" data-thumbicon="plus"> <span
-							class="hoverlayer"></span> <span class="img"> <img
-								src="${pageContext.request.contextPath}/resources/placeholders/artist02.jpg"
-								alt="Artist Image" />
-						</span>
-						</a>
-						<!-- /Thumbnail -->
-						<!-- Artist footer -->
-						<div class="artist-footer">
-							<h2 class="artist-title">
-								<a
-									href="${pageContext.request.contextPath}/#!/pages/artist-single">Obiekt
-									ZERO</a>
-							</h2>
-							<span class="artist-genres">Glitch Hop / Breakbeat</span>
-						</div>
-						<!-- /artist footer -->
-						<!-- Artist social -->
-						<div class="artist-social">
-							<a href="${pageContext.request.contextPath}/javascript:;"
-								class="facebook-share"><i class="icon icon-facebook"></i></a> <a
-								href="${pageContext.request.contextPath}/javascript:;"
-								class="twitter-share"><i class="icon icon-twitter"></i></a> <a
-								href="${pageContext.request.contextPath}/javascript:;"
-								class="googleplus-share"><i class="icon icon-googleplus"></i></a>
-						</div>
-						<!-- /artist social -->
-					</div>
-					<!-- /artist -->
-
-					<!-- Artist -->
-					<div class="col-1-4 item" data-genres="drum-and-bass dubstep">
-						<!-- Thumbnail -->
-						<a
-							href="${pageContext.request.contextPath}/#!/pages/artist-single"
-							class="thumb-glitch artist" data-thumbicon="plus"> <span
-							class="hoverlayer"></span> <span class="img"> <img
-								src="${pageContext.request.contextPath}/resources/placeholders/artist03.jpg"
-								alt="Artist Image" />
-						</span>
-						</a>
-						<!-- /Thumbnail -->
-						<!-- Artist footer -->
-						<div class="artist-footer">
-							<h2 class="artist-title">
-								<a
-									href="${pageContext.request.contextPath}/#!/pages/artist-single">DJ
-									John Doe</a>
-							</h2>
-							<span class="artist-genres">Drum and Bass / Dubstep</span>
-						</div>
-						<!-- /artist footer -->
-						<!-- Artist social -->
-						<div class="artist-social">
-							<a href="${pageContext.request.contextPath}/javascript:;"
-								class="facebook-share"><i class="icon icon-facebook"></i></a> <a
-								href="${pageContext.request.contextPath}/javascript:;"
-								class="twitter-share"><i class="icon icon-twitter"></i></a> <a
-								href="${pageContext.request.contextPath}/javascript:;"
-								class="googleplus-share"><i class="icon icon-googleplus"></i></a>
-						</div>
-						<!-- /artist social -->
-					</div>
-					<!-- /artist -->
-
-					<!-- Artist -->
-					<div class="col-1-4 item" data-genres="uk-funky dubstep">
-						<!-- Thumbnail -->
-						<a
-							href="${pageContext.request.contextPath}/#!/pages/artist-single"
-							class="thumb-glitch artist" data-thumbicon="plus"> <span
-							class="hoverlayer"></span> <span class="img"> <img
-								src="${pageContext.request.contextPath}/resources/placeholders/artist04.jpg"
-								alt="Artist Image" />
-						</span>
-						</a>
-						<!-- /Thumbnail -->
-						<!-- Artist footer -->
-						<div class="artist-footer">
-							<h2 class="artist-title">
-								<a
-									href="${pageContext.request.contextPath}/#!/pages/artist-single">General
-									Midi</a>
-							</h2>
-							<span class="artist-genres">UK Funky / Dubstep</span>
-						</div>
-						<!-- /artist footer -->
-						<!-- Artist social -->
-						<div class="artist-social">
-							<a href="${pageContext.request.contextPath}/javascript:;"
-								class="facebook-share"><i class="icon icon-facebook"></i></a> <a
-								href="${pageContext.request.contextPath}/javascript:;"
-								class="twitter-share"><i class="icon icon-twitter"></i></a> <a
-								href="${pageContext.request.contextPath}/javascript:;"
-								class="googleplus-share"><i class="icon icon-googleplus"></i></a>
-						</div>
-						<!-- /artist social -->
-					</div>
-					<!-- /artist -->
+			</c:forEach>
 
 					<!-- row -->
 
@@ -533,6 +241,10 @@
 
 			</div>
 			<!-- /container -->
+			<div class="text-center">
+				<a href="${pageContext.request.contextPath}/#!/pages/releases"
+					class="by-ajax btn">View More</a>
+			</div>
 		</section>
 		<!-- /Content -->
 		
@@ -543,35 +255,35 @@
 		<div class="container">
 			<header class="section-header">
 				<h2 class="section-title">Ultimi Locali</h2>
-				<h5 class="section-sub-title">Guarda che Figata</h5>
+				<h5 class="section-sub-title">Dove Fare Serata</h5>
 			</header>
 
 			<!-- Releases -->
 			<div id="featured-releases" class="owl-carousel carousel featured-releases-list">
-				<% 
-				int i=0;
-				for(i=0; i < 4 ; i++){ %>
+				
+				<c:forEach items="${locali}" var="locali" varStatus="status">
+				
 				<!-- Release -->
 				<div class="col-1-4 carousel-item featured-release">
 					<!-- Thumbnail -->
 					<a href="#!/pages/release-single" class="thumb-glitch release tip" data-thumbicon="plus">
 						<span class="hoverlayer"></span>
-						<span class="release-badge">new</span>
+						<span class="release-badge">${locali.getCategoria().nomeCat} </span>
 						<span class="img">
-							<img src="${pageContext.request.contextPath}/resources/placeholders/release-image01.jpg" alt="Release Image" />
+							<img src="${pageContext.request.contextPath}/${locali.getFotoProfilo().url}" alt="Release Image" />
 						</span>
 						<!-- tooltip -->
 						<div class="tip-content hidden">
-							<span>Load Details</span>
-							Load and open release page.
+							<span>${locali.orarioApertura} >>> ${locali.orarioChiusura}</span>
+							${locali.descrizione.substring(0,15).concat("...")}
 						</div>
 						<!-- /tooltip -->
 					</a>
 					<!-- /Thumbnail -->
 					<!-- Release footer -->
 					<div class="release-footer">
-						<h2 class="release-title"><a href="#!/pages/release-single">Lost Dogs</a></h2>
-						<span class="release-artists">Viale Matrino 1, Città Sant'Angelo</span>
+						<h2 class="release-title"><a href="#!/pages/release-single">${locali.nomeLocale}</a></h2>
+						<span class="release-artists">${locali.indirizzo}</span>
 					</div>
 					<!-- /release footer -->
 					<!-- Release social -->
@@ -584,15 +296,16 @@
 					<!-- /release social -->
 				</div>
 				<!-- /release -->
-			<% } %>
+		</c:forEach>
 
 				
 
 			</div>
 			<!-- /releases -->
-			<div class="text-center"><a href="#!/pages/releases" class="by-ajax btn">Ancora</a></div>
+			
 		</div>
 		<!-- /container -->
+		<div class="text-center"><a href="#!/pages/releases" class="by-ajax btn">Ancora</a></div>
 	</section>
 	<!-- ############################# Homepage about ############################# -->
 	<section class="homepage-about section border-top"
@@ -602,10 +315,10 @@
 
 			<div class="col-1-2">
 				<h1 class="heading-xl">Yop!</h1>
-				<p class="intro-text caps">Questo Sito fa questo e quello! E non solo.</p>
-				<p class="intro-text">Gruppi Locali tutti auniti .</p>
+				<p class="intro-text caps">Il Social CoverBand</p>
+				<p class="intro-text">Join The Community</p>
 				<a class="stamp-button"
-					href="${pageContext.request.contextPath}/javascript:;">More!</a>
+					href="${pageContext.request.contextPath}/ContactUs">More!</a>
 
 			</div>
 
@@ -615,24 +328,24 @@
 	<!-- /section -->
 
 	<!-- ############################# Newsletter ############################# -->
-	<section id="newsletter">
-		<!-- container -->
-		<div class="container">
-			<div class="newsletter-left">
-				<span class="newsletter-icon"></span> <span class="newsletter-title">Newsletter</span>
-			</div>
-			<div class="newsletter-right">
-				<!-- subscribe form -->
-				<form action="#post" method="post" id="subscribe-form">
-					<input type="email" name="subscribe_email" value=""
-						id="subscribe-email" placeholder="Enter your email..." required>
-					<input type="submit" value="+" class="large" id="subscribe-submit">
-				</form>
-				<!-- /subscribe form -->
-			</div>
-		</div>
-		<!-- /container -->
-	</section>
+<!-- 	<section id="newsletter"> -->
+<!-- 		<!-- container --> 
+<!-- 		<div class="container"> -->
+<!-- 			<div class="newsletter-left"> -->
+<!-- 				<span class="newsletter-icon"></span> <span class="newsletter-title">Newsletter</span> -->
+<!-- 			</div> -->
+<!-- 			<div class="newsletter-right"> -->
+<!-- 				subscribe form -->
+<!-- 				<form action="#post" method="post" id="subscribe-form"> -->
+<!-- 					<input type="email" name="subscribe_email" value="" -->
+<!-- 						id="subscribe-email" placeholder="Enter your email..." required> -->
+<!-- 					<input type="submit" value="+" class="large" id="subscribe-submit"> -->
+<!-- 				</form> -->
+<!-- 				/subscribe form -->
+<!-- 			</div> -->
+<!-- 		</div> -->
+<!-- 		<!-- /container --> 
+<!-- 	</section> -->
 	<!-- /newsletter -->
 
 </section>

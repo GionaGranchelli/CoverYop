@@ -181,4 +181,14 @@ public class EJBGruppo implements GruppoService {
 		List<Gruppo> gruppi = new ArrayList<Gruppo>(query.getResultList());
 		return gruppi;
 	}
+
+	@Override
+	public List findLastSubscribed(int i) {
+		String queryString="select grp from Gruppo grp ORDER BY grp.id";
+		Query query = em.createQuery(queryString).setMaxResults(i);
+		 List result=query.getResultList();
+		return result;
+	}
+
+
 }

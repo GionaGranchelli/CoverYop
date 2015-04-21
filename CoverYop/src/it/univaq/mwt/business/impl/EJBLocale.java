@@ -227,4 +227,14 @@ public class EJBLocale implements LocaleService {
 		em.flush();
 		return n;
 	}
+
+
+	@Override
+	public List findlastSubscribed(int i) {
+		String queryString = "select l from Locale l ORDER BY l.id";
+		Query query = em.createQuery(queryString);
+		query.setMaxResults(i);
+		List result = query.getResultList();
+		return result;
+	}
 }

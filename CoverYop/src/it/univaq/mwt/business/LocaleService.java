@@ -30,4 +30,6 @@ public interface LocaleService {
 	
 	public List<Categoria> getAllCategorieByLocali(List locali);
 
+	public List findlastSubscribed(int i);
+
 }
