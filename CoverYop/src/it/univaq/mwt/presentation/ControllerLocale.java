@@ -1,5 +1,6 @@
 package it.univaq.mwt.presentation;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -309,7 +310,12 @@ public class ControllerLocale {
 		if(photoFileUploaded != null){
 			SaveFile sF = new SaveFile();
 			Foto f = new Foto();
-			f = sF.savePhoto(photoFileUploaded, utente.getId());
+			try {
+				f = sF.savePhoto(photoFileUploaded, utente.getId());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			//Salvo oggetto Foto
 			fotoServ.insertFoto(f);
 			ev.setLocandina(f.getUrl());
