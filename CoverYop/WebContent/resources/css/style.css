@@ -892,6 +892,12 @@ img.border { border: 6px solid #ddd; }
 		.events-grid .event:hover .overlay { opacity: 0; filter: alpha(opacity= 0); }
 		.events-grid .event:hover .event-meta span.color { color: #fff; }
 
+#events div a img{
+	width: 360px;
+	height: 360px;
+	
+}
+
 
 
 /* Events List
