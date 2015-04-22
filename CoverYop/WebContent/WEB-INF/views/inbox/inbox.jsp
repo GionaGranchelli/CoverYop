@@ -59,14 +59,24 @@
 
 				<h2>Invia Un Messaggio</h2>
 				<!-- contact form -->
+		       
+		        <div class="tabs-wrap">
+		         <ul class="tabs">
+                            <li><a href="#tab-gruppo" class="active-tab">Contatta Un Gruppo</a></li>
+                            <li><a href="#tab-locale">Contatta Un Locale</a></li>
+		       </ul>
+		       
+		       <div id="tab-gruppo" class="tab-content">
+		       
 		        <form action="${pageContext.request.contextPath}/messages/addconversation/" 
 		        	method="post" 
 		        	class="form contact-form"
 		        	id="formContatta">
 		        	<div class="row clearfix">
+		        	
 		 				<div class="col-1-3">
-		 					<label for="contact-name"><strong>Id</strong> </label>
-							<input type="text" name="id"  id="id" required>
+		 					<label for="contact-name"><strong>Nome Del Gruppo</strong> </label>
+							<input type="text" name="id"  id="idGruppo" required>
 		 				</div>
 		 				<div class="col-1-3">
 		 						<label for="contact-www"><strong>Titolo</strong></label>
@@ -85,6 +95,38 @@
 					<input type="submit" value="Invia" class="large invert">
 					<div class="clear"></div>
 		        </form>
+		</div>
+		
+		
+		 <div id="tab-locale" class="tab-content">
+		       
+		        <form action="${pageContext.request.contextPath}/messages/addconversation/" 
+		        	method="post" 
+		        	class="form contact-form"
+		        	id="formContatta">
+		        	<div class="row clearfix">
+		 				<div class="col-1-3">
+		 					<label for="contact-name"><strong>Nome Del Locale</strong> </label>
+							<input type="text" name="id"  id="idLocale" required>
+		 				</div>
+		 				<div class="col-1-3">
+		 						<label for="contact-www"><strong>Titolo</strong></label>
+							<input   name="titolo"  id="titolo"></input>
+		 				</div>
+		 				<div class="col-1-3 last">
+		 				
+		 				</div>
+		        	</div>
+		        	<div class="row clearfix">
+		        		<div class="col-1-1">
+		        			<label for="contact-message"><strong>Testo</strong> </label>
+							<textarea name="corpo" id="corpo"></textarea>
+						</div>
+		        	</div>
+					<input type="submit" value="Invia" class="large invert">
+					<div class="clear"></div>
+		        </form>
+		</div>
 		
 		</div>
 		<!-- /container -->
@@ -96,8 +138,8 @@
 	<script>
 	
 						$(document).ready(function(){
-							$( "#id" ).autocomplete({
-								source: '${pageContext. request. contextPath}/Messages/get_user_list',
+							$( "#idLocale" ).autocomplete({
+								source: '${pageContext.request.contextPath}/messages/get_locals_list',
 								paramName: "term",
 								delimiter: ",",
 								transformResult: function(response) {
@@ -105,13 +147,33 @@
 									return {      	
 									  //must convert json to javascript object before process
 									  suggestions: $.map($.parseJSON(response), function(item) {
-							 
-									      return { value: item.nomeLocale, data: item.id };
+							 	console.log(item);
+									      return { value: item.key, data: item.value };
 									   })
 							 
 									 };
 							 
 							            }
 							 
-							});
+							});});
+							
+							$(document).ready(function(){
+							$( "#idGruppo" ).autocomplete({
+								source: '${pageContext.request.contextPath}/messages/get_groups_list',
+								paramName: "term",
+								delimiter: ",",
+								transformResult: function(response) {
+									 
+									return {      	
+									  //must convert json to javascript object before process
+									  suggestions: $.map($.parseJSON(response), function(item) {
+							 	console.log(item);
+									      return { value: 'A', data: 'B' };
+									   })
+							 
+									 };
+							 
+							            }
+							 
+							});});
 	</script>

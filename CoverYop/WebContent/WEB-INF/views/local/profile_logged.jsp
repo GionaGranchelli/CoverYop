@@ -23,7 +23,7 @@
 		<!-- container -->
 
 		<div class="container">
-			<h1 class="entry-title">Modifica Informazioni Band</h1>
+			<h1 class="entry-title">Modifica Informazioni Locale</h1>
 			<!-- ############################# Single Artist ############################# -->
 			<!-- Sidebar -->
 			<div class="sidebar main-left main-medium">

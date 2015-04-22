@@ -95,96 +95,14 @@
 									<span class="event-artists">${gruppi.nomeGruppo}</span>
 								</c:forEach>
 							</span>
-							<img src="${pageContext.request.contextPath}/resources/img/events/${evento.id}/${evento.locandina}" alt="Event Background">
+							<img src="${pageContext.request.contextPath}/resources/img/events/${evento.id}/${evento.locandina}"  alt="Event Background">
 						</a>
 					</div>
 				
 					<c:if test="${!status.last}"></c:if>
 				</c:forEach>
 				
-				<%-- <div class="col-1-4 item event" data-genres="breakbeat" data-artists="dj-nando" data-locations="london">
-					<a href="#!/pages/event-single-disqus">
-						<span class="event-meta">
-							<span class="event-location"><span class="color">FRI</span> / London, UK</span>
-							<span class="event-date">${eventi[1].data}</span>
-							<span class="event-title">${eventi[1].nome}</span>
-							<span class="event-artists">DJ Nando</span>
-						</span>
-						<img src="${pageContext.request.contextPath}/resources/img/events/${eventi[1].id}/${eventi[1].locandina}" alt="Event Background">
-					</a>
-				</div>
 
-				<div class="col-1-4 item event" data-genres="drum-and-bass breakbeat" data-artists="obiekt-zero dj-john-doe general-midi" data-locations="budapest">
-					<a href="#!/pages/event-single-disqus">
-						<span class="event-meta">
-							<span class="event-location"><span class="color">FRI</span> / Budapest, Hungary</span>
-							<span class="event-date">03/26</span>
-							<span class="event-title">Bacardi Original Bar</span>
-							<span class="event-artists">Obiekt ZERO, DJ John Doe, General Midi</span>
-						</span>
-						<img src="${pageContext.request.contextPath}/resources/placeholders/event03.jpg" alt="Event Background">
-					</a>
-				</div>
-
-				<div class="col-1-4 item event" data-genres="glitch uk-funky" data-artists="various-artists" data-locations="amsterdam">
-					<a href="#!/pages/event-single-disqus">
-						<span class="event-meta">
-							<span class="event-location"><span class="color">FRI</span> Amsterdam, Netherlands</span>
-							<span class="event-date">04/21</span>
-							<span class="event-title">Escape</span>
-							<span class="event-artists">VA Various Artists</span>
-						</span>
-						<img src="${pageContext.request.contextPath}/resources/placeholders/event04.jpg" alt="Event Background">
-					</a>
-				</div>
-
-				<div class="col-1-4 item event" data-genres="uk-funky dubstep" data-artists="dj-john-doe noisa" data-locations="santa-cruz">
-					<a href="#!/pages/event-single-disqus">
-						<span class="event-meta">
-							<span class="event-location"><span class="color">FRI</span> / Santa Cruz De Tenerife, Spain</span>
-							<span class="event-date">04/30</span>
-							<span class="event-title">Papagayo Beach Club</span>
-							<span class="event-artists">NOISA, DJ John Doe</span>
-						</span>
-						<img src="${pageContext.request.contextPath}/resources/placeholders/event05.jpg" alt="Event Background">
-					</a>
-				</div>
-
-				<div class="col-1-4 item event" data-genres="drum-and-bass" data-artists="dj-nando obiekt-zero" data-locations="warsaw">
-					<a href="#!/pages/event-single-disqus">
-						<span class="event-meta">
-							<span class="event-location"><span class="color">FRI</span> / Warsaw, PL</span>
-							<span class="event-date">05/12</span>
-							<span class="event-title">Heineken Music Hall</span>
-							<span class="event-artists">DJ Nando, Obiekt ZERO</span>
-						</span>
-						<img src="${pageContext.request.contextPath}/resources/placeholders/event01.jpg" alt="Event Background">
-					</a>
-				</div>
-
-				<div class="col-1-4 item event" data-genres="glitch uk-funky" data-artists="obiekt-zero" data-locations="london">
-					<a href="#!/pages/event-single-disqus">
-						<span class="event-meta">
-							<span class="event-location"><span class="color">FRI</span> / London, UK</span>
-							<span class="event-date">06/03</span>
-							<span class="event-title">Luxorlive</span>
-							<span class="event-artists">Obiekt ZERO</span>
-						</span>
-						<img src="${pageContext.request.contextPath}/resources/placeholders/event02.jpg" alt="Event Background">
-					</a>
-				</div>
-
-				<div class="col-1-4 item event" data-genres="breakbeat dubstep" data-artists="dj-nando noisa general-midi" data-locations="budapest">
-					<a href="#!/pages/event-single-disqus">
-						<span class="event-meta">
-							<span class="event-location"><span class="color">FRI</span> / Budapest, Hungary</span>
-							<span class="event-date">07/27</span>
-							<span class="event-title">Bacardi Original Bar</span>
-							<span class="event-artists">NOISA, DJ Nando, General Midi</span>
-						</span>
-						<img src="${pageContext.request.contextPath}/resources/placeholders/event03.jpg" alt="Event Background">
-					</a>
-				</div> --%>
 
 			</div>
 			<!-- /Events -->

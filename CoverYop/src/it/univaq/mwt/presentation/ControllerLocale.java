@@ -173,14 +173,14 @@ public class ControllerLocale {
 		if(photoFileProfiloUploaded != null){
 			SaveFile sF = new SaveFile();
 			Foto f = new Foto();
-			System.out.println("nome file:"+photoFileProfiloUploaded.getOriginalFilename());
-			System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+			//System.out.println("nome file:"+photoFileProfiloUploaded.getOriginalFilename());
+			//System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 			f = sF.savePhotoProfile(photoFileProfiloUploaded, utente.getId());
 			
-			System.out.println("photoFileProfiloUploaded "+photoFileProfiloUploaded.getOriginalFilename());
+			//System.out.println("photoFileProfiloUploaded "+photoFileProfiloUploaded.getOriginalFilename());
 			
 			if(view_local.getAlbumFotografico().isEmpty()){
-				System.out.println("ALBUM NON ESISTE");
+				//System.out.println("ALBUM NON ESISTE");
 				
 				AlbumFotografico newAlbumFoto = new AlbumFotografico();
 				
@@ -199,7 +199,7 @@ public class ControllerLocale {
 				view_local.setIdForAlbumFotografico();
 				}
 			else{
-				System.out.println("ALBUM  ESISTE");
+				//System.out.println("ALBUM  ESISTE");
 				AlbumFotografico oldAlbumFoto = new AlbumFotografico();
 				oldAlbumFoto = view_local.getAlbumProfilo();
 				Foto oldFoto = new Foto();
@@ -391,7 +391,7 @@ public class ControllerLocale {
 	@RequestMapping("/cancelEvent/{id}")
 	public String cancelEvent(@PathVariable("id") int id){
 		Evento e = eventoServ.findEventoById(id);
-		e.setStatus(10);
+		e.setStatus(e.getStatus()-10);
 		eventoServ.updateEvent(e);
 		return "redirect:/Privee/Eventi";
 	}
@@ -399,7 +399,7 @@ public class ControllerLocale {
 	@RequestMapping("/activateEvent/{id}")
 	public String activateEvent(@PathVariable("id") int id){
 		Evento e = eventoServ.findEventoById(id);
-		e.setStatus(11);
+		e.setStatus(e.getStatus()+10);
 		eventoServ.updateEvent(e);
 		return "redirect:/Privee/Eventi";
 	}

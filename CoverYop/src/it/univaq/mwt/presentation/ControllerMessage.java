@@ -3,20 +3,26 @@ package it.univaq.mwt.presentation;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
 import it.univaq.mwt.business.ConversationService;
 import it.univaq.mwt.business.FotoService;
 import it.univaq.mwt.business.GruppoService;
+import it.univaq.mwt.business.LocaleService;
 import it.univaq.mwt.business.MessageService;
 import it.univaq.mwt.business.UtenteService;
 import it.univaq.mwt.business.form.group.FormGruppo;
 import it.univaq.mwt.business.form.utente.FormContatta;
 import it.univaq.mwt.business.model.Conversation;
 import it.univaq.mwt.business.model.Gruppo;
+import it.univaq.mwt.business.model.Locale;
 import it.univaq.mwt.business.model.Message;
 import it.univaq.mwt.business.model.Utente;
 
@@ -29,6 +35,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
 
@@ -41,6 +50,8 @@ public class ControllerMessage {
 	@Autowired 
 	UtenteService us;
 	@Autowired 
+	LocaleService localeServ;
+	@Autowired 
 	ConversationService cs;
 	@Autowired
 	GruppoService gs;
@@ -48,6 +59,7 @@ public class ControllerMessage {
 	MessageService ms;
 	@Autowired
 	FotoService fs;
+	 
 	
 	
 	@RequestMapping("/")
@@ -97,6 +109,43 @@ public class ControllerMessage {
 		
 		return "list.conversation";
 	}
+	
+	@RequestMapping("/addConversation")
+	public String addConversationAjax(@ModelAttribute("formContatta") FormContatta conversation, BindingResult bindingResult, Model model) throws NamingException {
+	
+	int id = utente.getId();
+	//System.out.println(conversation.getCorpo()+conversation.getTitolo());
+	Conversation conv = new Conversation();		
+	conv.setTitolo(conversation.getTitolo());
+	
+	Utente destinatario = us.findUtenteById(conversation.getId());
+	conv.setDestinatario(destinatario);
+	
+	Utente mittente = us.findUtenteById(utente.getId());
+	conv.setMittente(mittente);
+	
+	conv.setData(Calendar.getInstance());
+	
+	
+	Message msg = new Message();
+	msg.settext(conversation.getCorpo());
+	msg.setAutore(mittente);
+	msg.setConversation(conv);
+	msg.setDataInvio(Calendar.getInstance());
+	msg.setStatus(1);
+	conv.addMessage(msg);
+	//Random rand = new Random();
+	//int randomNum = rand.nextInt((1000 - 10) + 1) + 10;
+	//conv.setId(randomNum);
+	Conversation cv = cs.createConversation(conv);
+	
+	List<Conversation> cl = new ArrayList<Conversation>(cs.findAllConversationByUserId(id));
+	model.addAttribute("user", utente);
+	model.addAttribute("conversation", cl);
+	model.addAttribute("nuovaconv", new Conversation());
+	
+	return "list.conversation";
+}
 	
 	@RequestMapping("/conversation/{id}")
 	public String readConversation(@PathVariable("id") int id, Model model) throws NamingException {
@@ -168,9 +217,45 @@ public String addreply(@PathVariable("id") int id, @ModelAttribute("messaggio") 
 		String fotoprofilo1 = fs.getFotoProfiloByUtenteId(utente.getId());
 		model.addAttribute("fotoprofilo1", fotoprofilo1);
 		model.addAttribute("fotoprofilo2", fotoprofilo2);
-		System.out.println(fotoprofilo1+"aaaaaa");
+		//System.out.println(fotoprofilo1+"aaaaaa");
 		model.addAttribute("messaggio", new Message());
 		return "show.conversation";
 	}
 
+	
+	//Questa FUnzione Restituisce in Get, tramite Ajax la lista di tutti i Locali che iniziano con "term"
+		@RequestMapping(value = "/get_locals_list", 
+				method = RequestMethod.GET,
+				produces="application/json")
+		public @ResponseBody List<String> getCountryList(@RequestParam("term") String query) {
+		
+			List<Locale> countryList = new ArrayList<Locale>(localeServ.findLocaleByName(query));
+			
+			Iterator<Locale>i = countryList.iterator();
+			List<String> listaLocali = new ArrayList<String>();
+			while(i.hasNext()){
+				Locale v = i.next();
+				listaLocali.add(v.getNomeLocale());
+			}
+			
+			return listaLocali;
+		}
+		
+		@RequestMapping(value = "/get_groups_list", 
+				method = RequestMethod.GET,
+				produces="application/json")
+		public @ResponseBody Map getGroupsList(@RequestParam("term") String query) {
+		
+			List<Gruppo>countryList = new ArrayList<Gruppo>(gs.findGruppoByName(query));
+		
+		Iterator<Gruppo>i = countryList.iterator();
+		Map listaGruppi = new HashMap();
+		while(i.hasNext()){
+			Gruppo v = i.next();
+			listaGruppi.put(v.getId(), v.getNomeGruppo());
+		}
+		
+		return listaGruppi;
+		}
+	
 }

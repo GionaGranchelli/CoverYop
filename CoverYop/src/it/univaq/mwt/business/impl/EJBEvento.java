@@ -89,7 +89,7 @@ public class EJBEvento implements EventoService {
 	public Set<Evento> findAllEventi() {
 		em.clear();
 		Query query = em.createQuery("select e "
-				+ "from Evento e, Gruppo g, Tour t, TipologiaEvento te");
+				+ "from Evento e, Gruppo g, Tour t, TipologiaEvento te where e.status > 10");
 				//+ " where e.id =: g.id"); 
 		
 		List<Evento> resultList = (List<Evento>) query.getResultList();
@@ -129,7 +129,7 @@ public class EJBEvento implements EventoService {
 		
 	Query query = null;
 	if (!(nomeEvento.isEmpty()) && !(luogo.isEmpty()) && !(tipologiaEvento.isEmpty())){
-			queryString = "select e from Evento e, Gruppo g, Genere gn, AlbumFotografico al, Foto f, Tour t, TipologiaEvento te where lower(e.nome) LIKE :nomeE AND lower(e.luogo) LIKE :luogo AND lower(e.tipologia_Eventi.nome) LIKE :tipologiaEvento";
+			queryString = "select e from Evento e, Gruppo g, Genere gn, AlbumFotografico al, Foto f, Tour t, TipologiaEvento te where e.status > 10 AND  lower(e.nome) LIKE :nomeE AND lower(e.luogo) LIKE :luogo AND lower(e.tipologia_Eventi.nome) LIKE :tipologiaEvento";
 			query = em.createQuery(queryString);
 			String nomeLow = nomeEvento;
 			String luogoLow = luogo.toLowerCase();
@@ -138,21 +138,21 @@ public class EJBEvento implements EventoService {
 			query.setParameter("luogo", "%" + luogoLow + "%");
 			query.setParameter("tipologiaEvento", "%" + tipologiaEventoLow + "%");
 		}else if (!(nomeEvento.isEmpty()) && !(luogo.isEmpty())){
-			queryString = "select e from Evento e, Gruppo g, AlbumFotografico al, Foto f, Tour t, TipologiaEvento te where lower(e.nome) LIKE :nomeE AND lower(e.luogo) LIKE :luogo";
+			queryString = "select e from Evento e, Gruppo g, AlbumFotografico al, Foto f, Tour t, TipologiaEvento te where e.status > 10 AND  lower(e.nome) LIKE :nomeE AND lower(e.luogo) LIKE :luogo";
 			query = em.createQuery(queryString);			
 			String nomeLow = nomeEvento;
 			String luogoLow = luogo.toLowerCase();
 			query.setParameter("nomeE", "%" + nomeLow + "%");
 			query.setParameter("luogo", "%" + luogoLow + "%");
 		}else if (!(luogo.isEmpty()) && !(tipologiaEvento.isEmpty())){
-			queryString = "select e from Evento e, Gruppo g, Genere gn, AlbumFotografico al, Foto f, Tour t, TipologiaEvento te where lower(e.luogo) LIKE :luogo AND lower(e.tipologia_Eventi.nome) LIKE :tipologiaEvento";
+			queryString = "select e from Evento e, Gruppo g, Genere gn, AlbumFotografico al, Foto f, Tour t, TipologiaEvento te where e.status > 10 AND  lower(e.luogo) LIKE :luogo AND lower(e.tipologia_Eventi.nome) LIKE :tipologiaEvento";
 			query = em.createQuery(queryString);
 			String luogoLow = luogo.toLowerCase();
 			String tipologiaEventoLow = tipologiaEvento.toLowerCase();
 			query.setParameter("luogo", "%" + luogoLow + "%");
 			query.setParameter("tipologiaEvento", "%" + tipologiaEventoLow + "%");
 		}else if (!(nomeEvento.isEmpty()) && !(tipologiaEvento.isEmpty())){
-			queryString = "select e from Evento e, Gruppo g, Genere gn, AlbumFotografico al, Foto f, Tour t, TipologiaEvento te where lower(e.nome) LIKE :nomeE AND lower(e.tipologia_Eventi.nome) LIKE :tipologiaEvento";
+			queryString = "select e from Evento e, Gruppo g, Genere gn, AlbumFotografico al, Foto f, Tour t, TipologiaEvento te where e.status > 10 AND  lower(e.nome) LIKE :nomeE AND lower(e.tipologia_Eventi.nome) LIKE :tipologiaEvento";
 			query = em.createQuery(queryString);
 			String nomeLow = nomeEvento;
 			String tipologiaEventoLow = tipologiaEvento.toLowerCase();
@@ -160,20 +160,20 @@ public class EJBEvento implements EventoService {
 			query.setParameter("tipologiaEvento", "%" + tipologiaEventoLow + "%");
 		}else if(!(nomeEvento.isEmpty())){
 			
-			queryString = "select e from Evento e, Gruppo g, AlbumFotografico al, Foto f, Tour t, TipologiaEvento te where lower(e.nome) LIKE :nomeE";
+			queryString = "select e from Evento e, Gruppo g, AlbumFotografico al, Foto f, Tour t, TipologiaEvento te where e.status > 10 AND  lower(e.nome) LIKE :nomeE";
 			query = em.createQuery(queryString);
 			String nomeLow = nomeEvento.toLowerCase();
 			query.setParameter("nomeE", "%"+nomeLow+"%");
 			
 		}else if ( !(luogo.isEmpty())){
 			
-			queryString = "select e from Evento e, Gruppo g, AlbumFotografico al, Foto f, Tour t, TipologiaEvento te where lower(e.luogo) LIKE :luogo";
+			queryString = "select e from Evento e, Gruppo g, AlbumFotografico al, Foto f, Tour t, TipologiaEvento te where e.status > 10 AND  lower(e.luogo) LIKE :luogo";
 			query = em.createQuery(queryString);
 			String luogoLow = luogo.toLowerCase();
 			query.setParameter("luogo", "%" + luogoLow + "%");
 		}else if ( !(tipologiaEvento.isEmpty())){
 			
-			queryString = "select e from Evento e, Gruppo g, Genere gn, AlbumFotografico al, Foto f, Tour t, TipologiaEvento te where lower(e.tipologia_Eventi.nome) LIKE :tipologiaEvento";
+			queryString = "select e from Evento e, Gruppo g, Genere gn, AlbumFotografico al, Foto f, Tour t, TipologiaEvento te where e.status > 10 AND lower(e.tipologia_Eventi.nome) LIKE :tipologiaEvento";
 			query = em.createQuery(queryString);
 			String tipologiaEventoLow = tipologiaEvento.toLowerCase();
 			query.setParameter("tipologiaEvento", "%" + tipologiaEventoLow + "%");

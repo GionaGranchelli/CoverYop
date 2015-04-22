@@ -506,7 +506,7 @@ public class ControllerGruppo {
 		TipologiaEvento tipologia_Eventi = new TipologiaEvento();
 		tipologia_Eventi.setId(formEvento.getTipologia_Eventi());
 		ev.setTipologia_Eventi(tipologia_Eventi);
-		ev.setStatus(10);
+		ev.setStatus(1);
 		ev.setLuogo(ev.getLocale().getCitta());
 		//Prendo Oggetto del mio Gruppo
 		Gruppo g = gs.findGruppoById(utente.getId());
@@ -571,7 +571,7 @@ public class ControllerGruppo {
 	@RequestMapping("/accettaEvento/{id}")
 	private String accettaEvento(@PathVariable int id){
 		Evento v = eventoServ.findEventoById(id);
-		v.setStatus(11);
+		v.setStatus(v.getStatus()+1);
 		eventoServ.updateEvent(v);
 		return "redirect:/BackStage/Eventi";
 	}
@@ -580,7 +580,7 @@ public class ControllerGruppo {
 	private String rifiutaEvento(@PathVariable int id){
 		Evento v = eventoServ.findEventoById(id);
 		Conversation c = new Conversation();
-		v.setStatus(12);
+		v.setStatus(v.getStatus()-1);
 		eventoServ.updateEvent(v);
 		c = utente.sendMessage(v.getLocale(), " Evento Rifiutato ", " Grazie, ma purtroppo devo declinare l'offerta ");
 		cs.createConversation(c);
