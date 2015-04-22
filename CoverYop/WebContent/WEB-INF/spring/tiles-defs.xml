@@ -31,6 +31,9 @@
 	<definition name="common.howto" extends="standard">
 		<put-attribute name="body" value="/WEB-INF/views/common/about.jsp" />
 	</definition>
+	<definition name="common.login" extends="standard">
+		<put-attribute name="body" value="/WEB-INF/views/common/login.jsp" />
+	</definition>
 	<definition name="common.conferma" extends="standard">
 		<put-attribute name="body" value="/WEB-INF/views/common/conferma.jsp" />
 	</definition>

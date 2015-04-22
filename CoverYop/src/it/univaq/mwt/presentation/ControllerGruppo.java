@@ -97,13 +97,17 @@ public class ControllerGruppo {
 	LocaleService localeServ;
 	@Autowired
 	TipologiaEventoService tipologiaServ;
+	@Autowired
+	GenereService genereServ;
+	@Autowired
+	GruppoDiRiferimentoService gruppoRifServ;
 	@Autowired 
 	ConversationService cs;
 	//Tiene Traccia delle ricerche sui locali dentro la sezione evento
 	List<Locale> countryList;
 	
 	@RequestMapping("/")
-	public String welcome(@ModelAttribute("formGruppo") Gruppo formGruppo,Model model) throws NamingException {
+	public String welcome(Model model) throws NamingException {
 		
 		//Prendo le informazioni relativi al Gruppo
 		int id = utente.getId();
@@ -124,20 +128,22 @@ public class ControllerGruppo {
 		List<Genere> generi = new ArrayList<Genere>();
 		generi = gens.findAllGeneri();
 		model.addAttribute("generi", generi);
+		model.addAttribute("generi_scelti", view_group.getGeneri());
 		
 		List<GruppoDiRiferimento> gruppirif = new ArrayList<GruppoDiRiferimento>();
 		gruppirif = gdrs.findAllGruppiDiRiferimento();
 		model.addAttribute("gruppirif", gruppirif);
-		
+		model.addAttribute("gruppirif_scelti", view_group.getGruppi_rif());
 		Canale channel = new Canale();
 		channel = view_group.getCanale();
 		model.addAttribute("canali",channel);
-		 
+		
 		return "profilo.loggato";
 	}
 	
 	@RequestMapping(value= "/updateGruppo", method = RequestMethod.POST)
-	private String modificaGruppo(@ModelAttribute Gruppo gruppo,
+	private String modificaGruppo(
+			@ModelAttribute("gruppo") Gruppo gruppo,
 			//BindingResult bindingResult,
 			Model model){
 		
@@ -152,24 +158,45 @@ public class ControllerGruppo {
 		view_group.setCanale(gruppo.getCanale());
 		view_group.setService(gruppo.getService());
 		view_group.setCover_Band(gruppo.getCover_Band());
-		
+		if(gruppo.getGeneri() != null){
+			Set<Genere> asd = gruppo.getGeneri();
+			Iterator<Genere> i = asd.iterator();
+			while(i.hasNext()){
+				Genere a = new Genere();
+				Genere temp = new Genere();
+				a = i.next();
+				temp = genereServ.getGenereById(Integer.parseInt(a.getGenere()));
+				view_group.addGenere(temp);
+			}
+		}
+		if(gruppo.getGruppi_rif() != null){
+			Set<GruppoDiRiferimento> rif = gruppo.getGruppi_rif();
+			Iterator<GruppoDiRiferimento> j = rif.iterator();
+			while(j.hasNext()){
+				GruppoDiRiferimento a = new GruppoDiRiferimento();
+				GruppoDiRiferimento temp = new GruppoDiRiferimento();
+				a = j.next();
+				temp = gruppoRifServ.getGruppiDiRiferimentoById((Integer.parseInt(a.getNome())));
+				view_group.addGruppi_rif(temp);
+			}
+		}
 		gs.update(view_group);
 		
 		return "redirect:/BackStage/";
 		
 	}
 	@RequestMapping("/Utente")
-	private String profilo(@ModelAttribute("formUtente") FormUtente formUtente, Model model){
+	private String profilo(Model model){
 		
 		int id = utente.getId();
 		Gruppo view_group = new Gruppo();
 		view_group = gs.findGruppoById(id);
 		
-		model.addAttribute("gruppo", view_group);
+		model.addAttribute("utente", view_group);
 		return "profiloUtente.loggato";
 	}
 	@RequestMapping(value="/updateUtente", method = RequestMethod.POST)
-	private String modificaUtente(@ModelAttribute FormUtente gruppo,
+	private String modificaUtente(@ModelAttribute("utente") Gruppo gruppo,
 			//BindingResult bindingResult,
 			Model model){
 		

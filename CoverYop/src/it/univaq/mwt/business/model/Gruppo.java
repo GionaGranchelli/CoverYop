@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -206,6 +207,17 @@ public class Gruppo extends Utente implements Serializable{
 		this.generi.add(genere);
 	}
 
+	public void addGenereList(Set<Genere> genere){
+		
+		this.generi.addAll(genere);
+	}
+	public void printGeneri(){
+		Iterator<Genere> i = this.generi.iterator();
+		while(i.hasNext()){
+			Genere temp = i.next();
+			System.out.println("Genere -> " +temp.getGenere() );
+		}
+	}
 //	@OneToMany(fetch=FetchType.EAGER)
 //	public Set<Feedback> getFeedback() {
 //		return feedback;

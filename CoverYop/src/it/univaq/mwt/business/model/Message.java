@@ -4,6 +4,7 @@ import static javax.persistence.AccessType.PROPERTY;
 import static javax.persistence.CascadeType.PERSIST;
 import static javax.persistence.CascadeType.REFRESH;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Calendar;
 
@@ -23,7 +24,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Access(PROPERTY)
-public class Message {
+public class Message implements Serializable {
 	
 	private int id;
 	

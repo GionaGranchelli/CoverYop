@@ -3521,3 +3521,13 @@ article.message-response{
 	
 	
 }
+.login-sovra{
+	display:block;
+}
+#login-sovraimpressione input{
+	margin: 6px;
+}
+#login-sovraimpressione input[type="submit"]{
+	margin-top: 23px;
+margin-left: 20%;
+}

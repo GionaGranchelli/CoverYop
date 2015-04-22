@@ -124,6 +124,11 @@ public class ControllerYop {
 		return "common.howto";
 	}
 
+	@RequestMapping("/Login")
+	public String accedi() {
+		return "common.login";
+	}
+	
 	@RequestMapping("/ContactUs")
 	public String contactUs() {
 		return "common.contactus";

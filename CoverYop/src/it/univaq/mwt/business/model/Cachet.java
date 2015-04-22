@@ -19,9 +19,9 @@ public class Cachet implements Serializable{
 	
 	private float prezzo;
 	
-	private int consumazioni;
+	private boolean consumazioni;
 	
-	private int rimborsoSpese;
+	private boolean rimborsoSpese;
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -32,11 +32,11 @@ public class Cachet implements Serializable{
 	
 	
 
-	public Cachet(float prezzo, int consumazioni, int rimborsoSpese) {
+	public Cachet(float prezzo, boolean consumazioni, boolean rimborsoSpese) {
 		super();
 		this.prezzo = prezzo;
-		this.consumazioni = consumazioni;
-		this.rimborsoSpese = rimborsoSpese;
+		this.setConsumazioni(consumazioni);
+		this.setRimborsoSpese(rimborsoSpese);
 	}
 
 
@@ -48,21 +48,31 @@ public class Cachet implements Serializable{
 		this.prezzo = prezzo;
 	}
 
-	public int getConsumazioni() {
+
+
+	public boolean isConsumazioni() {
 		return consumazioni;
 	}
 
-	public void setConsumazioni(int consumazioni) {
+
+
+	public void setConsumazioni(boolean consumazioni) {
 		this.consumazioni = consumazioni;
 	}
 
-	public int getRimborsoSpese() {
+
+
+	public boolean isRimborsoSpese() {
 		return rimborsoSpese;
 	}
 
-	public void setRimborsoSpese(int rimborsoSpese) {
+
+
+	public void setRimborsoSpese(boolean rimborsoSpese) {
 		this.rimborsoSpese = rimborsoSpese;
 	}
+
+	
 	
 	
 
