@@ -833,17 +833,13 @@ img.border { border: 6px solid #ddd; }
 
 	/* Image */
 	.events-grid .event img {
-	   
+	    max-width: 100%;
+	    max-height: 100%;
 	    vertical-align: middle;
 	    z-index: 1;
 	    opacity: 1;
 	    filter: alpha(opacity= 100);
 	}
-
- #events div a img {
-    height: 360px;
-    width:360px;
-}
 
 	/* Meta */
 	.events-grid .event-meta {
@@ -3525,5 +3521,13 @@ article.message-response{
 	
 	
 }
-
-
+.login-sovra{
+	display:block;
+}
+#login-sovraimpressione input{
+	margin: 6px;
+}
+#login-sovraimpressione input[type="submit"]{
+	margin-top: 23px;
+margin-left: 20%;
+}

@@ -83,12 +83,8 @@ public class EJBGruppo implements GruppoService {
 	
 	@Transactional
 	public Gruppo update(Gruppo gruppo){
-		
 		Gruppo g = em.merge(gruppo);
-		em.flush();
 		return g;
-		
-		
 	}
 
 	@Override

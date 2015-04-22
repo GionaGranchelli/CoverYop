@@ -1,6 +1,7 @@
 package it.univaq.mwt.business.impl;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import it.univaq.mwt.business.GruppoDiRiferimentoService;
@@ -43,4 +44,27 @@ public class EJBGruppoDiRiferimento implements GruppoDiRiferimentoService {
 	
     	
     }
+
+	@Override
+	public List<String> findAllGruppiDiRiferimentoTitoli() {
+		Query query = em.createQuery("select gn "
+				+ "from GruppoDiRiferimento gn");
+		
+		
+	List<GruppoDiRiferimento> result = new ArrayList<GruppoDiRiferimento>();
+	result = query.getResultList();
+	Iterator<GruppoDiRiferimento> i = result.iterator();
+	List<String> titoli = new ArrayList<String>();
+	while(i.hasNext()){
+		GruppoDiRiferimento grp = i.next();
+		titoli.add(grp.getNome());
+	}
+		return titoli;
+	}
+
+	@Override
+	public GruppoDiRiferimento getGruppiDiRiferimentoById(int Id) {
+		GruppoDiRiferimento a = em.find(GruppoDiRiferimento.class, Id);
+		return a;
+	}
 }

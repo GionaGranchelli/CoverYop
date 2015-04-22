@@ -2,6 +2,17 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
 
+<script>
+$(document).ready(function(){
+		$("li#accedi").click(function(){
+			$("div.login-sovra").css("display", "block");
+		});
+		
+		
+		
+		
+});
+</script>
 <footer id="footer">
 	<!-- container -->
 	<div class="container footer-widgets">

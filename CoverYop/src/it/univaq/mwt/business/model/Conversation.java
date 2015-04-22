@@ -2,6 +2,7 @@ package it.univaq.mwt.business.model;
 
 import static javax.persistence.AccessType.PROPERTY;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
@@ -27,7 +28,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Access(PROPERTY)
-public class Conversation {
+public class Conversation implements Serializable{
 	
 	private int id;
 	

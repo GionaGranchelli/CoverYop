@@ -28,6 +28,9 @@
 					</security:authorize>
 				
 					<li><a href="${pageContext.request.contextPath}/Search" id="nav-search" class="external"><span class="icon icon-search"></span></a></li>
+<!-- 					<li> -->
+<!-- 						<a href="" id="nav-search" class="external"><span class="icon icon-user"> </span></a> -->
+<!-- 					</li> -->
 				</ul>
 			</nav>
 			<!-- /icon navigation -->
@@ -154,21 +157,9 @@
 						</ul> -->
 					</li>
 					<security:authorize access="!isAuthenticated()">
-					<li >
-						<a id="login-menu" href="#">Login</a>
-						<ul id="sottomenu">
-							<form action="${pageContext.request.contextPath}/j_spring_security_check" method="POST">
-							<li>
-								<input style="width:100%;" type="text" name="j_username" placeholder="Username" />
-							</li>
-							<li>
-								<input style="width:100%;" type="password" name="j_password" placeholder="Password" />
-							</li>
-							<li>
-							<input style="width:100%;margin:1px;" type="submit" value="Yop!" />
-							</li>
-							</form>
-						</ul>
+					<li id="accedi" >
+						<a id="login-menu" href="${pageContext.request.contextPath}/Login">Login</a>
+						
 					</li>
 					</security:authorize>
 					<security:authorize access="isAuthenticated()"> 
@@ -202,3 +193,4 @@
 	</div>
 	<!-- /main navigation -->
 </section>
+

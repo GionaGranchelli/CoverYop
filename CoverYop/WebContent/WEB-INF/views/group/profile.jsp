@@ -154,7 +154,7 @@
 								<div class="data">
 								<b>
 								<c:choose>
-									<c:when test="${gruppo.service.casse > 0}"> Disponibili</c:when>
+									<c:when test="${gruppo.service.casse > 0}"> Disponibili - ${gruppo.service.casse} Watt</c:when>
 									<c:otherwise>Non Disponibili</c:otherwise>
 								</c:choose>
 								</b>
@@ -204,7 +204,7 @@
 								<div class="data">
 								<b>
 								<c:choose>
-									<c:when test="${gruppo.cachet.consumazioni > 0}">Richiesta</c:when>
+									<c:when test="${gruppo.cachet.consumazioni}">Richiesta</c:when>
 									<c:otherwise>Non Richiesta</c:otherwise>
 								</c:choose>
 								</b>
@@ -215,7 +215,7 @@
 								<div class="data">
 								<b>
 								<c:choose>
-									<c:when test="${gruppo.cachet.rimborsoSpese > 0}">Richiesto</c:when>
+									<c:when test="${gruppo.cachet.rimborsoSpese}">Richiesto</c:when>
 									<c:otherwise>Non Richiesto</c:otherwise>
 								</c:choose>
 								</b>
@@ -404,7 +404,7 @@
 				                        <td class="table-date">${eventi.data}</td>
 				                        <td class="table-name">${eventi.locale.nomeLocale}<a href="#!/pages/event-single-disqus" class="event-location">${eventi.luogo}</a></td>
 				                        <td class="actions">
-				                            <a href="javascript:;" class="buy-tickets" title="Buy Tickets">More Info</a>
+				                            <a href="${pageContext.request.contextPath}/Events/${eventi.id}" class="buy-tickets" title="Buy Tickets">More Info</a>
 				                        </td>
 				                    </tr>
 				                </c:forEach>

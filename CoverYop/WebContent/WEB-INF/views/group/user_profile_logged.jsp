@@ -1,4 +1,5 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <jsp:declaration></jsp:declaration><%@taglib
 	uri="http://www.springframework.org/security/tags" prefix="security"%>
@@ -97,34 +98,40 @@
 						<!-- /tabs navigation -->
 
 
-						<form action="${pageContext.request.contextPath}/BackStage/updateUtente" method="POST" class="form contact-form">
+						<form:form action="${pageContext.request.contextPath}/BackStage/updateUtente" 
+							  method="POST" 
+							  modelAttribute="utente" 
+							  class="form contact-form">
 
 							<div class="tab-content" id="tab-base">
 								<h2>Info Base</h2>
 								<label for="nome">Nome Utente</label> 
-								<input type="text"
-									id="nome" name="nome" 
-									placeholder="Nome Utente" value="${gruppo.nome}"/>
+								<form:input path="nome" 
+											id="nome" 
+											placeholder="Nome Utente"
+											value="${utente.nome}"/>
 								
 								<label for="cognome">Cognome Utente</label> 
-								<input type="text"
-									id="cognome" name="cognome" 
-									placeholder="Cognome Utente" value="${gruppo.cognome}"/>
+								<form:input path="cognome" 
+											id="cognome" 
+											placeholder="Cognome Utente"
+											value="${utente.cognome}"/>
 									
 								<label for="telefono">Telefono</label> 
-								<input type="text"
-									id="telefono" name="telefono" 
-									placeholder="Telefono" value="${gruppo.telefono}"/>
+								<form:input path="telefono" 
+											id="telefono" 
+											placeholder="Telefono"
+											value="${utente.telefono}"/>
 								
 								<label for="citta">Città</label> 
-								<input type="text"
-									id="citta" name="citta" 
-									placeholder="Citta" value="${gruppo.citta}"/>
+								<form:input path="citta" id="citta" 
+									placeholder="Citta" value="${utente.citta}"/>
 									
 								<label for="indirizzo">Indirizzo</label> 
-								<input type="text"
-									id="indirizzo" name="indirizzo" 
-									placeholder="Indirizzo" value="${gruppo.indirizzo}"/>
+								<form:input path="indirizzo" 
+											id="indirizzo" 
+											placeholder="Indirizzo"
+											value="${utente.indirizzo}"/>
 									
 							</div>
 							
@@ -132,26 +139,23 @@
 								<h2>Info Login</h2>
 								
 								<label for="username">Username</label> 
-								<input type="text"
-									id="username" name="username" 
-									placeholder="Username" value="${gruppo.username}"/>
+								<form:input path="username" id="username" 
+									placeholder="Username" value="${utente.username}"/>
 									
 								<label for="email">EMail</label> 
-								<input type="text"
-									id="email" name="email" 
-									placeholder="EMail" value="${gruppo.email}"/>
+								<form:input path="email" id="email" 
+									placeholder="EMail" value="${utente.email}"/>
 									
 								<label for="password">Password</label> 
-								<input type="text"
-									id="password" name="password" 
-									placeholder="Password" value="${gruppo.password}"/>
+								<form:input path="password" id="password" 
+									placeholder="Password" value="${utente.password}"/>
 								
 							</div>
 							
 								
 							
 							<input type="submit" value="Invia"/>
-						</form>
+						</form:form>
 					</div>
 
 				</article>
