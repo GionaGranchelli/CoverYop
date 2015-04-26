@@ -25,8 +25,9 @@ public interface GruppoService {
 
 	public Set<Gruppo> CustomSearchGruppi(String nome, String citta, String genere);
 	
+	public List<Utente> SearchUsers(String nome);
 	
-	
+	public List<Utente> SearchUsers2(String nome);
 	
 	public List<Gruppo> findGruppoByName(String name);
 

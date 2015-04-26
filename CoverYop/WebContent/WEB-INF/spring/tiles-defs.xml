@@ -37,6 +37,9 @@
 	<definition name="common.conferma" extends="standard">
 		<put-attribute name="body" value="/WEB-INF/views/common/conferma.jsp" />
 	</definition>
+	<definition name="common.general_search" extends="standard">
+		<put-attribute name="body" value="/WEB-INF/views/common/general_search_result.jsp" />
+	</definition>
 	<definition name="group.welcome" extends="standard">
 		<put-attribute name="body" value="/WEB-INF/views/group/welcome.jsp" />
 	</definition>

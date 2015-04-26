@@ -15,6 +15,7 @@ import it.univaq.mwt.business.EventoService;
 import it.univaq.mwt.business.model.Evento;
 import it.univaq.mwt.business.model.Gruppo;
 import it.univaq.mwt.business.model.Locale;
+import it.univaq.mwt.business.model.Utente;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -184,6 +185,22 @@ public class EJBEvento implements EventoService {
 		
 
 		return result;
+	}
+
+
+	@Override
+	public List<Evento> findEventoByName(String nome) {
+		String eventoToLower = nome.toLowerCase();
+		
+		Query queryE = em.createQuery("select DISTINCT evn"
+				+ " from Evento evn"
+				+ " where lower(evn.nome) LIKE :nomeE;"
+				);
+		
+		queryE.setParameter("nomeE", "%" + eventoToLower + "%");
+		List<Evento> result= queryE.getResultList();
+		return result;
+		
 	}
 	
 	

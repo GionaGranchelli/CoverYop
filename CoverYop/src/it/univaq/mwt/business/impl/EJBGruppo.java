@@ -199,6 +199,31 @@ public class EJBGruppo implements GruppoService {
 		Gruppo gruppo = (Gruppo) result.get(0);
 		return gruppo;
 	}
+@Override
+	public List<Utente> SearchUsers(String nome) {
+		String gruppoToLower = nome.toLowerCase();
+		
+		Query query = em.createQuery("select DISTINCT grp"
+				+ " from Gruppo grp"
+				+ " where lower(grp.nomeGruppo) LIKE :nomeG;"
+				);
+		query.setParameter("nomeG", "%" +gruppoToLower + "%");
+		List<Utente> result = query.getResultList();
+		result.addAll(SearchUsers2(nome));
+		return result;
+	}
+	public List<Utente> SearchUsers2(String nome){
+		String localeToLower = nome.toLowerCase();
+		
+		Query queryl = em.createQuery("select DISTINCT lcl"
+				+ " from Locale lcl"
+				+ " where lower(lcl.nomeLocale) LIKE :nomeL;"
+				);
+		
+		queryl.setParameter("nomeL", "%" + localeToLower + "%");
+		List<Utente> resultL = queryl.getResultList();
+		return resultL;
+	}
 
 
 }
