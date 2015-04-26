@@ -8,7 +8,7 @@ import it.univaq.mwt.business.model.Evento;
 
 public interface EventoService {
 
-	public Evento findEventoById(int eventoID);
+	public Evento findEventoById(int eventoID); 
 
 	public Set<Evento> findGruppoByEvent(Set<Evento> eventi);
 
@@ -18,9 +18,8 @@ public interface EventoService {
 	
 	public Set<Evento> CustomSearchEventi(String nomeGruppo, String citta, String genere);
 	
-<<<<<<< HEAD
+
 	public List<Evento> findEventoByName(String nome);
-=======
+
 	public byte[] getImmagineEvento (int id);
->>>>>>> temp
 }

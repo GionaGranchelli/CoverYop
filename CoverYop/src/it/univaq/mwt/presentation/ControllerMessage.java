@@ -23,7 +23,7 @@ import it.univaq.mwt.business.form.utente.FormContatta;
 import it.univaq.mwt.business.form.utente.FormConversation;
 import it.univaq.mwt.business.model.Conversation;
 import it.univaq.mwt.business.model.Gruppo;
-import it.univaq.mwt.business.model.ListForAjax;
+//import it.univaq.mwt.business.model.ListForAjax;
 import it.univaq.mwt.business.model.Locale;
 import it.univaq.mwt.business.model.Message;
 import it.univaq.mwt.business.model.Utente;
