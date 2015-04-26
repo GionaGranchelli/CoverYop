@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.ArrayList;
+
 import it.univaq.mwt.business.GruppoService;
 
 
@@ -19,6 +20,8 @@ import it.univaq.mwt.business.model.Utente;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+
+
 
 
 import org.springframework.stereotype.Service;
@@ -184,6 +187,17 @@ public class EJBGruppo implements GruppoService {
 		Query query = em.createQuery(queryString).setMaxResults(i);
 		 List result=query.getResultList();
 		return result;
+	}
+
+	@Override
+	public Gruppo findGruppoByCoord(String nomeGruppo, String citta) {
+		String queryString = "select grp from Gruppo grp where lower(grp.nomeGruppo) LIKE :nomeGruppo AND lower(grp.citta) LIKE :citta";
+		Query query = em.createQuery(queryString);
+		query.setParameter("nomeGruppo", "%"+nomeGruppo.toLowerCase()+"%");
+		query.setParameter("citta", "%"+citta.toLowerCase()+"%");
+		List result = query.getResultList();
+		Gruppo gruppo = (Gruppo) result.get(0);
+		return gruppo;
 	}
 
 

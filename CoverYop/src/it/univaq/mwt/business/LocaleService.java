@@ -7,6 +7,7 @@ import java.util.Set;
 
 
 
+
 import it.univaq.mwt.business.model.*;
 
 
@@ -31,5 +32,8 @@ public interface LocaleService {
 	public List<Categoria> getAllCategorieByLocali(List locali);
 
 	public List findlastSubscribed(int i);
+
+	public Locale findLocaleByCoord(String nomeLocale, String indirizzo,
+			String citta);
 
 }

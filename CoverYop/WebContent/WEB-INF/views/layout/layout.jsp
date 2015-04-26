@@ -44,6 +44,8 @@
 	<!-- ############################# Javascripts ############################# -->
 	<!-- jQuery -->
 	<script src="${pageContext.request.contextPath}/resources/js/jquery.min.js" type="text/javascript"></script>
+	
+	
 	<!-- Add HTML5 support for older IE browsers -->
 	<!--[if lt IE 9]> 
 		<script src="${pageContext.request.contextPath}/resources/js/html5.min.js"></script>

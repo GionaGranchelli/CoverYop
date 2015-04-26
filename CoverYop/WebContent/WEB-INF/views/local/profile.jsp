@@ -5,7 +5,7 @@
 <section id="page" data-title="Locale - ${locale.nomeLocale}">
 
 	<!-- ############################# Intro ############################# -->
-	<section  class="intro-title section border-bottom" style="background-image: url(${pageContext.request.contextPath}/${back.url})">
+	<section  class="intro-title section border-bottom" style="background-image: url(${pageContext.request.contextPath}/${back.url}); background-size: auto auto; ">
 		<h2 class="heading-l event-heading" style="color: red;text-shadow: 3px 2px white;z-index: 2;">${locale.nomeLocale}</h2>
 		<!-- Overlay -->
 		<!-- <span class="overlay dots"></span> -->

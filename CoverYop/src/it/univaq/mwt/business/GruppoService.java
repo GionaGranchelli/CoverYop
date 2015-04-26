@@ -32,6 +32,8 @@ public interface GruppoService {
 
 	public List findLastSubscribed(int i);
 
+	public Gruppo findGruppoByCoord(String nomeGruppo, String citta);
+
 
 	
 	

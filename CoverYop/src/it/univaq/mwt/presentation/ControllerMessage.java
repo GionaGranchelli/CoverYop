@@ -20,8 +20,10 @@ import it.univaq.mwt.business.MessageService;
 import it.univaq.mwt.business.UtenteService;
 import it.univaq.mwt.business.form.group.FormGruppo;
 import it.univaq.mwt.business.form.utente.FormContatta;
+import it.univaq.mwt.business.form.utente.FormConversation;
 import it.univaq.mwt.business.model.Conversation;
 import it.univaq.mwt.business.model.Gruppo;
+import it.univaq.mwt.business.model.ListForAjax;
 import it.univaq.mwt.business.model.Locale;
 import it.univaq.mwt.business.model.Message;
 import it.univaq.mwt.business.model.Utente;
@@ -110,16 +112,21 @@ public class ControllerMessage {
 		return "list.conversation";
 	}
 	
-	@RequestMapping("/addConversation")
-	public String addConversationAjax(@ModelAttribute("formContatta") FormContatta conversation, BindingResult bindingResult, Model model) throws NamingException {
+	@RequestMapping("/addconversationLocal")
+	public String addConversationLocal(@ModelAttribute("formConversation") FormConversation conversation, BindingResult bindingResult, Model model) throws NamingException {
 	
 	int id = utente.getId();
 	//System.out.println(conversation.getCorpo()+conversation.getTitolo());
 	Conversation conv = new Conversation();		
 	conv.setTitolo(conversation.getTitolo());
 	
-	Utente destinatario = us.findUtenteById(conversation.getId());
-	conv.setDestinatario(destinatario);
+	String[] parti = conversation.getDestinatario().split("::");
+	String nomeLocale = parti[0];
+	String indirizzo = parti[1];
+	String citta = parti[2];
+	Locale lc = localeServ.findLocaleByCoord(nomeLocale, indirizzo, citta);
+	//Utente destinatario = us.findUtenteById(lc.getId());
+	conv.setDestinatario(lc);
 	
 	Utente mittente = us.findUtenteById(utente.getId());
 	conv.setMittente(mittente);
@@ -146,6 +153,86 @@ public class ControllerMessage {
 	
 	return "list.conversation";
 }
+	
+	@RequestMapping("/addconversationGroup")
+	public String addConversationGroup(@ModelAttribute("formConversation") FormConversation conversation, BindingResult bindingResult, Model model) throws NamingException {
+	
+	int id = utente.getId();
+	//System.out.println(conversation.getCorpo()+conversation.getTitolo());
+	Conversation conv = new Conversation();		
+	conv.setTitolo(conversation.getTitolo());
+	
+	String[] parti = conversation.getDestinatario().split("::");
+	String nomeGruppo = parti[0];
+	String citta = parti[1];
+	
+	Gruppo gruppo = gs.findGruppoByCoord(nomeGruppo, citta);
+	
+	//Utente destinatario = us.findUtenteById(gruppo.getId());
+	conv.setDestinatario(gruppo);
+	
+	Utente mittente = us.findUtenteById(utente.getId());
+	conv.setMittente(mittente);
+	
+	conv.setData(Calendar.getInstance());
+	
+	
+	Message msg = new Message();
+	msg.settext(conversation.getCorpo());
+	msg.setAutore(mittente);
+	msg.setConversation(conv);
+	msg.setDataInvio(Calendar.getInstance());
+	msg.setStatus(1);
+	conv.addMessage(msg);
+	//Random rand = new Random();
+	//int randomNum = rand.nextInt((1000 - 10) + 1) + 10;
+	//conv.setId(randomNum);
+	Conversation cv = cs.createConversation(conv);
+	
+	List<Conversation> cl = new ArrayList<Conversation>(cs.findAllConversationByUserId(id));
+	model.addAttribute("user", utente);
+	model.addAttribute("conversation", cl);
+	model.addAttribute("nuovaconv", new Conversation());
+	
+	return "list.conversation";
+}
+	
+//	@RequestMapping("/addConversation")
+//	public String addConversationAjax(@ModelAttribute("formContatta") FormContatta conversation, BindingResult bindingResult, Model model) throws NamingException {
+//	
+//	int id = utente.getId();
+//	//System.out.println(conversation.getCorpo()+conversation.getTitolo());
+//	Conversation conv = new Conversation();		
+//	conv.setTitolo(conversation.getTitolo());
+//	
+//	Utente destinatario = us.findUtenteById(conversation.getId());
+//	conv.setDestinatario(destinatario);
+//	
+//	Utente mittente = us.findUtenteById(utente.getId());
+//	conv.setMittente(mittente);
+//	
+//	conv.setData(Calendar.getInstance());
+//	
+//	
+//	Message msg = new Message();
+//	msg.settext(conversation.getCorpo());
+//	msg.setAutore(mittente);
+//	msg.setConversation(conv);
+//	msg.setDataInvio(Calendar.getInstance());
+//	msg.setStatus(1);
+//	conv.addMessage(msg);
+//	//Random rand = new Random();
+//	//int randomNum = rand.nextInt((1000 - 10) + 1) + 10;
+//	//conv.setId(randomNum);
+//	Conversation cv = cs.createConversation(conv);
+//	
+//	List<Conversation> cl = new ArrayList<Conversation>(cs.findAllConversationByUserId(id));
+//	model.addAttribute("user", utente);
+//	model.addAttribute("conversation", cl);
+//	model.addAttribute("nuovaconv", new Conversation());
+//	
+//	return "list.conversation";
+//}
 	
 	@RequestMapping("/conversation/{id}")
 	public String readConversation(@PathVariable("id") int id, Model model) throws NamingException {
@@ -235,7 +322,7 @@ public String addreply(@PathVariable("id") int id, @ModelAttribute("messaggio") 
 			List<String> listaLocali = new ArrayList<String>();
 			while(i.hasNext()){
 				Locale v = i.next();
-				listaLocali.add(v.getNomeLocale());
+				listaLocali.add(v.getNomeLocale()+"::"+v.getIndirizzo()+"::"+v.getCitta());
 			}
 			
 			return listaLocali;
@@ -244,18 +331,55 @@ public String addreply(@PathVariable("id") int id, @ModelAttribute("messaggio") 
 		@RequestMapping(value = "/get_groups_list", 
 				method = RequestMethod.GET,
 				produces="application/json")
-		public @ResponseBody Map getGroupsList(@RequestParam("term") String query) {
+		public @ResponseBody List<String> getGroupsList(@RequestParam("term") String query) {
 		
 			List<Gruppo>countryList = new ArrayList<Gruppo>(gs.findGruppoByName(query));
 		
 		Iterator<Gruppo>i = countryList.iterator();
-		Map listaGruppi = new HashMap();
+		List<String> listaGruppi = new ArrayList<String>();
 		while(i.hasNext()){
 			Gruppo v = i.next();
-			listaGruppi.put(v.getId(), v.getNomeGruppo());
+			listaGruppi.add(v.getNomeGruppo()+"::"+v.getCitta());
 		}
 		
 		return listaGruppi;
 		}
+		
+		
+//		@RequestMapping(value = "/get_groups_list_custom", 
+//				method = RequestMethod.GET,
+//				produces="application/json")
+//		public @ResponseBody List<ListForAjax> getGroupsListCustom(@RequestParam("term") String query) {
+//		
+//			List<Gruppo>countryList = new ArrayList<Gruppo>(gs.findGruppoByName(query));
+//		
+//		Iterator<Gruppo>i = countryList.iterator();
+//		List<ListForAjax> listaGruppi = new ArrayList<ListForAjax>();
+//		while(i.hasNext()){
+//			Gruppo v = i.next();
+//			listaGruppi.add(new ListForAjax(v.getId(), v.getNomeGruppo()));
+//		}
+//		
+//		return listaGruppi;
+//		}
+		
+		
+//		@RequestMapping(value = "/get_groups_list", 
+//				method = RequestMethod.GET,
+//				produces="application/json")
+//		public @ResponseBody List<ListForAjax> getGroupsList(@RequestParam("term") String query) {
+//		
+//			List<Gruppo>countryList = new ArrayList<Gruppo>(gs.findGruppoByName(query));
+//		
+//		Iterator<Gruppo>i = countryList.iterator();
+//		List<ListForAjax> listaGruppi = new ArrayList<ListForAjax>();
+//		while(i.hasNext()){
+//			Gruppo v = i.next();
+//			listaGruppi.add(new ListForAjax(v.getId(), v.getNomeGruppo()));
+//		}
+//		
+//		return listaGruppi;
+//		}
+		
 	
 }

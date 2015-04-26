@@ -24,6 +24,7 @@ import it.univaq.mwt.business.model.Utente;
 
 
 
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -236,5 +237,20 @@ public class EJBLocale implements LocaleService {
 		query.setMaxResults(i);
 		List result = query.getResultList();
 		return result;
+	}
+
+
+	@Override
+	public Locale findLocaleByCoord(String nomeLocale, String indirizzo,
+			String citta) {
+		
+		String queryString = "select l from Locale l where lower(l.nomeLocale) LIKE :nomeLocale AND lower(l.indirizzo) LIKE :indirizzo AND lower(l.citta) LIKE :citta";
+		Query query = em.createQuery(queryString);
+		query.setParameter("nomeLocale", "%"+nomeLocale.toLowerCase()+"%");
+		query.setParameter("indirizzo", "%"+indirizzo.toLowerCase()+"%");
+		query.setParameter("citta", "%"+citta.toLowerCase()+"%");
+		List result = query.getResultList();
+		Locale locale = (Locale) result.get(0);
+		return locale;
 	}
 }

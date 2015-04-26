@@ -356,7 +356,7 @@ if ( (nome!=null) || (citta!=null) || (tipologia!=null) )  {
 			slideshow =  slider.getFoto();
 			model.addAttribute("slideshow", slideshow);
 		}
-		if (albumFotografico.getTag().equals("background")){
+		if (albumFotografico.getTag().equals("profile")){
 			List<Foto> foto = new ArrayList<Foto>(albumFotografico.getFoto());
 			back = foto.get(0);
 			model.addAttribute("back", back);

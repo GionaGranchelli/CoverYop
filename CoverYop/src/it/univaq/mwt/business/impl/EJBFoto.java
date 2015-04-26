@@ -77,8 +77,14 @@ public class EJBFoto implements FotoService {
 		query.setParameter("profile", "profile");
 		
 		List<String> lf = new ArrayList<String>(query.getResultList());
-		String fotoProfilo = lf.get(0);
+		String fotoProfilo;
+		try{
+		fotoProfilo = lf.get(0);
+		}catch(IndexOutOfBoundsException e){
 		
+			fotoProfilo = "resources/img/animated-noise.gif";
+			
+		}
 		return fotoProfilo;
 	}
 	

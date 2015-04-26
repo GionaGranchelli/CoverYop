@@ -1,7 +1,9 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+	
 
 
     
@@ -14,7 +16,7 @@
     <!-- ############################# Countdown ############################# -->
     <section class="countdown section">
         <div class="container">
-            <h5 class="countdown-title">Hai X Messaggi Non Letti</h5>
+            <h5 class="countdown-title">Hai ${fn:length(conversation)} Conversazioni Inbox</h5>
             
         </div>
     </section>
@@ -68,15 +70,15 @@
 		       
 		       <div id="tab-gruppo" class="tab-content">
 		       
-		        <form action="${pageContext.request.contextPath}/messages/addconversation/" 
+		        <form action="${pageContext.request.contextPath}/messages/addconversationGroup/" 
 		        	method="post" 
 		        	class="form contact-form"
-		        	id="formContatta">
+		        	id="formConversation">
 		        	<div class="row clearfix">
 		        	
 		 				<div class="col-1-3">
 		 					<label for="contact-name"><strong>Nome Del Gruppo</strong> </label>
-							<input type="text" name="id"  id="idGruppo" required>
+							<input type="text" name="destinatario"  id="idGruppo" required>
 		 				</div>
 		 				<div class="col-1-3">
 		 						<label for="contact-www"><strong>Titolo</strong></label>
@@ -100,14 +102,14 @@
 		
 		 <div id="tab-locale" class="tab-content">
 		       
-		        <form action="${pageContext.request.contextPath}/messages/addconversation/" 
+		        <form action="${pageContext.request.contextPath}/messages/addconversationLocal/" 
 		        	method="post" 
 		        	class="form contact-form"
-		        	id="formContatta">
+		        	id="formConversation">
 		        	<div class="row clearfix">
 		 				<div class="col-1-3">
 		 					<label for="contact-name"><strong>Nome Del Locale</strong> </label>
-							<input type="text" name="id"  id="idLocale" required>
+							<input type="text" name="destinatario"  id="idLocale" required>
 		 				</div>
 		 				<div class="col-1-3">
 		 						<label for="contact-www"><strong>Titolo</strong></label>
@@ -137,43 +139,48 @@
 	
 	<script>
 	
-						$(document).ready(function(){
-							$( "#idLocale" ).autocomplete({
-								source: '${pageContext.request.contextPath}/messages/get_locals_list',
-								paramName: "term",
-								delimiter: ",",
-								transformResult: function(response) {
-									 
-									return {      	
-									  //must convert json to javascript object before process
-									  suggestions: $.map($.parseJSON(response), function(item) {
-							 	console.log(item);
-									      return { value: item.key, data: item.value };
-									   })
-							 
-									 };
-							 
-							            }
-							 
-							});});
+						
 							
 							$(document).ready(function(){
 							$( "#idGruppo" ).autocomplete({
-								source: '${pageContext.request.contextPath}/messages/get_groups_list',
+								source: "${pageContext.request.contextPath}/messages/get_groups_list",
 								paramName: "term",
 								delimiter: ",",
 								transformResult: function(response) {
 									 
-									return {      	
+									return {    
+									
 									  //must convert json to javascript object before process
-									  suggestions: $.map($.parseJSON(response), function(item) {
-							 	console.log(item);
-									      return { value: 'A', data: 'B' };
+									  suggestions: $.map($.parseJSON(response), function(dataItem) {
+												 return {  value: dataItem.value, data: dataItem.label  };
 									   })
 							 
 									 };
 							 
 							            }
 							 
-							});});
+							});	
+							
+							$( "#idLocale" ).autocomplete({
+								source: "${pageContext.request.contextPath}/messages/get_locals_list",
+								paramName: "term",
+								delimiter: ",",
+								transformResult: function(response) {
+									 
+									return {    
+									
+									  //must convert json to javascript object before process
+									  suggestions: $.map($.parseJSON(response), function(dataItem) {
+												 return {  value: dataItem.value, data: dataItem.label  };
+									   })
+							 
+									 };
+							 
+							            }
+							 
+							});
+							
+							
+							});
 	</script>
+	
