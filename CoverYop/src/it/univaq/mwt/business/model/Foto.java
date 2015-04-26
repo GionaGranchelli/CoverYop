@@ -14,6 +14,7 @@ import javax.persistence.Id;
 
 
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
@@ -37,6 +38,8 @@ public class Foto implements Serializable{
 	
 	
 	private AlbumFotografico albumFotografico;
+	
+	private byte[] fotoBlob; 
 
 	private static final long serialVersionUID = 1L;
 	
@@ -95,6 +98,15 @@ public class Foto implements Serializable{
 
 	public void setAlbumFotografico(AlbumFotografico albumFotografico) {
 		this.albumFotografico = albumFotografico;
+	}
+
+	@Lob
+	public byte[] getFotoBlob() {
+		return fotoBlob;
+	}
+
+	public void setFotoBlob(byte[] fotoBlob) {
+		this.fotoBlob = fotoBlob;
 	}
 
 	

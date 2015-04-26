@@ -97,6 +97,8 @@ public class ControllerEvento {
 		}
 		List<Gruppo> gruppi = new ArrayList<Gruppo>(evento.getGruppo());
 		model.addAttribute("evento", evento);
+		System.out.println("MATTEO "+ evento.getLocandinaBlob());
+		model.addAttribute("fotoBlob", evento.getLocandinaBlob());
 		model.addAttribute("gruppi", gruppi);
 		
 		

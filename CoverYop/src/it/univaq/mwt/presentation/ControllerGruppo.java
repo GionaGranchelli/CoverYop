@@ -251,6 +251,8 @@ public class ControllerGruppo {
 			Foto f = new Foto();
 			
 			f = sF.savePhotoProfile(photoFileProfiloUploaded, utente.getId());
+			byte [] tempByte = photoFileProfilo.getBytes();
+			f.setFotoBlob(tempByte);//setto direttamente il blob nella tabella
 			
 			if(view_group.getAlbumFotografico().isEmpty()){
 				
@@ -269,6 +271,8 @@ public class ControllerGruppo {
 				newAlbumFoto.setLuogo(view_group.getCitta());
 				view_group.addAlbumFoto(newAlbumFoto);
 				view_group.setIdForAlbumFotografico();
+				
+				
 				}
 			else{
 				AlbumFotografico oldAlbumFoto = new AlbumFotografico();
@@ -284,7 +288,7 @@ public class ControllerGruppo {
 				
 				Random m = new Random();
 				int rand = m.nextInt((1000 - 10)+1);
-				f.setId(rand);
+				//f.setId(rand); //ho la sequence
 				newAlbumFoto.addFoto(f);
 				newAlbumFoto.setTag("profile");
 				newAlbumFoto.setTitolo("Immagini del Profilo");
@@ -306,14 +310,15 @@ public class ControllerGruppo {
 			SaveFile sF = new SaveFile();
 			List<Foto> f = new ArrayList<Foto>();
 			
-			f = sF.savePhotoAbum(photoFileAlbumFotograficoUploaded, utente.getId());
+			f = sF.savePhotoAbum(photoFileAlbumFotograficoUploaded, utente.getId()); // ho messo la fotoblob allinterno del metodo photoFileAlbumFotograficoUploaded
+			
 			
 				AlbumFotografico newAlbumFoto = new AlbumFotografico();
 				
 				Random m = new Random();
 				int rand = m.nextInt((1000 - 10)+1);
 				for(int i=0;i<f.size();i++){
-					f.get(i).setId(rand+i);
+					//f.get(i).setId(rand+i); ho la sequence
 				}
 				
 				
@@ -496,6 +501,9 @@ public class ControllerGruppo {
 			//Salvo oggetto Foto
 			fotoServ.insertFoto(f);
 			ev.setLocandina(f.getUrl());
+			
+			byte [] tempByte = photoFileUploaded.getBytes();
+			ev.setLocandinaBlob(tempByte);//setto direttamente il blob nella tabella
 		}
 		
 		

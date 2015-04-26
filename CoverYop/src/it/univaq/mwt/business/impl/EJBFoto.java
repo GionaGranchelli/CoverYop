@@ -9,6 +9,7 @@ import it.univaq.mwt.business.FotoService;
 
 import it.univaq.mwt.business.model.AlbumFotografico;
 import it.univaq.mwt.business.model.Canzone;
+import it.univaq.mwt.business.model.Evento;
 import it.univaq.mwt.business.model.Foto;
 import it.univaq.mwt.business.model.Gruppo;
 
@@ -78,6 +79,19 @@ public class EJBFoto implements FotoService {
 		
 		List<String> lf = new ArrayList<String>(query.getResultList());
 		String fotoProfilo = lf.get(0);
+		
+		return fotoProfilo;
+	}
+	
+	@Override
+	public byte[] getFotoProfiloByUtenteIdBlob(int id) {
+		Query query = em.createQuery("select ft.fotoBlob from Utente u, AlbumFotografico af, Foto ft where "
+									+ "u.id=:id AND af.tag =:profile AND af.utente.id=u.id AND ft.albumFotografico.id=af.id");
+		query.setParameter("id", id);
+		query.setParameter("profile", "profile");
+		
+		List<byte[]> lf = new ArrayList<byte[]>(query.getResultList());
+		byte[] fotoProfilo = lf.get(0);
 		
 		return fotoProfilo;
 	}

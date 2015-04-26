@@ -151,7 +151,9 @@
 						<a href="${pageContext.request.contextPath}/Group/${gruppi.id}" class="thumb-glitch artist" data-thumbicon="plus">
 							<span class="hoverlayer"></span>
 							<span class="img">
-								<img src="${pageContext.request.contextPath}/${gruppi.getFotoProfilo().url}" alt="Artist Image" />
+								<%-- <img src="${pageContext.request.contextPath}/${gruppi.getFotoProfilo().url}" alt="Artist Image" /> --%>
+								<img src="${pageContext.request.contextPath}/Group/image.html?id=${gruppi.id}"  alt="Artist Image">
+								<%-- <img src="${pageContext.request.contextPath}/${gruppi.getFotoProfilo().url}" alt="Artist Image" /> --%>
 							</span>
 						</a>
 						<!-- /Thumbnail -->

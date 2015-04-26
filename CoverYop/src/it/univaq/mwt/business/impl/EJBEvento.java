@@ -185,6 +185,21 @@ public class EJBEvento implements EventoService {
 
 		return result;
 	}
+
+
+	@Override
+	public byte[] getImmagineEvento(int id) {
+		em.clear();
+		Query query = em.createQuery("select e "
+				+ "from Evento e, Gruppo g, Tour t, TipologiaEvento te "
+				+ "where e.id =:id");
+		query.setParameter("id", id);
+		
+		Evento result = (Evento) query.getSingleResult();
+		byte[] immagine = result.getLocandinaBlob();
+		em.getEntityManagerFactory().getCache().evictAll();
+		return immagine;
+	}
 	
 	
 

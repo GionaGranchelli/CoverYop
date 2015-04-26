@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -56,11 +57,11 @@ public class Evento implements Serializable{
 	
 	private Set<Gruppo> gruppi = new HashSet<Gruppo>();
 	
-	
 	private Tour tour;
 	
-	
 	private TipologiaEvento tipologia_Eventi;
+	
+	private byte[] locandinaBlob; 
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -333,7 +334,13 @@ public class Evento implements Serializable{
 		this.status = status;
 	}
 
-	
+	@Lob
+	public byte[] getLocandinaBlob() {
+		return locandinaBlob;
+	}
+	public void setLocandinaBlob(byte[] locandinaBlob) {
+		this.locandinaBlob = locandinaBlob;
+	}
 	
 	
 }

@@ -40,6 +40,8 @@ public class SaveFile {
 				
 				f.setUrl(pathLogico + "/"
 						+ cpFile[i].getOriginalFilename());
+				byte [] tempByte = cpFile[i].getBytes();
+				f.setFotoBlob(tempByte);
 				listFoto.add(f);
 				stream.write(dataToWrite);
 				stream.close();
@@ -76,6 +78,31 @@ public class SaveFile {
 	}
 
 	public Foto savePhoto(CommonsMultipartFile toSaveFile, int idUser) throws IOException {
+
+		String path = null; // Serve a Generare il Path dove salvare le Photo
+		CommonsMultipartFile cpFile = toSaveFile;
+		Foto f = new Foto();
+		path = realPath + File.separator
+				+ idUser + File.separator + "event";
+		new File(path).mkdir();
+
+		byte dataToWrite[] = cpFile.getBytes();
+		try {
+			BufferedOutputStream stream = new BufferedOutputStream(
+					new FileOutputStream(new File(path + File.separator
+							+ cpFile.getOriginalFilename())));
+
+			f.setUrl(path + File.separator + cpFile.getOriginalFilename());
+			stream.write(dataToWrite);
+			stream.close();
+		} catch (Exception e) {
+
+		}
+
+		return f;
+	}
+	
+	public Foto savePhotoBlob(CommonsMultipartFile toSaveFile, int idUser) throws IOException {
 
 		String path = null; // Serve a Generare il Path dove salvare le Photo
 		CommonsMultipartFile cpFile = toSaveFile;

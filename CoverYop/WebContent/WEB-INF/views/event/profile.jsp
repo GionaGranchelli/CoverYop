@@ -128,7 +128,11 @@
 					/Carousel slider -->
 					
 					<div class="">
-					<img src="${pageContext.request.contextPath}/resources/img/events/${evento.id}/${evento.locandina}" alt="Event Image">
+					<%-- <img src="${pageContext.request.contextPath}/resources/img/events/${evento.id}/${evento.locandina}" alt="Event Image"> --%>
+					
+					
+					<%-- <img src="data:image/jpeg; base64, ${fotoBlob}"  alt="Event Image"> --%>
+					<img src="${pageContext.request.contextPath}/Event/image.html?id=${evento.id}"  alt="Event Image">
 					</div>
 					<br>
 					<h2>Description</h2>

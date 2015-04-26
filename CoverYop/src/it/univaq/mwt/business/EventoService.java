@@ -17,4 +17,6 @@ public interface EventoService {
 	public Evento updateEvent(Evento v);
 	
 	public Set<Evento> CustomSearchEventi(String nomeGruppo, String citta, String genere);
+	
+	public byte[] getImmagineEvento (int id);
 }

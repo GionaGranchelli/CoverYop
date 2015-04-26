@@ -29,7 +29,8 @@
 					<a href="${pageContext.request.contextPath}/${foto_profilo.url}" class="thumb-glitch imagebox details-widget-img" data-thumbicon="view" title="${gruppo.nomeGruppo}">
 						<span class="hoverlayer"></span>
 						<span class="img">
-							<img src="${pageContext.request.contextPath}/${foto_profilo.url}" alt="${gruppo.nomeGruppo}" />
+							<%-- <img src="${pageContext.request.contextPath}/${foto_profilo.url}" alt="${gruppo.nomeGruppo}" /> --%>
+							<img src="${pageContext.request.contextPath}/Group/image.html?id=${gruppo.id}"  alt="Artist Image">
 						</span>
 					</a>
 					<!-- /Thumbnail -->

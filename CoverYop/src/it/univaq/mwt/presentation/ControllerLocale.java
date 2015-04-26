@@ -177,6 +177,9 @@ public class ControllerLocale {
 			System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 			f = sF.savePhotoProfile(photoFileProfiloUploaded, utente.getId());
 			
+			byte [] tempByte = photoFileProfilo.getBytes();
+			f.setFotoBlob(tempByte);//setto direttamente il blob nella tabella
+			
 			System.out.println("photoFileProfiloUploaded "+photoFileProfiloUploaded.getOriginalFilename());
 			
 			if(view_local.getAlbumFotografico().isEmpty()){
@@ -290,6 +293,7 @@ public class ControllerLocale {
 		
 		return "redirect:/Privee/Eventi";
 	}
+	
 	@RequestMapping(value="/addEvento",
 			method = RequestMethod.POST)
 	private String addEvento(@ModelAttribute FormEvento formEvento, 
@@ -305,8 +309,10 @@ public class ControllerLocale {
 		//Date date = new SimpleDateFormat("dd/MM/yyyy").parse(formEvento.getDataEvento());
 		//Aggiungo Data
 		ev.setData(formEvento.getDataEvento());
+		
 		//Salvo Foto nel FS e dentro un Oggetto
 		CommonsMultipartFile photoFileUploaded = formEvento.getLocandina();
+		
 		if(photoFileUploaded != null){
 			SaveFile sF = new SaveFile();
 			Foto f = new Foto();
@@ -318,7 +324,11 @@ public class ControllerLocale {
 			}
 			//Salvo oggetto Foto
 			fotoServ.insertFoto(f);
-			ev.setLocandina(f.getUrl());
+			
+			ev.setLocandina(f.getUrl());//setto l'url per gestire le immagini con i path
+			
+			byte [] tempByte = photoFileUploaded.getBytes();
+			ev.setLocandinaBlob(tempByte);//setto direttamente il blob nella tabella
 		}
 		
 		
