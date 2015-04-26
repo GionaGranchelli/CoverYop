@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.ArrayList;
+
 import it.univaq.mwt.business.GruppoService;
 
 
@@ -19,6 +20,7 @@ import it.univaq.mwt.business.model.Utente;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+
 
 
 import org.springframework.stereotype.Service;
@@ -186,5 +188,30 @@ public class EJBGruppo implements GruppoService {
 		return result;
 	}
 
+	@Override
+	public List<Utente> SearchUsers(String nome) {
+		String gruppoToLower = nome.toLowerCase();
+		
+		Query query = em.createQuery("select DISTINCT grp"
+				+ " from Gruppo grp"
+				+ " where lower(grp.nomeGruppo) LIKE :nomeG;"
+				);
+		query.setParameter("nomeG", "%" +gruppoToLower + "%");
+		List<Utente> result = query.getResultList();
+		result.addAll(SearchUsers2(nome));
+		return result;
+	}
+	public List<Utente> SearchUsers2(String nome){
+		String localeToLower = nome.toLowerCase();
+		
+		Query queryl = em.createQuery("select DISTINCT lcl"
+				+ " from Locale lcl"
+				+ " where lower(lcl.nomeLocale) LIKE :nomeL;"
+				);
+		
+		queryl.setParameter("nomeL", "%" + localeToLower + "%");
+		List<Utente> resultL = queryl.getResultList();
+		return resultL;
+	}
 
 }

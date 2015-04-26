@@ -195,7 +195,29 @@ public class ControllerYop {
 			return "common.index";//poi si cambia
 		}
 	
-
+	@RequestMapping("/Cerca")
+	public String cerca(@RequestParam(value = "nome", required=false)String nome, Model model){
+		List<Gruppo> risultatoGruppi = new ArrayList<Gruppo>();
+		List<Locale> risultatoLocali = new ArrayList<Locale>();
+		List<Utente> risultati = gs.SearchUsers(nome);
+		Iterator<Utente> i = risultati.iterator();
+		while(i.hasNext()){
+			Utente temp = i.next();
+			if(temp.getRuolo().getId() == 1){
+				Gruppo gruppoTemp = (Gruppo) temp;
+				risultatoGruppi.add(gruppoTemp);
+			}else{
+				Locale localeTemp = (Locale) temp;
+				risultatoLocali.add(localeTemp);
+			}
+		}
+		model.addAttribute("gruppi",risultatoGruppi);
+		model.addAttribute("locali",risultatoLocali);
+		List<Evento> risultatoEventi = new ArrayList<Evento>();
+		risultatoEventi = es.findEventoByName(nome);
+		model.addAttribute("eventi",risultatoEventi);
+		return "common.general_search";
+	}
 	@RequestMapping("/Groups")
 	public String groupHome(@RequestParam(value = "nome", required=false)String nome,
 							@RequestParam(value = "citta", required=false)String citta,

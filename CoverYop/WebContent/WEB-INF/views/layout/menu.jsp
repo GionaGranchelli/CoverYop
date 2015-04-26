@@ -5,8 +5,10 @@
 		<!-- ############ search ############ -->
 		<div id="search-wrap">
 			<div class="container">
-				<input type="text" placeholder="Search and hit enter..." name="s" id="search" />
+				<form  method="get" action="${pageContext.request.contextPath}/Cerca" class="form response-form">
+				<input type="text" placeholder="Cerca Qualcosa" name="nome" id="response-name" />
 				<span id="close-search"><i class="icon icon-close"></i></span>
+				</form>
 			</div>
 		</div>
 		<!-- /search -->
@@ -27,7 +29,7 @@
 							<li><a href="${pageContext.request.contextPath}/messages/"><span class="icon icon-envelope"></span></a></li>
 					</security:authorize>
 				
-					<li><a href="${pageContext.request.contextPath}/Search" id="nav-search" class="external"><span class="icon icon-search"></span></a></li>
+					<li><a href="#" id="nav-search" class="external"><span class="icon icon-search"></span></a></li>
 <!-- 					<li> -->
 <!-- 						<a href="" id="nav-search" class="external"><span class="icon icon-user"> </span></a> -->
 <!-- 					</li> -->
