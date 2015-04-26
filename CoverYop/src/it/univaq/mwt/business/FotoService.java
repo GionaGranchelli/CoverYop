@@ -10,4 +10,5 @@ public interface FotoService {
 	public Foto insertFoto(Foto f);
 	public String getFotoProfiloByUtenteId(int id);
 	public Foto updatePhoto(Foto foto);
+	byte[] getFotoProfiloByUtenteIdBlob(int id);
 }

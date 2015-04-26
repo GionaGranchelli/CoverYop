@@ -18,5 +18,9 @@ public interface EventoService {
 	
 	public Set<Evento> CustomSearchEventi(String nomeGruppo, String citta, String genere);
 	
+<<<<<<< HEAD
 	public List<Evento> findEventoByName(String nome);
+=======
+	public byte[] getImmagineEvento (int id);
+>>>>>>> temp
 }

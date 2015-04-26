@@ -189,7 +189,7 @@ public class EJBEvento implements EventoService {
 
 
 	@Override
-	public List<Evento> findEventoByName(String nome) {
+public List<Evento> findEventoByName(String nome) {
 		String eventoToLower = nome.toLowerCase();
 		
 		Query queryE = em.createQuery("select DISTINCT evn"
@@ -201,6 +201,19 @@ public class EJBEvento implements EventoService {
 		List<Evento> result= queryE.getResultList();
 		return result;
 		
+	}
+	public byte[] getImmagineEvento(int id) {
+		em.clear();
+		Query query = em.createQuery("select e "
+				+ "from Evento e, Gruppo g, Tour t, TipologiaEvento te "
+				+ "where e.id =:id");
+		query.setParameter("id", id);
+		
+		Evento result = (Evento) query.getSingleResult();
+		byte[] immagine = result.getLocandinaBlob();
+		em.getEntityManagerFactory().getCache().evictAll();
+		return immagine;
+
 	}
 	
 	
