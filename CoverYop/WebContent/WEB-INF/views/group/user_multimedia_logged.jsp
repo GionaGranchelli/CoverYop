@@ -96,7 +96,9 @@
 									</div>
 									<div class="gallery-3-col gallery-join">
 										<div class="photos">
-											<img src="${pageContext.request.contextPath}/${fotoProfilo.url}" alt="Image Title" class="immaginiModifica">
+											<%-- <img src="${pageContext.request.contextPath}/${fotoProfilo.url}" alt="Image Title" class="immaginiModifica"> --%>
+						                    <%-- <img src="${pageContext.request.contextPath}/${fotoProfilo.url}" alt="Image Title" class="immaginiModifica">  --%>
+						                     <img src="${pageContext.request.contextPath}/Group/image.html?id=${gruppo.id}"  alt="Artist Image">
 						                      <span class="icon-wrap" style="float:left;">
 						                           <a href="${pageContext.request.contextPath}/BackStage/deletePhoto/${fotoProfilo.id}">
 							                            Cancella
@@ -123,7 +125,9 @@
 												<p>${albums.titolo}</p>
 												<c:forEach items="${albums.foto}" var="foto" varStatus="status">
 													<div class="photos">
-													<img src="${pageContext.request.contextPath}/${foto.url}" alt="Image Title" class="immaginiModifica">
+													<%-- <img src="${pageContext.request.contextPath}/${foto.url}" alt="Image Title" class="immaginiModifica"> --%>
+						                        	<img src="${pageContext.request.contextPath}/GroupSlide/image.html?id=${gruppo.id}" alt="Image Title" class="immaginiModifica">
+						                        	<%-- <img src="${pageContext.request.contextPath}/Group/image.html?id=${gruppo.id}"  alt="Artist Image"> --%>
 						                        	<span class="icon-wrap" style="float:left;">
 						                            <a href="${pageContext.request.contextPath}/BackStage/deletePhoto/${foto.id}">
 							                            Cancella
