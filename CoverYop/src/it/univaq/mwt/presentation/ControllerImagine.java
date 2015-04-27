@@ -69,9 +69,9 @@ public class ControllerImagine {
 	@RequestMapping(value="/LocalSlide/image.html", params= "id" ,method = RequestMethod.GET)
 	///Event/image.html?id=${evento.id}
 	//public byte[] getEventoImage(@PathVariable("id") int id){
-		public List<byte[]> getLocaleImageSlider(@RequestParam("id") int id){	
+		public byte[] getLocaleImageSlider(@RequestParam("id") int id){	
 	
-		List<byte[]> immagine =  fotoServ.getFotoSliderByUtenteIdBlob(id);
+		byte[] immagine =  fotoServ.getByteFotoById(id);
 		return immagine;
 	}
 	

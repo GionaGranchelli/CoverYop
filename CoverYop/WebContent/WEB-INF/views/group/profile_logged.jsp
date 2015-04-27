@@ -48,10 +48,10 @@
 							Foto e Video
 							
 						</a>
-						<a class="btn small dark" href="${pageContext.request.contextPath}/BackStage/Tour">
-							<i class="icon icon-yelp"></i> 
-							Crea Tour
-						</a>
+						<%-- 						<a class="btn small dark" href="${pageContext.request.contextPath}/BackStage/Tour"> --%>
+						<!-- 							<i class="icon icon-yelp"></i>  -->
+						<!-- 							Crea Tour -->
+						<!-- 						</a> -->
 						<a class="btn small dark" href="${pageContext.request.contextPath}/BackStage/Eventi">
 							<i class="icon icon-dribbble"></i> 
 							Gestione Eventi

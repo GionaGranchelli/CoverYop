@@ -131,6 +131,7 @@ public class ControllerLocale {
 	@RequestMapping("/Multimedia")
 	private String multimedia(@ModelAttribute("formFotoProfilo") FormFoto formFotoProfilo,
 //			@ModelAttribute("formMusica") FormMusica formMusica,
+			@ModelAttribute("formFoto") FormFoto formFoto,
 			@ModelAttribute("formVideo") FormVideo formVideo,
 			Model model){
 		
@@ -147,6 +148,7 @@ public class ControllerLocale {
 		model.addAttribute("videos",videos);//matteo
 		model.addAttribute("formFotoProfilo", formFotoProfilo);
 //		model.addAttribute("formMusica", formMusica);
+		model.addAttribute("formFoto", formFoto);
 		model.addAttribute("formVideo", formVideo);
 		return "localeMultimedia.loggato";
 	}
@@ -155,7 +157,7 @@ public class ControllerLocale {
 	@RequestMapping("/updateMultimedia")
 	private String updateMultimedia(
 			@RequestParam(value = "photoFileProfilo", required=false)CommonsMultipartFile photoFileProfilo,
-			//@RequestParam(value = "photoFile", required=false)CommonsMultipartFile[] photoFile,
+			@RequestParam(value = "photoFile", required=false)CommonsMultipartFile[] photoFile,
 			//@RequestParam(value = "albumTitle", required=false)String albumTitle,
 			@RequestParam(value = "titolo", required=false)String titolo,
 			@RequestParam(value = "url", required=false)String url
@@ -173,17 +175,10 @@ public class ControllerLocale {
 		if(photoFileProfiloUploaded != null){
 			SaveFile sF = new SaveFile();
 			Foto f = new Foto();
-			//System.out.println("nome file:"+photoFileProfiloUploaded.getOriginalFilename());
-			//System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+		
 			f = sF.savePhotoProfile(photoFileProfiloUploaded, utente.getId());
-			
-
-			//System.out.println("photoFileProfiloUploaded "+photoFileProfiloUploaded.getOriginalFilename());
-
 			byte [] tempByte = photoFileProfilo.getBytes();
 			f.setFotoBlob(tempByte);//setto direttamente il blob nella tabella
-			
-			System.out.println("photoFileProfiloUploaded "+photoFileProfiloUploaded.getOriginalFilename());
 
 			
 			if(view_local.getAlbumFotografico().isEmpty()){
@@ -235,6 +230,41 @@ public class ControllerLocale {
 				}
 
 		}
+		
+		//AlbumFotografico
+				CommonsMultipartFile[] photoFileAlbumFotograficoUploaded = null;
+				photoFileAlbumFotograficoUploaded = photoFile;
+				if(photoFileAlbumFotograficoUploaded != null){
+					SaveFile sF = new SaveFile();
+					List<Foto> f = new ArrayList<Foto>();
+					
+					f = sF.savePhotoAbum(photoFileAlbumFotograficoUploaded, utente.getId()); // ho messo la fotoblob allinterno del metodo photoFileAlbumFotograficoUploaded
+					
+					
+						AlbumFotografico newAlbumFoto = new AlbumFotografico();
+						
+						Random m = new Random();
+						int rand = m.nextInt((1000 - 10)+1);
+						for(int i=0;i<f.size();i++){
+							//f.get(i).setId(rand+i); ho la sequence
+						}
+						
+						
+						newAlbumFoto.addListFoto(f);
+						newAlbumFoto.setTag("slider");
+						newAlbumFoto.setTitolo("Album "+rand);
+						Calendar calendar = new GregorianCalendar();
+						Date newDate = calendar.getTime();
+						newAlbumFoto.setData(newDate);
+						newAlbumFoto.setIdForFoto();
+						newAlbumFoto.setLuogo(view_local.getCitta());
+						view_local.addAlbumFoto(newAlbumFoto);
+						view_local.setIdForAlbumFotografico();
+						
+						
+				}
+				//Fine AlbumFOtografico
+		
 		if(titolo != null && url != null){
 			Video v = new Video();
 			v.setTitolo(titolo);
@@ -423,6 +453,25 @@ public class ControllerLocale {
 		Evento v = eventoServ.findEventoById(id);
 		this.eventoDaModificare = v;
 		return "redirect:/Privee/Eventi";
+	}
+	
+	@RequestMapping(value="/deletePhoto/{id}")
+	public String deletePhoto(@PathVariable int id){
+		fotoServ.deleteFoto(id);
+		List<AlbumFotografico> albums = new ArrayList<AlbumFotografico>(); 
+		albums = albs.getAllPhotoAlbumsByGroupId(utente.getId()); 
+		
+		Iterator<AlbumFotografico> i = albums.iterator();
+		while(i.hasNext()){
+			AlbumFotografico  alb =  i.next();
+			int emptyAlbums = albs.emptyAlbumFotografico(alb);
+			
+			if (emptyAlbums < 1) {
+				albs.removeAlbumFotografico(alb.getId());
+			}
+		}
+		
+		return "redirect:/Privee/Multimedia";
 	}
 }
 

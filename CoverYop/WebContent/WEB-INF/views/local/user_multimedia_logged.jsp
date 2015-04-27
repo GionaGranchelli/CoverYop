@@ -94,34 +94,62 @@
 								   class="form contact-form"
 								   commandName="formFotoProfilo"
 								   enctype="multipart/form-data">
-								<h2>Album Fotografici</h2>
+								<h2>Inserisci Foto Profilo</h2>
 								<div class="comandi">
 								<form:input path="photoFileProfilo" type="file"  multiple="multiple"/>
 								
 								
 								</div>
-								<div class="gallery-3-col gallery-join">
-									<c:forEach items="${albums}" var="albums" varStatus="status">
-										<div class="photoAlbums" id="${albums.id}">
-											<p>${albums.titolo}</p>
-											<c:forEach items="${albums.foto}" var="foto" varStatus="status">
-												<div class="photos">
-													<img src="${pageContext.request.contextPath}/${foto.url}" alt="Image Title" class="immaginiModifica">
-						                        	<span class="icon-wrap" style="float:left;">
-						                            <a href="${pageContext.request.contextPath}/BackStage/deletePhoto/${foto.id}">
-							                            Cancella
-							                            <span class="icon icon-cancel-circle"></span>
-						                            </a>
+<!-- 								<div class="gallery-3-col gallery-join"> -->
+<%-- 									<c:forEach items="${albums}" var="albums" varStatus="status"> --%>
+<%-- 										<div class="photoAlbums" id="${albums.id}"> --%>
+<%-- 											<p>${albums.titolo}</p> --%>
+<%-- 											<c:forEach items="${albums.foto}" var="foto" varStatus="status"> --%>
+<!-- 												<div class="photos"> -->
+<%-- 													<img src="${pageContext.request.contextPath}/LocalSlide/${foto.id}" alt="Image Title" class="immaginiModifica"> --%>
+<!-- 						                        	<span class="icon-wrap" style="float:left;"> -->
+<%-- 						                            <a href="${pageContext.request.contextPath}/BackStage/deletePhoto/${foto.id}"> --%>
+<!-- 							                            Cancella -->
+<!-- 							                            <span class="icon icon-cancel-circle"></span> -->
+<!-- 						                            </a> -->
 						                            
-						                        	</span>
-												</div>
-						                    </c:forEach>
-										</div>
-									</c:forEach>
-								</div>
+<!-- 						                        	</span> -->
+<!-- 												</div> -->
+<%-- 						                    </c:forEach> --%>
+<!-- 										</div> -->
+<%-- 									</c:forEach> --%>
+<!-- 								</div> -->
 								<input type="submit" value="Yop!"/>
 								</form:form>
 								
+								 <form:form action="${pageContext.request.contextPath}/Privee/updateMultimedia" 
+								   method="POST" 
+								   class="form contact-form"
+								   commandName="formFoto"
+								   enctype="multipart/form-data">
+									<h2>Inserisci un nuovo album</h2>
+									<div class="comandi">
+									<form:input path="photoFile" type="file"  multiple="multiple"/>
+									</div>
+									<div class="gallery-3-col gallery-join">
+										<c:forEach items="${albums}" var="albums" varStatus="status">
+											<div class="photoAlbums" id="${albums.id}">
+												<h2>${albums.titolo}</h2>
+												<c:forEach items="${albums.foto}" var="foto" varStatus="status">
+													<div class="photos">
+														<img src="${pageContext.request.contextPath}/LocalSlide/image.html?id=${foto.id}" alt="Image Title" class="immaginiModifica">
+						                        		<span class="icon-wrap" style="float:left;">
+							                            	<a href="${pageContext.request.contextPath}/Privee/deletePhoto/${foto.id}">Cancella
+								                            <span class="icon icon-cancel-circle"></span>
+							                            	</a>
+						                            	</span>
+													</div>
+						                    	</c:forEach>
+											</div>
+										</c:forEach>
+								</div>
+								<input type="submit" value="Yop!"/>
+								</form:form> 
 							</div>
 							
 <!-- 							<div class="tab-content" id="tab-music"> -->

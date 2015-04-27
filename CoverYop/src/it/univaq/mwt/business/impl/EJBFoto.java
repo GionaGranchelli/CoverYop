@@ -41,7 +41,10 @@ public class EJBFoto implements FotoService {
 		query.setParameter("fotoID", fotoID);
 		Foto f = (Foto) query.getSingleResult();
 		// Canzone c = new Canzone();
-		return f;
+		if (f == null) 
+			return new Foto();
+		else 
+			return f;
 	}
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
@@ -157,6 +160,17 @@ public class EJBFoto implements FotoService {
 		
 		System.out.println("Albumid = " + a.size());
 		return null;
+	}
+
+	@Override
+	public byte[] getByteFotoById(int id) {
+		Query query = em
+				.createQuery("select f from Foto f where f.id =:fotoID");
+		query.setParameter("fotoID", id);
+		Foto f = (Foto) query.getSingleResult();
+		// Canzone c = new Canzone();
+		byte[] temp = f.getFotoBlob();
+		return temp;
 	}
 	
 	

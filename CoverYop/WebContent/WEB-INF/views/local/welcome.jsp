@@ -144,7 +144,7 @@
 						<!-- Artist footer -->
 						<div class="artist-footer">
 							<h2 class="artist-title"><a href="${pageContext.request.contextPath}/Local/${locali.id}">${locali.nomeLocale}</a></h2>
-							<span class="artist-genres">Pub / Sagra</span>
+							<span class="artist-genres">${locali.categoria.nomeCat}</span>
 						</div>
 						<!-- /artist footer -->
 						<!-- Artist social -->

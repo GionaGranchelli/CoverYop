@@ -374,8 +374,8 @@
                             	<c:forEach items="${album_foto.foto}" var="foto" varStatus="status" >
                             	
                             	
-                            	<a href="${pageContext.request.contextPath}/${foto.url}" class="gallery-item imagebox thumb-icon" title="Image Title" data-group="group1">
-			                        <img src="${pageContext.request.contextPath}/${foto.url}" alt="Image Title">
+                            	<a href="${pageContext.request.contextPath}/LocalSlide/image.html?id=${foto.id}" class="gallery-item imagebox thumb-icon" title="Image Title" data-group="group1">
+			                        <img src="${pageContext.request.contextPath}/LocalSlide/image.html?id=${foto.id}" alt="Image Title">
 			                        <span class="icon-wrap">
 			                            <!-- icon from icomoon -->
 			                            <span class="icon icon-search"></span>

@@ -17,4 +17,5 @@ public interface FotoService {
 	byte[] getFotoSlideShowByUtenteIdBlob(int id);
 	public List<byte[]> getFotoSliderByUtenteIdBlob(int id);
 	public AlbumFotografico getAlbumSliderByUserId(int id);
+	public byte[] getByteFotoById(int id);
 }

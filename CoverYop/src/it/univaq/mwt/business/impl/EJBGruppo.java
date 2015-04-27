@@ -56,27 +56,18 @@ public class EJBGruppo implements GruppoService {
 	
 	@Override
 	 public Gruppo findGruppoById(int id) {
-	 	 
-//		Query query = em.createQuery("select gr "
-//		+ "from Gruppo gr, Album alb, Evento ev, Componente cp, Strumento st, Video vd, Canzone cz, AlbumFotografico afg, Foto ft, Scaletta slt "
-//		+ "where gr.id =:id");
-//		query.setParameter("id", id);
-//		Gruppo result = new Gruppo();
-//		 
-//		result = (Gruppo) query.getSingleResult();
-	 Gruppo result = em.find(Gruppo.class, id);
-	 em.getEntityManagerFactory().getCache().evictAll();
+		Gruppo result = em.find(Gruppo.class, id);
+		if(result == null) {
+			result = new Gruppo();
+		}
 	 	return result;
 	 }
 	
 	public Gruppo findGruppoByUtente(Utente u){
 		Gruppo g = em.find(Gruppo.class, u.getId());
-		
 		return g;
-		
 	}
 	
-
 	@Override
 	public Gruppo findGruppoByPosition(float lat, float lng) {
 		// TODO Auto-generated method stub

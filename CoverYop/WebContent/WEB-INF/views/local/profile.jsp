@@ -209,10 +209,10 @@
 						<!-- /slide con blob--> --%>
 						
 						<!-- Slide  con blob-->
-						<c:forEach items="${slideshowBlob}" var="slideshow">
+						<c:forEach items="${slideshow}" var="slideshow">
 							<div class="slide">
 							
-							<img src="${pageContext.request.contextPath}/${slideshow}" alt="Event Image">
+							<img src="${pageContext.request.contextPath}/LocalSlide/image.html?id=${slideshow.id}" alt="Event Image">
 							
 							
 							</div>
