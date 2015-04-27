@@ -27,8 +27,8 @@
 								
 						<!-- progressbar -->
 						<ul id="progressbar">
-							<li class="active">Locale Setup</li>
-							<li>Dettagli Locale</li>
+							<li class="active">Gruppo Setup</li>
+							<li>Dettagli Gruppo</li>
 							<li>Personal Details</li>
 						</ul>
 						<!-- fieldsets -->
@@ -36,25 +36,37 @@
 							<h2 class="fs-title">Create il Tuo Account</h2>
 							<h3 class="fs-subtitle">Primo Step</h3>
 							<form:input path="nome"  placeholder="Nome" />
+							<form:errors path="nome"/>
 							<form:input  path="cognome"   placeholder="Cognome" />
+							<form:errors path="cognome"/>
 							<form:input  path="email"    placeholder="Email" />
+							<form:errors path="email"/>
 							<form:input  path="username"   placeholder="Username" />
+							<form:errors path="username"/>
 							
 							<form:input  path="password"  type="password" placeholder="Password" />
+							<form:errors path="password"/>
 							<form:input  path="retypePassword"  type="password" placeholder="Password" />
+							<form:errors path="retypePassword"/>
 							<input type="button" name="next" class="next action-button" value="Next" />
 						</fieldset>
 						<fieldset id="gruppi2">
 							<h2 class="fs-title">Dettagli Gruppo</h2>
 							<h3 class="fs-subtitle">Aumenta le tue possibilità di successo</h3>
 							<form:input path="nomeGruppo"  placeholder="Nome Del Gruppo" />
+							<form:errors path="nomeGruppo"/>
 							<form:textarea path="biografia" placeholder="Biografia" />
-							<form:input  path="telefono"  placeholder="Telefono" />							
+							<form:errors path="biografia"/>
+							<form:input  path="telefono"  placeholder="Telefono" />	
+							<form:errors path="telefono"/>						
 							<form:input  path="data" type="date" placeholder="Data di Nascita Del Gruppo" />
+							<form:errors path="data"/>
 							<form:input  path="citta"  placeholder="Città"/>
+							<form:errors path="citta"/>
 							<form:input  path="indirizzo" placeholder="Address"/>
-							<p style="color: black;">Cover Band
-<!-- 								<input type="checkbox" name="cover" id="cover_Band" placeholder="CoverBand" style="width:35%"/> 
+							<form:errors path="indirizzo"/>
+							<!-- <p style="color: black;">Cover Band
+ 								<input type="checkbox" name="cover" id="cover_Band" placeholder="CoverBand" style="width:35%"/> 
  							<form:select disabled="false" name="coverbandName" path="gruppi_rif" id="coverbandname" items="${gruppiDiRif}" itemLabel="nome" itemValue="nome" />  -->
 							<form:hidden path="id" />
 							<form:hidden path="lat" />
@@ -81,11 +93,11 @@
 						<fieldset id="gruppi3">
 							<h2 class="fs-title">Portafolio Social</h2>
 							<h3 class="fs-subtitle">Qui tutti i tuoi social network</h3>
-		<!-- 				<form:input path="canale.twitter"  placeholder="Twitter" />						
+	 				<form:input path="canale.twitter"  placeholder="Twitter" />						
 							<form:input  path="canale.facebook" placeholder="Facebook" />
 							<form:input path="canale.googlePlus"  placeholder="Google Plus" />
 							<form:input  path="canale.soundCloud"   placeholder="SoundCloud" />
-							<form:input  path="canale.instagram" placeholder="Instagram" /> -->
+							<form:input  path="canale.instagram" placeholder="Instagram" /> 
 							<input type="button"  class="previous action-button" value="Previous" />
 							<input type="submit"  class="action-button" value="Submit" />
 						</fieldset>
@@ -110,23 +122,36 @@
 							<h2 class="fs-title">Create il Tuo Account</h2>
 							<h3 class="fs-subtitle">Primo Step</h3>
 							<form:input  path="nome"  placeholder="Nome" />
+							<form:errors path="nome"/>
 							<form:input  path="cognome"  placeholder="Cognome" />
+							<form:errors path="cognome"/>
 							<form:input  path="username"   placeholder="Username" />
+							<form:errors path="username"/>
 							<form:input  path="email"  placeholder="Email" />
+							<form:errors path="email"/>
 							<form:input  path="password"  placeholder="Password" />
-							
+							<form:errors path="password"/>
+							<form:input  path="retypePassword"  type="password" placeholder="Password" />
+							<form:errors path="retypePassword"/>
 							<input type="button" name="next" class="next action-button" value="Next" />
 						</fieldset>
 						<fieldset id="locali2">
 							<h2 class="fs-title">Dettagli Locale</h2>
 							<h3 class="fs-subtitle">Aumenta le tue possibilità di successo</h3>
 							<form:input path="nomeLocale"  placeholder="Nome Locale" />
+							<form:errors path="nomeLocale"/>
 							<form:textarea  path="descrizione"  placeholder="Descrizione" />
+							<form:errors path="descrizione"/>
 							<form:input  path="telefono" placeholder="Telefono" />
+							<form:errors path="telefono"/>
 							<form:input   path="orarioApertura"  placeholder="Orario Apertura" />
+							<form:errors path="orarioApertura"/>
 							<form:input  path="orarioChiusura"  placeholder="Orario Chiusura" />
+							<form:errors path="orarioChiusura"/>
 							<form:input  path="citta"  placeholder="Città"/>
+							<form:errors path="citta"/>
 							<form:input  path="indirizzo"  placeholder="Indirizzo"/>
+							<form:errors path="indirizzo"/>
 							<form:hidden path="id" />
 							<form:hidden path="lat" />
 							<form:hidden path="lng" />
@@ -146,11 +171,11 @@
 						<fieldset id="gruppi3">
 							<h2 class="fs-title">Portafolio Social</h2>
 							<h3 class="fs-subtitle">Qui tutti i tuoi social network</h3>
-					<!-- 	<form:input type="text" path="canale.twitter" name="twitter" placeholder="Twitter" />						
-							<form:input type="text" path="canale.facebook" name="facebook" placeholder="Facebook" />
-							<form:input type="text" path="canale.googlePlus" name="gplus" placeholder="Google Plus" />
-							<form:input type="text" path="canale.soundCloud"  name="soundcloud" placeholder="SoundCloud" />
-							<form:input type="text" path="canale.instagram" name="instagram" placeholder="Instagram" />  -->
+ 						<form:input type="text" path="canale.twitter" name="twitter" placeholder="Twitter" />						
+							<form:input type="text" path="canale.facebook" name="facebook" placeholder="Facebook" /> 
+							<form:input type="text" path="canale.googlePlus" name="gplus" placeholder="Google Plus" /> 
+ 							<form:input type="text" path="canale.soundCloud"  name="soundcloud" placeholder="SoundCloud" /> 
+							<form:input type="text" path="canale.instagram" name="instagram" placeholder="Instagram" /> 
 							<input type="button"  name="previous" class="previous action-button" value="Previous" />
 							<input type="submit" name="submit" class="action-button" value="Submit" />
 						</fieldset>
@@ -197,27 +222,8 @@
 
 	var cErrorPage = function checkError(current_fs){
 		var filedID = $('fieldset:visible').attr('id');
-		switch(filedID){
-			case 'gruppi1':
-				if($('#nome').prop('value') == '')
-				if($('#cognome').prop('value') == '')
-				if($('#username').prop('value') == '')
-				if($('#mail').prop('value') == '')
-				if($('#password') != $('#password'))
-				break;
-			case 'gruppi2':
-				break;
-			case 'gruppi3':
-				break;
-			case 'locali1':
-				break;
-			case 'locali2':
-				break;
-			case 'locali3':
-				break;
-		}
 		
-	}
+		 	} 
 	
 	$(".next").click(function(){
 		if(animating) return false;

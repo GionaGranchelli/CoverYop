@@ -33,7 +33,6 @@ import it.univaq.mwt.business.model.Utente;
 import it.univaq.mwt.business.model.Video;
 import it.univaq.mwt.common.spring.UserDetailsImpl;
 import it.univaq.mwt.common.utility.ConversionUtility;
-
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -84,8 +83,10 @@ public class ControllerYop {
 	GenereService ges;
 	@Autowired
 	RuoloService rs;
-	
-	
+	@Autowired
+	GruppoValidator gv;
+	@Autowired
+	LocaleValidator lv;
 //	@Autowired @Qualifier("CanzoniService") @EJB
 //	private CanzoniService canzoniService;
 	// @Autowired ServiceProxy sp;
@@ -145,12 +146,19 @@ public class ControllerYop {
 	}
 	
 	@RequestMapping(value="/createGroup")
-	public String createGroup( @ModelAttribute Gruppo gruppo, BindingResult bindingResult, Model model) throws Exception {
+	public String createGroup( @ModelAttribute("formGruppi") Gruppo gruppo, BindingResult bindingResult, Model model) throws Exception {
 	
 	//Random rand = new Random();
 	//int randomNum = rand.nextInt((1000 - 10) + 1) + 10;//CI DEVO METTERE LA SEQUENZA
 	//gruppo.setId(randomNum); //QUA DEVO SETTARE LA SEQUENZA AL POSTO DELL'ID
 	
+	gv.validate(gruppo, bindingResult);
+	
+	if (bindingResult.hasErrors()) {
+		model.addAttribute("formLocali",  new Locale());
+		return "common.register";
+	}
+		
 	String address = gruppo.getCitta()+" "+gruppo.getIndirizzo();
 	
 	
@@ -169,9 +177,15 @@ public class ControllerYop {
 	}
 	
 	@RequestMapping("/createLocale")
-	public String createLocale(@ModelAttribute Locale locale, BindingResult bindingResult, Model model) throws Exception {
+	public String createLocale(@ModelAttribute("formLocali") Locale locale, BindingResult bindingResult, Model model) throws Exception {
 		Locale lcl = new Locale();
-	    Random rand = new Random();
+	   
+		lv.validate(locale, bindingResult);
+		
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("formGruppi",  new Gruppo());
+			return "common.register";
+		}
 
 	    // nextInt is normally exclusive of the top value,
 	    // so add 1 to make it inclusive
