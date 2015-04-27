@@ -33,7 +33,6 @@ import it.univaq.mwt.business.model.Utente;
 import it.univaq.mwt.business.model.Video;
 import it.univaq.mwt.common.spring.UserDetailsImpl;
 import it.univaq.mwt.common.utility.ConversionUtility;
-
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -86,6 +85,21 @@ public class ControllerYop {
 	RuoloService rs;
 	@Autowired
 	FotoService fotoserv;
+	@Autowired
+	GruppoValidator gv;
+	@Autowired
+	LocaleValidator lv;
+	
+//	@Autowired @Qualifier("CanzoniService") @EJB
+//	private CanzoniService canzoniService;
+	// @Autowired ServiceProxy sp;
+	// @Autowired persistenceService ps;
+	// @Autowired
+	// JDBCSecurityService jdbcSS;
+	// @Autowired
+	// JDBCUserService jdbcUS;
+	// private Gruppo view_group;
+
 
 	@RequestMapping("/")
 	public String welcome(Model model) throws NamingException {
@@ -126,7 +140,13 @@ public class ControllerYop {
 	}
 	
 	@RequestMapping(value="/createGroup")
-	public String createGroup( @ModelAttribute Gruppo gruppo, BindingResult bindingResult, Model model) throws Exception {
+	public String createGroup( @ModelAttribute("formGruppi") Gruppo gruppo, BindingResult bindingResult, Model model) throws Exception {
+		gv.validate(gruppo, bindingResult);
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("formLocali",  new Locale());
+			return "common.register";
+		}
+		
 		String address = gruppo.getCitta()+" "+gruppo.getIndirizzo();
 		String latLongs[] = ConversionUtility.getLatLongPositions(address);
 		float lat = Float.parseFloat(latLongs[0]);
@@ -139,8 +159,18 @@ public class ControllerYop {
 		return "common.index";
 	}
 	
-	@RequestMapping("/createLocale")
-	public String createLocale(@ModelAttribute Locale locale, BindingResult bindingResult, Model model) throws Exception {
+		@RequestMapping("/createLocale")
+	public String createLocale(@ModelAttribute("formLocali") Locale locale, BindingResult bindingResult, Model model) throws Exception {
+		Locale lcl = new Locale();
+	   
+		lv.validate(locale, bindingResult);
+		
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("formGruppi",  new Gruppo());
+			return "common.register";
+		}
+
+	    
 	    String address = locale.getCitta()+" "+locale.getIndirizzo();
 		String latLongs[] = ConversionUtility.getLatLongPositions(address);
 		float lat = Float.parseFloat(latLongs[0]);
@@ -176,6 +206,7 @@ public class ControllerYop {
 		model.addAttribute("eventi",risultatoEventi);
 		return "common.general_search";
 	}
+	
 	@RequestMapping("/Groups")
 	public String groupHome(@RequestParam(value = "nome", required=false)String nome,
 							@RequestParam(value = "citta", required=false)String citta,
@@ -287,19 +318,7 @@ if ( (nome!=null) || (citta!=null) || (tipologia!=null) )  {
 		model.addAttribute("titolo_page_2", title[1]);
 	}
 	model.addAttribute("locale",locale);
-//	
-	Set<Evento> events = new HashSet<Evento>(locale.getEventi());
-//	for (Iterator iterator = events.iterator(); iterator.hasNext();) {
-//		Evento evento = (Evento) iterator.next();
-//		Set<Gruppo> grup=evento.getGruppo();
-//		System.out.println();
-//	}
-	
-	//Set<Evento> eventi = es.findGruppoByEvent(events);
-	//Set<Evento> eventi = locale.getEventi();
-	//List<Gruppo> groups = new ArrayList<Gruppo>
-	//events = es.findGruppoByEvent(events);
-	
+	Set<Evento> events = new HashSet<Evento>(locale.getEventi());	
 	model.addAttribute("eventi", events);
 	Canale channel = new Canale();
 	channel = locale.getCanale();
@@ -338,7 +357,7 @@ if ( (nome!=null) || (citta!=null) || (tipologia!=null) )  {
 //	System.out.println(temp.getTag());
 //	System.out.println(temp.getId());
 //	System.out.println(temp.getUtente().getId());
-	
+		
 	 List<Video> video = new ArrayList<Video>(locale.getVideo());
 	 model.addAttribute("video", video);
 //	
