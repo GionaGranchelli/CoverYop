@@ -84,6 +84,8 @@ public class ControllerYop {
 	GenereService ges;
 	@Autowired
 	RuoloService rs;
+	@Autowired
+	FotoService fotoserv;
 	
 	
 //	@Autowired @Qualifier("CanzoniService") @EJB
@@ -272,8 +274,8 @@ public class ControllerYop {
 	 model.addAttribute("album", discografia);
 	 model.addAttribute("album_foto", af);
 	 
-	 List<Foto> foto_profilo = new ArrayList<Foto>(af.get(0).getFoto());
-	 model.addAttribute("foto_profilo", foto_profilo.get(0));
+//	 List<Foto> foto_profilo = new ArrayList<Foto>(af.get(0).getFoto());
+//	 model.addAttribute("foto_profilo", foto_profilo.get(0));
 	 
 	 List<Video> videos = new ArrayList<Video>(view_group.getVideo());
 	 model.addAttribute("video", videos.get(0));
@@ -368,24 +370,30 @@ if ( (nome!=null) || (citta!=null) || (tipologia!=null) )  {
 	Set<Foto> slideshow = new HashSet<Foto>();
 	
 	
-	List<AlbumFotografico> albums = new ArrayList<AlbumFotografico>(locale.getAlbumFotografico());
-	AlbumFotografico slider = null;
-	Foto back = null;
-	for (Iterator iterator = albums.iterator(); iterator.hasNext();) {
-		AlbumFotografico albumFotografico = (AlbumFotografico) iterator.next();
-		if (albumFotografico.getTag().equals("slideshow")){
-			slider=albumFotografico;
-			slideshow =  slider.getFoto();
-			model.addAttribute("slideshow", slideshow);
-		}
-		if (albumFotografico.getTag().equals("profile")){
-			List<Foto> foto = new ArrayList<Foto>(albumFotografico.getFoto());
-			back = foto.get(0);
-			model.addAttribute("back", back);
-		}
-		
-		
-	}
+//	List<AlbumFotografico> albums = new ArrayList<AlbumFotografico>(locale.getAlbumFotografico());
+//	AlbumFotografico slider = null;
+//	Foto back = null;
+//	for (Iterator iterator = albums.iterator(); iterator.hasNext();) {
+//		AlbumFotografico albumFotografico = (AlbumFotografico) iterator.next();
+//		if (albumFotografico.getTag().equals("slideshow")){
+//			slider=albumFotografico;
+//			slideshow =  slider.getFoto();
+//			model.addAttribute("slideshow", slideshow);
+//		}
+//		if (albumFotografico.getTag().equals("profile")){
+//			List<Foto> foto = new ArrayList<Foto>(albumFotografico.getFoto());
+//			back = foto.get(0);
+//			model.addAttribute("back", back);
+//		}
+//		
+//		
+//	}
+//	List<byte[]> slideshowBlob = fotoserv.getFotoSliderByUtenteIdBlob(locale.getId());
+	AlbumFotografico temp = fotoserv.getAlbumSliderByUserId(locale.getId());
+//	model.addAttribute("slideshowBlob", slideshowBlob);
+//	System.out.println(temp.getTag());
+//	System.out.println(temp.getId());
+//	System.out.println(temp.getUtente().getId());
 	
 	 List<Video> video = new ArrayList<Video>(locale.getVideo());
 	 model.addAttribute("video", video);

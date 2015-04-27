@@ -95,15 +95,8 @@
 									<span class="event-artists">${gruppi.nomeGruppo}</span>
 								</c:forEach>
 							</span>
-
-							<img src="${pageContext.request.contextPath}/resources/img/events/${evento.id}/${evento.locandina}"  alt="Event Background">
-
-							<%-- <img src="${pageContext.request.contextPath}/resources/img/events/${evento.id}/${evento.locandina}" alt="Event Background"> --%>
-							<%-- <img src="data:image/jpeg; base64, +${evento.locandinaBlob}+"  alt="Event Background"> --%>
 							<img src="${pageContext.request.contextPath}/Event/image.html?id=${evento.id}"  alt="Event Background">
-							
-							
-
+							 
 						</a>
 					</div>
 				

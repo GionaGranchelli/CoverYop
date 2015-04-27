@@ -231,6 +231,7 @@ public class ControllerGruppo {
 		//Gruppo view_gruppo = gs.findGruppoById(id);
 		Gruppo view_gruppo = new Gruppo();
 		view_gruppo = gs.findGruppoByUtente(utente);
+		
 		List<AlbumFotografico> albums = new ArrayList<AlbumFotografico>(view_gruppo.getAlbumFotografico());
 		
 		//Prendo tutti gli album musicali

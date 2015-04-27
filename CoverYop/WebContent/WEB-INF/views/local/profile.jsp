@@ -5,7 +5,9 @@
 <section id="page" data-title="Locale - ${locale.nomeLocale}">
 
 	<!-- ############################# Intro ############################# -->
-	<section  class="intro-title section border-bottom" style="background-image: url(${pageContext.request.contextPath}/${back.url}); background-size: auto auto; ">
+	<%-- <section  class="intro-title section border-bottom" style="background-image: url(${pageContext.request.contextPath}/${back.url}); background-size: auto auto; "> --%>
+	<section  class="intro-title section border-bottom" style="background-image: url(${pageContext.request.contextPath}/Local/image.html?id=${locale.id}); background-size: cover; ">
+	<%-- <img src="${pageContext.request.contextPath}/Local/image.html?id=${locali.id}"  alt="Artist Image"> --%>
 		<h2 class="heading-l event-heading" style="color: red;text-shadow: 3px 2px white;z-index: 2;">${locale.nomeLocale}</h2>
 		<!-- Overlay -->
 		<!-- <span class="overlay dots"></span> -->
@@ -194,7 +196,7 @@
 				<article>
 					<!-- Carousel slider -->
 					<div id="blog-slider01" class="carousel-slider" data-effect="fadeUp" data-pagination="true" data-nav="true">
-						<!-- Slide -->
+					<%-- 	<!-- Slide  senza blob-->
 						<c:forEach items="${slideshow}" var="slideshow">
 							<div class="slide">
 							
@@ -204,7 +206,19 @@
 							</div>
 						</c:forEach>
 						
-						<!-- /slide -->
+						<!-- /slide con blob--> --%>
+						
+						<!-- Slide  con blob-->
+						<c:forEach items="${slideshowBlob}" var="slideshow">
+							<div class="slide">
+							
+							<img src="${pageContext.request.contextPath}/${slideshow}" alt="Event Image">
+							
+							
+							</div>
+						</c:forEach>
+						
+						<!-- /slide con blob-->
 						
 					</div>
 					<!-- /Carousel slider -->

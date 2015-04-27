@@ -136,7 +136,8 @@
 						<a href="${pageContext.request.contextPath}/Local/${locali.id}" class="thumb-glitch artist" data-thumbicon="plus">
 							<span class="hoverlayer"></span>
 							<span class="img">
-								<img src="${pageContext.request.contextPath}/${locali.getFotoProfilo().url}" alt="Artist Image" />
+								<%-- <img src="${pageContext.request.contextPath}/${locali.getFotoProfilo().url}" alt="Artist Image" /> --%>
+								<img src="${pageContext.request.contextPath}/Local/image.html?id=${locali.id}"  alt="Artist Image">
 							</span>
 						</a>
 						<!-- /Thumbnail -->

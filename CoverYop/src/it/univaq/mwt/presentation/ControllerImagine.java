@@ -1,5 +1,7 @@
 package it.univaq.mwt.presentation;
 
+import java.util.List;
+
 import it.univaq.mwt.business.EventoService;
 import it.univaq.mwt.business.FotoService;
 
@@ -42,6 +44,16 @@ public class ControllerImagine {
 	}
 	
 	@ResponseBody
+	@RequestMapping(value="/GroupSlide/image.html", params= "id" ,method = RequestMethod.GET)
+	///Event/image.html?id=${evento.id}
+	//public byte[] getEventoImage(@PathVariable("id") int id){
+		public byte[] getGruppoImageSlider(@RequestParam("id") int id){	
+	
+		byte[] immagine =  fotoServ.getFotoSlideShowByUtenteIdBlob(id);
+		return immagine;
+	}
+	
+	@ResponseBody
 	@RequestMapping(value="/Local/image.html", params= "id" ,method = RequestMethod.GET)
 	///Event/image.html?id=${evento.id}
 	//public byte[] getEventoImage(@PathVariable("id") int id){
@@ -49,9 +61,21 @@ public class ControllerImagine {
 		
 		
 	
-		byte[] immagine =  eventoServ.getImmagineEvento(id);
+		byte[] immagine =  fotoServ.getFotoProfiloByUtenteIdBlob(id);
 		return immagine;
 	}
+	
+	@ResponseBody
+	@RequestMapping(value="/LocalSlide/image.html", params= "id" ,method = RequestMethod.GET)
+	///Event/image.html?id=${evento.id}
+	//public byte[] getEventoImage(@PathVariable("id") int id){
+		public List<byte[]> getLocaleImageSlider(@RequestParam("id") int id){	
+	
+		List<byte[]> immagine =  fotoServ.getFotoSliderByUtenteIdBlob(id);
+		return immagine;
+	}
+	
+	
 	
 	
 
