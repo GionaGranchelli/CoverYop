@@ -89,26 +89,15 @@ public class ControllerYop {
 	GruppoValidator gv;
 	@Autowired
 	LocaleValidator lv;
-	
-//	@Autowired @Qualifier("CanzoniService") @EJB
-//	private CanzoniService canzoniService;
-	// @Autowired ServiceProxy sp;
-	// @Autowired persistenceService ps;
-	// @Autowired
-	// JDBCSecurityService jdbcSS;
-	// @Autowired
-	// JDBCUserService jdbcUS;
-	// private Gruppo view_group;
-
 
 	@RequestMapping("/")
 	public String welcome(Model model) throws NamingException {
 		//ultimi artisti
-		List ultimiGruppi = gs.findLastSubscribed(4);
-		List generi = ges.findAllGeneri();
+		List<Gruppo> ultimiGruppi = gs.findLastSubscribed(4);
+		List<Genere> generi = ges.findAllGeneri();
 		List<Canzone> ultimeSong = cs.findLastSong(4);
-		List ultimiLocali = ls.findlastSubscribed(4);
-		List ultimeGallery = as.getLastSubscribed(4);
+		List<Locale> ultimiLocali = ls.findlastSubscribed(4);
+		List<AlbumFotografico> ultimeGallery = as.getLastSubscribed(4);
 		model.addAttribute("gruppi", ultimiGruppi);
 		model.addAttribute("generiGruppi", generi);
 		model.addAttribute("song", ultimeSong);
@@ -146,63 +135,31 @@ public class ControllerYop {
 			model.addAttribute("formLocali",  new Locale());
 			return "common.register";
 		}
-		
-		String address = gruppo.getCitta()+" "+gruppo.getIndirizzo();
-		String latLongs[] = ConversionUtility.getLatLongPositions(address);
-		float lat = Float.parseFloat(latLongs[0]);
-		float lng = Float.parseFloat(latLongs[1]);
-		gruppo.setLat(lat);
-		gruppo.setLng(lng);
-		Ruolo role = rs.getRuoloByName("group");
-		gruppo.setRuolo(role);
+		gruppo = FacilityTool.finalizeGruppoInfo(gruppo, rs);
 	    gs.createGruppo(gruppo);
 		return "common.index";
 	}
 	
-		@RequestMapping("/createLocale")
-	public String createLocale(@ModelAttribute("formLocali") Locale locale, BindingResult bindingResult, Model model) throws Exception {
-		Locale lcl = new Locale();
-	   
+	@RequestMapping("/createLocale")
+	public String createLocale(@ModelAttribute("formLocali") Locale locale, BindingResult bindingResult, Model model) throws Exception {	   
 		lv.validate(locale, bindingResult);
-		
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("formGruppi",  new Gruppo());
 			return "common.register";
 		}
-
-	    
-	    String address = locale.getCitta()+" "+locale.getIndirizzo();
-		String latLongs[] = ConversionUtility.getLatLongPositions(address);
-		float lat = Float.parseFloat(latLongs[0]);
-		float lng = Float.parseFloat(latLongs[1]);
-		locale.setLat(lat);
-		locale.setLng(lng);
-		Ruolo role = rs.getRuoloByName("local");
-		locale.setRuolo(role);
+	    locale = FacilityTool.finalizeLocaleInfo(locale, rs);
 	    ls.createLocale(locale);
 	    return "common.index";
-		}
+	}
 	
 	@RequestMapping("/Cerca")
 	public String cerca(@RequestParam(value = "nome", required=false)String nome, Model model){
-		List<Gruppo> risultatoGruppi = new ArrayList<Gruppo>();
-		List<Locale> risultatoLocali = new ArrayList<Locale>();
 		List<Utente> risultati = gs.SearchUsers(nome);
-		Iterator<Utente> i = risultati.iterator();
-		while(i.hasNext()){
-			Utente temp = i.next();
-			if(temp.getRuolo().getId() == 1){
-				Gruppo gruppoTemp = (Gruppo) temp;
-				risultatoGruppi.add(gruppoTemp);
-			}else{
-				Locale localeTemp = (Locale) temp;
-				risultatoLocali.add(localeTemp);
-			}
-		}
+		List<Gruppo> risultatoGruppi = FacilityTool.splitResultG(risultati, 1);
+		List<Locale> risultatoLocali = FacilityTool.splitResultL(risultati, 2);
 		model.addAttribute("gruppi",risultatoGruppi);
 		model.addAttribute("locali",risultatoLocali);
-		List<Evento> risultatoEventi = new ArrayList<Evento>();
-		risultatoEventi = es.findEventoByName(nome);
+		List<Evento> risultatoEventi = es.findEventoByName(nome);
 		model.addAttribute("eventi",risultatoEventi);
 		return "common.general_search";
 	}
@@ -211,97 +168,70 @@ public class ControllerYop {
 	public String groupHome(@RequestParam(value = "nome", required=false)String nome,
 							@RequestParam(value = "citta", required=false)String citta,
 							@RequestParam(value = "genere", required=false)String genere,
-			Model model) {
-		
-		Set<Gruppo> gruppiSet = new HashSet<Gruppo>();
-		
-		if ( (nome!=null) || (citta!=null) || (genere!=null) )  {
-			gruppiSet = gs.CustomSearchGruppi(nome, citta, genere);
-		}else{
-			gruppiSet = gs.findAllGruppi();
-		}
-		List<Gruppo> gruppi = new ArrayList<Gruppo>(gruppiSet);
+							Model model) {
+		List<Gruppo> gruppi = gs.customSearchGruppi(nome, citta, genere);
 		model.addAttribute("gruppi", gruppi);
 		List<Genere> generi = ges.findAllGeneri();
 		model.addAttribute("generi",generi);
 		return "group.welcome";
 	}
 	
-
+	@RequestMapping("/Groups/SearchResult")
+	public String groupSearch(){
+		
+		return null;
+	}
 
 	@RequestMapping("/Group/{id}")
 	public String groupProfile(@PathVariable("id") int id, Model model){
 		
 		Gruppo viewGroup = gs.findGruppoById(id);
+		model.addAttribute("gruppo", viewGroup);
 		
 		String[] title = FacilityTool.splitName(viewGroup.getNomeGruppo()); 
 		model.addAttribute("titolo_page_1", title[0]);
 		model.addAttribute("titolo_page_1", title[1]);
-	 List<Album> discografia = new ArrayList<Album>(viewGroup.getAlbums());
-	 List<AlbumFotografico> af = new ArrayList<AlbumFotografico>(viewGroup.getAlbumFotografico());
 		
-	 model.addAttribute("gruppo", viewGroup);
-	 model.addAttribute("album", discografia);
-	 model.addAttribute("album_foto", af);
+		List<Album> discografia = new ArrayList<Album>(viewGroup.getAlbums());
+		model.addAttribute("album", discografia);
+		
+		List<AlbumFotografico> af = new ArrayList<AlbumFotografico>(viewGroup.getAlbumFotografico());
+		model.addAttribute("album_foto", af);
+		
+		List<Video> videos = new ArrayList<Video>(viewGroup.getVideo());
+		model.addAttribute("video", videos.get(0));
+		model.addAttribute("soundcloud", videos);
+		
+		List<Evento> eventi = new ArrayList<Evento>(viewGroup.getEventi());
+		model.addAttribute("eventi", eventi);
+		
+		Canale channel = viewGroup.getCanale();
+		model.addAttribute("canali",channel);
+		
+		List<Genere> generi = new ArrayList<Genere>(viewGroup.getGeneri());
+		model.addAttribute("generi", generi);
+		
+		List<GruppoDiRiferimento> gdr = new ArrayList<GruppoDiRiferimento>(viewGroup.getGruppi_rif());
+		model.addAttribute("gruppidiriferimento", gdr);
+		
+		Scaletta scl = viewGroup.getScaletta();
+		List<Canzone> scaletta = new ArrayList<Canzone>(scl.getCanzoni());
+		model.addAttribute("scaletta", scaletta);
 	 
-//	 List<Foto> foto_profilo = new ArrayList<Foto>(af.get(0).getFoto());
-//	 model.addAttribute("foto_profilo", foto_profilo.get(0));
-	 
-	 List<Video> videos = new ArrayList<Video>(viewGroup.getVideo());
-	 model.addAttribute("video", videos.get(0));
-	 
-	 List<Evento> eventi = new ArrayList<Evento>(viewGroup.getEventi());
-	 model.addAttribute("eventi", eventi);
-	 
-	 Canale channel = new Canale();
-	 channel = viewGroup.getCanale();
-	 model.addAttribute("canali",channel);
-	 model.addAttribute("soundcloud", videos);
-	 
-	 List<Genere> generi = new ArrayList<Genere>(viewGroup.getGeneri());
-	 
-	 model.addAttribute("generi", generi);
-	 
-	 List<GruppoDiRiferimento> gdr = new ArrayList<GruppoDiRiferimento>(viewGroup.getGruppi_rif());
-	 model.addAttribute("gruppidiriferimento", gdr);
-	 
-	 Scaletta scl = new Scaletta();
-	 scl = viewGroup.getScaletta();
-	 
-	 List<Canzone> scaletta = new ArrayList<Canzone>(scl.getCanzoni()); //
-	 model.addAttribute("scaletta", scaletta);
-	 return "group.profile";
+		return "group.profile";
 	 }
 
 	@RequestMapping("/Locals")
 	public String localHome(@RequestParam(value = "nome", required=false)String nome,
 							@RequestParam(value = "citta", required=false)String citta,
 							@RequestParam(value = "tipologia", required=false)String tipologia, Model model) {
-		Set<Locale> localiSet = new HashSet<Locale>();
 		
-		
-		
-if ( (nome!=null) || (citta!=null) || (tipologia!=null) )  {
-			
-		    
-			localiSet = ls.customSearchLocali(nome, citta, tipologia);
-			
-			}
-
-		else {
-			
-			
-			localiSet = ls.findAllLocali(); 
-		}
-		
-		List<Locale> locali = new ArrayList<Locale>(localiSet);
+		List<Locale> locali = ls.customSearchLocali(nome, citta, tipologia);
 		model.addAttribute("locali", locali);
 		
 		List<Categoria> categorie = new ArrayList<Categoria>();
 		categorie = ls.getAllCategorieByLocali(locali);
 		model.addAttribute("categorie", categorie);
-		
-		
 		return "local.welcome";
 	}
 
@@ -309,63 +239,26 @@ if ( (nome!=null) || (citta!=null) || (tipologia!=null) )  {
 	public String localProfile(@PathVariable("id") int id, Model model){
 	
 	
-	Locale locale = new Locale();
-	locale = ls.findLocaleById(id);
-	if (locale == null) return null; //Inserire Controllo migliore e 404!!
-	String[] title = locale.getNomeLocale().split(" ");
-	if (title.length == 2){
-		model.addAttribute("titolo_page_1", title[0]);
-		model.addAttribute("titolo_page_2", title[1]);
-	}
+	Locale locale = ls.findLocaleById(id);
+	String[] title = FacilityTool.splitName(locale.getNomeLocale());
+	model.addAttribute("titolo_page_1", title[0]);
+	model.addAttribute("titolo_page_2", title[1]);
+
 	model.addAttribute("locale",locale);
 	Set<Evento> events = new HashSet<Evento>(locale.getEventi());	
 	model.addAttribute("eventi", events);
-	Canale channel = new Canale();
-	channel = locale.getCanale();
+	Canale channel = locale.getCanale();
 	model.addAttribute("canali",channel); 
-	//model.addAttribute("soundcloud", soundcloud);
 	
-	Set<Foto> slideshow = new HashSet<Foto>();
-	
-	
+	Set<Foto> slideshow;
 	List<AlbumFotografico> albums = new ArrayList<AlbumFotografico>(locale.getAlbumFotografico());
-	AlbumFotografico slider = null;
-	Foto back = null;
-	for (Iterator iterator = albums.iterator(); iterator.hasNext();) {
-		AlbumFotografico albumFotografico = (AlbumFotografico) iterator.next();
-		if (albumFotografico.getTag().equals("slider")){
-			slider=albumFotografico;
-			slideshow =  slider.getFoto();
-//			Iterator<Foto> j = slideshow.iterator();
-//			while(j.hasNext()){
-//				Foto tempA = j.next();
-//				System.out.println("FOTO -> " + tempA.getFotoBlob());
-//			}
-			model.addAttribute("slideshow", slideshow);
-		}
-//		if (albumFotografico.getTag().equals("profile")){
-//			List<Foto> foto = new ArrayList<Foto>(albumFotografico.getFoto());
-//			back = foto.get(0);
-//			model.addAttribute("back", back);
-//		}
-		
-		
-	}
-//	List<byte[]> slideshowBlob = fotoserv.getFotoSliderByUtenteIdBlob(locale.getId());
-	AlbumFotografico temp = fotoserv.getAlbumSliderByUserId(locale.getId());
-//	model.addAttribute("slideshowBlob", slideshowBlob);
-//	System.out.println(temp.getTag());
-//	System.out.println(temp.getId());
-//	System.out.println(temp.getUtente().getId());
-		
-	 List<Video> video = new ArrayList<Video>(locale.getVideo());
-	 model.addAttribute("video", video);
-//	
-//	model.addAttribute("slideshow", albumFoto.get(0).getFoto());
-	// model.addAttribute("back", slide2);
-	// model.addAttribute("canali", channel);
-	//
-		return "local.profile";
+	slideshow = FacilityTool.getSlider(albums);
+	model.addAttribute("slideshow", slideshow);
+	
+	List<Video> video = new ArrayList<Video>(locale.getVideo());
+	model.addAttribute("video", video);
+
+	return "local.profile";
 	}
 
 	@RequestMapping("/Group/welcome.do")
@@ -375,63 +268,12 @@ if ( (nome!=null) || (citta!=null) || (tipologia!=null) )  {
 	
 	@RequestMapping("/redirect")
 	 public String redirectHome() {
-	 	
-	 	String role = new String();
-	 	role = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
-	 	
-	 	if (role.compareTo("[[autority=group]]") == 0){
-	 		return "redirect:/BackStage/";
-	 	}else{
-	 		return "redirect:/Privee/";
-	 	}
-		
+	 	String role = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
+	 	return FacilityTool.getLoginRedirection(role);
 	 }
 	
 	@RequestMapping("/inbox")
 	 public String inbox() {
-	 	
-	 	
-	 	
-		return "list.conversation";
+	 	return "list.conversation";
 	 }
-	
-	
-//	@RequestMapping("/createGroup.do")
-//	public String createGroup(@ModelAttribute Gruppo gruppo,
-//			BindingResult bindingResult, Model model) {
-//		// jdbcUS.createGruppo(gruppo);
-//		return "common.conferma";
-//	}
-	//
-	// @RequestMapping("/Event/{id}")
-	// public String eventDetail(@PathVariable("id") int id, Model model) {
-	//
-	//
-	// SimpleDateFormat d1 = new SimpleDateFormat("dd/MM/yy");
-	// Date w1 = new Date(2014,11,10);
-	// String dw1= d1.format(w1);
-	// Tipologia_Eventi te = new Tipologia_Eventi("Rock","Concerto Live");
-	// Set<Tipologia_Eventi> ste = new HashSet<Tipologia_Eventi>(1);
-	// ste.add(te);
-	// Locale locale = new Locale();
-	// locale.setEmail("locale@yop.it");
-	// Set<String> contatti = new HashSet<String>(2);
-	// contatti.add("08595951");
-	// contatti.add("393 3939585");
-	// locale.setContatti(contatti);
-	// locale.setNomeLocale("Lost Dogs Cafè");
-	// locale.setIndirizzo("Viale Matrino 1, Città Sant'Angelo PE");
-	// Gruppo fes = new Gruppo();
-	// fes.setNomeGruppo("Furious & Escort");
-	// Foto wallpaper = new Foto(1,"resources/img/events/10/wall.jpg");
-	// Evento ev2 = new
-	// Evento(10,locale,fes,ste,"2014/11/5","22:00:00","04:00","Rock&Roll in Compagnia di Furious&Escort",locale.getIndirizzo(),0,wallpaper.getUrl(),"Evento Bellissimo fu");
-	//
-	//
-	// model.addAttribute("evento", ev2);
-	// model.addAttribute("wall", wallpaper);
-	// return "event.single";
-	// }}
-	//
-	//
 }

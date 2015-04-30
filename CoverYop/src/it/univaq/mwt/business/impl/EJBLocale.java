@@ -59,16 +59,16 @@ public class EJBLocale implements LocaleService {
 //	}
 	
     @Override
-	public Set<Locale> findAllLocali() {
+	public List<Locale> findAllLocali() {
 	em.clear();
 	Query query = em.createQuery("select l "
 			+ "from Locale l, Utente u, AlbumFotografico al, Foto f, Tour t, TipologiaEvento te");
 			
 	
 	List<Locale> resultList = (List<Locale>) query.getResultList();
-	Set <Locale> result =  new HashSet<Locale>(resultList);
-	em.getEntityManagerFactory().getCache().evictAll();
-	return result;
+	
+	//em.getEntityManagerFactory().getCache().evictAll();
+	return resultList;
 	}
 
 
@@ -82,6 +82,9 @@ public class EJBLocale implements LocaleService {
 		
 	
 		Locale result = (Locale) query.getSingleResult();
+		if(result == null){
+			return new Locale();
+		}
 		return result;
 		
 		
@@ -113,13 +116,15 @@ public class EJBLocale implements LocaleService {
 
 
 	@Override
-	public Set<Locale> customSearchLocali(String nomeLocale, String citta,
+	public List<Locale> customSearchLocali(String nomeLocale, String citta,
 			String tipologia) {
-		
-		
 		String queryString = null;
-		
+		List<Locale> lista = null;
 		Query query = null;
+		if(nomeLocale == null && citta == null && tipologia == null){
+			lista = findAllLocali();
+			return lista;
+		}
 		if (!(nomeLocale.isEmpty()) && !(citta.isEmpty()) && !(tipologia.isEmpty())){
 				
 				queryString = "select l "
@@ -185,26 +190,9 @@ public class EJBLocale implements LocaleService {
 				String tipologiaLow = tipologia.toLowerCase();
 				query.setParameter("tipologia", "%" + tipologiaLow + "%");
 			}	
+			List<Locale> risultatoListaLocali= (List<Locale>) query.getResultList();
 			
-			
-			
-			
-			
-			
-			List<Locale> lista = (List<Locale>) query.getResultList();
-			Set<Locale> result = new HashSet<Locale>(lista);
-			
-
-			return result;
-		
-		
-//		String nomeLow = nomeLocale.toLowerCase();
-//		String tip = tipologia.toLowerCase();
-//		Query query = em.createQuery("select lc from Locale lc  where lower(lc.categoria.nomeCat) LIKE :nomeCat");
-//		query.setParameter("nomeCat", tip);
-//		List<Locale> lista = query.getResultList();
-//		Set<Locale> result = new HashSet<Locale>(lista);
-//		return result;
+			return risultatoListaLocali;
 	}
 	@Override
 	public Locale findLocaleByUser(Utente u) {
@@ -231,11 +219,11 @@ public class EJBLocale implements LocaleService {
 
 
 	@Override
-	public List findlastSubscribed(int i) {
+	public List<Locale> findlastSubscribed(int i) {
 		String queryString = "select l from Locale l ORDER BY l.id";
 		Query query = em.createQuery(queryString);
 		query.setMaxResults(i);
-		List result = query.getResultList();
+		List<Locale> result = (List<Locale>)query.getResultList();
 		return result;
 	}
 

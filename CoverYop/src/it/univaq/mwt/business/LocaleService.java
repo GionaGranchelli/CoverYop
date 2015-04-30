@@ -13,7 +13,7 @@ import it.univaq.mwt.business.model.*;
 
 public interface LocaleService {
 	
-	public Set<Locale> findAllLocali();
+	public List<Locale> findAllLocali();
 	
 	public Locale findLocaleById(int localeID);
 	
@@ -26,12 +26,12 @@ public interface LocaleService {
 	public Locale update(Locale l);
 	
 
-	public Set<Locale> customSearchLocali(String nome, String citta,
+	public List<Locale> customSearchLocali(String nome, String citta,
 			String tipologia);
 	
 	public List<Categoria> getAllCategorieByLocali(List locali);
 
-	public List findlastSubscribed(int i);
+	public List<Locale> findlastSubscribed(int i);
 
 	public Locale findLocaleByCoord(String nomeLocale, String indirizzo,
 			String citta);

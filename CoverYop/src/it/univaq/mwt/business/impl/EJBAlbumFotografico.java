@@ -110,11 +110,11 @@ public class EJBAlbumFotografico implements AlbumFotograficoService {
 		em.getEntityManagerFactory().getCache().evict(AlbumFotografico.class);
 	}
 	@Override
-	public List getLastSubscribed(int i) {
+	public List<AlbumFotografico> getLastSubscribed(int i) {
 		String queryString = "select af from AlbumFotografico af ORDER BY af.id";
 		Query query = em.createQuery(queryString);
 		query.setMaxResults(i);
-		List result = query.getResultList();
+		List<AlbumFotografico> result = (List<AlbumFotografico>)query.getResultList();
 		return result;
 		
 	}

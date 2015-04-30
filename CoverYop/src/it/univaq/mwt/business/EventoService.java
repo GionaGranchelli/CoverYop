@@ -12,11 +12,11 @@ public interface EventoService {
 
 	public Set<Evento> findGruppoByEvent(Set<Evento> eventi);
 
-	public Set<Evento> findAllEventi();
+	public List<Evento> findAllEventi();
 	
 	public Evento updateEvent(Evento v);
 	
-	public Set<Evento> CustomSearchEventi(String nomeGruppo, String citta, String genere);
+	public List<Evento> CustomSearchEventi(String nomeGruppo, String citta, String genere);
 	
 
 	public List<Evento> findEventoByName(String nome);

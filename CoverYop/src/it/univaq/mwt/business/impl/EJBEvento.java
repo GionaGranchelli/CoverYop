@@ -39,22 +39,7 @@ public class EJBEvento implements EventoService {
     public EJBEvento() {
         // TODO Auto-generated constructor stub
     }
-    
-    
-//    @Override
-//	public Evento findEventoById(int eventoID) {
-//		
-//		Query query = em.createQuery("select ev "
-//				+ "from Evento ev, Gruppo gr "
-//				+ "where ev.id =:eventoID");
-//		query.setParameter("eventoID", eventoID);
-//		
-//	
-//		Evento result = (Evento) query.getSingleResult();
-//		return result;
-//		
-//		
-//	}
+
     @Override
     public Set<Evento> findGruppoByEvent(Set<Evento> eventi){
     	
@@ -87,16 +72,15 @@ public class EJBEvento implements EventoService {
 
 
 	@Override
-	public Set<Evento> findAllEventi() {
+	public List<Evento> findAllEventi() {
 		em.clear();
 		Query query = em.createQuery("select e "
 				+ "from Evento e, Gruppo g, Tour t, TipologiaEvento te where e.status > 10");
 				//+ " where e.id =: g.id"); 
 		
 		List<Evento> resultList = (List<Evento>) query.getResultList();
-		Set <Evento> result =  new HashSet<Evento>(resultList);
 		em.getEntityManagerFactory().getCache().evictAll();
-		return result;
+		return resultList;
 	}
     
 	@Override
@@ -125,10 +109,12 @@ public class EJBEvento implements EventoService {
 	}
 	
 	@Override
-	public Set<Evento> CustomSearchEventi(String nomeEvento,String tipologiaEvento, String luogo ) { 
+	public List<Evento> CustomSearchEventi(String nomeEvento,String tipologiaEvento, String luogo ) { 
 	String queryString = null;
-		
 	Query query = null;
+	if ( (nomeEvento==null) && (tipologiaEvento==null) && (luogo==null) ) {
+		return findAllEventi();
+	}
 	if (!(nomeEvento.isEmpty()) && !(luogo.isEmpty()) && !(tipologiaEvento.isEmpty())){
 			queryString = "select e from Evento e, Gruppo g, Genere gn, AlbumFotografico al, Foto f, Tour t, TipologiaEvento te where e.status > 10 AND  lower(e.nome) LIKE :nomeE AND lower(e.luogo) LIKE :luogo AND lower(e.tipologia_Eventi.nome) LIKE :tipologiaEvento";
 			query = em.createQuery(queryString);
@@ -181,15 +167,12 @@ public class EJBEvento implements EventoService {
 		}	
 		
 		List<Evento> lista = (List<Evento>) query.getResultList();
-		Set<Evento> result = new HashSet<Evento>(lista);
-		
-
-		return result;
+		return lista;
 	}
 
 
 	@Override
-public List<Evento> findEventoByName(String nome) {
+	public List<Evento> findEventoByName(String nome) {
 		String eventoToLower = nome.toLowerCase();
 		
 		Query queryE = em.createQuery("select DISTINCT evn"
@@ -202,6 +185,7 @@ public List<Evento> findEventoByName(String nome) {
 		return result;
 		
 	}
+	
 	public byte[] getImmagineEvento(int id) {
 		em.clear();
 		Query query = em.createQuery("select e "
@@ -216,62 +200,5 @@ public List<Evento> findEventoByName(String nome) {
 
 	}
 	
-	
-
-//    
-//    @Override
-//    public Set<Evento> findGruppoByEvent(List<Evento> eventi){
-//    	
-//    	Set<Evento> result = new HashSet<Evento>();
-//    	//Set<Gruppo> gruppi = new HashSet<Gruppo>();
-//    	for (Iterator iterator = eventi.iterator(); iterator.hasNext();) {
-//			Evento evento = (Evento) iterator.next();
-//			evento.getGruppo();
-//			result.add(evento);
-//			System.out.println();
-//		//List<Gruppo> lista = (List<Gruppo>) query.getResultList();
-//		
-////		for (Iterator iterator2 = lista.iterator(); iterator2.hasNext();) {
-////			Gruppo gruppo = (Gruppo) iterator2.next();
-////			gruppi.add(gruppo);
-////		}
-//			//gruppi = (Set<Gruppo>) query.getResultList();
-////			evento.setGruppo(gruppi);
-////			result.add(evento);
-//		}
-//		return result;
-//    	
-//    	
-//    }
-    
-//  @Override
-//  public List<Evento> findGruppoByEvent(List<Evento> eventi){
-//	  
-//	  List<Evento> result = new ArrayList<Evento>();
-//	 
-//	  for (Iterator iterator = eventi.iterator(); iterator.hasNext();) {
-//		Evento evento = (Evento) iterator.next();
-//		 Set<Gruppo> gruppi = new HashSet<Gruppo>();
-//		gruppi = findGruppo(evento);
-//		evento.setGruppo(gruppi);
-//		
-//	}
-//	  
-//	  
-//	  
-//	return result;
-//  
-//  
-//  
-//  }
-//
-//
-//private Set<Gruppo> findGruppo(Evento evento) {
-//	Set<Gruppo> result= new HashSet<Gruppo>();
-//	result= evento.getGruppo();
-//	return result;
-//}
-  
-
 
 }

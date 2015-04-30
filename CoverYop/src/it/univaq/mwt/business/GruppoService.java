@@ -11,7 +11,7 @@ import it.univaq.mwt.business.model.*;
 
 public interface GruppoService {
 	
-	public Set<Gruppo> findAllGruppi();
+	public List<Gruppo> findAllGruppi();
 	
 	public Gruppo findGruppoByUtente(Utente u);
 	
@@ -23,7 +23,7 @@ public interface GruppoService {
 
 	public Gruppo createGruppo(Gruppo gruppo);
 
-	public Set<Gruppo> CustomSearchGruppi(String nome, String citta, String genere);
+	public List<Gruppo> customSearchGruppi(String nome, String citta, String genere);
 	
 	public List<Utente> SearchUsers(String nome);
 	
@@ -31,7 +31,7 @@ public interface GruppoService {
 	
 	public List<Gruppo> findGruppoByName(String name);
 
-	public List findLastSubscribed(int i);
+	public List<Gruppo> findLastSubscribed(int i);
 
 	public Gruppo findGruppoByCoord(String nomeGruppo, String citta);
 

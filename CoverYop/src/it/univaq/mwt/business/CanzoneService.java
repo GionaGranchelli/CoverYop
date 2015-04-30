@@ -16,7 +16,7 @@ public interface CanzoneService {
 	public Canzone findCanzoneById(int canzoniID);
 	public List<Canzone> findAllCanzoni();
 	public void deleteCanzone(int canzoneID);
-	public List findLastSong(int i);
+	public List<Canzone> findLastSong(int i);
 	
 }
 
