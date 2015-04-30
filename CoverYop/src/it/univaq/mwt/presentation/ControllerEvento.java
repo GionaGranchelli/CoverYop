@@ -72,19 +72,16 @@ public class ControllerEvento {
 	@RequestMapping("/Events/{id}")
 	public String eventProfile(@PathVariable("id") int id, Model model){
 	
-		Evento evento = new Evento();
-		evento = es.findEventoById(id);
-		if (evento == null) return null; //Inserire Controllo migliore e 404!!
+		Evento evento = es.findEventoById(id);
+		
 		String[] title = FacilityTool.splitName(evento.getNome());
 		model.addAttribute("titolo_page_1", title[0]);
 		model.addAttribute("titolo_page_2", title[1]);
 		
 		List<Gruppo> gruppi = new ArrayList<Gruppo>(evento.getGruppo());
 		model.addAttribute("evento", evento);
-		System.out.println("MATTEO "+ evento.getLocandinaBlob());
 		model.addAttribute("fotoBlob", evento.getLocandinaBlob());
 		model.addAttribute("gruppi", gruppi);
-		
 		
 		return "evento.profile";
 		
