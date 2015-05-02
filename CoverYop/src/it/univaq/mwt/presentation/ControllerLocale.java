@@ -89,21 +89,14 @@ public class ControllerLocale {
 	
 	@RequestMapping("/")
 	public String welcome(Model model){
-		
 		Locale view_local = localeServ.findLocaleByUser(utente);
 		model.addAttribute("locale", view_local);
-		
-		
-		
-		Canale channel = new Canale();
-		channel = view_local.getCanale();
+		Canale channel = view_local.getCanale();
 		model.addAttribute("canali",channel);
-		 
 		return "local.loggato";
 	}
 	@RequestMapping("/updateLocale")
 	private String updateLocale(@ModelAttribute Locale locale){
-		
 		localeServ.update(locale);
 		return "redirect:/Privee/";
 	}
@@ -111,7 +104,6 @@ public class ControllerLocale {
 	private String utenteMod(Model model){
 		Locale view_local = localeServ.findLocaleByUser(utente);
 		model.addAttribute("locale", view_local);
-		
 		return "localeUtente.loggato";
 	}
 	@RequestMapping(value="/updateUtente", method = RequestMethod.POST)
