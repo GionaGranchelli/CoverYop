@@ -8,11 +8,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.ArrayList;
 
+import it.univaq.mwt.business.GenereService;
+import it.univaq.mwt.business.GruppoDiRiferimentoService;
 import it.univaq.mwt.business.GruppoService;
-
 import it.univaq.mwt.business.model.Album;
 import it.univaq.mwt.business.model.Evento;
+import it.univaq.mwt.business.model.Genere;
 import it.univaq.mwt.business.model.Gruppo;
+import it.univaq.mwt.business.model.GruppoDiRiferimento;
 import it.univaq.mwt.business.model.Locale;
 import it.univaq.mwt.business.model.Utente;
 
@@ -20,6 +23,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +36,12 @@ public class EJBGruppo implements GruppoService {
 
 	@PersistenceContext(unitName = "Yop-domain")
 	private EntityManager em;
+	
+	@Autowired
+	GenereService genereServ;
+	
+	@Autowired
+	GruppoDiRiferimentoService gruppoRifServ;
 
 	public EJBGruppo() {
 		// TODO Auto-generated constructor stub
@@ -204,6 +214,40 @@ public class EJBGruppo implements GruppoService {
 		queryl.setParameter("nomeL", "%" + localeToLower + "%");
 		List<Utente> resultL = queryl.getResultList();
 		return resultL;
+	}
+
+	@Override
+	public void buildGroupInfo(Gruppo viewGroup, Gruppo gruppo) {
+		viewGroup.setCachet(gruppo.getCachet());
+		viewGroup.setCitta(gruppo.getCitta());
+		viewGroup.setNomeGruppo(gruppo.getNomeGruppo());
+		viewGroup.setBiografia(gruppo.getBiografia());
+		viewGroup.setCanale(gruppo.getCanale());
+		viewGroup.setService(gruppo.getService());
+		viewGroup.setCover_Band(gruppo.getCover_Band());
+		if(gruppo.getGeneri() != null){
+			Set<Genere> asd = gruppo.getGeneri();
+			Iterator<Genere> i = asd.iterator();
+			while(i.hasNext()){
+				Genere a = new Genere();
+				Genere temp = new Genere();
+				a = i.next();
+				temp = genereServ.getGenereById(Integer.parseInt(a.getGenere()));
+				viewGroup.addGenere(temp);
+			}
+		}
+		if(gruppo.getGruppi_rif() != null){
+			Set<GruppoDiRiferimento> rif = gruppo.getGruppi_rif();
+			Iterator<GruppoDiRiferimento> j = rif.iterator();
+			while(j.hasNext()){
+				GruppoDiRiferimento a = new GruppoDiRiferimento();
+				GruppoDiRiferimento temp = new GruppoDiRiferimento();
+				a = j.next();
+				temp = gruppoRifServ.getGruppiDiRiferimentoById((Integer.parseInt(a.getNome())));
+				viewGroup.addGruppi_rif(temp);
+			}
+		}
+		
 	}
 
 }

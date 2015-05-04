@@ -159,6 +159,7 @@ select, option {
 		width: auto;
 		min-width: 160px;
 		height: auto;
+		margin-top: 2%;
 	}
 	.form input[type="checkbox"]{
 		width:5%;

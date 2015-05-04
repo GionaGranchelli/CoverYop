@@ -35,6 +35,8 @@ public interface GruppoService {
 
 	public Gruppo findGruppoByCoord(String nomeGruppo, String citta);
 
+	public void buildGroupInfo(Gruppo viewGroup, Gruppo gruppo);
+
 
 	
 	

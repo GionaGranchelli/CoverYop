@@ -51,6 +51,7 @@ import it.univaq.mwt.business.model.ServiceMusicale;
 import it.univaq.mwt.business.model.TipologiaEvento;
 import it.univaq.mwt.business.model.Utente;
 import it.univaq.mwt.business.model.Video;
+import it.univaq.mwt.common.utility.FacilityTool;
 import it.univaq.mwt.common.utility.SaveFile;
 
 import javax.naming.NamingException;
@@ -75,13 +76,13 @@ public class ControllerGruppo {
 	@Autowired
 	private Utente utente;
 	@Autowired
-	GruppoService gs;
+	GruppoService gruppoServ;
 	@Autowired
 	GenereService gens;
 	@Autowired
-	GruppoDiRiferimentoService gdrs;
+	GruppoDiRiferimentoService gruppiDiRiferimentoServ;
 	@Autowired
-	AlbumFotograficoService albs;
+	AlbumFotograficoService albumFotoServ;
 	@Autowired
 	VideoService videoServ;
 	@Autowired
@@ -97,47 +98,23 @@ public class ControllerGruppo {
 	LocaleService localeServ;
 	@Autowired
 	TipologiaEventoService tipologiaServ;
-	@Autowired
-	GenereService genereServ;
-	@Autowired
-	GruppoDiRiferimentoService gruppoRifServ;
 	@Autowired 
-	ConversationService cs;
-	//Tiene Traccia delle ricerche sui locali dentro la sezione evento
+	ConversationService conversationServ;
+	
 	List<Locale> countryList;
 	
 	@RequestMapping("/")
-	public String welcome(Model model) throws NamingException {
-		
-		//Prendo le informazioni relativi al Gruppo
-		int id = utente.getId();
-		Gruppo view_group = new Gruppo();
-		view_group = gs.findGruppoById(id);
-		model.addAttribute("gruppo", view_group);
-		
-		if (view_group == null) return null; //Inserire Controllo migliore e 404!!
-		
-		//Serve per Splittare il nome del Gruppo per l'header del profilo
-		String[] title = view_group.getNomeGruppo().split(" ");
-		if (title.length == 2){
-			model.addAttribute("titolo_page_1", title[0]);
-			model.addAttribute("titolo_page_2", title[1]);
-		}
-		
-		
-		List<Genere> generi = new ArrayList<Genere>();
-		generi = gens.findAllGeneri();
-		model.addAttribute("generi", generi);
-		model.addAttribute("generi_scelti", view_group.getGeneri());
-		
-		List<GruppoDiRiferimento> gruppirif = new ArrayList<GruppoDiRiferimento>();
-		gruppirif = gdrs.findAllGruppiDiRiferimento();
-		model.addAttribute("gruppirif", gruppirif);
-		model.addAttribute("gruppirif_scelti", view_group.getGruppi_rif());
-		Canale channel = new Canale();
-		channel = view_group.getCanale();
-		model.addAttribute("canali",channel);
-		
+	public String welcome(Model model) throws NamingException {			
+		Gruppo viewGroup = gruppoServ.findGruppoByUtente(utente);
+		model.addAttribute("gruppo", viewGroup);		
+		String[] title = FacilityTool.splitName(viewGroup.getNomeGruppo());		
+		model.addAttribute("titolo_page_1", title[0]);
+		model.addAttribute("titolo_page_2", title[1]);						
+		model.addAttribute("generi", gens.findAllGeneri());
+		model.addAttribute("generi_scelti", viewGroup.getGeneri());		
+		model.addAttribute("gruppirif", gruppiDiRiferimentoServ.findAllGruppiDiRiferimento());
+		model.addAttribute("gruppirif_scelti", viewGroup.getGruppi_rif()); 
+		model.addAttribute("canali", viewGroup.getCanale());		
 		return "profilo.loggato";
 	}
 	
@@ -146,64 +123,23 @@ public class ControllerGruppo {
 			@ModelAttribute("gruppo") Gruppo gruppo,
 			//BindingResult bindingResult,
 			Model model){
-		
-		int id = utente.getId();
-		Gruppo view_group = new Gruppo();
-		view_group = gs.findGruppoById(id);
-		
-		view_group.setCachet(gruppo.getCachet());
-		view_group.setCitta(gruppo.getCitta());
-		view_group.setNomeGruppo(gruppo.getNomeGruppo());
-		view_group.setBiografia(gruppo.getBiografia());
-		view_group.setCanale(gruppo.getCanale());
-		view_group.setService(gruppo.getService());
-		view_group.setCover_Band(gruppo.getCover_Band());
-		if(gruppo.getGeneri() != null){
-			Set<Genere> asd = gruppo.getGeneri();
-			Iterator<Genere> i = asd.iterator();
-			while(i.hasNext()){
-				Genere a = new Genere();
-				Genere temp = new Genere();
-				a = i.next();
-				temp = genereServ.getGenereById(Integer.parseInt(a.getGenere()));
-				view_group.addGenere(temp);
-			}
-		}
-		if(gruppo.getGruppi_rif() != null){
-			Set<GruppoDiRiferimento> rif = gruppo.getGruppi_rif();
-			Iterator<GruppoDiRiferimento> j = rif.iterator();
-			while(j.hasNext()){
-				GruppoDiRiferimento a = new GruppoDiRiferimento();
-				GruppoDiRiferimento temp = new GruppoDiRiferimento();
-				a = j.next();
-				temp = gruppoRifServ.getGruppiDiRiferimentoById((Integer.parseInt(a.getNome())));
-				view_group.addGruppi_rif(temp);
-			}
-		}
-		gs.update(view_group);
-		
-		return "redirect:/BackStage/";
-		
+		Gruppo viewGroup = gruppoServ.findGruppoByUtente(utente);			
+		gruppoServ.buildGroupInfo(viewGroup, gruppo);
+		gruppoServ.update(viewGroup);		
+		return "redirect:/BackStage/";		
 	}
+	
 	@RequestMapping("/Utente")
-	private String profilo(Model model){
-		
-		int id = utente.getId();
-		Gruppo view_group = new Gruppo();
-		view_group = gs.findGruppoById(id);
-		
+	private String profilo(Model model){				
+		Gruppo view_group =  gruppoServ.findGruppoByUtente(utente);	
 		model.addAttribute("utente", view_group);
 		return "profiloUtente.loggato";
 	}
 	@RequestMapping(value="/updateUtente", method = RequestMethod.POST)
 	private String modificaUtente(@ModelAttribute("utente") Gruppo gruppo,
 			//BindingResult bindingResult,
-			Model model){
-		
-		int id = utente.getId();
-		Gruppo view_group = new Gruppo();
-		view_group = gs.findGruppoById(id);
-		
+			Model model){			
+		Gruppo view_group = gruppoServ.findGruppoByUtente(utente);		
 		view_group.setNome(gruppo.getNome());
 		view_group.setCognome(gruppo.getCognome());
 		view_group.setCitta(gruppo.getCitta());
@@ -211,10 +147,8 @@ public class ControllerGruppo {
 		view_group.setTelefono(gruppo.getTelefono());
 		view_group.setUsername(gruppo.getUsername());
 		view_group.setEmail(gruppo.getEmail());
-		view_group.setPassword(gruppo.getPassword());
-		
-		gs.update(view_group);
-		
+		view_group.setPassword(gruppo.getPassword());		
+		gruppoServ.update(view_group);		
 		return "redirect:/BackStage/Utente";
 	}
 	@RequestMapping("/Multimedia")
@@ -222,38 +156,17 @@ public class ControllerGruppo {
 			@ModelAttribute("formFoto") FormFoto formFoto,
 			@ModelAttribute("formMusica") FormMusica formMusica,
 			@ModelAttribute("formVideo") FormVideo formVideo,
-			Model model){
-		
-		int id = utente.getId();
-		
-		//Prendo tutti gli album fotografici e le foto
-		
-		//Gruppo view_gruppo = gs.findGruppoById(id);
-		Gruppo view_gruppo = new Gruppo();
-		view_gruppo = gs.findGruppoByUtente(utente);
-		
-		List<AlbumFotografico> albums = new ArrayList<AlbumFotografico>(view_gruppo.getAlbumFotografico());
-		
-		//Prendo tutti gli album musicali
-		List<Album> albumsMusic = new ArrayList<Album>(view_gruppo.getAlbums());
-		//albumsMusic = albumServ.getAllAlbumsByGroupId(id);
-//
-//		//Prendo tutti i Video
-		List<Video> videos = new ArrayList<Video>(view_gruppo.getVideo());
-//		videos = videoServ.getAllVideoByGroupId(id);
-		
-		Foto fotoProfilo = view_gruppo.getFotoProfilo();
-		
+			Model model){		
+		Gruppo view_gruppo = gruppoServ.findGruppoByUtente(utente);			
 		model.addAttribute("gruppo",view_gruppo);
-		model.addAttribute("fotoProfilo",fotoProfilo);
-		model.addAttribute("albums",albums);
-		model.addAttribute("albumsMusic",albumsMusic);
-		model.addAttribute("videos",videos);
+		model.addAttribute("fotoProfilo",view_gruppo.getFotoProfilo());
+		model.addAttribute("albums",view_gruppo.getAlbumFotografico());
+		model.addAttribute("albumsMusic",view_gruppo.getAlbums());
+		model.addAttribute("videos", view_gruppo.getVideo());
 		model.addAttribute("formFotoProfilo", formFotoProfilo);
 		model.addAttribute("formFoto", formFoto);
 		model.addAttribute("formMusica", formMusica);
-		model.addAttribute("formVideo", formVideo);
-			
+		model.addAttribute("formVideo", formVideo);			
 		return "profiloMultimedia.loggato";
 	}
 	
@@ -266,29 +179,18 @@ public class ControllerGruppo {
 			@RequestParam(value = "albumTitle", required=false)String albumTitle,
 			@RequestParam(value = "titolo", required=false)String titolo,
 			@RequestParam(value = "url", required=false)String url
-			){
-		
-		int id = utente.getId();
-		Gruppo view_group = new Gruppo();
-		view_group = gs.findGruppoById(id);
-		
+			){			
+		Gruppo view_group = gruppoServ.findGruppoByUtente(utente);		
 		CommonsMultipartFile photoFileProfiloUploaded = null;
 		photoFileProfiloUploaded = photoFileProfilo;
 		if(photoFileProfiloUploaded != null){
 			SaveFile sF = new SaveFile();
-			Foto f = new Foto();
-			
+			Foto f = new Foto();			
 			f = sF.savePhotoProfile(photoFileProfiloUploaded, utente.getId());
 			byte [] tempByte = photoFileProfilo.getBytes();
-			f.setFotoBlob(tempByte);//setto direttamente il blob nella tabella
-			
-			if(view_group.getAlbumFotografico().isEmpty()){
-				
+			f.setFotoBlob(tempByte);//setto direttamente il blob nella tabella			
+			if(view_group.getAlbumFotografico().isEmpty()){				
 				AlbumFotografico newAlbumFoto = new AlbumFotografico();
-				
-				Random m = new Random();
-				int rand = m.nextInt((1000 - 10)+1);
-				//f.setId(rand);
 				newAlbumFoto.addFoto(f);
 				newAlbumFoto.setTag("profile");
 				newAlbumFoto.setTitolo("Immagini del Profilo");
@@ -298,9 +200,7 @@ public class ControllerGruppo {
 				newAlbumFoto.setIdForFoto();
 				newAlbumFoto.setLuogo(view_group.getCitta());
 				view_group.addAlbumFoto(newAlbumFoto);
-				view_group.setIdForAlbumFotografico();
-				
-				
+				view_group.setIdForAlbumFotografico();								
 				}
 			else{
 				AlbumFotografico oldAlbumFoto = new AlbumFotografico();
@@ -310,13 +210,8 @@ public class ControllerGruppo {
 				oldAlbumFoto.removeFoto(oldFoto);
 				fotoServ.deleteFoto(oldFoto.getId());
 				view_group.getAlbumFotografico().remove(oldAlbumFoto);
-				albs.removeAlbumFotografico(oldAlbumFoto.getId());
-				
-				AlbumFotografico newAlbumFoto = new AlbumFotografico();
-				
-				Random m = new Random();
-				int rand = m.nextInt((1000 - 10)+1);
-				//f.setId(rand); //ho la sequence
+				albumFotoServ.removeAlbumFotografico(oldAlbumFoto.getId());				
+				AlbumFotografico newAlbumFoto = new AlbumFotografico();				
 				newAlbumFoto.addFoto(f);
 				newAlbumFoto.setTag("profile");
 				newAlbumFoto.setTitolo("Immagini del Profilo");
@@ -324,50 +219,32 @@ public class ControllerGruppo {
 				Date newDate = calendar.getTime();
 				newAlbumFoto.setData(newDate);
 				newAlbumFoto.setIdForFoto();
-				newAlbumFoto.setLuogo(view_group.getCitta());
-				
+				newAlbumFoto.setLuogo(view_group.getCitta());				
 				view_group.addAlbumFoto(newAlbumFoto);  //add(newAlbumFoto);
 				view_group.setIdForAlbumFotografico();
 				}
-
-		}
-		
+		}		
 		CommonsMultipartFile[] photoFileAlbumFotograficoUploaded = null;
 		photoFileAlbumFotograficoUploaded = photoFile;
 		if(photoFileAlbumFotograficoUploaded != null){
 			SaveFile sF = new SaveFile();
-			List<Foto> f = new ArrayList<Foto>();
-			
-			f = sF.savePhotoAbum(photoFileAlbumFotograficoUploaded, utente.getId()); // ho messo la fotoblob allinterno del metodo photoFileAlbumFotograficoUploaded
-			
-			
-				AlbumFotografico newAlbumFoto = new AlbumFotografico();
-				
-				Random m = new Random();
-				int rand = m.nextInt((1000 - 10)+1);
-				for(int i=0;i<f.size();i++){
-					//f.get(i).setId(rand+i); ho la sequence
-				}
-				
-				
+			List<Foto> f = new ArrayList<Foto>();			
+			f = sF.savePhotoAbum(photoFileAlbumFotograficoUploaded, utente.getId()); // ho messo la fotoblob allinterno del metodo photoFileAlbumFotograficoUploaded						
+				AlbumFotografico newAlbumFoto = new AlbumFotografico();				
 				newAlbumFoto.addListFoto(f);
 				newAlbumFoto.setTag("slider");
-				newAlbumFoto.setTitolo("Album "+rand);
+				newAlbumFoto.setTitolo("Album "+"slider");
 				Calendar calendar = new GregorianCalendar();
 				Date newDate = calendar.getTime();
 				newAlbumFoto.setData(newDate);
 				newAlbumFoto.setIdForFoto();
 				newAlbumFoto.setLuogo(view_group.getCitta());
 				view_group.addAlbumFoto(newAlbumFoto);
-				view_group.setIdForAlbumFotografico();
-				
-				
-		}
-		
+				view_group.setIdForAlbumFotografico();								
+		}		
 		CommonsMultipartFile[] musicFileUploaded = null;
 		musicFileUploaded = musicFile;
-		if(musicFileUploaded != null){
-			
+		if(musicFileUploaded != null){			
 			SaveFile sM = new SaveFile();
 			List<Canzone> c = new ArrayList<Canzone>();
 			c = sM.saveMusic(musicFileUploaded, utente.getId());
@@ -401,25 +278,21 @@ public class ControllerGruppo {
 			v.setUtente(view_group);
 			view_group.addVideo(v);
 		}
-//		videoFileUploaded = videoFile;
-		
-
-		gs.update(view_group);
+		gruppoServ.update(view_group);
 		return "redirect:/BackStage/Multimedia";
 	}
 	@RequestMapping(value="/deletePhoto/{id}")
 	public String deletePhoto(@PathVariable int id){
 		fotoServ.deleteFoto(id);
 		List<AlbumFotografico> albums = new ArrayList<AlbumFotografico>(); 
-		albums = albs.getAllPhotoAlbumsByGroupId(utente.getId()); 
-		
+		albums = albumFotoServ.getAllPhotoAlbumsByGroupId(utente.getId()); 		
 		Iterator<AlbumFotografico> i = albums.iterator();
 		while(i.hasNext()){
 			AlbumFotografico  alb =  i.next();
-			int emptyAlbums = albs.emptyAlbumFotografico(alb);
+			int emptyAlbums = albumFotoServ.emptyAlbumFotografico(alb);
 			
 			if (emptyAlbums < 1) {
-				albs.removeAlbumFotografico(alb.getId());
+				albumFotoServ.removeAlbumFotografico(alb.getId());
 			}
 		}
 		
@@ -479,7 +352,7 @@ public class ControllerGruppo {
 		}
 		int id = utente.getId();
 		Gruppo view_group = new Gruppo();
-		view_group = gs.findGruppoById(id);
+		view_group = gruppoServ.findGruppoById(id);
 		
 		List<Evento> events = new ArrayList<Evento>(view_group.getEventi());
 		
@@ -545,11 +418,11 @@ public class ControllerGruppo {
 		ev.setStatus(1);
 		ev.setLuogo(ev.getLocale().getCitta());
 		//Prendo Oggetto del mio Gruppo
-		Gruppo g = gs.findGruppoById(utente.getId());
+		Gruppo g = gruppoServ.findGruppoById(utente.getId());
 		//Aggiungo Evento al Gruppo
 		g.addEvento(ev);
 		//Persisto Oggetto con modifiche
-		gs.update(g);
+		gruppoServ.update(g);
 		return "redirect:/BackStage/Eventi";
 	}
 	@RequestMapping("/newEvent")
@@ -595,12 +468,12 @@ public class ControllerGruppo {
 		tipologia_Eventi.setId(eventoMod.getTipologia_Eventi());
 		v.setTipologia_Eventi(tipologia_Eventi);
 		eventoServ.updateEvent(v);
-		Gruppo g = gs.findGruppoById(utente.getId());
+		Gruppo g = gruppoServ.findGruppoById(utente.getId());
 		g.printEvents();
 		System.out.println("---");
 		g.updateEvento(v);
 		g.printEvents();
-		gs.update(g);
+		gruppoServ.update(g);
 		return "redirect:/BackStage/newEvent";
 	}
 	
@@ -619,7 +492,7 @@ public class ControllerGruppo {
 		v.setStatus(v.getStatus()-1);
 		eventoServ.updateEvent(v);
 		c = utente.sendMessage(v.getLocale(), " Evento Rifiutato ", " Grazie, ma purtroppo devo declinare l'offerta ");
-		cs.createConversation(c);
+		conversationServ.createConversation(c);
 		return "redirect:/BackStage/Eventi";
 	}
 	

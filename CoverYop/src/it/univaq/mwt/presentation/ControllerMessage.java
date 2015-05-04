@@ -61,14 +61,11 @@ public class ControllerMessage {
 	MessageService ms;
 	@Autowired
 	FotoService fs;
-	 
-	
-	
+
 	@RequestMapping("/")
 	public String inbox(Model model) throws NamingException {
-		
-		int id = utente.getId();
-		List<Conversation> cl = new ArrayList<Conversation>(cs.findAllConversationByUserId(id));
+		Set<Conversation> cl = utente.getConversationMitt();
+		cl.addAll(utente.getConversationDest());
 		model.addAttribute("user", utente);
 		model.addAttribute("conversation", cl);	
 		model.addAttribute("nuovaconv", new Conversation());
@@ -76,8 +73,7 @@ public class ControllerMessage {
 	}
 	
 	@RequestMapping("/addconversation")
-		public String addConversation(@ModelAttribute("formContatta") FormContatta conversation, BindingResult bindingResult, Model model) throws NamingException {
-		
+		public String addConversation(@ModelAttribute("formContatta") FormContatta conversation, BindingResult bindingResult, Model model) throws NamingException {		
 		int id = utente.getId();
 		//System.out.println(conversation.getCorpo()+conversation.getTitolo());
 		Conversation conv = new Conversation();		
@@ -99,27 +95,19 @@ public class ControllerMessage {
 		msg.setDataInvio(Calendar.getInstance());
 		msg.setStatus(1);
 		conv.addMessage(msg);
-		//Random rand = new Random();
-		//int randomNum = rand.nextInt((1000 - 10) + 1) + 10;
-		//conv.setId(randomNum);
-		Conversation cv = cs.createConversation(conv);
-		
+		Conversation cv = cs.createConversation(conv);		
 		List<Conversation> cl = new ArrayList<Conversation>(cs.findAllConversationByUserId(id));
 		model.addAttribute("user", utente);
 		model.addAttribute("conversation", cl);
-		model.addAttribute("nuovaconv", new Conversation());
-		
+		model.addAttribute("nuovaconv", new Conversation());		
 		return "list.conversation";
 	}
 	
 	@RequestMapping("/addconversationLocal")
-	public String addConversationLocal(@ModelAttribute("formConversation") FormConversation conversation, BindingResult bindingResult, Model model) throws NamingException {
-	
+	public String addConversationLocal(@ModelAttribute("formConversation") FormConversation conversation, BindingResult bindingResult, Model model) throws NamingException {	
 	int id = utente.getId();
-	//System.out.println(conversation.getCorpo()+conversation.getTitolo());
 	Conversation conv = new Conversation();		
-	conv.setTitolo(conversation.getTitolo());
-	
+	conv.setTitolo(conversation.getTitolo());	
 	String[] parti = conversation.getDestinatario().split("::");
 	String nomeLocale = parti[0];
 	String indirizzo = parti[1];
@@ -197,42 +185,6 @@ public class ControllerMessage {
 	return "list.conversation";
 }
 	
-//	@RequestMapping("/addConversation")
-//	public String addConversationAjax(@ModelAttribute("formContatta") FormContatta conversation, BindingResult bindingResult, Model model) throws NamingException {
-//	
-//	int id = utente.getId();
-//	//System.out.println(conversation.getCorpo()+conversation.getTitolo());
-//	Conversation conv = new Conversation();		
-//	conv.setTitolo(conversation.getTitolo());
-//	
-//	Utente destinatario = us.findUtenteById(conversation.getId());
-//	conv.setDestinatario(destinatario);
-//	
-//	Utente mittente = us.findUtenteById(utente.getId());
-//	conv.setMittente(mittente);
-//	
-//	conv.setData(Calendar.getInstance());
-//	
-//	
-//	Message msg = new Message();
-//	msg.settext(conversation.getCorpo());
-//	msg.setAutore(mittente);
-//	msg.setConversation(conv);
-//	msg.setDataInvio(Calendar.getInstance());
-//	msg.setStatus(1);
-//	conv.addMessage(msg);
-//	//Random rand = new Random();
-//	//int randomNum = rand.nextInt((1000 - 10) + 1) + 10;
-//	//conv.setId(randomNum);
-//	Conversation cv = cs.createConversation(conv);
-//	
-//	List<Conversation> cl = new ArrayList<Conversation>(cs.findAllConversationByUserId(id));
-//	model.addAttribute("user", utente);
-//	model.addAttribute("conversation", cl);
-//	model.addAttribute("nuovaconv", new Conversation());
-//	
-//	return "list.conversation";
-//}
 	
 	@RequestMapping("/conversation/{id}")
 	public String readConversation(@PathVariable("id") int id, Model model) throws NamingException {
@@ -274,17 +226,8 @@ public String addreply(@PathVariable("id") int id, @ModelAttribute("messaggio") 
 		messaggio.setConversation(conversation);
 		messaggio.setStatus(1);
 		messaggio.setDataInvio(cal);
-		 //Random rand = new Random();
-		 //int randomNum = rand.nextInt((1000 - 10) + 1) + 10;
-		//messaggio.setId(randomNum);
 		conversation.addMessage(messaggio);
 		conversation=cs.updateConversation(conversation);
-		//Message msg = ms.createMessage(messaggio);
-		System.out.println(messaggio.gettext());
-		
-//aggiustare refresh della conversazione
-
-		//List<Message> ml = new array(conversation.getMessage());
 		model.addAttribute("utente", utente);
 		model.addAttribute("conversation", conversation);
 		String fotoprofilo2 = null;
