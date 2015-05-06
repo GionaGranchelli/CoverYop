@@ -8,6 +8,9 @@ import java.util.Set;
 
 
 
+
+
+
 import it.univaq.mwt.business.model.*;
 
 
@@ -35,5 +38,12 @@ public interface LocaleService {
 
 	public Locale findLocaleByCoord(String nomeLocale, String indirizzo,
 			String citta);
+
+	void buildInfoLocale(Utente utente, Locale viewLocale, Locale locale);
+	void buildInfoLocale(Locale viewLocale, Locale locale);
+
+	void buildInfoUtente(Locale l, Locale locale);
+	
+	Foto addPhotoProfile(Locale l, Foto f);
 
 }
