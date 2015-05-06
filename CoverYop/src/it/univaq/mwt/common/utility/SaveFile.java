@@ -1,6 +1,6 @@
 package it.univaq.mwt.common.utility;
 
-import it.univaq.mwt.business.form.local.FormFotoProfilo;
+import it.univaq.mwt.business.form.utente.FormFotoProfilo;
 import it.univaq.mwt.business.model.Canzone;
 import it.univaq.mwt.business.model.Foto;
 

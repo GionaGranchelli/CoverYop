@@ -176,7 +176,7 @@ public class EJBGruppo implements GruppoService {
 
 	@Override
 	public List<Gruppo> findLastSubscribed(int i) {
-		String queryString = "select grp from Gruppo grp ORDER BY grp.id";
+		String queryString = "select grp from Gruppo grp ORDER BY grp.id DESC";
 		Query query = em.createQuery(queryString).setMaxResults(i);
 		List<Gruppo> result = (List<Gruppo>) query.getResultList();
 		return result;

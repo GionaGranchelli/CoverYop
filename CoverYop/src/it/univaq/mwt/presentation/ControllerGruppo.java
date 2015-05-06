@@ -1,4 +1,5 @@
 package it.univaq.mwt.presentation;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.io.IOException;
@@ -28,12 +29,13 @@ import it.univaq.mwt.business.TipologiaEventoService;
 import it.univaq.mwt.business.LocaleService;
 import it.univaq.mwt.business.VideoService;
 import it.univaq.mwt.business.form.group.FormEvento;
-import it.univaq.mwt.business.form.group.FormFoto;
 import it.univaq.mwt.business.form.group.FormGruppo;
 import it.univaq.mwt.business.form.group.FormMultimedia;
 import it.univaq.mwt.business.form.group.FormMusica;
 import it.univaq.mwt.business.form.group.FormUtente;
 import it.univaq.mwt.business.form.group.FormVideo;
+import it.univaq.mwt.business.form.utente.FormFotoAlbum;
+import it.univaq.mwt.business.form.utente.FormFotoProfilo;
 import it.univaq.mwt.business.model.Album;
 import it.univaq.mwt.business.model.AlbumFotografico;
 import it.univaq.mwt.business.model.Cachet;
@@ -131,36 +133,36 @@ public class ControllerGruppo {
 	
 	@RequestMapping("/Utente")
 	private String profilo(Model model){				
-		Gruppo view_group =  gruppoServ.findGruppoByUtente(utente);	
-		model.addAttribute("utente", view_group);
+		Gruppo viewGroup =  gruppoServ.findGruppoByUtente(utente);	
+		model.addAttribute("utente", viewGroup);
 		return "profiloUtente.loggato";
 	}
 	@RequestMapping(value="/updateUtente", method = RequestMethod.POST)
 	private String modificaUtente(@ModelAttribute("utente") Gruppo gruppo,
 			//BindingResult bindingResult, inserire controllo e validazione----successivamente provare a mergiare direttamente senza fare i set
 			Model model){			
-		Gruppo view_group = gruppoServ.findGruppoByUtente(utente);		
-		view_group.setNome(gruppo.getNome());
-		view_group.setCognome(gruppo.getCognome());
-		view_group.setCitta(gruppo.getCitta());
-		view_group.setIndirizzo(gruppo.getIndirizzo());
-		view_group.setTelefono(gruppo.getTelefono());
-		view_group.setUsername(gruppo.getUsername());
-		view_group.setEmail(gruppo.getEmail());
-		view_group.setPassword(gruppo.getPassword());		
-		gruppoServ.update(view_group);		
+		Gruppo viewGroup = gruppoServ.findGruppoByUtente(utente);		
+		viewGroup.setNome(gruppo.getNome());
+		viewGroup.setCognome(gruppo.getCognome());
+		viewGroup.setCitta(gruppo.getCitta());
+		viewGroup.setIndirizzo(gruppo.getIndirizzo());
+		viewGroup.setTelefono(gruppo.getTelefono());
+		viewGroup.setUsername(gruppo.getUsername());
+		viewGroup.setEmail(gruppo.getEmail());
+		viewGroup.setPassword(gruppo.getPassword());		
+		gruppoServ.update(viewGroup);		
 		return "redirect:/BackStage/Utente";
 	}
 	@RequestMapping("/Multimedia")
 	private String ModificaMultimedia(Model model){		
-		Gruppo view_gruppo = gruppoServ.findGruppoByUtente(utente);			
-		model.addAttribute("gruppo",view_gruppo);
-		model.addAttribute("fotoProfilo",view_gruppo.getFotoProfilo());
-		model.addAttribute("albums",view_gruppo.getAlbumFotografico());
-		model.addAttribute("albumsMusic",view_gruppo.getAlbums());
-		model.addAttribute("videos", view_gruppo.getVideo());
-		model.addAttribute("formFotoProfilo", new FormFoto());
-		model.addAttribute("formFoto", new FormFoto());
+		Gruppo viewGroup = gruppoServ.findGruppoByUtente(utente);			
+		model.addAttribute("gruppo",viewGroup);
+		model.addAttribute("fotoProfilo",viewGroup.getFotoProfilo());
+		model.addAttribute("albums",viewGroup.getAlbumFotografico());
+		model.addAttribute("albumsMusic",viewGroup.getAlbums());
+		model.addAttribute("videos", viewGroup.getVideo());
+		model.addAttribute("formFotoProfilo", new FormFotoProfilo());
+		model.addAttribute("formFoto", new FormFotoAlbum());
 		model.addAttribute("formMusica", new FormMusica());
 		model.addAttribute("formVideo", new Video());			
 		return "profiloMultimedia.loggato";
@@ -277,6 +279,44 @@ public class ControllerGruppo {
 		gruppoServ.update(view_group);
 		return "redirect:/BackStage/Multimedia";
 	}
+	
+	@RequestMapping("/updateMultimediaFotoProfile")
+	private String updateMultimedia(
+			@ModelAttribute(value = "formFotoProfilo") FormFotoProfilo fotoProfilo, BindingResult bindingResult, Model model){
+		
+		Gruppo viewGroup = gruppoServ.findGruppoByUtente(utente);	
+		Foto foto = new Foto();
+		foto.setFotoBlob(fotoProfilo.getPhotoFile().getBytes());
+		viewGroup.setFotoProfiloByFoto(foto);
+		gruppoServ.update(viewGroup);
+		
+		
+		return "redirect:/BackStage/Multimedia";
+				
+				
+				
+				
+				
+			}
+	
+	@RequestMapping(value="/deletePhotoProfilo/{id}")
+	public String deletePhotoProfile(@PathVariable int id){
+		fotoServ.deleteFoto(id);
+		List<AlbumFotografico> albums = new ArrayList<AlbumFotografico>(); 
+		albums = albumFotoServ.getAllPhotoAlbumsByGroupId(utente.getId()); 		
+		Iterator<AlbumFotografico> i = albums.iterator();
+		while(i.hasNext()){
+			AlbumFotografico  alb =  i.next();
+			int emptyAlbums = albumFotoServ.emptyAlbumFotografico(alb);
+			
+			if (emptyAlbums < 1) {
+				albumFotoServ.removeAlbumFotografico(alb.getId());
+			}
+		}
+		
+		return "redirect:/BackStage/Multimedia";
+	}
+	
 	@RequestMapping(value="/deletePhoto/{id}")
 	public String deletePhoto(@PathVariable int id){
 		fotoServ.deleteFoto(id);

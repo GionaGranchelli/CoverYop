@@ -23,7 +23,7 @@ import it.univaq.mwt.business.GruppoService;
 import it.univaq.mwt.business.LocaleService;
 import it.univaq.mwt.business.TipologiaEventoService;
 import it.univaq.mwt.business.VideoService;
-import it.univaq.mwt.business.form.group.FormFoto;
+
 import it.univaq.mwt.business.form.group.FormMusica;
 import it.univaq.mwt.business.form.group.FormVideo;
 import it.univaq.mwt.business.form.local.FormEvento;
@@ -120,31 +120,31 @@ public class ControllerLocale {
 		return "redirect:/Privee/Utente";
 	}
 	
-	@RequestMapping("/Multimedia")
-	private String multimedia(@ModelAttribute("formFotoProfilo") FormFoto formFotoProfilo,
-//			@ModelAttribute("formMusica") FormMusica formMusica,
-			@ModelAttribute("formFoto") FormFoto formFoto,
-			@ModelAttribute("formVideo") FormVideo formVideo,
-			Model model){
-		
-		Locale l = new Locale();
-		l = localeServ.findLocaleByUser(utente);
-		List<AlbumFotografico> albums = new ArrayList<AlbumFotografico>(l.getAlbumFotografico());
-		
-		List<Video> videos = new ArrayList<Video>(l.getVideo());
-		
-		
-		
-		model.addAttribute("albums",albums);
-//		model.addAttribute("albumsMusic",null);
-		model.addAttribute("videos",videos);//matteo
-		model.addAttribute("formFotoProfilo", formFotoProfilo);
-//		model.addAttribute("formMusica", formMusica);
-		model.addAttribute("formFoto", formFoto);
-		model.addAttribute("formVideo", formVideo);
-		return "localeMultimedia.loggato";
-	}
-	
+//	@RequestMapping("/Multimedia")
+//	private String multimedia(@ModelAttribute("formFotoProfilo") FormFoto formFotoProfilo,
+////			@ModelAttribute("formMusica") FormMusica formMusica,
+//			@ModelAttribute("formFoto") FormFoto formFoto,
+//			@ModelAttribute("formVideo") FormVideo formVideo,
+//			Model model){
+//		
+//		Locale l = new Locale();
+//		l = localeServ.findLocaleByUser(utente);
+//		List<AlbumFotografico> albums = new ArrayList<AlbumFotografico>(l.getAlbumFotografico());
+//		
+//		List<Video> videos = new ArrayList<Video>(l.getVideo());
+//		
+//		
+//		
+//		model.addAttribute("albums",albums);
+////		model.addAttribute("albumsMusic",null);
+//		model.addAttribute("videos",videos);//matteo
+//		model.addAttribute("formFotoProfilo", formFotoProfilo);
+////		model.addAttribute("formMusica", formMusica);
+//		model.addAttribute("formFoto", formFoto);
+//		model.addAttribute("formVideo", formVideo);
+//		return "localeMultimedia.loggato";
+//	}
+//	
 	
 	@RequestMapping("/updateMultimedia")
 	private String updateMultimedia(

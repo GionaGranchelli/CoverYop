@@ -100,11 +100,14 @@ public class EJBFoto implements FotoService {
 		query.setParameter("id", id);
 		query.setParameter("profile", "profile");
 		
-		byte[] fotoProfilo = null;
+		//byte[] fotoProfilo = null;
 		
-		if(query.getSingleResult().equals(null)){		
-		 fotoProfilo  = (byte[]) query.getSingleResult(); //inserire controllo se immagine non c'è
-		}
+		List<byte[]> lf = new ArrayList<byte[]>(query.getResultList());
+		byte[] fotoProfilo = lf.get(0);
+		
+//		if(query.getSingleResult().equals(null)){		
+//		 fotoProfilo  = (byte[]) query.getSingleResult(); //inserire controllo se immagine non c'è
+//		}
 		//inserire avatar default 
 
 		return fotoProfilo;

@@ -185,7 +185,7 @@ public class EJBLocale implements LocaleService {
 
 	@Override
 	public List<Locale> findlastSubscribed(int i) {
-		String queryString = "select l from Locale l ORDER BY l.id";
+		String queryString = "select l from Locale l ORDER BY l.id DESC";
 		Query query = em.createQuery(queryString);
 		query.setMaxResults(i);
 		List<Locale> result = (List<Locale>) query.getResultList();

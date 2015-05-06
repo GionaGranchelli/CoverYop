@@ -85,14 +85,14 @@
 						<!-- /tabs navigation -->
 							<div class="tab-content" id="tab-photo">
 								
-								<form:form action="${pageContext.request.contextPath}/BackStage/updateMultimedia" 
+								<form:form action="${pageContext.request.contextPath}/BackStage/updateMultimediaFotoProfile" 
 								   method="POST" 
 								   class="form contact-form"
 								   commandName="formFotoProfilo"
 								   enctype="multipart/form-data">
 									<h2>Inserisci la foto del profilo</h2>
 									<div class="comandi">
-									<form:input path="photoFileProfilo" type="file"  multiple="multiple"/>
+									<form:input path="photoFile" type="file" />
 									</div>
 									<div class="gallery-3-col gallery-join">
 										<div class="photos">
@@ -100,7 +100,7 @@
 						                    <%-- <img src="${pageContext.request.contextPath}/${fotoProfilo.url}" alt="Image Title" class="immaginiModifica">  --%>
 						                     <img src="${pageContext.request.contextPath}/Group/image.html?id=${gruppo.id}"  alt="Artist Image">
 						                      <span class="icon-wrap" style="float:left;">
-						                           <a href="${pageContext.request.contextPath}/BackStage/deletePhoto/${fotoProfilo.id}">
+						                           <a href="${pageContext.request.contextPath}/BackStage/deletePhotoProfilo/${fotoProfilo.id}">
 							                            Cancella
 							                  				<span class="icon icon-cancel-circle"></span>
 						                            </a>
@@ -199,18 +199,22 @@
                             </div>
 							
 							<div class="tab-content" id="tab-video">
-							<form:form action="${pageContext.request.contextPath}/BackStage/updateMultimedia" 
+							<form:form action="${pageContext.request.contextPath}/BackStage/updateMultimediaVideo" 
 								   method="POST" 
 								   class="form contact-form"
 								   commandName="formVideo"
 								   >
 								<h2>Inserisci un nuovo video</h2>
 								<div class="comandi" style="margin-bottom:25px;">
-									<span>Titolo Canzone</span>
+									<span>Titolo Video</span>
 									<form:input path="titolo" type="text"/>
 									<span>Inserisci Iframe</span>
 									<form:input path="url" type="text"/>
 									<input type="submit" value="Yop - Video" style="margin-top:15px;"/>
+									<span>Inserisci Tag</span>
+									<form:input path="tag" type="text"/>
+									<input type="submit" value="Yop - Video" style="margin-top:15px;"/>
+									
 								</div>
 								<div id="videoCollection">
 								<h2>I tuoi video</h2>
