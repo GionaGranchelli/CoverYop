@@ -148,19 +148,19 @@ public class ControllerLocale {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return "common.ok";
+		return "redirect:/Privee/Multimedia";
 	}
 	@RequestMapping("/updateMultimedia/AlbumPhoto")
 	private String updateAlbumPhoto(@ModelAttribute FormFotoAlbum formFotoAlbum, Model model){
 		Locale l = localeService.findLocaleByUser(utente);
 		localeService.buildAlbumFoto(formFotoAlbum, l);
-		return "common.ok";
+		return "redirect:/Privee/Multimedia";
 	}
 	@RequestMapping("/updateMultimedia/Video")
 	private String updateVideo(@ModelAttribute Video video, Model model){
-		System.out.println("Video URL");
-		System.out.println("Video Iframe");
-		return "localeMultimedia.loggato";
+		Locale l = localeService.findLocaleByUser(utente);
+		videoService.buildVideoInfo(l,video);
+		return "redirect:/Privee/Multimedia";
 	}
 	@RequestMapping("/updateMultimedia")
 	private String updateMultimedia(Model model){

@@ -1,5 +1,6 @@
 package it.univaq.mwt.business.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import it.univaq.mwt.business.VideoService;
@@ -7,6 +8,7 @@ import it.univaq.mwt.business.VideoService;
 
 import it.univaq.mwt.business.model.Album;
 import it.univaq.mwt.business.model.Canzone;
+import it.univaq.mwt.business.model.Locale;
 import it.univaq.mwt.business.model.Video;
 
 import javax.persistence.EntityManager;
@@ -69,6 +71,31 @@ public class EJBVideo implements VideoService {
 	@Override
 	public void deleteVideo(Video v) {
 		// TODO Auto-generated method stub
+		
+	}
+
+	@Transactional
+	public Video insertVideo(Video v) {
+		em.flush();
+		Video toPersist = v;
+		System.out.println("Video da Persistere" + toPersist.getUtente());
+		System.out.println("Video da Persistere" + toPersist.getTag());
+		System.out.println("Video da Persistere" + toPersist.getTitolo());
+		System.out.println("Video da Persistere" + toPersist.getUrl());
+		System.out.println("Video da Persistere" + toPersist.getData());
+		em.persist(toPersist);
+		em.getEntityManagerFactory().getCache().evictAll();
+		return toPersist;
+	}
+
+	@Override
+	public void buildVideoInfo(Locale l, Video v) {
+		Video toPersist = v;
+		toPersist.setUtente(l);
+		toPersist.setData(new Date());
+		toPersist.setTag("Video");
+		insertVideo(toPersist);
+		
 		
 	}
 

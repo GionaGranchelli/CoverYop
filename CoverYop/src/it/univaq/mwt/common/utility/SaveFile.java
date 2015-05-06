@@ -230,6 +230,7 @@ public final class SaveFile {
 			tempSlider.setLuogo(l.getCitta());
 			tempSlider.setTag(albumType);
 			tempSlider.setTitolo(description);
+			tempSlider.setUtente(l);
 		}else{
 			tempSlider = l.getAlbumSlider();
 		}

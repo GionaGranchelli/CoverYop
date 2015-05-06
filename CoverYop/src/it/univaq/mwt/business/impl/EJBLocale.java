@@ -278,13 +278,15 @@ public class EJBLocale implements LocaleService {
 	@Override
 	public void buildAlbumFoto(FormFotoAlbum formFotoAlbum, Locale l) {
 		AlbumFotografico toStorePhotoSlider= SaveFile.savePhotoBlobGeneral(formFotoAlbum, l ,"slideshow", "Album da Slider");
-		
-		if(toStorePhotoSlider.getId() != 0){
+//		System.out.println("toStorePhotoSlider" + toStorePhotoSlider.getUtente().getId());
+//		if(toStorePhotoSlider.getId() != 0){
+//			System.out.println("SOno Entrato NEll Update");
 			albumFotograficoService.updatePhotoAlbum(toStorePhotoSlider);
-		}else{
-			albumFotograficoService.insertAlbumFotografico(toStorePhotoSlider);
-		}
-		
+//		}else{
+//			System.out.println("SOno Entrato NEll Insert");
+//			albumFotograficoService.insertAlbumFotografico(toStorePhotoSlider);
+//		}
+//		
 		fotoService.insertSetFoto(toStorePhotoSlider.getFoto());
 		
 		

@@ -109,22 +109,15 @@
 									<form:input path="url" type="text"/>
 									<input type="submit" value="Yop - Video" style="margin-top:15px;"/>
 								</div>
-								<div class="details-meta" id="videoCollection">
-								<h2>I tuoi video</h2>
-								<c:forEach items="${videos}" var="soundcloud">
-									<span>${soundcloud.titolo}</span>
-									<span style="float:right;"><a href="${pageContext.request.contextPath}/BackStage/deleteVideo/${soundcloud.id}"><span class="icon icon-cancel-circle"></span>Cancella</a></span>
-									<div>${soundcloud.url}</div>
-								</c:forEach>
-								</div>
+								
 								
 								</form:form>
 							</div>
 							
 					</div>
-				<div class="details-meta gallery-3-col gallery-join">
+				<div class="details-countdown gallery-3-col gallery-join">
 						<c:forEach items="${albums}" var="albums" varStatus="status">
-							<div class="photoAlbums" id="${albums.id}">
+							<div class="details-meta photoAlbums" id="${albums.id}">
 							<h2>${albums.titolo}</h2>
 							<c:forEach items="${albums.foto}" var="foto" varStatus="status">
 								<div class="photos">
@@ -138,6 +131,14 @@
 						</c:forEach>
 			
 		   </div>
+		   <div class="details-meta" id="videoCollection">
+								<h2>I tuoi video</h2>
+								<c:forEach items="${videos}" var="soundcloud">
+									<span>${soundcloud.titolo}</span>
+									<span style="float:right;"><a href="${pageContext.request.contextPath}/BackStage/deleteVideo/${soundcloud.id}"><span class="icon icon-cancel-circle"></span>Cancella</a></span>
+									<div>${soundcloud.url}</div>
+								</c:forEach>
+								</div>
 				</article>
 				<!-- /article -->
 				<!-- Page navigation -->
