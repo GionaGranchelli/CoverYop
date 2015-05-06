@@ -1,10 +1,11 @@
 package it.univaq.mwt.business.impl;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import it.univaq.mwt.business.FotoService;
-
 import it.univaq.mwt.business.model.AlbumFotografico;
 import it.univaq.mwt.business.model.Canzone;
 import it.univaq.mwt.business.model.Evento;
@@ -41,14 +42,18 @@ public class EJBFoto implements FotoService {
 		query.setParameter("fotoID", fotoID);
 		Foto f = (Foto) query.getSingleResult();
 		// Canzone c = new Canzone();
-		if (f == null) 
+		if (f == null) {
+			em.getEntityManagerFactory().getCache().evictAll();
 			return new Foto();
-		else 
+		}else{
+			em.getEntityManagerFactory().getCache().evictAll();
 			return f;
+		}
+		
 	}
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-	public void deleteFoto(int fotoID) {
+	public void deleteFotoById(int fotoID) {
 		Foto f = getFotoById(fotoID);
 		em.remove(f);
 
@@ -57,12 +62,23 @@ public class EJBFoto implements FotoService {
 		int result = query.executeUpdate();
 		em.getEntityManagerFactory().getCache().evict(Foto.class);
 	}
+	
 
 	@Transactional
 	public Foto insertFoto(Foto f) {
 		Foto grp = f;
 		em.persist(grp);
+		em.getEntityManagerFactory().getCache().evictAll();
 		return grp;
+	}
+	@Transactional
+	public void insertSetFoto(Set<Foto> setFoto) {
+		Iterator<Foto> i = setFoto.iterator();
+		while(i.hasNext()){
+			Foto temp = i.next();
+			em.merge(temp);
+		}
+		em.getEntityManagerFactory().getCache().evictAll();
 	}
 
 	@Transactional
@@ -123,12 +139,6 @@ public class EJBFoto implements FotoService {
 	@Override
 	public List<byte[]> getFotoSliderByUtenteIdBlob(int id) {
 		
-//		select ft.fotoBlob from Utente u, AlbumFotografico af, Foto ft 
-//		where u.user_id= 63
-//		AND af.tag = 'slider'
-//		AND af.utente_user_id=u.user_id 
-//		AND ft.albumFotograficoid=af.id;
-//		 AND af.utente=u AND ft.albumFotografico =af
 		Query query = em
 				.createQuery("SELECT ft.fotoBlob"
 							+ " FROM Foto ft LEFT JOIN"
@@ -168,9 +178,14 @@ public class EJBFoto implements FotoService {
 				.createQuery("select f from Foto f where f.id =:fotoID");
 		query.setParameter("fotoID", id);
 		Foto f = (Foto) query.getSingleResult();
-		// Canzone c = new Canzone();
 		byte[] temp = f.getFotoBlob();
 		return temp;
+	}
+
+	@Transactional
+	public void deleteFotoByObj(Foto f) {
+		em.remove(f);
+		em.getEntityManagerFactory().getCache().evictAll();
 	}
 	
 	

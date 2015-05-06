@@ -23,11 +23,8 @@ public class UserDetailsImpl implements UserDetails {
 	@Override
 	public Collection<GrantedAuthority> getAuthorities() {
 		List<GrantedAuthority> result = new ArrayList<GrantedAuthority>();
-//		System.out.println("ma ecc ncè passem??");
-//		System.out.println("BALOTELLI"+user.getRuolo().getNome());
 		Ruolo role = user.getRuolo();
-			result.add(new GrantedAuthorityImpl(role.getNome()));			
-		
+		result.add(new GrantedAuthorityImpl(role.getNome()));			
 		return result;
 	}
 

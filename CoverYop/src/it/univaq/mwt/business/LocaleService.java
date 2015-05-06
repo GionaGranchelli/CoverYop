@@ -11,6 +11,11 @@ import java.util.Set;
 
 
 
+
+
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
+import it.univaq.mwt.business.form.local.FormFotoAlbum;
 import it.univaq.mwt.business.model.*;
 
 
@@ -45,5 +50,7 @@ public interface LocaleService {
 	void buildInfoUtente(Locale l, Locale locale);
 	
 	Foto addPhotoProfile(Locale l, Foto f);
+
+	public void buildAlbumFoto(FormFotoAlbum formFotoAlbum, Locale l);
 
 }

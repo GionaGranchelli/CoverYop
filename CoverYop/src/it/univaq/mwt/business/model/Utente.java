@@ -425,16 +425,8 @@ public abstract class Utente implements Serializable{
 					this.albumFotografico.add(al);
 				}
 		}
-//		List<AlbumFotografico> albumFotografici = new ArrayList<AlbumFotografico>(this.albumFotografico);
-//			for(int i=0;i<albumFotografici.size();i++){
-//				if(albumFotografici.get(i).getTag().contains("profile")){
-//					albumFotografici.get(i) = al;
-					
-					
-			//	}
-			//}
-			
 	}
+	
 	public AlbumFotografico getAlbumProfilo(){
 		Iterator<AlbumFotografico> iA = this.albumFotografico.iterator();
 		while(iA.hasNext()){
@@ -470,7 +462,7 @@ public abstract class Utente implements Serializable{
 		return conv;
 	}
 	
-public void setIdForAlbumFotografico(){
+	public void setIdForAlbumFotografico(){
 		
 		Iterator<AlbumFotografico> i = albumFotografico.iterator();
 		while(i.hasNext()){
@@ -490,6 +482,17 @@ public void setIdForAlbumFotografico(){
 							
 						}
 			}
+	}
+	
+	public AlbumFotografico getAlbumSlider(){
+		Iterator<AlbumFotografico> iA = this.albumFotografico.iterator();
+		while(iA.hasNext()){
+			AlbumFotografico albumFotograficoTemp = iA.next();
+				if(albumFotograficoTemp.getTag().contains("slideshow")){
+					return albumFotograficoTemp;
+				}
+		}
+		return null; //Gestire con un eccezzione
 	}
 	
 	}

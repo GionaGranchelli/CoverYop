@@ -1,19 +1,25 @@
 package it.univaq.mwt.common.utility;
 
+import it.univaq.mwt.business.form.local.FormFotoAlbum;
 import it.univaq.mwt.business.form.local.FormFotoProfilo;
+import it.univaq.mwt.business.model.AlbumFotografico;
 import it.univaq.mwt.business.model.Canzone;
 import it.univaq.mwt.business.model.Foto;
+import it.univaq.mwt.business.model.Locale;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-public class SaveFile {
+public final class SaveFile {
 
 	public final String realPath = new String("C:\\");
 	
@@ -128,31 +134,20 @@ public class SaveFile {
 
 		return f;
 	}
-	public void savePhotoBlobGeneral(FormFotoProfilo toSaveFile, Foto f, int idUser, String type, String title) throws IOException {
-		System.out.println("Dentrooooooooo");
-		System.out.println("dentro Save" + title);
-		System.out.println("dentro Save" + type);
+	public static void savePhotoBlobGeneral(FormFotoProfilo toSaveFile, Foto f, int idUser, String type, String title) throws IOException {
+
 		String path = null; // Serve a Generare il Path dove salvare le Photo
 		CommonsMultipartFile cpFile = toSaveFile.getPhotoFile();
-//		String realPath = new String("C:");
-//		path = realPath + File.separator + idUser + File.separator + type;
-//		new File(path).mkdir();
-
 		byte dataToWrite[] = cpFile.getBytes();
 		try {
-//			BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(path + File.separator + cpFile.getOriginalFilename())));
 			f.setUrl(title);
 			f.setFotoBlob(cpFile.getBytes());
-			System.out.println("dentro Save" + f.getUrl());
-			System.out.println("dentro Save" + f.getFotoBlob());
-//			stream.write(dataToWrite);
-//			stream.close();
 		} catch (Exception e) {
-			System.err.println("Errore");
+			System.err.println("Errore nel Salvataggio del BLOB");
 			e.printStackTrace();
 		}
 
-		System.out.println("Fuori");
+		
 	}
 	public List<Canzone> saveMusic(CommonsMultipartFile[] toSaveFile, int idUser) {
 		String path = null; // Serve a Generare il Path dove salvare le Photo
@@ -218,7 +213,36 @@ public class SaveFile {
 //	}
 
 	public void saveVideo(CommonsMultipartFile[] toSaveFile, int idUser) {
+		
 
+	}
+
+	public static AlbumFotografico savePhotoBlobGeneral(FormFotoAlbum formFotoAlbum, Locale l,
+			String albumType, String description) {
+		
+		CommonsMultipartFile[] tempFileUploaded = formFotoAlbum.getPhotoFile();
+		int size = tempFileUploaded.length;
+		int i= 0; //iterator
+		AlbumFotografico tempSlider;
+		if(l.getAlbumSlider() == null){
+			tempSlider = new AlbumFotografico();
+			tempSlider.setData(new Date());
+			tempSlider.setLuogo(l.getCitta());
+			tempSlider.setTag(albumType);
+			tempSlider.setTitolo(description);
+		}else{
+			tempSlider = l.getAlbumSlider();
+		}
+		for(i = 0; i < size; i++){
+			Foto temp = new Foto();
+			CommonsMultipartFile tempBytePhoto = tempFileUploaded[i];
+			temp.setAlbumFotografico(tempSlider);
+			temp.setFotoBlob(tempBytePhoto.getBytes());
+			temp.setUrl(description);
+			tempSlider.addFoto(temp);
+			
+		}
+		return tempSlider;
 	}
 
 }

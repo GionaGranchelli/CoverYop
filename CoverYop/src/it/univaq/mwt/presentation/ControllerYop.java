@@ -250,10 +250,7 @@ public class ControllerYop {
 	Canale channel = locale.getCanale();
 	model.addAttribute("canali",channel); 
 	
-	Set<Foto> slideshow;
-	List<AlbumFotografico> albums = new ArrayList<AlbumFotografico>(locale.getAlbumFotografico());
-	slideshow = FacilityTool.getSlider(albums);
-	model.addAttribute("slideshow", slideshow);
+	model.addAttribute("slideshow", locale.getAlbumSlider().getFoto());
 	
 	List<Video> video = new ArrayList<Video>(locale.getVideo());
 	model.addAttribute("video", video);

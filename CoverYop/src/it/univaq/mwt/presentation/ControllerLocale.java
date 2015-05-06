@@ -27,6 +27,8 @@ import it.univaq.mwt.business.form.group.FormFoto;
 import it.univaq.mwt.business.form.group.FormMusica;
 import it.univaq.mwt.business.form.group.FormVideo;
 import it.univaq.mwt.business.form.local.FormEvento;
+import it.univaq.mwt.business.form.local.FormFotoAlbum;
+import it.univaq.mwt.business.form.local.FormFotoProfilo;
 import it.univaq.mwt.business.model.Album;
 import it.univaq.mwt.business.model.AlbumFotografico;
 import it.univaq.mwt.business.model.Canale;
@@ -41,6 +43,7 @@ import it.univaq.mwt.business.model.Locale;
 import it.univaq.mwt.business.model.TipologiaEvento;
 import it.univaq.mwt.business.model.Utente;
 import it.univaq.mwt.business.model.Video;
+import it.univaq.mwt.common.utility.FacilityTool;
 import it.univaq.mwt.common.utility.SaveFile;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,214 +63,221 @@ public class ControllerLocale {
 	@Autowired
 	private Utente utente;
 	@Autowired
-	GruppoService gs;
+	GruppoService gruppoService;
 	@Autowired
 	CategoriaService categoriaServ;
 	@Autowired
-	GruppoDiRiferimentoService gdrs;
+	GruppoDiRiferimentoService gruppoDiRiferimentoService;
 	@Autowired
-	AlbumFotograficoService albs;
+	AlbumFotograficoService albumFotograficoService;
 	@Autowired
-	VideoService videoServ;
+	VideoService videoService;
 	@Autowired
-	AlbumService albumServ;
+	AlbumService albumService;
 	@Autowired
-	FotoService fotoServ;
+	FotoService fotoService;
 	@Autowired
-	CanzoneService canzoneServ;
+	CanzoneService canzoneService;
 	@Autowired
-	EventoService eventoServ;
+	EventoService eventoService;
 	Evento eventoDaModificare = new Evento(0);
 	Set<Gruppo> groupP; //Tiene traccia dei gruppi per evento durante la modifica
 	List<Gruppo> countryList;
 	@Autowired
-	LocaleService localeServ;
+	LocaleService localeService;
 	@Autowired
-	TipologiaEventoService tipologiaServ;
+	TipologiaEventoService tipologiaService;
 	@Autowired 
-	ConversationService cs;
+	ConversationService conversationService;
 	
 	@RequestMapping("/")
 	public String welcome(Model model){
-		Locale view_local = localeServ.findLocaleByUser(utente);
-		model.addAttribute("locale", view_local);
-		Canale channel = view_local.getCanale();
+		Locale viewLocal = localeService.findLocaleByUser(utente);
+		model.addAttribute("locale", viewLocal);
+		String[] title = FacilityTool.splitName(viewLocal.getNomeLocale());		
+		model.addAttribute("titolo_page_1", title[0]);
+		model.addAttribute("titolo_page_2", title[1]);	
+		Canale channel = viewLocal.getCanale();
 		model.addAttribute("canali",channel);
 		return "local.loggato";
 	}
 	@RequestMapping("/updateLocale")
-	private String updateLocale(@ModelAttribute Locale locale){
-		localeServ.update(locale);
+	private String updateLocale(@ModelAttribute("locale") Locale locale){
+		Locale viewLocale = localeService.findLocaleByUser(utente);
+		localeService.buildInfoLocale(viewLocale, locale);
+		localeService.update(viewLocale);
 		return "redirect:/Privee/";
 	}
 	@RequestMapping("/Utente")
 	private String utenteMod(Model model){
-		Locale view_local = localeServ.findLocaleByUser(utente);
-		model.addAttribute("locale", view_local);
+		model.addAttribute("locale", utente);
 		return "localeUtente.loggato";
 	}
 	@RequestMapping(value="/updateUtente", method = RequestMethod.POST)
-	private String updateUtente(@ModelAttribute Locale locale, Model model){
-		
-		Locale l = localeServ.findLocaleByUser(utente);
-		l.setNome(locale.getNome());
-		l.setCitta(locale.getCitta());
-		l.setTelefono(locale.getTelefono());
-		l.setUsername(locale.getUsername());
-		l.setEmail(locale.getEmail());
-		l.setPassword(locale.getPassword());
-		localeServ.update(l);
+	private String updateUtente(@ModelAttribute("locale") Locale locale, Model model){
+		Locale l = localeService.findLocaleByUser(utente);
+		localeService.buildInfoUtente(l,locale);
+		localeService.update(l);
 		return "redirect:/Privee/Utente";
 	}
 	
 	@RequestMapping("/Multimedia")
-	private String multimedia(@ModelAttribute("formFotoProfilo") FormFoto formFotoProfilo,
-//			@ModelAttribute("formMusica") FormMusica formMusica,
-			@ModelAttribute("formFoto") FormFoto formFoto,
-			@ModelAttribute("formVideo") FormVideo formVideo,
-			Model model){
+	private String multimedia(Model model){
 		
-		Locale l = new Locale();
-		l = localeServ.findLocaleByUser(utente);
+		Locale l = localeService.findLocaleByUser(utente);
 		List<AlbumFotografico> albums = new ArrayList<AlbumFotografico>(l.getAlbumFotografico());
-		
 		List<Video> videos = new ArrayList<Video>(l.getVideo());
 		
-		
-		
 		model.addAttribute("albums",albums);
-//		model.addAttribute("albumsMusic",null);
-		model.addAttribute("videos",videos);//matteo
-		model.addAttribute("formFotoProfilo", formFotoProfilo);
-//		model.addAttribute("formMusica", formMusica);
-		model.addAttribute("formFoto", formFoto);
-		model.addAttribute("formVideo", formVideo);
+		model.addAttribute("videos",videos);
+		
+		model.addAttribute("formFotoProfilo", new FormFotoProfilo());
+		model.addAttribute("formFoto", new FormFotoAlbum());
+		model.addAttribute("formVideo", new Video());
 		return "localeMultimedia.loggato";
 	}
 	
-	
+	@RequestMapping("/updateMultimedia/ProfileImage")
+	private String updateFotoProfile(@ModelAttribute FormFotoProfilo formFotoProfilo, Model model){
+		Locale l = localeService.findLocaleByUser(utente);
+		Foto f = new Foto();
+		try {
+			SaveFile.savePhotoBlobGeneral(formFotoProfilo, f, utente.getId(),"ProfileImage", "Immagine di Profilo");
+			f = localeService.addPhotoProfile(l, f);
+			fotoService.insertFoto(f);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return "common.ok";
+	}
+	@RequestMapping("/updateMultimedia/AlbumPhoto")
+	private String updateAlbumPhoto(@ModelAttribute FormFotoAlbum formFotoAlbum, Model model){
+		Locale l = localeService.findLocaleByUser(utente);
+		localeService.buildAlbumFoto(formFotoAlbum, l);
+		return "common.ok";
+	}
+	@RequestMapping("/updateMultimedia/Video")
+	private String updateVideo(@ModelAttribute Video video, Model model){
+		System.out.println("Video URL");
+		System.out.println("Video Iframe");
+		return "localeMultimedia.loggato";
+	}
 	@RequestMapping("/updateMultimedia")
-	private String updateMultimedia(
-			@RequestParam(value = "photoFileProfilo", required=false)CommonsMultipartFile photoFileProfilo,
-			@RequestParam(value = "photoFile", required=false)CommonsMultipartFile[] photoFile,
-			//@RequestParam(value = "albumTitle", required=false)String albumTitle,
-			@RequestParam(value = "titolo", required=false)String titolo,
-			@RequestParam(value = "url", required=false)String url
-			){
-		
-		
-		int id = utente.getId();
-		Locale view_local = new Locale();
-		view_local = localeServ.findLocaleById(id); 
-		
-		
-		
-		CommonsMultipartFile photoFileProfiloUploaded = null;
-		photoFileProfiloUploaded = photoFileProfilo;
-		if(photoFileProfiloUploaded != null){
-			SaveFile sF = new SaveFile();
-			Foto f = new Foto();
-		
-			f = sF.savePhotoProfile(photoFileProfiloUploaded, utente.getId());
-			byte [] tempByte = photoFileProfilo.getBytes();
-			f.setFotoBlob(tempByte);//setto direttamente il blob nella tabella
-
-			
-			if(view_local.getAlbumFotografico().isEmpty()){
-				//System.out.println("ALBUM NON ESISTE");
-				
-				AlbumFotografico newAlbumFoto = new AlbumFotografico();
-				
-				Random m = new Random();
-				int rand = m.nextInt((1000 - 10)+1);
-				//f.setId(rand);
-				newAlbumFoto.addFoto(f);
-				newAlbumFoto.setTag("profile");
-				newAlbumFoto.setTitolo("Immagini del Profilo Locale");
-				Calendar calendar = new GregorianCalendar();
-				Date newDate = calendar.getTime();
-				newAlbumFoto.setData(newDate);
-				newAlbumFoto.setIdForFoto();
-				newAlbumFoto.setLuogo(view_local.getCitta());
-				view_local.addAlbumFoto(newAlbumFoto);
-				view_local.setIdForAlbumFotografico();
-				}
-			else{
-				//System.out.println("ALBUM  ESISTE");
-				AlbumFotografico oldAlbumFoto = new AlbumFotografico();
-				oldAlbumFoto = view_local.getAlbumProfilo();
-				Foto oldFoto = new Foto();
-				oldFoto =  view_local.getFotoProfilo();
-				oldAlbumFoto.removeFoto(oldFoto);
-				fotoServ.deleteFoto(oldFoto.getId());
-				view_local.getAlbumFotografico().remove(oldAlbumFoto);
-				albs.removeAlbumFotografico(oldAlbumFoto.getId());
-				
-				AlbumFotografico newAlbumFoto = new AlbumFotografico();
-				
-				Random m = new Random();
-				int rand = m.nextInt((1000 - 10)+1);
-				//f.setId(rand);
-				newAlbumFoto.addFoto(f);
-				newAlbumFoto.setTag("profile");
-				newAlbumFoto.setTitolo("Immagini del Profilo Locale");
-				Calendar calendar = new GregorianCalendar();
-				Date newDate = calendar.getTime();
-				newAlbumFoto.setData(newDate);
-				newAlbumFoto.setIdForFoto();
-				newAlbumFoto.setLuogo(view_local.getCitta());
-				
-				view_local.addAlbumFoto(newAlbumFoto);  //add(newAlbumFoto);
-				view_local.setIdForAlbumFotografico();
-				}
-
-		}
-		
-		//AlbumFotografico
-				CommonsMultipartFile[] photoFileAlbumFotograficoUploaded = null;
-				photoFileAlbumFotograficoUploaded = photoFile;
-				if(photoFileAlbumFotograficoUploaded != null){
-					SaveFile sF = new SaveFile();
-					List<Foto> f = new ArrayList<Foto>();
-					
-					f = sF.savePhotoAbum(photoFileAlbumFotograficoUploaded, utente.getId()); // ho messo la fotoblob allinterno del metodo photoFileAlbumFotograficoUploaded
-					
-					
-						AlbumFotografico newAlbumFoto = new AlbumFotografico();
-						
-						Random m = new Random();
-						int rand = m.nextInt((1000 - 10)+1);
-						for(int i=0;i<f.size();i++){
-							//f.get(i).setId(rand+i); ho la sequence
-						}
-						
-						
-						newAlbumFoto.addListFoto(f);
-						newAlbumFoto.setTag("slider");
-						newAlbumFoto.setTitolo("Album "+rand);
-						Calendar calendar = new GregorianCalendar();
-						Date newDate = calendar.getTime();
-						newAlbumFoto.setData(newDate);
-						newAlbumFoto.setIdForFoto();
-						newAlbumFoto.setLuogo(view_local.getCitta());
-						view_local.addAlbumFoto(newAlbumFoto);
-						view_local.setIdForAlbumFotografico();
-						
-						
-				}
-				//Fine AlbumFOtografico
-		
-		if(titolo != null && url != null){
-			Video v = new Video();
-			v.setTitolo(titolo);
-			v.setUrl(url);
-			v.setData(new Date());
-			v.setUtente(view_local);
-			view_local.addVideo(v);
-		}
-//		videoFileUploaded = videoFile;
-		
-		localeServ.update(view_local);
+	private String updateMultimedia(Model model){
+//		
+//		
+//		int id = utente.getId();
+//		Locale view_local = new Locale();
+//		view_local = localeService.findLocaleById(id); 
+//		
+//		
+//		
+//		CommonsMultipartFile photoFileProfiloUploaded = null;
+//		photoFileProfiloUploaded = photoFileProfilo;
+//		if(photoFileProfiloUploaded != null){
+//			SaveFile sF = new SaveFile();
+//			Foto f = new Foto();
+//		
+//			f = sF.savePhotoProfile(photoFileProfiloUploaded, utente.getId());
+//			byte [] tempByte = photoFileProfilo.getBytes();
+//			f.setFotoBlob(tempByte);//setto direttamente il blob nella tabella
+//
+//			
+//			if(view_local.getAlbumFotografico().isEmpty()){
+//				//System.out.println("ALBUM NON ESISTE");
+//				
+//				AlbumFotografico newAlbumFoto = new AlbumFotografico();
+//				
+//				Random m = new Random();
+//				int rand = m.nextInt((1000 - 10)+1);
+//				//f.setId(rand);
+//				newAlbumFoto.addFoto(f);
+//				newAlbumFoto.setTag("profile");
+//				newAlbumFoto.setTitolo("Immagini del Profilo Locale");
+//				Calendar calendar = new GregorianCalendar();
+//				Date newDate = calendar.getTime();
+//				newAlbumFoto.setData(newDate);
+//				newAlbumFoto.setIdForFoto();
+//				newAlbumFoto.setLuogo(view_local.getCitta());
+//				view_local.addAlbumFoto(newAlbumFoto);
+//				view_local.setIdForAlbumFotografico();
+//				}
+//			else{
+//				//System.out.println("ALBUM  ESISTE");
+//				AlbumFotografico oldAlbumFoto = new AlbumFotografico();
+//				oldAlbumFoto = view_local.getAlbumProfilo();
+//				Foto oldFoto = new Foto();
+//				oldFoto =  view_local.getFotoProfilo();
+//				oldAlbumFoto.removeFoto(oldFoto);
+//				fotoService.deleteFoto(oldFoto.getId());
+//				view_local.getAlbumFotografico().remove(oldAlbumFoto);
+//				albumFotograficoService.removeAlbumFotografico(oldAlbumFoto.getId());
+//				
+//				AlbumFotografico newAlbumFoto = new AlbumFotografico();
+//				
+//				Random m = new Random();
+//				int rand = m.nextInt((1000 - 10)+1);
+//				//f.setId(rand);
+//				newAlbumFoto.addFoto(f);
+//				newAlbumFoto.setTag("profile");
+//				newAlbumFoto.setTitolo("Immagini del Profilo Locale");
+//				Calendar calendar = new GregorianCalendar();
+//				Date newDate = calendar.getTime();
+//				newAlbumFoto.setData(newDate);
+//				newAlbumFoto.setIdForFoto();
+//				newAlbumFoto.setLuogo(view_local.getCitta());
+//				
+//				view_local.addAlbumFoto(newAlbumFoto);  //add(newAlbumFoto);
+//				view_local.setIdForAlbumFotografico();
+//				}
+//
+//		}
+//		
+//		//AlbumFotografico
+//				CommonsMultipartFile[] photoFileAlbumFotograficoUploaded = null;
+//				photoFileAlbumFotograficoUploaded = photoFile;
+//				if(photoFileAlbumFotograficoUploaded != null){
+//					SaveFile sF = new SaveFile();
+//					List<Foto> f = new ArrayList<Foto>();
+//					
+//					f = sF.savePhotoAbum(photoFileAlbumFotograficoUploaded, utente.getId()); // ho messo la fotoblob allinterno del metodo photoFileAlbumFotograficoUploaded
+//					
+//					
+//						AlbumFotografico newAlbumFoto = new AlbumFotografico();
+//						
+//						Random m = new Random();
+//						int rand = m.nextInt((1000 - 10)+1);
+//						for(int i=0;i<f.size();i++){
+//							//f.get(i).setId(rand+i); ho la sequence
+//						}
+//						
+//						
+//						newAlbumFoto.addListFoto(f);
+//						newAlbumFoto.setTag("slider");
+//						newAlbumFoto.setTitolo("Album "+rand);
+//						Calendar calendar = new GregorianCalendar();
+//						Date newDate = calendar.getTime();
+//						newAlbumFoto.setData(newDate);
+//						newAlbumFoto.setIdForFoto();
+//						newAlbumFoto.setLuogo(view_local.getCitta());
+//						view_local.addAlbumFoto(newAlbumFoto);
+//						view_local.setIdForAlbumFotografico();
+//						
+//						
+//				}
+//				//Fine AlbumFOtografico
+//		
+//		if(titolo != null && url != null){
+//			Video v = new Video();
+//			v.setTitolo(titolo);
+//			v.setUrl(url);
+//			v.setData(new Date());
+//			v.setUtente(view_local);
+//			view_local.addVideo(v);
+//		}
+////		videoFileUploaded = videoFile;
+//		
+//		localeService.update(view_local);
 		return "redirect:/Privee/Multimedia";
 	}
 	@RequestMapping("/Eventi")
@@ -291,10 +301,10 @@ public class ControllerLocale {
 		
 		
 		
-		Locale l = localeServ.findLocaleByUser(utente);
-		List<Evento> eventi = new ArrayList<Evento>(eventoServ.findGruppoByEvent(l.getEventi()));
+		Locale l = localeService.findLocaleByUser(utente);
+		List<Evento> eventi = new ArrayList<Evento>(eventoService.findGruppoByEvent(l.getEventi()));
 		model.addAttribute("eventi", eventi);
-		List<TipologiaEvento> tipologia = tipologiaServ.getAllTipologiaEvento();
+		List<TipologiaEvento> tipologia = tipologiaService.getAllTipologiaEvento();
 		model.addAttribute("tipologia", tipologia);
 		
 		return "localeEventi.loggato";
@@ -303,7 +313,7 @@ public class ControllerLocale {
 			method = RequestMethod.POST)
 	private String updateEvento(@ModelAttribute FormEvento eventoMod){
 		
-		this.eventoDaModificare = eventoServ.findEventoById(eventoMod.getIdEvento());
+		this.eventoDaModificare = eventoService.findEventoById(eventoMod.getIdEvento());
 		
 		
 		this.eventoDaModificare.setData(eventoMod.getDataEvento());
@@ -328,7 +338,7 @@ public class ControllerLocale {
 		//Creo Evento
 		Evento ev = new Evento();
 		ev.setNome(formEvento.getNome());
-		Locale view_local = localeServ.findLocaleByUser(utente);
+		Locale view_local = localeService.findLocaleByUser(utente);
 		//Aggiungo desciriozne evento
 		ev.setDescrizione(formEvento.getDescrizione());
 		
@@ -345,11 +355,10 @@ public class ControllerLocale {
 			try {
 				f = sF.savePhoto(photoFileUploaded, utente.getId());
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			//Salvo oggetto Foto
-			fotoServ.insertFoto(f);
+			fotoService.insertFoto(f);
 			
 			ev.setLocandina(f.getUrl());//setto l'url per gestire le immagini con i path
 			
@@ -390,7 +399,7 @@ public class ControllerLocale {
 				gruppo.addEvento(ev);
 				c.setDestinatario(gruppo);
 				c = utente.sendMessage(gruppo,"Proposta Evento", "Ciao Voglio Proporti un Evento Chiamato" + ev.getNome());
-				cs.createConversation(c);
+				conversationService.createConversation(c);
 				break;
 			}
 					
@@ -399,7 +408,7 @@ public class ControllerLocale {
 		//Aggiungo Evento al Gruppo
 		
 		//Persisto Oggetto con modifiche
-		gs.update(gruppo);
+		gruppoService.update(gruppo);
 		this.eventoDaModificare = new Evento();
 		this.eventoDaModificare.setId(0);
 		return "redirect:/Privee/Eventi";
@@ -412,7 +421,7 @@ public class ControllerLocale {
 			produces="application/json")
 	public @ResponseBody List<String> getGroupsList(@RequestParam("term") String query) {
 	
-	this.countryList = new ArrayList<Gruppo>(gs.findGruppoByName(query));
+	this.countryList = new ArrayList<Gruppo>(gruppoService.findGruppoByName(query));
 	
 	Iterator<Gruppo>i = countryList.iterator();
 	List<String> listaGruppi = new ArrayList<String>();
@@ -426,40 +435,40 @@ public class ControllerLocale {
 	
 	@RequestMapping("/cancelEvent/{id}")
 	public String cancelEvent(@PathVariable("id") int id){
-		Evento e = eventoServ.findEventoById(id);
+		Evento e = eventoService.findEventoById(id);
 		e.setStatus(e.getStatus()-10);
-		eventoServ.updateEvent(e);
+		eventoService.updateEvent(e);
 		return "redirect:/Privee/Eventi";
 	}
 	
 	@RequestMapping("/activateEvent/{id}")
 	public String activateEvent(@PathVariable("id") int id){
-		Evento e = eventoServ.findEventoById(id);
+		Evento e = eventoService.findEventoById(id);
 		e.setStatus(e.getStatus()+10);
-		eventoServ.updateEvent(e);
+		eventoService.updateEvent(e);
 		return "redirect:/Privee/Eventi";
 	}
 	
 	@RequestMapping("/EventoModifica/{id}")
 	private String modificaEvento(@PathVariable int id){
-		Evento v = eventoServ.findEventoById(id);
+		Evento v = eventoService.findEventoById(id);
 		this.eventoDaModificare = v;
 		return "redirect:/Privee/Eventi";
 	}
 	
 	@RequestMapping(value="/deletePhoto/{id}")
 	public String deletePhoto(@PathVariable int id){
-		fotoServ.deleteFoto(id);
+		fotoService.deleteFotoById(id);
 		List<AlbumFotografico> albums = new ArrayList<AlbumFotografico>(); 
-		albums = albs.getAllPhotoAlbumsByGroupId(utente.getId()); 
+		albums = albumFotograficoService.getAllPhotoAlbumsByGroupId(utente.getId()); 
 		
 		Iterator<AlbumFotografico> i = albums.iterator();
 		while(i.hasNext()){
 			AlbumFotografico  alb =  i.next();
-			int emptyAlbums = albs.emptyAlbumFotografico(alb);
+			int emptyAlbums = albumFotograficoService.emptyAlbumFotografico(alb);
 			
 			if (emptyAlbums < 1) {
-				albs.removeAlbumFotografico(alb.getId());
+				albumFotograficoService.removeAlbumFotografico(alb.getId());
 			}
 		}
 		

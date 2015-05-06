@@ -6,22 +6,26 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import it.univaq.mwt.business.AlbumFotograficoService;
+import it.univaq.mwt.business.FotoService;
 import it.univaq.mwt.business.LocaleService;
-
+import it.univaq.mwt.business.form.local.FormFotoAlbum;
 import it.univaq.mwt.business.model.AlbumFotografico;
 import it.univaq.mwt.business.model.Categoria;
 import it.univaq.mwt.business.model.Foto;
 import it.univaq.mwt.business.model.Gruppo;
 import it.univaq.mwt.business.model.Locale;
-
 import it.univaq.mwt.business.model.Utente;
+import it.univaq.mwt.common.utility.SaveFile;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 /**
  * Session Bean implementation class EJBLocale
@@ -32,7 +36,13 @@ public class EJBLocale implements LocaleService {
 
 	@PersistenceContext(unitName = "Yop-domain")
 	private EntityManager em;
+	
+	@Autowired
+	FotoService fotoService;
 
+	@Autowired
+	AlbumFotograficoService albumFotograficoService;
+	
 	public EJBLocale() {
 		// TODO Auto-generated constructor stub
 	}
@@ -163,9 +173,11 @@ public class EJBLocale implements LocaleService {
 		return risultatoListaLocali;
 	}
 
-	@Override
+	@Transactional
 	public Locale findLocaleByUser(Utente u) {
 		Locale n = em.find(Locale.class, u.getId());
+		em.flush();
+		em.getEntityManagerFactory().getCache().evictAll();
 		return n;
 	}
 
@@ -237,7 +249,7 @@ public class EJBLocale implements LocaleService {
 
 	}
 
-	@Override
+	
 	public Foto addPhotoProfile(Locale l, Foto f) {
 
 		Set<AlbumFotografico> allPhotoAlbums = l.getAlbumFotografico();
@@ -247,13 +259,34 @@ public class EJBLocale implements LocaleService {
 			if (temp.getTag().equals("profile")) {
 				f.setAlbumFotografico(temp);
 				Set<Foto> fotoDaCancellare = temp.getFoto();
-				Iterator j = fotoDaCancellare.iterator();
+				Iterator<Foto> j = fotoDaCancellare.iterator();
 				while(j.hasNext()){
-					
+					Foto tempFotoToDelete = (Foto) j.next();
+					deleteFotoProfile(tempFotoToDelete);
 				}
 				temp.addFoto(f);
 			}
 		}
+		em.getEntityManagerFactory().getCache().evict(Locale.class);
 		return f;
+	}
+	@Transactional
+	public void deleteFotoProfile(Foto f){
+		fotoService.deleteFotoById(f.getId());
+	}
+
+	@Override
+	public void buildAlbumFoto(FormFotoAlbum formFotoAlbum, Locale l) {
+		AlbumFotografico toStorePhotoSlider= SaveFile.savePhotoBlobGeneral(formFotoAlbum, l ,"slideshow", "Album da Slider");
+		
+		if(toStorePhotoSlider.getId() != 0){
+			albumFotograficoService.updatePhotoAlbum(toStorePhotoSlider);
+		}else{
+			albumFotograficoService.insertAlbumFotografico(toStorePhotoSlider);
+		}
+		
+		fotoService.insertSetFoto(toStorePhotoSlider.getFoto());
+		
+		
 	}
 }

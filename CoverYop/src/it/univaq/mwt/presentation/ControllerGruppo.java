@@ -208,7 +208,7 @@ public class ControllerGruppo {
 				Foto oldFoto = new Foto();
 				oldFoto =  view_group.getFotoProfilo();
 				oldAlbumFoto.removeFoto(oldFoto);
-				fotoServ.deleteFoto(oldFoto.getId());
+				fotoServ.deleteFotoById(oldFoto.getId());
 				view_group.getAlbumFotografico().remove(oldAlbumFoto);
 				albumFotoServ.removeAlbumFotografico(oldAlbumFoto.getId());				
 				AlbumFotografico newAlbumFoto = new AlbumFotografico();				
@@ -283,7 +283,7 @@ public class ControllerGruppo {
 	}
 	@RequestMapping(value="/deletePhoto/{id}")
 	public String deletePhoto(@PathVariable int id){
-		fotoServ.deleteFoto(id);
+		fotoServ.deleteFotoById(id);
 		List<AlbumFotografico> albums = new ArrayList<AlbumFotografico>(); 
 		albums = albumFotoServ.getAllPhotoAlbumsByGroupId(utente.getId()); 		
 		Iterator<AlbumFotografico> i = albums.iterator();

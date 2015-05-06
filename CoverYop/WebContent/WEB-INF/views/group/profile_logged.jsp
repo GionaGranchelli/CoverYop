@@ -29,9 +29,9 @@
 			<!-- Sidebar -->
 			<div class="sidebar main-left main-medium">
 				<!-- Widgets -->
+				
 				<!-- Details widget -->
 				<div class="widget details-widget">
-
 					<div class="details-meta">
 						<!-- Details list -->
 						<a class="btn small dark" id="attuale" href="${pageContext.request.contextPath}/BackStage/">
@@ -44,40 +44,18 @@
 						</a>
 						<a class="btn small dark" href="${pageContext.request.contextPath}/BackStage/Multimedia">
 							<i class="icon icon-images"></i>
-							
 							Foto e Video
-							
 						</a>
-						<%-- 						<a class="btn small dark" href="${pageContext.request.contextPath}/BackStage/Tour"> --%>
-						<!-- 							<i class="icon icon-yelp"></i>  -->
-						<!-- 							Crea Tour -->
-						<!-- 						</a> -->
+						<%--<a class="btn small dark" href="${pageContext.request.contextPath}/BackStage/Tour"> --%>
+						<!--<i class="icon icon-yelp"></i>  -->
+						<!--Crea Tour -->
+						<!--</a> -->
 						<a class="btn small dark" href="${pageContext.request.contextPath}/BackStage/Eventi">
 							<i class="icon icon-dribbble"></i> 
 							Gestione Eventi
 						</a>
 					</div>
-					
-					<!-- <div class="details-social-box">
-						
-					</div>
-					 -->
 				</div>
-
-				<!-- Text Widget -->
-				<!-- <div class="widget text-widget">
-					Buttons list
-					<ul class="buttons-list">
-						<li>
-							<a class="btn small invert" href="javascript:;" ><i class="icon icon-download"></i> Download Recent Podcast</a>
-						</li>
-						<li>
-							<a class="btn small dark" href="javascript:;" ><i class="icon icon-download"></i> Download My Bio</a>
-						</li>
-
-					</ul>
-				</div> -->
-
 			</div>
 			<!-- /sidebar -->
 
@@ -106,28 +84,6 @@
 
 							<div class="tab-content" id="tab-biograf">
 								<h2>Info Base</h2>
-<%-- 								<form:hidden path="id"/> --%>
-<%-- 								<form:hidden path="nome"/> --%>
-<%-- 								<form:hidden path="password"/> --%>
-<%-- 								<form:hidden path="cognome"/> --%>
-<%-- 								<form:hidden path="email"/> --%>
-<%-- 								<form:hidden path="indirizzo"/> --%>
-<%-- 								<form:hidden path="lat" id="lat"/> --%>
-<%-- 								<form:hidden path="lng" id="lng"/> --%>
-<%-- 								<form:hidden path="username"/> --%>
-<%--  								<form:hidden path="scaletta"/> --%>
-<%--  								<form:hidden path="ruolo"/> --%>
-<%-- 								<form:hidden path="telefono"/>  --%>
-<%-- 								<form:hidden path="conversationMitt"/> --%>
-<%-- 								<form:hidden path="conversationDest"/> --%>
-<%-- 								<form:hidden path="messaggi"/> --%>
-<%-- 								<form:hidden path="service.palco"/> --%>
-<%-- 								<form:hidden path="video"/>  --%>
-<%-- 								<form:hidden path="albumFotografico"/>   --%>
-<%-- 								<form:hidden path="albums"/>  --%>
-<%-- 								<form:hidden path="componente"/>  --%>
-<%-- 								<form:hidden path="eventi"/>  --%>
-<%-- 								<form:hidden path="tour"/>  --%>
 								
 								<label for="nomeGruppo">Nome Gruppo</label>
 								 <form:input path="nomeGruppo"
@@ -213,8 +169,6 @@
 							<div class="tab-content" id="tab-service">
 							
 								<h2>Service</h2>
-						
-								
 								<label for="mixer">Mixer - Inserisci Canali Mixer</label> 
 								<form:input path="service.mixer"/>
 <%-- 								<c:choose> --%>
