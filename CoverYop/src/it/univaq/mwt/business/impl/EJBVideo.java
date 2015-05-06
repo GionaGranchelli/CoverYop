@@ -76,25 +76,19 @@ public class EJBVideo implements VideoService {
 
 	@Transactional
 	public Video insertVideo(Video v) {
-		em.flush();
 		Video toPersist = v;
-		System.out.println("Video da Persistere" + toPersist.getUtente());
-		System.out.println("Video da Persistere" + toPersist.getTag());
-		System.out.println("Video da Persistere" + toPersist.getTitolo());
-		System.out.println("Video da Persistere" + toPersist.getUrl());
-		System.out.println("Video da Persistere" + toPersist.getData());
 		em.persist(toPersist);
 		em.getEntityManagerFactory().getCache().evictAll();
 		return toPersist;
 	}
 
 	@Override
-	public void buildVideoInfo(Locale l, Video v) {
+	public Video buildVideoInfo(Locale l, Video v) {
 		Video toPersist = v;
 		toPersist.setUtente(l);
 		toPersist.setData(new Date());
 		toPersist.setTag("Video");
-		insertVideo(toPersist);
+		return toPersist;
 		
 		
 	}

@@ -159,125 +159,14 @@ public class ControllerLocale {
 	@RequestMapping("/updateMultimedia/Video")
 	private String updateVideo(@ModelAttribute Video video, Model model){
 		Locale l = localeService.findLocaleByUser(utente);
-		videoService.buildVideoInfo(l,video);
+		Video v = videoService.buildVideoInfo(l,video);
+		videoService.insertVideo(v);
 		return "redirect:/Privee/Multimedia";
 	}
-	@RequestMapping("/updateMultimedia")
-	private String updateMultimedia(Model model){
-//		
-//		
-//		int id = utente.getId();
-//		Locale view_local = new Locale();
-//		view_local = localeService.findLocaleById(id); 
-//		
-//		
-//		
-//		CommonsMultipartFile photoFileProfiloUploaded = null;
-//		photoFileProfiloUploaded = photoFileProfilo;
-//		if(photoFileProfiloUploaded != null){
-//			SaveFile sF = new SaveFile();
-//			Foto f = new Foto();
-//		
-//			f = sF.savePhotoProfile(photoFileProfiloUploaded, utente.getId());
-//			byte [] tempByte = photoFileProfilo.getBytes();
-//			f.setFotoBlob(tempByte);//setto direttamente il blob nella tabella
-//
-//			
-//			if(view_local.getAlbumFotografico().isEmpty()){
-//				//System.out.println("ALBUM NON ESISTE");
-//				
-//				AlbumFotografico newAlbumFoto = new AlbumFotografico();
-//				
-//				Random m = new Random();
-//				int rand = m.nextInt((1000 - 10)+1);
-//				//f.setId(rand);
-//				newAlbumFoto.addFoto(f);
-//				newAlbumFoto.setTag("profile");
-//				newAlbumFoto.setTitolo("Immagini del Profilo Locale");
-//				Calendar calendar = new GregorianCalendar();
-//				Date newDate = calendar.getTime();
-//				newAlbumFoto.setData(newDate);
-//				newAlbumFoto.setIdForFoto();
-//				newAlbumFoto.setLuogo(view_local.getCitta());
-//				view_local.addAlbumFoto(newAlbumFoto);
-//				view_local.setIdForAlbumFotografico();
-//				}
-//			else{
-//				//System.out.println("ALBUM  ESISTE");
-//				AlbumFotografico oldAlbumFoto = new AlbumFotografico();
-//				oldAlbumFoto = view_local.getAlbumProfilo();
-//				Foto oldFoto = new Foto();
-//				oldFoto =  view_local.getFotoProfilo();
-//				oldAlbumFoto.removeFoto(oldFoto);
-//				fotoService.deleteFoto(oldFoto.getId());
-//				view_local.getAlbumFotografico().remove(oldAlbumFoto);
-//				albumFotograficoService.removeAlbumFotografico(oldAlbumFoto.getId());
-//				
-//				AlbumFotografico newAlbumFoto = new AlbumFotografico();
-//				
-//				Random m = new Random();
-//				int rand = m.nextInt((1000 - 10)+1);
-//				//f.setId(rand);
-//				newAlbumFoto.addFoto(f);
-//				newAlbumFoto.setTag("profile");
-//				newAlbumFoto.setTitolo("Immagini del Profilo Locale");
-//				Calendar calendar = new GregorianCalendar();
-//				Date newDate = calendar.getTime();
-//				newAlbumFoto.setData(newDate);
-//				newAlbumFoto.setIdForFoto();
-//				newAlbumFoto.setLuogo(view_local.getCitta());
-//				
-//				view_local.addAlbumFoto(newAlbumFoto);  //add(newAlbumFoto);
-//				view_local.setIdForAlbumFotografico();
-//				}
-//
-//		}
-//		
-//		//AlbumFotografico
-//				CommonsMultipartFile[] photoFileAlbumFotograficoUploaded = null;
-//				photoFileAlbumFotograficoUploaded = photoFile;
-//				if(photoFileAlbumFotograficoUploaded != null){
-//					SaveFile sF = new SaveFile();
-//					List<Foto> f = new ArrayList<Foto>();
-//					
-//					f = sF.savePhotoAbum(photoFileAlbumFotograficoUploaded, utente.getId()); // ho messo la fotoblob allinterno del metodo photoFileAlbumFotograficoUploaded
-//					
-//					
-//						AlbumFotografico newAlbumFoto = new AlbumFotografico();
-//						
-//						Random m = new Random();
-//						int rand = m.nextInt((1000 - 10)+1);
-//						for(int i=0;i<f.size();i++){
-//							//f.get(i).setId(rand+i); ho la sequence
-//						}
-//						
-//						
-//						newAlbumFoto.addListFoto(f);
-//						newAlbumFoto.setTag("slider");
-//						newAlbumFoto.setTitolo("Album "+rand);
-//						Calendar calendar = new GregorianCalendar();
-//						Date newDate = calendar.getTime();
-//						newAlbumFoto.setData(newDate);
-//						newAlbumFoto.setIdForFoto();
-//						newAlbumFoto.setLuogo(view_local.getCitta());
-//						view_local.addAlbumFoto(newAlbumFoto);
-//						view_local.setIdForAlbumFotografico();
-//						
-//						
-//				}
-//				//Fine AlbumFOtografico
-//		
-//		if(titolo != null && url != null){
-//			Video v = new Video();
-//			v.setTitolo(titolo);
-//			v.setUrl(url);
-//			v.setData(new Date());
-//			v.setUtente(view_local);
-//			view_local.addVideo(v);
-//		}
-////		videoFileUploaded = videoFile;
-//		
-//		localeService.update(view_local);
+
+	@RequestMapping(value="/deleteVideo/{id}")
+	public String deleteVideo(@PathVariable int id){
+		videoService.deleteVideo(id);
 		return "redirect:/Privee/Multimedia";
 	}
 	@RequestMapping("/Eventi")

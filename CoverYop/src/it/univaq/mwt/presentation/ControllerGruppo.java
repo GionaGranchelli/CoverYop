@@ -314,16 +314,8 @@ public class ControllerGruppo {
 	}
 	
 	@RequestMapping(value="/deleteVideo/{id}")
-	public String deleteVideo(
-			@PathVariable int id){
-		
+	public String deleteVideo(@PathVariable int id){
 		videoServ.deleteVideo(id);
-		Set<Video> a = utente.getVideo();
-		Iterator<Video> i = a.iterator();
-		while(i.hasNext()){
-			Video v = i.next();
-			System.out.println("Video name" + v.getTitolo());
-		}
 		return "redirect:/BackStage/Multimedia";
 	}
 	

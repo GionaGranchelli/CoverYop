@@ -88,12 +88,29 @@
 								   enctype="multipart/form-data">
 								
 								   <div class="details-meta comandi">
-								   		<h2>Inserisci un nuovo album</h2>
+								   		<h2>Inserisci Nuove Foto nello Slider</h2>
 										<form:input path="photoFile" type="file"  multiple="multiple"/>
 										<input type="submit" value="Yop!"/>
 								   </div>
 								   
 							</form:form> 
+							<br/>
+							<div class="details-countdown gallery-3-col gallery-join">
+						<c:forEach items="${albums}" var="albums" varStatus="status">
+							<div class="details-meta photoAlbums" id="${albums.id}">
+							<h2>${albums.titolo}</h2>
+							<c:forEach items="${albums.foto}" var="foto" varStatus="status">
+								<div class="photos">
+									<img src="${pageContext.request.contextPath}/LocalSlide/image.html?id=${foto.id}" alt="Image Title" class="immaginiModifica">
+									<span class="icon-wrap" style="float:left;">
+										<a href="${pageContext.request.contextPath}/Privee/deletePhoto/${foto.id}">Cancella<span class="icon icon-cancel-circle"></span></a>
+									</span>
+								</div>
+							</c:forEach>
+							</div>
+						</c:forEach>
+			
+		   </div>
 							</div>
 							<div class="tab-content" id="tab-video">
 							<form:form action="${pageContext.request.contextPath}/Privee/updateMultimedia/Video" 
@@ -112,34 +129,21 @@
 								
 								
 								</form:form>
+								<br/>
+								<div class="details-meta" id="videoCollection">
+								   	<h2>I tuoi video</h2>
+									<c:forEach items="${videos}" var="soundcloud">
+										<span>${soundcloud.titolo}</span>
+										<span style="float:right;"><a href="${pageContext.request.contextPath}/Privee/deleteVideo/${soundcloud.id}"><span class="icon icon-cancel-circle"></span>Cancella</a></span>
+										<div>${soundcloud.url}</div>
+									</c:forEach>
+								</div>
 							</div>
 							
 					</div>
-				<div class="details-countdown gallery-3-col gallery-join">
-						<c:forEach items="${albums}" var="albums" varStatus="status">
-							<div class="details-meta photoAlbums" id="${albums.id}">
-							<h2>${albums.titolo}</h2>
-							<c:forEach items="${albums.foto}" var="foto" varStatus="status">
-								<div class="photos">
-									<img src="${pageContext.request.contextPath}/LocalSlide/image.html?id=${foto.id}" alt="Image Title" class="immaginiModifica">
-									<span class="icon-wrap" style="float:left;">
-										<a href="${pageContext.request.contextPath}/Privee/deletePhoto/${foto.id}">Cancella<span class="icon icon-cancel-circle"></span></a>
-									</span>
-								</div>
-							</c:forEach>
-							</div>
-						</c:forEach>
-			
-		   </div>
-		   <div class="details-meta" id="videoCollection">
-								<h2>I tuoi video</h2>
-								<c:forEach items="${videos}" var="soundcloud">
-									<span>${soundcloud.titolo}</span>
-									<span style="float:right;"><a href="${pageContext.request.contextPath}/BackStage/deleteVideo/${soundcloud.id}"><span class="icon icon-cancel-circle"></span>Cancella</a></span>
-									<div>${soundcloud.url}</div>
-								</c:forEach>
-								</div>
-				</article>
+				
+		   
+		</article>
 				<!-- /article -->
 				<!-- Page navigation -->
 			</div>
