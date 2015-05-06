@@ -436,24 +436,7 @@ public abstract class Utente implements Serializable{
 			
 	}
 	
-	public void setFotoProfiloByFoto(Foto foto){
-		Iterator<AlbumFotografico> iA = this.albumFotografico.iterator();
-		while(iA.hasNext()){
-			AlbumFotografico albumFotograficoTemp = iA.next();
-				if(albumFotograficoTemp.getTag().contains("profile")){
-				Iterator<Foto> itF = albumFotograficoTemp.getFoto().iterator();
-				while (itF.hasNext()) {
-					Foto curFoto = (Foto) itF.next();
-					albumFotograficoTemp.removeFoto(curFoto);
-					
-				}
-					albumFotograficoTemp.addFoto(foto);
-					
-				}
-		}
-
-			
-	}
+	
 	
 	public AlbumFotografico getAlbumProfilo(){
 		Iterator<AlbumFotografico> iA = this.albumFotografico.iterator();

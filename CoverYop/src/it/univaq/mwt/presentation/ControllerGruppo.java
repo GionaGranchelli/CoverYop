@@ -287,7 +287,8 @@ public class ControllerGruppo {
 		Gruppo viewGroup = gruppoServ.findGruppoByUtente(utente);	
 		Foto foto = new Foto();
 		foto.setFotoBlob(fotoProfilo.getPhotoFile().getBytes());
-		viewGroup.setFotoProfiloByFoto(foto);
+		foto = gruppoServ.addPhotoProfile(viewGroup, foto);
+		fotoServ.insertFoto(foto);
 		gruppoServ.update(viewGroup);
 		
 		
