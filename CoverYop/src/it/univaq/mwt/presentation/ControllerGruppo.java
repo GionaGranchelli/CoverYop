@@ -78,7 +78,7 @@ public class ControllerGruppo {
 	@Autowired
 	GruppoService gruppoServ;
 	@Autowired
-	GenereService gens;
+	GenereService genereServ;
 	@Autowired
 	GruppoDiRiferimentoService gruppiDiRiferimentoServ;
 	@Autowired
@@ -110,7 +110,7 @@ public class ControllerGruppo {
 		String[] title = FacilityTool.splitName(viewGroup.getNomeGruppo());		
 		model.addAttribute("titolo_page_1", title[0]);
 		model.addAttribute("titolo_page_2", title[1]);						
-		model.addAttribute("generi", gens.findAllGeneri());
+		model.addAttribute("generi", genereServ.findAllGeneri());
 		model.addAttribute("generi_scelti", viewGroup.getGeneri());		
 		model.addAttribute("gruppirif", gruppiDiRiferimentoServ.findAllGruppiDiRiferimento());
 		model.addAttribute("gruppirif_scelti", viewGroup.getGruppi_rif()); 
@@ -137,7 +137,7 @@ public class ControllerGruppo {
 	}
 	@RequestMapping(value="/updateUtente", method = RequestMethod.POST)
 	private String modificaUtente(@ModelAttribute("utente") Gruppo gruppo,
-			//BindingResult bindingResult,
+			//BindingResult bindingResult, inserire controllo e validazione----successivamente provare a mergiare direttamente senza fare i set
 			Model model){			
 		Gruppo view_group = gruppoServ.findGruppoByUtente(utente);		
 		view_group.setNome(gruppo.getNome());
@@ -152,21 +152,17 @@ public class ControllerGruppo {
 		return "redirect:/BackStage/Utente";
 	}
 	@RequestMapping("/Multimedia")
-	private String ModificaMultimedia(@ModelAttribute("formFotoProfilo") FormFoto formFotoProfilo,
-			@ModelAttribute("formFoto") FormFoto formFoto,
-			@ModelAttribute("formMusica") FormMusica formMusica,
-			@ModelAttribute("formVideo") FormVideo formVideo,
-			Model model){		
+	private String ModificaMultimedia(Model model){		
 		Gruppo view_gruppo = gruppoServ.findGruppoByUtente(utente);			
 		model.addAttribute("gruppo",view_gruppo);
 		model.addAttribute("fotoProfilo",view_gruppo.getFotoProfilo());
 		model.addAttribute("albums",view_gruppo.getAlbumFotografico());
 		model.addAttribute("albumsMusic",view_gruppo.getAlbums());
 		model.addAttribute("videos", view_gruppo.getVideo());
-		model.addAttribute("formFotoProfilo", formFotoProfilo);
-		model.addAttribute("formFoto", formFoto);
-		model.addAttribute("formMusica", formMusica);
-		model.addAttribute("formVideo", formVideo);			
+		model.addAttribute("formFotoProfilo", new FormFoto());
+		model.addAttribute("formFoto", new FormFoto());
+		model.addAttribute("formMusica", new FormMusica());
+		model.addAttribute("formVideo", new Video());			
 		return "profiloMultimedia.loggato";
 	}
 	
