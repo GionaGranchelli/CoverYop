@@ -1,4 +1,4 @@
-package it.univaq.mwt.business.form.local;
+package it.univaq.mwt.business.form.utente;
 
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 

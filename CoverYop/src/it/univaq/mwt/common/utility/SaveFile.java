@@ -1,7 +1,8 @@
 package it.univaq.mwt.common.utility;
 
-import it.univaq.mwt.business.form.local.FormFotoAlbum;
-import it.univaq.mwt.business.form.local.FormFotoProfilo;
+
+import it.univaq.mwt.business.form.utente.FormFotoAlbum;
+import it.univaq.mwt.business.form.utente.FormFotoProfilo;
 import it.univaq.mwt.business.model.AlbumFotografico;
 import it.univaq.mwt.business.model.Canzone;
 import it.univaq.mwt.business.model.Foto;
@@ -13,9 +14,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 

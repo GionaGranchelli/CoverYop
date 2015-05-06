@@ -8,11 +8,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.ArrayList;
 
+import it.univaq.mwt.business.FotoService;
 import it.univaq.mwt.business.GenereService;
 import it.univaq.mwt.business.GruppoDiRiferimentoService;
 import it.univaq.mwt.business.GruppoService;
 import it.univaq.mwt.business.model.Album;
+import it.univaq.mwt.business.model.AlbumFotografico;
 import it.univaq.mwt.business.model.Evento;
+import it.univaq.mwt.business.model.Foto;
 import it.univaq.mwt.business.model.Genere;
 import it.univaq.mwt.business.model.Gruppo;
 import it.univaq.mwt.business.model.GruppoDiRiferimento;
@@ -39,6 +42,9 @@ public class EJBGruppo implements GruppoService {
 	
 	@Autowired
 	GenereService genereServ;
+	
+	@Autowired
+	FotoService fotoServ;
 	
 	@Autowired
 	GruppoDiRiferimentoService gruppoRifServ;
@@ -176,7 +182,7 @@ public class EJBGruppo implements GruppoService {
 
 	@Override
 	public List<Gruppo> findLastSubscribed(int i) {
-		String queryString = "select grp from Gruppo grp ORDER BY grp.id";
+		String queryString = "select grp from Gruppo grp ORDER BY grp.id DESC";
 		Query query = em.createQuery(queryString).setMaxResults(i);
 		List<Gruppo> result = (List<Gruppo>) query.getResultList();
 		return result;
@@ -248,6 +254,33 @@ public class EJBGruppo implements GruppoService {
 			}
 		}
 		
+	}
+
+	@Override
+	public Foto addPhotoProfile(Gruppo viewGroup, Foto foto) {
+		
+		Set<AlbumFotografico> allPhotoAlbums = viewGroup.getAlbumFotografico();
+		Iterator<AlbumFotografico> i = allPhotoAlbums.iterator();
+		while (i.hasNext()) {
+			AlbumFotografico temp = i.next();
+			if (temp.getTag().equals("profile")) {
+				foto.setAlbumFotografico(temp);
+				Set<Foto> fotoDaCancellare = temp.getFoto();
+				Iterator<Foto> j = fotoDaCancellare.iterator();
+				while(j.hasNext()){
+					Foto tempFotoToDelete = (Foto) j.next();
+					deleteFotoProfile(tempFotoToDelete);
+				}
+				temp.addFoto(foto);
+			}
+		}
+		em.getEntityManagerFactory().getCache().evict(Locale.class);
+		return foto;
+	}
+	
+	@Transactional
+	public void deleteFotoProfile(Foto f){
+		fotoServ.deleteFotoById(f.getId());
 	}
 
 }

@@ -1,15 +1,5 @@
 package it.univaq.mwt.presentation;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
-
 import it.univaq.mwt.business.AlbumFotograficoService;
 import it.univaq.mwt.business.AlbumService;
 import it.univaq.mwt.business.CanzoneService;
@@ -17,27 +7,19 @@ import it.univaq.mwt.business.CategoriaService;
 import it.univaq.mwt.business.ConversationService;
 import it.univaq.mwt.business.EventoService;
 import it.univaq.mwt.business.FotoService;
-import it.univaq.mwt.business.GenereService;
 import it.univaq.mwt.business.GruppoDiRiferimentoService;
 import it.univaq.mwt.business.GruppoService;
 import it.univaq.mwt.business.LocaleService;
 import it.univaq.mwt.business.TipologiaEventoService;
 import it.univaq.mwt.business.VideoService;
-import it.univaq.mwt.business.form.group.FormFoto;
-import it.univaq.mwt.business.form.group.FormMusica;
-import it.univaq.mwt.business.form.group.FormVideo;
 import it.univaq.mwt.business.form.local.FormEvento;
-import it.univaq.mwt.business.form.local.FormFotoAlbum;
-import it.univaq.mwt.business.form.local.FormFotoProfilo;
-import it.univaq.mwt.business.model.Album;
+import it.univaq.mwt.business.form.utente.FormFotoAlbum;
+import it.univaq.mwt.business.form.utente.FormFotoProfilo;
 import it.univaq.mwt.business.model.AlbumFotografico;
 import it.univaq.mwt.business.model.Canale;
-import it.univaq.mwt.business.model.Canzone;
-import it.univaq.mwt.business.model.Categoria;
 import it.univaq.mwt.business.model.Conversation;
 import it.univaq.mwt.business.model.Evento;
 import it.univaq.mwt.business.model.Foto;
-import it.univaq.mwt.business.model.Genere;
 import it.univaq.mwt.business.model.Gruppo;
 import it.univaq.mwt.business.model.Locale;
 import it.univaq.mwt.business.model.TipologiaEvento;
@@ -45,6 +27,13 @@ import it.univaq.mwt.business.model.Utente;
 import it.univaq.mwt.business.model.Video;
 import it.univaq.mwt.common.utility.FacilityTool;
 import it.univaq.mwt.common.utility.SaveFile;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -150,6 +139,10 @@ public class ControllerLocale {
 		}
 		return "redirect:/Privee/Multimedia";
 	}
+
+	
+	
+		
 	@RequestMapping("/updateMultimedia/AlbumPhoto")
 	private String updateAlbumPhoto(@ModelAttribute FormFotoAlbum formFotoAlbum, Model model){
 		Locale l = localeService.findLocaleByUser(utente);

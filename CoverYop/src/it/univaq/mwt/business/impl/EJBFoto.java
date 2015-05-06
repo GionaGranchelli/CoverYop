@@ -115,9 +115,16 @@ public class EJBFoto implements FotoService {
 						+ "u.id=:id AND af.tag =:profile AND af.utente.id=u.id AND ft.albumFotografico.id=af.id");
 		query.setParameter("id", id);
 		query.setParameter("profile", "profile");
-
+		
+		//byte[] fotoProfilo = null;
+		
 		List<byte[]> lf = new ArrayList<byte[]>(query.getResultList());
 		byte[] fotoProfilo = lf.get(0);
+		
+//		if(query.getSingleResult().equals(null)){		
+//		 fotoProfilo  = (byte[]) query.getSingleResult(); //inserire controllo se immagine non c'è
+//		}
+		//inserire avatar default 
 
 		return fotoProfilo;
 	}

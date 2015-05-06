@@ -37,6 +37,8 @@ public interface GruppoService {
 
 	public void buildGroupInfo(Gruppo viewGroup, Gruppo gruppo);
 
+	public Foto addPhotoProfile(Gruppo viewGroup, Foto foto);
+
 
 	
 	
