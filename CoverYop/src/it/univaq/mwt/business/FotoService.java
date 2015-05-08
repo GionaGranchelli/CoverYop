@@ -1,9 +1,10 @@
 package it.univaq.mwt.business;
 
-import java.util.List;
+import it.univaq.mwt.business.model.AlbumFotografico;
+import it.univaq.mwt.business.model.Foto;
 
+import java.util.List;
 import java.util.Set;
-import it.univaq.mwt.business.model.*;
 
 
 public interface FotoService {

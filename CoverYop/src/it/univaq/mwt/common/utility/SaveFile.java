@@ -1,12 +1,15 @@
 package it.univaq.mwt.common.utility;
 
 
+import it.univaq.mwt.business.FotoService;
 import it.univaq.mwt.business.form.utente.FormFotoAlbum;
 import it.univaq.mwt.business.form.utente.FormFotoProfilo;
 import it.univaq.mwt.business.model.AlbumFotografico;
 import it.univaq.mwt.business.model.Canzone;
 import it.univaq.mwt.business.model.Foto;
+import it.univaq.mwt.business.model.Gruppo;
 import it.univaq.mwt.business.model.Locale;
+import it.univaq.mwt.business.model.Utente;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -16,11 +19,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 public final class SaveFile {
 
 	public final String realPath = new String("C:\\");
+	
+
+	
 	
 	public List<Foto> savePhotoAbum(CommonsMultipartFile[] toSaveFile, int idUser) {
 
@@ -133,11 +140,10 @@ public final class SaveFile {
 
 		return f;
 	}
-	public static void savePhotoBlobGeneral(FormFotoProfilo toSaveFile, Foto f, int idUser, String type, String title) throws IOException {
+	public static void savePhotoBlobGeneral(FormFotoProfilo toSaveFile, Foto f, String type, String title) throws IOException {
 
-		String path = null; // Serve a Generare il Path dove salvare le Photo
+		
 		CommonsMultipartFile cpFile = toSaveFile.getPhotoFile();
-		byte dataToWrite[] = cpFile.getBytes();
 		try {
 			f.setUrl(title);
 			f.setFotoBlob(cpFile.getBytes());
@@ -216,7 +222,7 @@ public final class SaveFile {
 
 	}
 
-	public static AlbumFotografico savePhotoBlobGeneral(FormFotoAlbum formFotoAlbum, Locale l,
+	public static AlbumFotografico savePhotoBlobGeneral(FormFotoAlbum formFotoAlbum, Utente l,
 			String albumType, String description) {
 		
 		CommonsMultipartFile[] tempFileUploaded = formFotoAlbum.getPhotoFile();
@@ -244,5 +250,14 @@ public final class SaveFile {
 		}
 		return tempSlider;
 	}
+
+//	public static AlbumFotografico savePhotoBlobProfile(
+//			FormFotoProfilo fotoProfilo, Utente g, String albumType, String description) {
+//		
+//		
+//	}
+		
+		
+	
 
 }

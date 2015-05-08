@@ -12,6 +12,6 @@ public interface VideoService {
 	public Video getVideoById(int videoID);
 	public Video updateVideo(Video v);
 	public void deleteVideo(Video v);
-	Video insertVideo(Video v);
-	Video buildVideoInfo(Locale l, Video v);
+	public Video insertVideo(Video v);
+	public Video buildVideoInfo(Utente l, Video v);
 }

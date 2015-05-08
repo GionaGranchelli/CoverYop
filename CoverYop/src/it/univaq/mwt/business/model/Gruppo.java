@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Embedded;
@@ -156,7 +157,7 @@ public class Gruppo extends Utente implements Serializable{
 		this.cachet = cachet;
 	}
 
-	@OneToMany(fetch=FetchType.EAGER, mappedBy="gruppo",cascade={PERSIST, REFRESH, REMOVE})
+	@OneToMany(fetch=FetchType.EAGER, mappedBy="gruppo",cascade={PERSIST, REFRESH, REMOVE, CascadeType.MERGE})
 	public Set<Album> getAlbums() {
 		return albums;
 	}

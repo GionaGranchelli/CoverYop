@@ -5,6 +5,8 @@ package it.univaq.mwt.business;
 import java.util.List;
 import java.util.Set;
 
+import it.univaq.mwt.business.form.utente.FormFotoAlbum;
+import it.univaq.mwt.business.form.utente.FormFotoProfilo;
 import it.univaq.mwt.business.model.*;
 
 
@@ -38,6 +40,12 @@ public interface GruppoService {
 	public void buildGroupInfo(Gruppo viewGroup, Gruppo gruppo);
 
 	public Foto addPhotoProfile(Gruppo viewGroup, Foto foto);
+
+	public void buildInfoUtente(Gruppo viewGroup, Gruppo gruppo);
+
+	public void buildAlbumFoto(FormFotoAlbum formFotoAlbum, Gruppo g);
+
+	public void buildFotoProfilo(FormFotoProfilo fotoProfilo, Gruppo g);
 
 
 	

@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -122,7 +123,7 @@ public class Album implements Serializable {
 		this.anno = anno;
 	}
 
-	@OneToMany(fetch=FetchType.LAZY,cascade={PERSIST, REFRESH},mappedBy="album")
+	@OneToMany(fetch=FetchType.EAGER,cascade={CascadeType.ALL},mappedBy="album")
 	public Set<Canzone> getCanzoni() {
 		return canzoni;
 	}

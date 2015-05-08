@@ -1,22 +1,20 @@
 package it.univaq.mwt.business.impl;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
 import it.univaq.mwt.business.AlbumFotograficoService;
 import it.univaq.mwt.business.FotoService;
 import it.univaq.mwt.business.LocaleService;
-import it.univaq.mwt.business.form.local.FormFotoAlbum;
+import it.univaq.mwt.business.form.utente.FormFotoAlbum;
 import it.univaq.mwt.business.model.AlbumFotografico;
 import it.univaq.mwt.business.model.Categoria;
 import it.univaq.mwt.business.model.Foto;
-import it.univaq.mwt.business.model.Gruppo;
 import it.univaq.mwt.business.model.Locale;
 import it.univaq.mwt.business.model.Utente;
 import it.univaq.mwt.common.utility.SaveFile;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -25,7 +23,6 @@ import javax.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 /**
  * Session Bean implementation class EJBLocale

@@ -1,5 +1,6 @@
 package it.univaq.mwt.business.impl;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -8,10 +9,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.ArrayList;
 
+import it.univaq.mwt.business.AlbumFotograficoService;
 import it.univaq.mwt.business.FotoService;
 import it.univaq.mwt.business.GenereService;
 import it.univaq.mwt.business.GruppoDiRiferimentoService;
 import it.univaq.mwt.business.GruppoService;
+import it.univaq.mwt.business.form.utente.FormFotoAlbum;
+import it.univaq.mwt.business.form.utente.FormFotoProfilo;
 import it.univaq.mwt.business.model.Album;
 import it.univaq.mwt.business.model.AlbumFotografico;
 import it.univaq.mwt.business.model.Evento;
@@ -21,6 +25,7 @@ import it.univaq.mwt.business.model.Gruppo;
 import it.univaq.mwt.business.model.GruppoDiRiferimento;
 import it.univaq.mwt.business.model.Locale;
 import it.univaq.mwt.business.model.Utente;
+import it.univaq.mwt.common.utility.SaveFile;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -48,6 +53,11 @@ public class EJBGruppo implements GruppoService {
 	
 	@Autowired
 	GruppoDiRiferimentoService gruppoRifServ;
+
+	@Autowired
+	AlbumFotograficoService albumFotograficoService;
+
+	
 
 	public EJBGruppo() {
 		// TODO Auto-generated constructor stub
@@ -274,13 +284,76 @@ public class EJBGruppo implements GruppoService {
 				temp.addFoto(foto);
 			}
 		}
-		em.getEntityManagerFactory().getCache().evict(Locale.class);
+		em.getEntityManagerFactory().getCache().evict(Gruppo.class);
 		return foto;
 	}
 	
 	@Transactional
 	public void deleteFotoProfile(Foto f){
 		fotoServ.deleteFotoById(f.getId());
+	}
+
+	@Override
+	public void buildInfoUtente(Gruppo viewGroup, Gruppo gruppo) {
+		viewGroup.setNome(gruppo.getNome());
+		viewGroup.setCognome(gruppo.getCognome());
+		viewGroup.setCitta(gruppo.getCitta());
+		viewGroup.setIndirizzo(gruppo.getIndirizzo());
+		viewGroup.setTelefono(gruppo.getTelefono());
+		viewGroup.setUsername(gruppo.getUsername());
+		viewGroup.setEmail(gruppo.getEmail());
+		viewGroup.setPassword(gruppo.getPassword());
+		
+	}
+
+	@Override
+	public void buildAlbumFoto(FormFotoAlbum formFotoAlbum, Gruppo g) {
+		
+		AlbumFotografico af = SaveFile.savePhotoBlobGeneral(formFotoAlbum, g ,"slideshow", "Album da Slider");
+		albumFotograficoService.updatePhotoAlbum(af);
+		fotoServ.insertSetFoto(af.getFoto());
+		
+	}
+
+	@Override
+	public void buildFotoProfilo(FormFotoProfilo fotoProfilo, Gruppo g ) {
+		String albumTag="profile";
+		String description="album profilo";
+		AlbumFotografico tempProfile;
+		if(g.getAlbumProfilo() == null){
+			tempProfile = new AlbumFotografico();
+			tempProfile.setData(new Date());
+			tempProfile.setLuogo(g.getCitta());
+			tempProfile.setTag(albumTag);
+			tempProfile.setTitolo(description);
+			tempProfile.setUtente(g);
+			Foto temp = new Foto();
+			temp.setFotoBlob(fotoProfilo.getPhotoFile().getBytes());
+			temp.setAlbumFotografico(tempProfile);
+			temp.setUrl(description);
+			tempProfile.addFoto(temp);
+		}else{
+			
+			
+			tempProfile = g.getAlbumProfilo();
+			Iterator iterator = tempProfile.getFoto().iterator();
+			while (iterator.hasNext()) {
+				Foto foto = (Foto) iterator.next();
+				foto.setFotoBlob(fotoProfilo.getPhotoFile().getBytes());
+				fotoServ.updatePhoto(foto);
+			}
+			
+			
+			}
+		
+			
+			
+		
+		
+		albumFotograficoService.updatePhotoAlbum(tempProfile);
+		fotoServ.insertSetFoto(tempProfile.getFoto());
+		
+		
 	}
 
 }
