@@ -210,7 +210,7 @@
 							<form:input path="anno" />
 								
 							<label for="musicFile">Inserisci Le Tracce</label>	
-                            <form:input path="musicFile" type="file" multiple="multiple" />
+                            <input name="musicFile" type="file" multiple="multiple" />
                             
                             </form:form>
                             

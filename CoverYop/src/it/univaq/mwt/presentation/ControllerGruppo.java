@@ -135,7 +135,7 @@ public class ControllerGruppo {
 		model.addAttribute("videos", viewGroup.getVideo());
 		model.addAttribute("formFotoProfilo", new FormFotoProfilo());
 		model.addAttribute("formFoto", new FormFotoAlbum());
-		model.addAttribute("formMusica", new FormMusica());
+		model.addAttribute("AlbumMusica", new Album());
 		model.addAttribute("formVideo", new Video());
 		return "profiloMultimedia.loggato";
 	}
