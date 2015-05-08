@@ -33,230 +33,175 @@
 				<div class="widget details-widget">
 					<div class="details-meta">
 						<!-- Details list -->
-						<a class="btn small dark" href="${pageContext.request.contextPath}/Privee/">
-							<i class="icon icon-music"></i> 
-							Profilo Locale
-						</a>
-						<a class="btn small dark"  href="${pageContext.request.contextPath}/Privee/Utente">
-							<i class="icon icon-user"></i> 
-							Profilo Utente
-						</a>
-						<a class="btn small dark" href="${pageContext.request.contextPath}/Privee/Multimedia">
-							<i class="icon icon-images"></i>
-							
-							Foto e Video
-							
+						<a class="btn small dark"
+							href="${pageContext.request.contextPath}/Privee/"> <i
+							class="icon icon-music"></i> Profilo Locale
+						</a> <a class="btn small dark"
+							href="${pageContext.request.contextPath}/Privee/Utente"> <i
+							class="icon icon-user"></i> Profilo Utente
+						</a> <a class="btn small dark"
+							href="${pageContext.request.contextPath}/Privee/Multimedia">
+							<i class="icon icon-images"></i> Foto e Video
 						</a>
 						<%-- <a class="btn small dark" href="${pageContext.request.contextPath}/BackStage/Tour">
 							<i class="icon icon-yelp"></i> 
 							Crea Tour
 						</a> --%>
-						<a class="btn small dark" id="attuale" href="${pageContext.request.contextPath}/Privee/Eventi">
-							<i class="icon icon-dribbble"></i> 
-							Gestione Eventi
+						<a class="btn small dark" id="attuale"
+							href="${pageContext.request.contextPath}/Privee/Eventi"> <i
+							class="icon icon-dribbble"></i> Gestione Eventi
 						</a>
 					</div>
 				</div>
+				<c:if test="${evento.id != 0}">
+					<div class="widget details-widget">
+						<div class="details-meta">
+							<h2>Foto Scelta</h2>
+							<img alt="Foto Scelta" src="${pageContext.request.contextPath}/Event/image.html?id=${evento.id}">
+					</div>
+				</div>
+				</c:if>
+				
 			</div>
 			<!-- /sidebar -->
 
 			<!-- Main -->
 			<div id="main" class="release main-left main-medium">
-
 				<!-- Article -->
 				<article>
-
 					<div class="tabs-wrap">
 						<!-- tabs navigation -->
 						<ul class="tabs">
 							<li><a href="#tab-base">Aggiungi Evento</a></li>
 							<li><a href="#tab-list-eventi">Lista Eventi</a></li>
 						</ul>
-						
-						<c:choose>
-						<c:when test="${empty eventoMod}">
-							<div class="tab-content" id="tab-base">
-							<form:form action="${pageContext.request.contextPath}/Privee/addEvento" 
-								   method="POST" 
-								   class="form contact-form"
-								   commandName="formEvento"
-								   enctype="multipart/form-data">
+						<div class="tab-content" id="tab-base">
+							<form:form
+								action="${pageContext.request.contextPath}/${requestScope.action}"
+								method="POST" class="form contact-form" modelAttribute="evento"
+								enctype="multipart/form-data">
+								<form:hidden path="status"/>
+								<form:hidden path="id"/>
+								
 								<h2>Aggiungi Evento</h2>
-								<label for="nome">Nome Evento</label> 
-								<form:input path="nome"/>
+								<label for="nome">Nome Evento</label>
+								<form:input path="nome" />
+
+								<label for="luogo">Dove</label>
+								<form:input path="luogo" />
 								
-								<label for="gruppo">Gruppo</label>
-								<form:input path="gruppo" />
 								
-								<label for="descrizione">Descrizione</label> 
-								<form:textarea path="descrizione"/>
-									
-								<label for="dataEvento">Data</label> 
-								<form:input path="dataEvento"/>
-								
-								<label for="locandina">Locandina</label> 
-								<form:input path="locandina" type="file"  multiple="multiple"/>
-									
-								<label for="orarioInizio">Ora Inizio</label> 
-								<form:input path="orarioInizio"/>
-								
-								<label for="orarioFine">Ora Fine</label> 
-								<form:input path="orarioFine"/>
-								
-								<label for="prezzo">Prezzo</label> 
-								<form:input path="prezzo"/>
-								
+								<label for="nomeGruppo">Gruppo</label>
+								<input type="text" id="nomeGruppo" name="nomeGruppo"  value="${nomeGruppo}"/>
+
+								<label for="descrizione">Descrizione</label>
+								<form:input path="descrizione" />
+
+								<label for="data">Data</label>
+								<form:input path="data" />
+
+								<label for="immagine">Inserisci Locandina</label>
+								<input type="file" name="immagine" />
+
+								<label for="orarioInizio">Ora Inizio</label>
+								<form:input path="orarioInizio" />
+
+								<label for="orarioFine">Ora Fine</label>
+								<form:input path="orarioFine" />
+
+								<label for="prezzo">Prezzo</label>
+								<form:input path="prezzo" />
+
 								<label for="tipologia_Eventi">Tipologia Evento</label>
-								<select id="tipologia_Eventi" name="tipologia_Eventi" style="width: 100%;">
-								<c:forEach  items="${tipologia}" var="tipoEvento" varStatus="status">
-									<option value="${tipoEvento.id}">${tipoEvento.nome}</option>
-								</c:forEach>
-								</select>
-							<input type="submit" value="Invia"/>
-							</form:form>	
-							</div>
-						</c:when>
-						<c:otherwise>
-							<div class="tab-content" id="tab-base">
-							<form:form action="${pageContext.request.contextPath}/Privee/updateEvento" 
-								   method="POST" 
-								   class="form contact-form"
-								   commandName="eventoMod">
-								   <a href="${pageContext.request.contextPath}/Privee/newEvent" class="btn small">Aggiungi Nuovo Evento</a>
-								<h2>Modifica Evento</h2>
-								<label for="nome">Nome Evento</label> 
-								<form:input path="nome" value="${eventoMod.nome }"/>
-								
-								<label for="gruppo">Gruppo</label>
-								<form:input path="gruppo" value="${eventoMod.gruppo}"/>
-								
-								<label for="descrizione">Descrizione</label> 
-								<form:textarea path="descrizione" value="${eventoMod.descrizione}"/>
-									
-								<label for="dataEvento">Data</label> 
-								<form:input path="dataEvento" value="${eventoMod.dataEvento }"/>
-								
-									
-								<label for="orarioInizio">Ora Inizio</label> 
-								<form:input path="orarioInizio" value="${eventoMod.orarioInizio }"/>
-								
-								<label for="orarioFine">Ora Fine</label> 
-								<form:input path="orarioFine" value="${eventoMod.orarioFine }"/>
-								
-								<label for="prezzo">Prezzo</label> 
-								<form:input path="prezzo" value="${eventoMod.prezzo }"/>
-								
-								<select id="tipologia_Eventi" name="tipologia_Eventi" style="width: 100%;">
-								<c:forEach  items="${tipologia}" var="tipoEvento" varStatus="status">
-									<c:choose>
-									<c:when test="${tipoEvento.id == eventoMod.tipologia_Eventi}">
-										<option selected="selected" value="${tipoEvento.id}">${tipoEvento.nome}</option>
-									</c:when>
-									<c:otherwise>
-										<option value="${tipoEvento.id}">${tipoEvento.nome}</option>
-									</c:otherwise>
-									</c:choose>
-									
-									
-								</c:forEach>
-								</select>
-								<input type="hidden" name="idEvento" id="idEvento" value="${idEvento}"/>
-							<input type="submit" value="Invia"/>
-							</form:form>	
-							</div>
-						</c:otherwise>
-						</c:choose>
+								<form:select path="tipologia_Eventi.id" items="${tipologia}"
+									itemLabel="nome" itemValue="id" />
+
+								<input type="submit" value="Invia" />
+							</form:form>
+						</div>
+
 						<!-- /tabs navigation -->
 						<script>
-						$(document).ready(function(){
-							$( "#gruppo" ).autocomplete({
-								source: '${pageContext. request. contextPath}/Privee/get_groups_list',
-								paramName: "term",
-								delimiter: ",",
-								transformResult: function(response) {
-									 
-									return {      	
-									  //must convert json to javascript object before process
-									  suggestions: $.map($.parseJSON(response), function(item) {
-							 
-									      return { value: item.nomeLocale, data: item.id };
-									   })
-							 
-									 };
-							 
-							            }
-							 
-							});
-							$(function() {    
-								$( "#dataEvento" ).datepicker();
-								$('#orarioInizio').timepicker();
-								$('#orarioFine').timepicker();
-							});
-						});
+							$(document)
+									.ready(
+											function() {
+												$("#nomeGruppo")
+														.autocomplete(
+																{
+																	source : '${pageContext. request. contextPath}/Privee/get_groups_list',
+																	paramName : "term",
+																	delimiter : ",",
+																	transformResult : function(
+																			response) {
+																		return {
+																			//must convert json to javascript object before process
+																			suggestions : $
+																					.map(
+																							$
+																									.parseJSON(response),
+																							function(
+																									item) {
+																								return {
+																									value : item.nomeGruppo,
+																									data : item.id
+																								};
+																							})
+																		};
+																	}
+																});
+												$(function() {
+													$("#data").datepicker();
+													$('#orarioInizio')
+															.timepicker();
+													$('#orarioFine')
+															.timepicker();
+												});
+											});
 						</script>
+						<div class="tab-content" id="tab-list-eventi">
+							<h2>I miei Eventi</h2>
 
-							
-						
-							
-							<div class="tab-content" id="tab-list-eventi">
-								<h2>I miei Eventi</h2>
-								
-								<!-- Events table -->
-            <table class="layout display responsive-table">
-                <thead>
-                    <tr>
-                        <th>Data</th>
-                        <th>Evento</th>
-                        <th>Stato</th>
-                        <th>Operazioni</th>
-                    </tr>
-                </thead>
-                <tbody>
-                <c:forEach items="${eventi}" var="evento" varStatus="status">
-                	<tr>
-                        <td class="table-date">${evento.data}</td>
-                        <td class="table-name">${evento.nome}
-                        	<c:forEach items="${evento.gruppo}" var="group" varStatus="status">
-                        		<a class="event-location" href="${pageContext.request.contextPath}/Group/${group.id}">
-                        	${group.nomeGruppo}</a>
-                        	</c:forEach>
-                        	
+							<!-- Events table -->
+							<table class="layout display responsive-table">
+								<thead>
+									<tr>
+										<th>Data</th>
+										<th>Evento</th>
+										<th>Stato</th>
+										<th>Operazioni</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach items="${eventi}" var="evento" varStatus="status">
+										<tr>
+											<td class="table-date">${evento.data}</td>
+											<td class="table-name">${evento.nome}
+											<c:forEach items="${evento.gruppo}" var="group" varStatus="status">
+													<a class="event-location" href="${pageContext.request.contextPath}/Group/${group.id}">${group.nomeGruppo}</a>
+											</c:forEach>
+											<td class="table-date">
+											<c:choose>
+												<c:when test="${evento.status == 11}"> Ok | 
+													<a href="${pageContext.request.contextPath}/Privee/cancelEvent/${evento.id}">Annulla</a>
+												</c:when>
+												<c:otherwise> Attesa |
+												<a href="${pageContext.request.contextPath}/Privee/activateEvent/${evento.id}">Attiva</a>
+												</c:otherwise>
+											</c:choose>
+											</td>
+											<td class="actions">
+											<a href="${pageContext.request.contextPath}/Privee/EventoModifica/${evento.id}" class="buy-tickets" title="Modifica Evento">Modifica</a></td>
+										</tr>
+									</c:forEach>
 
-                        <td class="table-date">
-                        <c:choose>
-                        <c:when test="${evento.status == 11}">
-                        Ok | <a href="${pageContext.request.contextPath}/Privee/cancelEvent/${evento.id}">Annulla</a>
-                        </c:when>
-                        <c:otherwise>
-                        Attesa | <a href="${pageContext.request.contextPath}/Privee/activateEvent/${evento.id}">Attiva</a> 
-                        </c:otherwise>
-                        </c:choose>
-                        </td>
-                        <td class="actions">
-                        	
-                            <a href="${pageContext.request.contextPath}/Privee/EventoModifica/${evento.id}" class="buy-tickets" title="Buy Tickets">Modifica</a>
-                        </td>
-                    </tr>
-                </c:forEach>
-                    
-                </tbody>
-            </table>
-            <!-- /events table --> 
-								
-							</div>
-							
-								
-							
-						
+								</tbody>
+							</table>
+							<!-- /events table -->
 					</div>
+				</div>
 
 				</article>
 				<!-- /article -->
-
-				<!-- Page navigation -->
-				<!-- <div class="page-nav">
-					<a href="javascript:;" class="prev"><span class="icon icon-arrow-left"></span> Previous</a><a href="javascript:;" class="next">Next <span class="icon icon-arrow-right"></span></a>
-				</div> -->
 			</div>
 			<!-- /main -->
 		</div>

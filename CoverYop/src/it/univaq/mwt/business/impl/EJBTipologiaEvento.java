@@ -42,8 +42,8 @@ public class EJBTipologiaEvento implements TipologiaEventoService {
 	
 	@Override
 	public TipologiaEvento getTipologiaEventoById(int tipoloEventoID) {
-		// TODO Auto-generated method stub
-		return null;
+		TipologiaEvento tE = em.find(TipologiaEvento.class, tipoloEventoID);
+		return tE;
 	}
 
 }

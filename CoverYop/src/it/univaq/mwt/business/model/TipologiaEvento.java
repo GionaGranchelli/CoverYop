@@ -33,7 +33,6 @@ public class TipologiaEvento implements Serializable{
 	
 	private String descrizione;
 	
-	private Evento evento;
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -53,23 +52,6 @@ public class TipologiaEvento implements Serializable{
 		this.nome = nome;
 		this.descrizione = descrizione;
 		
-	}
-
-
-	public TipologiaEvento(String nome, String descrizione, Evento evento) {
-		super();
-		this.nome = nome;
-		this.descrizione = descrizione;
-		this.evento = evento;
-	}
-
-	public TipologiaEvento(int id, String nome, String descrizione,
-			Evento evento) {
-		super();
-		this.id = id;
-		this.nome = nome;
-		this.descrizione = descrizione;
-		this.evento = evento;
 	}
 
 	@Id
@@ -103,14 +85,6 @@ public class TipologiaEvento implements Serializable{
 
 	public void setDescrizione(String descrizione) {
 		this.descrizione = descrizione;
-	}
-	@OneToOne//(mappedBy="tipologia_Eventi")//da modificare ci va @OneToMany(mappedBy="tipologia_Eventi")il db sottostante è stata modellata male
-	public Evento getEvento() {
-		return evento;
-	}
-
-	public void setEvento(Evento evento) {
-		this.evento = evento;
 	}
 
 	

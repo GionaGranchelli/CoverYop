@@ -96,23 +96,23 @@
 							</form:form> 
 							<br/>
 							<div class="details-countdown gallery-3-col gallery-join">
-						<c:forEach items="${albums}" var="albums" varStatus="status">
-							<div class="details-meta photoAlbums" id="${albums.id}">
-							<h2>${albums.titolo}</h2>
-							<c:forEach items="${albums.foto}" var="foto" varStatus="status">
-								<div class="photos">
-									<img src="${pageContext.request.contextPath}/LocalSlide/image.html?id=${foto.id}" alt="Image Title" class="immaginiModifica">
-									<span class="icon-wrap" style="float:left;">
-										<a href="${pageContext.request.contextPath}/Privee/deletePhoto/${foto.id}">Cancella<span class="icon icon-cancel-circle"></span></a>
-									</span>
-								</div>
-							</c:forEach>
-							</div>
-						</c:forEach>
+								<c:forEach items="${albums}" var="albums" varStatus="status">
+									<div class="details-meta photoAlbums" id="${albums.id}">
+									<h2>${albums.titolo}</h2>
+									<c:forEach items="${albums.foto}" var="foto" varStatus="status">
+										<div class="photos">
+											<img src="${pageContext.request.contextPath}/LocalSlide/image.html?id=${foto.id}" alt="Image Title" class="immaginiModifica">
+											<span class="icon-wrap" style="float:left;">
+												<a href="${pageContext.request.contextPath}/Privee/deletePhoto/${foto.id}">Cancella<span class="icon icon-cancel-circle"></span></a>
+											</span>
+										</div>
+									</c:forEach>
+									</div>
+								</c:forEach>
 			
-		   </div>
-							</div>
-							<div class="tab-content" id="tab-video">
+		   					</div>
+						</div>
+						<div class="tab-content" id="tab-video">
 							<form:form action="${pageContext.request.contextPath}/Privee/updateMultimedia/Video" 
 								   method="POST" 
 								   class="form contact-form"

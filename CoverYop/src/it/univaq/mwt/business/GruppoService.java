@@ -30,6 +30,8 @@ public interface GruppoService {
 	public List<Utente> SearchUsers2(String nome);
 	
 	public List<Gruppo> findGruppoByName(String name);
+	
+	Gruppo findGruppoByCorrectName(String name);
 
 	public List<Gruppo> findLastSubscribed(int i);
 

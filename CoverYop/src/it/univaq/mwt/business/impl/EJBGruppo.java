@@ -250,4 +250,17 @@ public class EJBGruppo implements GruppoService {
 		
 	}
 
+	@Override
+	public Gruppo findGruppoByCorrectName(String name) {
+		String gruppoToLower = name.toLowerCase();
+
+		Query query = em.createQuery("select lc " + "from Gruppo lc "
+				+ "where lower(lc.nomeGruppo) LIKE :localeLow");
+		query.setParameter("localeLow", gruppoToLower );
+
+		Gruppo gruppo = (Gruppo) query.getSingleResult();
+		
+		return gruppo;
+	}
+
 }

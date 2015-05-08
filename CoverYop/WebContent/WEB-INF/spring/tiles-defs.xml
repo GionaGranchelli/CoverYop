@@ -60,11 +60,13 @@
 			value="/WEB-INF/views/group/user_multimedia_logged.jsp" />
 	</definition>
 	<definition name="profiloEventi.loggato" extends="standard">
-		<put-attribute name="body"
-			value="/WEB-INF/views/group/user_event_logged.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/group/user_event_logged.jsp" />
 	</definition>
 	
-	
+	<definition name="profiloEventi.loggato" extends="standard">
+		<put-attribute name="action" value="/titles/create.do"/>
+		<put-attribute name="body" value="/WEB-INF/views/group/user_event_logged.jsp" />
+	</definition>
 	<definition name="local.welcome" extends="standard">
 		<put-attribute name="body" value="/WEB-INF/views/local/welcome.jsp" />
 	</definition>
@@ -84,10 +86,13 @@
 			value="/WEB-INF/views/local/user_multimedia_logged.jsp" />
 	</definition>
 	<definition name="localeEventi.loggato" extends="standard">
-		<put-attribute name="body"
-			value="/WEB-INF/views/local/user_event_logged.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/local/user_event_logged.jsp" />
+		<put-attribute name="action" value="Privee/addEvento"/>
 	</definition>
-
+	<definition name="modificalocaleEventi.loggato" extends="standard">
+		<put-attribute name="body" value="/WEB-INF/views/local/user_event_logged.jsp" />
+		<put-attribute name="action" value="Privee/updateEvento"/>
+	</definition>
 
 	<definition name="list.event" extends="standard">
 		<put-attribute name="body"
