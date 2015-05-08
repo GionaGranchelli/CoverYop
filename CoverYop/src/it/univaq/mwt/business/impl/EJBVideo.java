@@ -9,6 +9,7 @@ import it.univaq.mwt.business.VideoService;
 import it.univaq.mwt.business.model.Album;
 import it.univaq.mwt.business.model.Canzone;
 import it.univaq.mwt.business.model.Locale;
+import it.univaq.mwt.business.model.Utente;
 import it.univaq.mwt.business.model.Video;
 
 import javax.persistence.EntityManager;
@@ -83,7 +84,7 @@ public class EJBVideo implements VideoService {
 	}
 
 	@Override
-	public Video buildVideoInfo(Locale l, Video v) {
+	public Video buildVideoInfo(Utente l, Video v) {
 		Video toPersist = v;
 		toPersist.setUtente(l);
 		toPersist.setData(new Date());

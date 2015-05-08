@@ -1,11 +1,12 @@
 package it.univaq.mwt.common.utility;
 
-import it.univaq.mwt.business.form.local.FormFotoAlbum;
-import it.univaq.mwt.business.form.local.FormFotoProfilo;
+
+import it.univaq.mwt.business.form.utente.FormFotoAlbum;
+import it.univaq.mwt.business.form.utente.FormFotoProfilo;
 import it.univaq.mwt.business.model.AlbumFotografico;
 import it.univaq.mwt.business.model.Canzone;
 import it.univaq.mwt.business.model.Foto;
-import it.univaq.mwt.business.model.Locale;
+import it.univaq.mwt.business.model.Utente;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -127,12 +128,9 @@ public final class SaveFile {
 		return f;
 	}
 
-	public static void savePhotoBlobGeneral(FormFotoProfilo toSaveFile, Foto f,
-			int idUser, String type, String title) throws IOException {
-
-		String path = null; // Serve a Generare il Path dove salvare le Photo
+	public static void savePhotoBlobGeneral(FormFotoProfilo toSaveFile, Foto f, String type, String title) throws IOException {
+		
 		CommonsMultipartFile cpFile = toSaveFile.getPhotoFile();
-		byte dataToWrite[] = cpFile.getBytes();
 		try {
 			f.setUrl(title);
 			f.setFotoBlob(cpFile.getBytes());
@@ -210,9 +208,10 @@ public final class SaveFile {
 
 	}
 
-	public static AlbumFotografico savePhotoBlobGeneral(FormFotoAlbum formFotoAlbum,
-			Locale l, String albumType, String description) {
 
+	public static AlbumFotografico savePhotoBlobGeneral(FormFotoAlbum formFotoAlbum, Utente l,
+			String albumType, String description) {
+		
 		CommonsMultipartFile[] tempFileUploaded = formFotoAlbum.getPhotoFile();
 		int size = tempFileUploaded.length;
 		int i = 0; // iterator
@@ -239,6 +238,7 @@ public final class SaveFile {
 		return tempSlider;
 	}
 
+
 	public static byte[] extractBytes(String ImageName) throws IOException {
 		FileInputStream fileInputStream=null;
 		 
@@ -258,3 +258,5 @@ public final class SaveFile {
 
 		}
 	}
+	
+

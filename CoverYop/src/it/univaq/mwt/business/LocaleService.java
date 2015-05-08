@@ -1,22 +1,11 @@
 package it.univaq.mwt.business;
+import it.univaq.mwt.business.form.utente.FormFotoAlbum;
+import it.univaq.mwt.business.model.Categoria;
+import it.univaq.mwt.business.model.Foto;
+import it.univaq.mwt.business.model.Locale;
+import it.univaq.mwt.business.model.Utente;
+
 import java.util.List;
-import java.util.Set;
-
-
-
-
-
-
-
-
-
-
-
-
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
-
-import it.univaq.mwt.business.form.local.FormFotoAlbum;
-import it.univaq.mwt.business.model.*;
 
 
 public interface LocaleService {

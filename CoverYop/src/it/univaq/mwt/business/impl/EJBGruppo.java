@@ -1,23 +1,25 @@
 package it.univaq.mwt.business.impl;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.ArrayList;
-
+import it.univaq.mwt.business.AlbumFotograficoService;
+import it.univaq.mwt.business.FotoService;
 import it.univaq.mwt.business.GenereService;
 import it.univaq.mwt.business.GruppoDiRiferimentoService;
 import it.univaq.mwt.business.GruppoService;
-import it.univaq.mwt.business.model.Album;
-import it.univaq.mwt.business.model.Evento;
+import it.univaq.mwt.business.form.utente.FormFotoAlbum;
+import it.univaq.mwt.business.form.utente.FormFotoProfilo;
+import it.univaq.mwt.business.model.AlbumFotografico;
+import it.univaq.mwt.business.model.Foto;
 import it.univaq.mwt.business.model.Genere;
 import it.univaq.mwt.business.model.Gruppo;
 import it.univaq.mwt.business.model.GruppoDiRiferimento;
-import it.univaq.mwt.business.model.Locale;
 import it.univaq.mwt.business.model.Utente;
+import it.univaq.mwt.common.utility.SaveFile;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -36,12 +38,18 @@ public class EJBGruppo implements GruppoService {
 
 	@PersistenceContext(unitName = "Yop-domain")
 	private EntityManager em;
-	
+
 	@Autowired
 	GenereService genereServ;
-	
+
+	@Autowired
+	FotoService fotoServ;
+
 	@Autowired
 	GruppoDiRiferimentoService gruppoRifServ;
+
+	@Autowired
+	AlbumFotograficoService albumFotograficoService;
 
 	public EJBGruppo() {
 		// TODO Auto-generated constructor stub
@@ -98,7 +106,7 @@ public class EJBGruppo implements GruppoService {
 		String queryString = null;
 		List<Gruppo> result;
 		Query query = null;
-		if(nomeGruppo == null && citta == null && genere == null){
+		if (nomeGruppo == null && citta == null && genere == null) {
 			result = findAllGruppi();
 			return result;
 		}
@@ -157,7 +165,6 @@ public class EJBGruppo implements GruppoService {
 		}
 
 		List<Gruppo> lista = (List<Gruppo>) query.getResultList();
-		
 
 		return lista;
 	}
@@ -176,7 +183,7 @@ public class EJBGruppo implements GruppoService {
 
 	@Override
 	public List<Gruppo> findLastSubscribed(int i) {
-		String queryString = "select grp from Gruppo grp ORDER BY grp.id";
+		String queryString = "select grp from Gruppo grp ORDER BY grp.id DESC";
 		Query query = em.createQuery(queryString).setMaxResults(i);
 		List<Gruppo> result = (List<Gruppo>) query.getResultList();
 		return result;
@@ -225,10 +232,10 @@ public class EJBGruppo implements GruppoService {
 		viewGroup.setCanale(gruppo.getCanale());
 		viewGroup.setService(gruppo.getService());
 		viewGroup.setCover_Band(gruppo.getCover_Band());
-		if(gruppo.getGeneri() != null){
+		if (gruppo.getGeneri() != null) {
 			Set<Genere> asd = gruppo.getGeneri();
 			Iterator<Genere> i = asd.iterator();
-			while(i.hasNext()){
+			while (i.hasNext()) {
 				Genere a = new Genere();
 				Genere temp = new Genere();
 				a = i.next();
@@ -236,31 +243,115 @@ public class EJBGruppo implements GruppoService {
 				viewGroup.addGenere(temp);
 			}
 		}
-		if(gruppo.getGruppi_rif() != null){
+		if (gruppo.getGruppi_rif() != null) {
 			Set<GruppoDiRiferimento> rif = gruppo.getGruppi_rif();
 			Iterator<GruppoDiRiferimento> j = rif.iterator();
-			while(j.hasNext()){
+			while (j.hasNext()) {
 				GruppoDiRiferimento a = new GruppoDiRiferimento();
 				GruppoDiRiferimento temp = new GruppoDiRiferimento();
 				a = j.next();
-				temp = gruppoRifServ.getGruppiDiRiferimentoById((Integer.parseInt(a.getNome())));
+				temp = gruppoRifServ.getGruppiDiRiferimentoById((Integer.parseInt(a
+						.getNome())));
 				viewGroup.addGruppi_rif(temp);
 			}
 		}
-		
+
 	}
 
-	@Override
 	public Gruppo findGruppoByCorrectName(String name) {
 		String gruppoToLower = name.toLowerCase();
 
 		Query query = em.createQuery("select lc " + "from Gruppo lc "
 				+ "where lower(lc.nomeGruppo) LIKE :localeLow");
-		query.setParameter("localeLow", gruppoToLower );
+		query.setParameter("localeLow", gruppoToLower);
 
 		Gruppo gruppo = (Gruppo) query.getSingleResult();
-		
+
 		return gruppo;
+
+	}
+
+	public Foto addPhotoProfile(Gruppo viewGroup, Foto foto) {
+
+		Set<AlbumFotografico> allPhotoAlbums = viewGroup.getAlbumFotografico();
+		Iterator<AlbumFotografico> i = allPhotoAlbums.iterator();
+		while (i.hasNext()) {
+			AlbumFotografico temp = i.next();
+			if (temp.getTag().equals("profile")) {
+				foto.setAlbumFotografico(temp);
+				Set<Foto> fotoDaCancellare = temp.getFoto();
+				Iterator<Foto> j = fotoDaCancellare.iterator();
+				while (j.hasNext()) {
+					Foto tempFotoToDelete = (Foto) j.next();
+					deleteFotoProfile(tempFotoToDelete);
+				}
+				temp.addFoto(foto);
+			}
+		}
+		em.getEntityManagerFactory().getCache().evict(Gruppo.class);
+		return foto;
+	}
+
+	@Transactional
+	public void deleteFotoProfile(Foto f) {
+		fotoServ.deleteFotoById(f.getId());
+	}
+
+	@Override
+	public void buildInfoUtente(Gruppo viewGroup, Gruppo gruppo) {
+		viewGroup.setNome(gruppo.getNome());
+		viewGroup.setCognome(gruppo.getCognome());
+		viewGroup.setCitta(gruppo.getCitta());
+		viewGroup.setIndirizzo(gruppo.getIndirizzo());
+		viewGroup.setTelefono(gruppo.getTelefono());
+		viewGroup.setUsername(gruppo.getUsername());
+		viewGroup.setEmail(gruppo.getEmail());
+		viewGroup.setPassword(gruppo.getPassword());
+
+	}
+
+	@Override
+	public void buildAlbumFoto(FormFotoAlbum formFotoAlbum, Gruppo g) {
+
+		AlbumFotografico af = SaveFile.savePhotoBlobGeneral(formFotoAlbum, g,
+				"slideshow", "Album da Slider");
+		albumFotograficoService.updatePhotoAlbum(af);
+		fotoServ.insertSetFoto(af.getFoto());
+
+	}
+
+	@Override
+	public void buildFotoProfilo(FormFotoProfilo fotoProfilo, Gruppo g) {
+		String albumTag = "profile";
+		String description = "album profilo";
+		AlbumFotografico tempProfile;
+		if (g.getAlbumProfilo() == null) {
+			tempProfile = new AlbumFotografico();
+			tempProfile.setData(new Date());
+			tempProfile.setLuogo(g.getCitta());
+			tempProfile.setTag(albumTag);
+			tempProfile.setTitolo(description);
+			tempProfile.setUtente(g);
+			Foto temp = new Foto();
+			temp.setFotoBlob(fotoProfilo.getPhotoFile().getBytes());
+			temp.setAlbumFotografico(tempProfile);
+			temp.setUrl(description);
+			tempProfile.addFoto(temp);
+		} else {
+
+			tempProfile = g.getAlbumProfilo();
+			Iterator iterator = tempProfile.getFoto().iterator();
+			while (iterator.hasNext()) {
+				Foto foto = (Foto) iterator.next();
+				foto.setFotoBlob(fotoProfilo.getPhotoFile().getBytes());
+				fotoServ.updatePhoto(foto);
+			}
+
+		}
+
+		albumFotograficoService.updatePhotoAlbum(tempProfile);
+		fotoServ.insertSetFoto(tempProfile.getFoto());
+
 	}
 
 }

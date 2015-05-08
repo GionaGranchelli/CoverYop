@@ -1,5 +1,10 @@
 package it.univaq.mwt.business.impl;
 
+import it.univaq.mwt.business.AlbumFotograficoService;
+import it.univaq.mwt.business.model.AlbumFotografico;
+import it.univaq.mwt.business.model.Foto;
+import it.univaq.mwt.business.model.Utente;
+
 import java.util.Iterator;
 import java.util.List;
 
@@ -8,11 +13,6 @@ import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-
-import it.univaq.mwt.business.AlbumFotograficoService;
-import it.univaq.mwt.business.model.AlbumFotografico;
-import it.univaq.mwt.business.model.Canzone;
-import it.univaq.mwt.business.model.Foto;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,7 +37,8 @@ public class EJBAlbumFotografico implements AlbumFotograficoService {
 				.createQuery("SELECT alb FROM AlbumFotografico alb, Gruppo g WHERE g.id=:groupID AND  alb.utente.id = g.id");
 		query.setParameter("groupID", groupID);
 
-		List<AlbumFotografico> albums = (List<AlbumFotografico>) query.getResultList();
+		List<AlbumFotografico> albums = (List<AlbumFotografico>) query
+				.getResultList();
 		Iterator<AlbumFotografico> i = albums.iterator();
 		em.flush();
 
@@ -65,12 +66,13 @@ public class EJBAlbumFotografico implements AlbumFotograficoService {
 
 	public AlbumFotografico updatePhotoAlbum(AlbumFotografico album) {
 		AlbumFotografico a = em.merge(album);
+		em.getEntityManagerFactory().getCache().evictAll();
 		return a;
 	}
 
 	@Transactional
 	public AlbumFotografico insertAlbumFotografico(AlbumFotografico album) {
-		AlbumFotografico a = album;	
+		AlbumFotografico a = album;
 		em.persist(a);
 		em.getEntityManagerFactory().getCache().evictAll();
 		return a;
@@ -122,8 +124,23 @@ public class EJBAlbumFotografico implements AlbumFotograficoService {
 		String queryString = "select af from AlbumFotografico af ORDER BY af.id";
 		Query query = em.createQuery(queryString);
 		query.setMaxResults(i);
-		List<AlbumFotografico> result = (List<AlbumFotografico>) query.getResultList();
+		List<AlbumFotografico> result = (List<AlbumFotografico>) query
+				.getResultList();
 		return result;
+
+	}
+
+	@Transactional
+	public void removeEmptyAlbums(Utente utente) {
+		List<AlbumFotografico> albums = getAllPhotoAlbumsByGroupId(utente.getId());
+		Iterator<AlbumFotografico> i = albums.iterator();
+		while (i.hasNext()) {
+			AlbumFotografico alb = i.next();
+			int emptyAlbums = emptyAlbumFotografico(alb);
+			if (emptyAlbums < 1) {
+				removeAlbumFotografico(alb.getId());
+			}
+		}
 
 	}
 

@@ -116,7 +116,7 @@
 						 data-thumbicon="plus"> <span
 						class="hoverlayer"></span> <span class="release-badge">${song.titolo.substring(0, 25).concat("...")}</span>
 						<span class="img"> <img
-							src="${pageContext.request.contextPath}/${song.getAlbum().getGruppo().getFotoProfilo().url}"
+							src="${pageContext.request.contextPath}/Group/image.html?id=${song.getAlbum().getGruppo().getId()}"
 							alt="Release Image" />
 					</span> <!-- tooltip -->
 						<div class="tip-content hidden">

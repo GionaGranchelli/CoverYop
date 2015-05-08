@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -130,7 +131,7 @@ public class AlbumFotografico implements Serializable {
 		this.utente = utente;
 	}
 
-	@OneToMany (fetch = EAGER, mappedBy="albumFotografico",cascade={PERSIST, REFRESH, REMOVE })
+	@OneToMany (fetch = EAGER, mappedBy="albumFotografico",cascade= CascadeType.ALL)
 	public Set<Foto> getFoto() {
 		return foto;
 	}

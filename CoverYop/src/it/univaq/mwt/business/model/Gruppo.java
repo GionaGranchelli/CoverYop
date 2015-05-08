@@ -1,9 +1,9 @@
 package it.univaq.mwt.business.model;
 
 import static javax.persistence.AccessType.PROPERTY;
+import static javax.persistence.CascadeType.MERGE;
 import static javax.persistence.CascadeType.PERSIST;
 import static javax.persistence.CascadeType.REFRESH;
-import static javax.persistence.CascadeType.MERGE;
 import static javax.persistence.CascadeType.REMOVE;
 import static javax.persistence.TemporalType.DATE;
 
@@ -14,6 +14,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import javax.persistence.Access;
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -150,8 +151,8 @@ public class Gruppo extends Utente implements Serializable {
 		this.cachet = cachet;
 	}
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "gruppo", cascade = { PERSIST,
-			REFRESH, REMOVE })
+
+	@OneToMany(fetch=FetchType.EAGER, mappedBy="gruppo",cascade={PERSIST, REFRESH, REMOVE, CascadeType.MERGE})
 	public Set<Album> getAlbums() {
 		return albums;
 	}

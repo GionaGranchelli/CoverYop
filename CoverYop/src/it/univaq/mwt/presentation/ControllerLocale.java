@@ -12,12 +12,10 @@ import it.univaq.mwt.business.GruppoService;
 import it.univaq.mwt.business.LocaleService;
 import it.univaq.mwt.business.TipologiaEventoService;
 import it.univaq.mwt.business.VideoService;
-import it.univaq.mwt.business.form.local.FormEvento;
-import it.univaq.mwt.business.form.local.FormFotoAlbum;
-import it.univaq.mwt.business.form.local.FormFotoProfilo;
+import it.univaq.mwt.business.form.utente.FormFotoAlbum;
+import it.univaq.mwt.business.form.utente.FormFotoProfilo;
 import it.univaq.mwt.business.model.AlbumFotografico;
 import it.univaq.mwt.business.model.Canale;
-import it.univaq.mwt.business.model.Conversation;
 import it.univaq.mwt.business.model.Evento;
 import it.univaq.mwt.business.model.Foto;
 import it.univaq.mwt.business.model.Gruppo;
@@ -30,7 +28,6 @@ import it.univaq.mwt.common.utility.SaveFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -137,7 +134,7 @@ public class ControllerLocale {
 		Locale l = localeService.findLocaleByUser(utente);
 		Foto f = new Foto();
 		try {
-			SaveFile.savePhotoBlobGeneral(formFotoProfilo, f, utente.getId(),
+			SaveFile.savePhotoBlobGeneral(formFotoProfilo, f, 
 					"ProfileImage", "Immagine di Profilo");
 			f = localeService.addPhotoProfile(l, f);
 			fotoService.insertFoto(f);

@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import it.univaq.mwt.business.AlbumFotograficoService;
 import it.univaq.mwt.business.FotoService;
 import it.univaq.mwt.business.model.AlbumFotografico;
 import it.univaq.mwt.business.model.Canzone;
@@ -18,6 +19,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +32,9 @@ public class EJBFoto implements FotoService {
 
 	@PersistenceContext(unitName = "Yop-domain")
 	private EntityManager em;
+	
+	@Autowired
+	AlbumFotograficoService albumFotograficoService;
 
 	public EJBFoto() {
 		// TODO Auto-generated constructor stub
@@ -45,24 +50,20 @@ public class EJBFoto implements FotoService {
 		if (f == null) {
 			em.getEntityManagerFactory().getCache().evictAll();
 			return new Foto();
-		}else{
+		} else {
 			em.getEntityManagerFactory().getCache().evictAll();
 			return f;
 		}
-		
+
 	}
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public void deleteFotoById(int fotoID) {
 		Foto f = getFotoById(fotoID);
+		AlbumFotografico af=f.getAlbumFotografico();
 		em.remove(f);
-
-		Query query = em.createQuery("delete from Foto f where f.id =:fotoID");
-		query.setParameter("fotoID", fotoID);
-		int result = query.executeUpdate();
-		em.getEntityManagerFactory().getCache().evict(Foto.class);
+		em.refresh(af);
 	}
-	
 
 	@Transactional
 	public Foto insertFoto(Foto f) {
@@ -71,10 +72,11 @@ public class EJBFoto implements FotoService {
 		em.getEntityManagerFactory().getCache().evictAll();
 		return grp;
 	}
+
 	@Transactional
 	public void insertSetFoto(Set<Foto> setFoto) {
 		Iterator<Foto> i = setFoto.iterator();
-		while(i.hasNext()){
+		while (i.hasNext()) {
 			Foto temp = i.next();
 			em.merge(temp);
 		}
@@ -116,8 +118,16 @@ public class EJBFoto implements FotoService {
 		query.setParameter("id", id);
 		query.setParameter("profile", "profile");
 
+		// byte[] fotoProfilo = null;
+
 		List<byte[]> lf = new ArrayList<byte[]>(query.getResultList());
 		byte[] fotoProfilo = lf.get(0);
+
+		// if(query.getSingleResult().equals(null)){
+		// fotoProfilo = (byte[]) query.getSingleResult(); //inserire controllo
+		// se immagine non c'è
+		// }
+		// inserire avatar default
 
 		return fotoProfilo;
 	}
@@ -129,46 +139,36 @@ public class EJBFoto implements FotoService {
 						+ "u.id=:id AND af.tag =:slideshow AND af.utente.id=u.id AND ft.albumFotografico.id=af.id");
 		query.setParameter("id", id);
 		query.setParameter("slideshow", "slideshow");
-
 		List<byte[]> lf = new ArrayList<byte[]>(query.getResultList());
 		byte[] fotoProfilo = lf.get(0);
-
 		return fotoProfilo;
 	}
 
 	@Override
 	public List<byte[]> getFotoSliderByUtenteIdBlob(int id) {
-		
+
 		Query query = em
 				.createQuery("SELECT ft.fotoBlob"
-							+ " FROM Foto ft LEFT JOIN"
-							+ " (SELECT * FROM Utente u LEFT JOIN AlbumFotografico af ON af.utente.id=u.id)"
-							+ " ON ft.albumFotografico.id=af.id"
-							+ " WHERE u.id=:id AND af.tag=:slider");
-		
+						+ " FROM Foto ft LEFT JOIN"
+						+ " (SELECT * FROM Utente u LEFT JOIN AlbumFotografico af ON af.utente.id=u.id)"
+						+ " ON ft.albumFotografico.id=af.id"
+						+ " WHERE u.id=:id AND af.tag=:slideshow");
 		query.setParameter("id", id);
-		query.setParameter("slider", "slider");
-		
-		System.out.println("sono dentro ejb");
-
+		query.setParameter("slideshow", "slideshow");
 		List<byte[]> lf = new ArrayList<byte[]>(query.getResultList());
-		//byte[] fotoProfilo = lf.get(0);
-		System.out.println("Size = " + lf.size());
-
 		return lf;
 	}
 
 	@Override
 	public AlbumFotografico getAlbumSliderByUserId(int id) {
 		Query query = em.createQuery("SELECT af"
-									+" FROM Utente u, AlbumFotografico af"
-									+" WHERE af.utente.id = u.id AND u.id=:idutente"
-									+" AND af.tag=:slider");
+				+ " FROM Utente u, AlbumFotografico af"
+				+ " WHERE af.utente.id = u.id AND u.id=:idutente"
+				+ " AND af.tag=:slider");
 		query.setParameter("idutente", id);
-		query.setParameter("slider", "slider");
-		List<AlbumFotografico> a = new ArrayList<AlbumFotografico>(query.getResultList());
-		
-		System.out.println("Albumid = " + a.size());
+		query.setParameter("slider", "slideshow");
+		List<AlbumFotografico> a = new ArrayList<AlbumFotografico>(
+				query.getResultList());
 		return null;
 	}
 
@@ -187,6 +187,5 @@ public class EJBFoto implements FotoService {
 		em.remove(f);
 		em.getEntityManagerFactory().getCache().evictAll();
 	}
-	
-	
+
 }

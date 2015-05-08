@@ -427,6 +427,7 @@ public abstract class Utente implements Serializable{
 		}
 	}
 	
+
 	public AlbumFotografico getAlbumProfilo(){
 		Iterator<AlbumFotografico> iA = this.albumFotografico.iterator();
 		while(iA.hasNext()){
