@@ -131,4 +131,14 @@ public final class FacilityTool {
 		}
 		return slideshow;
 	}
+	public static List<String> getStringListOfGroups(List<Gruppo> countryList){
+		Iterator<Gruppo> i = countryList.iterator();
+		List<String> listaGruppi = new ArrayList<String>();
+		while (i.hasNext()) {
+			Gruppo v = i.next();
+			listaGruppi.add(v.getNomeGruppo());
+		}
+		return listaGruppi;
+		
+	}
 }

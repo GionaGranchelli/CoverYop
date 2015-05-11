@@ -206,7 +206,15 @@ public class EJBEvento implements EventoService {
 		gruppo.addEvento(result);
 		listaGruppi.add(gruppo);
 		result.setGruppo(listaGruppi);
+		if (immagine.getSize() != 0) {
 		result.setLocandinaBlob(immagine.getBytes());
+		}else{
+			try {
+				result.setLocandinaBlob(SaveFile.extractBytes(servletContext.getRealPath("/resources/placeholders/artist01.jpg")));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 		result.setTipologia_Eventi(tipoEvento);
 		result.setLocale(locale);
 		result.setStatus(10);
@@ -250,26 +258,17 @@ public class EJBEvento implements EventoService {
 			listaGruppiDaInserire.add(gruppoScelto);
 			toUpdateEvent.setGruppo(listaGruppiDaInserire);
 		}
-		System.out.println(servletContext.getRealPath("/resources/placeholders/artist01.jpg"));
 		if (immagine.getSize() != 0) {
 			toUpdateEvent.setLocandinaBlob(immagine.getBytes());
 		} else {
-			// Se non è stata inserita
-			System.out.println("Sono in primo Else");
-			System.out.println("eventoOrginale.getLocandinaBlob() "
-					+ eventoOrginale.getLocandinaBlob());
+			// Se non è stata inserita			
 			if (eventoOrginale.getLocandinaBlob() != null) {
 				toUpdateEvent.setLocandinaBlob(eventoOrginale.getLocandinaBlob());
 			} else {
 				try {
-					System.out.println("sono qui");
-					
-							System.out.println(servletContext.getRealPath("/resources/placeholders/artist01.jpg"));
-					toUpdateEvent.setLocandinaBlob(SaveFile
-							.extractBytes(servletContext.getRealPath(
-									"/resources/placeholders/artist01.jpg")));
+					toUpdateEvent.setLocandinaBlob(SaveFile.extractBytes(servletContext.getRealPath("/resources/placeholders/artist01.jpg")));
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
+				
 					e.printStackTrace();
 				}
 			}

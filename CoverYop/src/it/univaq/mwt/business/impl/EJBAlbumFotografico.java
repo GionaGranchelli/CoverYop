@@ -144,4 +144,22 @@ public class EJBAlbumFotografico implements AlbumFotograficoService {
 
 	}
 
+	@Transactional
+	public void fixAlbum(Utente utente) {
+		List<AlbumFotografico> albums = getAllPhotoAlbumsByGroupId(utente.getId());
+
+		Iterator<AlbumFotografico> i = albums.iterator();
+		while (i.hasNext()) {
+			AlbumFotografico alb = i.next();
+			int emptyAlbums = emptyAlbumFotografico(alb);
+
+			if (emptyAlbums < 1) {
+				removeAlbumFotografico(alb.getId());
+			}
+		}
+		
+	}
+	
+	 
+
 }

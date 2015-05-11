@@ -1,5 +1,6 @@
 package it.univaq.mwt.business;
 import it.univaq.mwt.business.form.utente.FormFotoAlbum;
+import it.univaq.mwt.business.form.utente.FormFotoProfilo;
 import it.univaq.mwt.business.model.Categoria;
 import it.univaq.mwt.business.model.Foto;
 import it.univaq.mwt.business.model.Locale;
@@ -40,6 +41,6 @@ public interface LocaleService {
 	
 	Foto addPhotoProfile(Locale l, Foto f);
 
-	public void buildAlbumFoto(FormFotoAlbum formFotoAlbum, Locale l);
-
+	void buildAlbumFoto(FormFotoAlbum formFotoAlbum, Locale l);
+	void buildAlbumFotoProfilo(FormFotoProfilo formFotoProfilo, Locale l);
 }
