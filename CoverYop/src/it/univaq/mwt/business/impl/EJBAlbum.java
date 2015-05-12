@@ -1,12 +1,16 @@
 package it.univaq.mwt.business.impl;
 
 import it.univaq.mwt.business.AlbumService;
+import it.univaq.mwt.business.GruppoService;
 import it.univaq.mwt.business.model.Album;
 import it.univaq.mwt.business.model.Canzone;
+import it.univaq.mwt.business.model.Utente;
 import it.univaq.mwt.business.model.Video;
+import it.univaq.mwt.common.utility.SaveFile;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -24,8 +28,11 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import org.apache.jasper.tagplugins.jstl.core.ForEach;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 
 @Service
@@ -33,6 +40,9 @@ public class EJBAlbum implements AlbumService {
 
 	@PersistenceContext
 	private EntityManager em;
+	
+	@Autowired
+	GruppoService gruppoService;
 	
     public EJBAlbum() {
         // TODO Auto-generated constructor stub
@@ -67,10 +77,9 @@ public class EJBAlbum implements AlbumService {
 
 	@Transactional
 	public void deleteAlbum(int albumID) {
-		Query query = em.createQuery("delete from Album alb where alb.id =:albumID");
-		query.setParameter("albumID", albumID);
-		query.executeUpdate();
-		em.getEntityManagerFactory().getCache().evict(Album.class);
+		Album alb = em.find(Album.class, albumID);
+		em.remove(alb);
+		em.getEntityManagerFactory().getCache().evictAll();
 		
 		
 	}
@@ -80,6 +89,44 @@ public class EJBAlbum implements AlbumService {
 		Long i = (Long) query.getSingleResult();
 		System.out.println("Quanti ce ne sono? " + i.intValue());
 		return i.intValue();
+		
+	}
+
+	@Transactional
+	public void saveAlbumWithSong(Utente utente, Album album,
+			CommonsMultipartFile[] tracce) {
+		
+		SaveFile sf = new SaveFile();
+		
+		Set<Canzone> canzoni = new HashSet<Canzone>(sf.saveMusic(tracce, utente.getId()));
+		
+		Iterator<Canzone> iterator = canzoni.iterator();
+		
+		while(iterator.hasNext()){
+			
+			Canzone temp = iterator.next();
+			
+			temp.setAlbum(album);
+			
+			
+		}
+		
+		album.setCanzoni(canzoni);
+		
+		album.setGruppo(gruppoService.findGruppoByUtente(utente));
+		
+		em.persist(album);
+		
+		em.getEntityManagerFactory().getCache().evictAll();
+		
+		
+		
+		}
+
+	@Transactional
+	public void updateAlbum(Album a) {
+		
+		em.merge(a);
 		
 	}
 

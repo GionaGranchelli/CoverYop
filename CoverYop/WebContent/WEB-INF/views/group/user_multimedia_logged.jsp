@@ -185,6 +185,26 @@
 												</li>
 											</c:forEach>
 										</ol>
+										
+										<p>
+						<!--  	<a href="javascript:;" class="btn invert sp-play-list" data-id="release-list">Aggiungi All'album</a>-->
+							<a href="${pageContext.request.contextPath}/BackStage/deleteAlbum/${album.id}">Rimuovi Album</a>
+							
+							<%--    <form:form
+								action="${pageContext.request.contextPath}/BackStage/updateMultimedia/AddMusic"
+								method="POST" class="form contact-form" commandName="AlbumMusica"
+								enctype="multipart/form-data">
+								
+								
+							
+							<label for="musicFile">Inserisci Altre Tracce Nell'album</label>	
+                            <input name="musicFile" type="file" multiple="multiple" />
+							
+							<input type="submit" value="Aggiungi" />
+                            
+                            </form:form> --%>
+						</p>
+										
 									</div>
 								</c:forEach>
 								<div class="toggle"></div>
@@ -211,6 +231,8 @@
 								
 							<label for="musicFile">Inserisci Le Tracce</label>	
                             <input name="musicFile" type="file" multiple="multiple" />
+                            
+                            <input type="submit" value="Crea" />
                             
                             </form:form>
                             

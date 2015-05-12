@@ -173,26 +173,29 @@ public class ControllerGruppo {
 	}
 	
 	@RequestMapping("/updateMultimedia/Music")
-	private String updateMusic(@ModelAttribute Video video, Model model) {
+	private String updateMusic(@ModelAttribute Album album,  @RequestParam("musicFile") CommonsMultipartFile[] tracce,
+			BindingResult bindingResult, Model model) {
 		Gruppo g = gruppoServ.findGruppoByUtente(utente);
-//		 v = videoService.buildVideoInfo(g, video);
-//		videoService.insertVideo(v);
+		albumServ.saveAlbumWithSong(utente, album, tracce);
+		gruppoServ.update(gruppoServ.findGruppoByUtente(utente));
 		return "redirect:/BackStage/Multimedia";
 	}
 
 	@RequestMapping(value = "/deleteSong/{id}")
 	public String deleteSong(@PathVariable int id) {
-		Canzone c = canzoneServ.findCanzoneById(id);
-		int albumID = c.getAlbum().getId();
-		System.out.println("Album ID da cancellare=" + albumID);
-		Album alb = albumServ.getAllCanzoniByAlbumId(albumID);
-		canzoneServ.deleteCanzone(id);
-		int emptyAlbum = albumServ.emptyAlbum(alb);
-		if (emptyAlbum < 1)
-			albumServ.deleteAlbum(albumID);
-
+	canzoneServ.deleteCanzone(id);
 		return "redirect:/BackStage/Multimedia";
 	}
+	
+	@RequestMapping(value = "/deleteAlbum/{id}")
+	public String deleteAlbum(@PathVariable int id) {
+	albumServ.deleteAlbum(id);
+		return "redirect:/BackStage/Multimedia";
+	}
+	
+	
+	
+	
 
 	@RequestMapping(value = "/deleteVideo/{id}")
 	public String deleteVideo(@PathVariable int id) {
