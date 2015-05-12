@@ -93,6 +93,16 @@
 		<put-attribute name="body" value="/WEB-INF/views/local/user_event_logged.jsp" />
 		<put-attribute name="action" value="Privee/updateEvento"/>
 	</definition>
+	
+	<definition name="gruppoEventi.loggato" extends="standard">
+		<put-attribute name="body" value="/WEB-INF/views/group/user_event_logged.jsp" />
+		<put-attribute name="action" value="BackStage/addEvento"/>
+	</definition>
+	
+	<definition name="modificaGruppoEventi.loggato" extends="standard">
+		<put-attribute name="body" value="/WEB-INF/views/group/user_event_logged.jsp" />
+		<put-attribute name="action" value="Privee/updateEvento"/>
+	</definition>
 
 	<definition name="list.event" extends="standard">
 		<put-attribute name="body"

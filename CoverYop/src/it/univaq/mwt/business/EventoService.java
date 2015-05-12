@@ -30,4 +30,7 @@ public interface EventoService {
 			CommonsMultipartFile immagine);
 	Evento insertEvento(Evento evento);
 	Evento buildEventForUpdate(Evento evento,Locale locale,String  nomeGruppo, TipologiaEvento tipoEvento,CommonsMultipartFile immagine);
+
+	public Evento buildEventForUpdate(Evento evento, Locale localeScelto,
+			Gruppo g, TipologiaEvento tipoEvento, CommonsMultipartFile immagine);
 }

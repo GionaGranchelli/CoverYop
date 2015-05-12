@@ -24,7 +24,7 @@
 		<!-- container -->
 
 		<div class="container">
-			<h1 class="entry-title">Modifica Profilo Utente</h1>
+			<h1 class="entry-title">Gestione Eventi</h1>
 			<!-- ############################# Single Artist ############################# -->
 			<!-- Sidebar -->
 			<div class="sidebar main-left main-medium">
@@ -57,6 +57,17 @@
 						</a>
 					</div>
 				</div>
+				
+				
+				<c:if test="${evento.id != 0}">
+					<div class="widget details-widget">
+						<div class="details-meta">
+							<h2>Foto Scelta</h2>
+							<img alt="Foto Scelta" src="${pageContext.request.contextPath}/Event/image.html?id=${evento.id}">
+					</div>
+				</div>
+				</c:if>
+				
 			</div>
 			<!-- /sidebar -->
 
@@ -73,103 +84,58 @@
 							<li><a href="#tab-list-eventi">Lista Eventi</a></li>
 						</ul>
 						
-						<c:choose>
-						<c:when test="${empty eventoMod}">
+						
 							<div class="tab-content" id="tab-base">
-							<form:form action="${pageContext.request.contextPath}/BackStage/addEvento" 
+							<form:form action="${pageContext.request.contextPath}/${requestScope.action}" 
 								   method="POST" 
 								   class="form contact-form"
-								   commandName="formEvento"
+								   modelAttribute="evento"
 								   enctype="multipart/form-data">
+								<form:hidden path="status"/>
+								<form:hidden path="id"/>
+								
 								<h2>Aggiungi Evento</h2>
-								<label for="nome">Nome Evento</label> 
-								<form:input path="nome"/>
+								<label for="nome">Nome Evento</label>
+								<form:input path="nome" />
+
+								<label for="luogo">Dove</label>
+								<form:input path="luogo" />
 								
-								<label for="locale">Locale</label>
-								<form:input path="locale" />
+								<label for="nomeLocale">Locale</label>
+								<input type="text" id="nomeLocale" name="nomeLocale" />
 								
-								<label for="descrizione">Descrizione</label> 
-								<form:textarea path="descrizione"/>
-									
-								<label for="dataEvento">Data</label> 
-								<form:input path="dataEvento"/>
-								
-								<label for="locandina">Locandina</label> 
-								<form:input path="locandina" type="file"  multiple="multiple"/>
-									
-								<label for="orarioInizio">Ora Inizio</label> 
-								<form:input path="orarioInizio"/>
-								
-								<label for="orarioFine">Ora Fine</label> 
-								<form:input path="orarioFine"/>
-								
-								<label for="prezzo">Prezzo</label> 
-								<form:input path="prezzo"/>
-								
+
+								<label for="descrizione">Descrizione</label>
+								<form:input path="descrizione" />
+
+								<label for="data">Data</label>
+								<form:input path="data" />
+
+								<label for="immagine">Inserisci Locandina</label>
+								<input type="file" name="immagine" />
+
+								<label for="orarioInizio">Ora Inizio</label>
+								<form:input path="orarioInizio" />
+
+								<label for="orarioFine">Ora Fine</label>
+								<form:input path="orarioFine" />
+
+								<label for="prezzo">Prezzo</label>
+								<form:input path="prezzo" />
+
 								<label for="tipologia_Eventi">Tipologia Evento</label>
-								<select id="tipologia_Eventi" name="tipologia_Eventi" style="width: 100%;">
-								<c:forEach  items="${tipologia}" var="tipoEvento" varStatus="status">
-									<option value="${tipoEvento.id}">${tipoEvento.nome}</option>
-								</c:forEach>
-								</select>
-							<input type="submit" value="Invia"/>
+								<form:select path="tipologia_Eventi.id" items="${tipologia}"
+									itemLabel="nome" itemValue="id" /><br/>
+
+								<input type="submit" value="Invia" />
 							</form:form>	
 							</div>
-						</c:when>
-						<c:otherwise>
-							<div class="tab-content" id="tab-base">
-							<form:form action="${pageContext.request.contextPath}/BackStage/updateEvento" 
-								   method="POST" 
-								   class="form contact-form"
-								   commandName="eventoMod">
-								   <a href="${pageContext.request.contextPath}/BackStage/newEvent" class="btn small">Aggiungi Nuovo Evento</a>
-								<h2>Modifica Evento</h2>
-								<label for="nome">Nome Evento</label> 
-								<form:input path="nome" value="${eventoMod.nome }"/>
-								
-								<label for="locale">Locale</label>
-								<form:input path="locale" value="${eventoMod.locale}"/>
-								
-								<label for="descrizione">Descrizione</label> 
-								<form:textarea path="descrizione" value="${eventoMod.descrizione}"/>
-									
-								<label for="dataEvento">Data</label> 
-								<form:input path="dataEvento" value="${eventoMod.dataEvento }"/>
-								
-									
-								<label for="orarioInizio">Ora Inizio</label> 
-								<form:input path="orarioInizio" value="${eventoMod.orarioInizio }"/>
-								
-								<label for="orarioFine">Ora Fine</label> 
-								<form:input path="orarioFine" value="${eventoMod.orarioFine }"/>
-								
-								<label for="prezzo">Prezzo</label> 
-								<form:input path="prezzo" value="${eventoMod.prezzo }"/>
-								
-								<select id="tipologia_Eventi" name="tipologia_Eventi" style="width: 100%;">
-								<c:forEach  items="${tipologia}" var="tipoEvento" varStatus="status">
-									<c:choose>
-									<c:when test="${tipoEvento.id == eventoMod.tipologia_Eventi}">
-										<option selected="selected" value="${tipoEvento.id}">${tipoEvento.nome}</option>
-									</c:when>
-									<c:otherwise>
-										<option value="${tipoEvento.id}">${tipoEvento.nome}</option>
-									</c:otherwise>
-									</c:choose>
-									
-									
-								</c:forEach>
-								</select>
-								<input type="hidden" name="idEvento" id="idEvento" value="${idEvento}"/>
-							<input type="submit" value="Invia"/>
-							</form:form>	
-							</div>
-						</c:otherwise>
-						</c:choose>
+						
+						
 						<!-- /tabs navigation -->
 						<script>
 						$(document).ready(function(){
-							$( "#locale" ).autocomplete({
+							$( "#nomeLocale" ).autocomplete({
 								source: '${pageContext. request. contextPath}/BackStage/get_locals_list',
 								paramName: "term",
 								delimiter: ",",
@@ -188,7 +154,7 @@
 							 
 							});
 							$(function() {    
-								$( "#dataEvento" ).datepicker();
+								$( "#data" ).datepicker();
 								$('#orarioInizio').timepicker();
 								$('#orarioFine').timepicker();
 							});
@@ -221,10 +187,10 @@
                         <p>In<a href="#" class="event-location">${evento.luogo}</a></p></td>
                         <td class="table-date">
                         <c:choose>
-                        <c:when test="${evento.status == 11}">
+                        <c:when test="${evento.status > 11}">
                         Ok
                         </c:when>
-                        <c:when test="${evento.status == 12}">
+                        <c:when test="${evento.status < 12}">
                         Hai Rifiutato la proposta di ${evento.locale.nomeLocale }
                         </c:when>
                         <c:otherwise>
