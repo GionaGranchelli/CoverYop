@@ -29,11 +29,15 @@ import it.univaq.mwt.business.model.Utente;
 import it.univaq.mwt.business.model.Video;
 import it.univaq.mwt.common.utility.FacilityTool;
 import it.univaq.mwt.common.utility.SaveFile;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+
 import javax.naming.NamingException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -79,7 +83,11 @@ public class ControllerGruppo {
 	ConversationService conversationServ;
 	@Autowired
 	VideoService videoService;
+	@Autowired
+	TipologiaEventoService tipologiaService;
 	List<Locale> countryList;
+	
+	
 
 	@RequestMapping("/")
 	public String welcome(Model model) throws NamingException {
@@ -173,26 +181,29 @@ public class ControllerGruppo {
 	}
 	
 	@RequestMapping("/updateMultimedia/Music")
-	private String updateMusic(@ModelAttribute Video video, Model model) {
+	private String updateMusic(@ModelAttribute Album album,  @RequestParam("musicFile") CommonsMultipartFile[] tracce,
+			BindingResult bindingResult, Model model) {
 		Gruppo g = gruppoServ.findGruppoByUtente(utente);
-//		 v = videoService.buildVideoInfo(g, video);
-//		videoService.insertVideo(v);
+		albumServ.saveAlbumWithSong(utente, album, tracce);
+		gruppoServ.update(gruppoServ.findGruppoByUtente(utente));
 		return "redirect:/BackStage/Multimedia";
 	}
 
 	@RequestMapping(value = "/deleteSong/{id}")
 	public String deleteSong(@PathVariable int id) {
-		Canzone c = canzoneServ.findCanzoneById(id);
-		int albumID = c.getAlbum().getId();
-		System.out.println("Album ID da cancellare=" + albumID);
-		Album alb = albumServ.getAllCanzoniByAlbumId(albumID);
-		canzoneServ.deleteCanzone(id);
-		int emptyAlbum = albumServ.emptyAlbum(alb);
-		if (emptyAlbum < 1)
-			albumServ.deleteAlbum(albumID);
-
+	canzoneServ.deleteCanzone(id);
 		return "redirect:/BackStage/Multimedia";
 	}
+	
+	@RequestMapping(value = "/deleteAlbum/{id}")
+	public String deleteAlbum(@PathVariable int id) {
+	albumServ.deleteAlbum(id);
+		return "redirect:/BackStage/Multimedia";
+	}
+	
+	
+	
+	
 
 	@RequestMapping(value = "/deleteVideo/{id}")
 	public String deleteVideo(@PathVariable int id) {
@@ -205,156 +216,35 @@ public class ControllerGruppo {
 
 		return "utente.loggato";
 	}
-
+	
+	
 	@RequestMapping("/Eventi")
-	private String ModificaEventi(
-			@ModelAttribute("formEvento") FormEvento formEvento, Model model) {
-
-		if (this.eventoDaModificare.getId() != 0) {
-
-			formEvento.setDataEvento(this.eventoDaModificare.getData());
-			formEvento.setDescrizione(this.eventoDaModificare.getDescrizione());
-			formEvento.setLocale(this.eventoDaModificare.getLocale()
-					.getNomeLocale());
-			formEvento.setNome(this.eventoDaModificare.getNome());
-			formEvento.setOrarioFine(this.eventoDaModificare.getOrarioFine());
-			formEvento.setOrarioInizio(this.eventoDaModificare
-					.getOrarioInizio());
-			formEvento.setPrezzo(this.eventoDaModificare.getPrezzo());
-			formEvento.setTipologia_Eventi(this.eventoDaModificare
-					.getTipologia_Eventi().getId());
-			model.addAttribute("eventoMod", formEvento);
-			model.addAttribute("idEvento", this.eventoDaModificare.getId());
-		}
-		int id = utente.getId();
-		Gruppo view_group = new Gruppo();
-		view_group = gruppoServ.findGruppoById(id);
-
-		List<Evento> events = new ArrayList<Evento>(view_group.getEventi());
-
-		model.addAttribute("eventi", events);
-		model.addAttribute("formEvento", formEvento);
-		List<TipologiaEvento> tipologia = tipologiaServ.getAllTipologiaEvento();
+	private String eventi(Model model) {
+		Gruppo gruppo = gruppoServ.findGruppoByUtente(utente);
+		Set<Evento> eventi =  gruppo.getEventi();
+		List<TipologiaEvento> tipologia = tipologiaService.getAllTipologiaEvento();
+		model.addAttribute("eventi", eventi);
 		model.addAttribute("tipologia", tipologia);
-		return "profiloEventi.loggato";
+		model.addAttribute("evento", new Evento());
+		model.addAttribute("gruppo", gruppo);
+		return "gruppoEventi.loggato";
 	}
-
+	
+	
 	@RequestMapping(value = "/addEvento", method = RequestMethod.POST)
-	private String addEvento(@ModelAttribute FormEvento formEvento, Model model) {
-		// Creo Evento
-		Evento ev = new Evento();
-		ev.setNome(formEvento.getNome());
-		// Prendo la lista dei locali cercati
-		List<Locale> localiCercati = this.countryList;
-		Iterator<Locale> i = localiCercati.iterator();
-		while (i.hasNext()) {
-			Locale l = i.next();
-			// Prendo Evento scelto
-			if (l.getNomeLocale().compareTo(formEvento.getLocale()) == 0) {
-				// Inserisco Riferimento Locale Dentro Evento
-				ev.setLocale(l);
-				break;
-			}
-
-		}
-		// Aggiungo desciriozne evento
-		ev.setDescrizione(formEvento.getDescrizione());
-
-		// Date date = new
-		// SimpleDateFormat("dd/MM/yyyy").parse(formEvento.getDataEvento());
-		// Aggiungo Data
-		ev.setData(formEvento.getDataEvento());
-		// Salvo Foto nel FS e dentro un Oggetto
-		CommonsMultipartFile photoFileUploaded = formEvento.getLocandina();
-		if (photoFileUploaded != null) {
-			SaveFile sF = new SaveFile();
-			Foto f = new Foto();
-			try {
-				f = sF.savePhoto(photoFileUploaded, utente.getId());
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			// Salvo oggetto Foto
-			fotoServ.insertFoto(f);
-			ev.setLocandina(f.getUrl());
-
-			byte[] tempByte = photoFileUploaded.getBytes();
-			ev.setLocandinaBlob(tempByte);// setto direttamente il blob nella
-											// tabella
-		}
-
-		// Aggiungo Dati all'oggetto Evento
-		ev.setOrarioFine(formEvento.getOrarioFine());
-		ev.setOrarioInizio(formEvento.getOrarioInizio());
-		ev.setPrezzo(formEvento.getPrezzo());
-		TipologiaEvento tipologia_Eventi = new TipologiaEvento();
-		tipologia_Eventi.setId(formEvento.getTipologia_Eventi());
-		ev.setTipologia_Eventi(tipologia_Eventi);
-		ev.setStatus(1);
-		ev.setLuogo(ev.getLocale().getCitta());
-		// Prendo Oggetto del mio Gruppo
-		Gruppo g = gruppoServ.findGruppoById(utente.getId());
-		// Aggiungo Evento al Gruppo
-		g.addEvento(ev);
-		// Persisto Oggetto con modifiche
+	private String addEvento(@ModelAttribute("evento") Evento evento,
+							 @RequestParam("nomeLocale") String nomeLocale,
+							 @RequestParam("immagine") CommonsMultipartFile immagine,
+							 Model model) {
+		String[] ragioneSociale = FacilityTool.splitResultBySeparator(nomeLocale);
+		Locale localeScelto = localeServ.findLocaleByCoord(ragioneSociale[0], ragioneSociale[1], ragioneSociale[2]);
+		TipologiaEvento tipoEvento = tipologiaService.getTipologiaEventoById(evento.getTipologia_Eventi().getId());
+		Gruppo g = gruppoServ.findGruppoByUtente(utente);
+		eventoServ.buildEventoInfo(evento,localeScelto,g,tipoEvento,immagine);
 		gruppoServ.update(g);
 		return "redirect:/BackStage/Eventi";
 	}
-
-	@RequestMapping("/newEvent")
-	private String nuovoEvento() {
-		this.eventoDaModificare = new Evento();
-		this.eventoDaModificare.setId(0);
-		return "redirect:/BackStage/Eventi";
-	}
-
-	@RequestMapping("/EventoModifica/{id}")
-	private String modificaEvento(@PathVariable int id) {
-		Evento v = eventoServ.findEventoById(id);
-		this.eventoDaModificare = v;
-		return "redirect:/BackStage/Eventi";
-	}
-
-	@RequestMapping(value = "/updateEvento", method = RequestMethod.POST)
-	private String updateEvento(@ModelAttribute FormEvento eventoMod,
-			Model model) {
-
-		Evento v = eventoServ.findEventoById(eventoMod.getIdEvento());
-		v.setData(eventoMod.getDataEvento());
-		v.setDescrizione(eventoMod.getDescrizione());
-		List<Locale> localiCercati = this.countryList;
-		Iterator<Locale> i = localiCercati.iterator();
-		while (i.hasNext()) {
-			Locale l = i.next();
-			System.out.println(l.getNomeLocale());
-			// Prendo Evento scelto
-			if (l.getNomeLocale().compareTo(eventoMod.getLocale()) == 0) {
-				// Inserisco Riferimento Locale Dentro Evento
-				v.setLocale(l);
-				System.out.println("Locale Scelto " + l.getNomeLocale());
-				v.setLuogo(l.getIndirizzo());
-				break;
-			}
-
-		}
-		v.setNome(eventoMod.getNome());
-		v.setOrarioFine(eventoMod.getOrarioFine());
-		v.setOrarioInizio(eventoMod.getOrarioInizio());
-		v.setPrezzo(eventoMod.getPrezzo());
-		TipologiaEvento tipologia_Eventi = new TipologiaEvento();
-		tipologia_Eventi.setId(eventoMod.getTipologia_Eventi());
-		v.setTipologia_Eventi(tipologia_Eventi);
-		eventoServ.updateEvent(v);
-		Gruppo g = gruppoServ.findGruppoById(utente.getId());
-		g.printEvents();
-		System.out.println("---");
-		g.updateEvento(v);
-		g.printEvents();
-		gruppoServ.update(g);
-		return "redirect:/BackStage/newEvent";
-	}
-
+	
 	@RequestMapping("/accettaEvento/{id}")
 	private String accettaEvento(@PathVariable int id) {
 		Evento v = eventoServ.findEventoById(id);
@@ -369,26 +259,59 @@ public class ControllerGruppo {
 		Conversation c = new Conversation();
 		v.setStatus(v.getStatus() - 1);
 		eventoServ.updateEvent(v);
-		c = utente.sendMessage(v.getLocale(), " Evento Rifiutato ",
-				" Grazie, ma purtroppo devo declinare l'offerta ");
+		c = utente.sendMessage(v.getLocale(), " Evento Rifiutato ",	" Grazie, ma purtroppo devo declinare l'offerta ");
 		conversationServ.createConversation(c);
 		return "redirect:/BackStage/Eventi";
 	}
 
-	// Questa FUnzione Restituisce in Get, tramite Ajax la lista di tutti i
-	// Locali che iniziano con "term"
+
+	@RequestMapping("/EventoModifica/{id}")
+	private String modificaEvento(@PathVariable int id, Model model) {
+		Evento v = eventoServ.findEventoById(id);
+		Locale l = localeServ.findLocaleByUser(utente);
+		List<Evento> eventi = new ArrayList<Evento>(l.getEventi());
+		List<TipologiaEvento> tipologia = tipologiaService.getAllTipologiaEvento();
+		List<Gruppo> listaGruppi = new ArrayList<Gruppo>(v.getGruppo());
+		model.addAttribute("evento", v);
+		model.addAttribute("eventi", eventi);
+		model.addAttribute("nomeGruppo", listaGruppi.get(0).getNomeGruppo());
+		model.addAttribute("tipologia", tipologia);
+		model.addAttribute("locale", l);
+		return "modificaGruppoEventi.loggato";
+		
+	}
+
+	@RequestMapping(value = "/updateEvento", method = RequestMethod.POST)
+	private String updateEvento(@ModelAttribute("evento") Evento evento,
+								@RequestParam("nomeLocale") String nomeLocale,
+								@RequestParam("immagine") CommonsMultipartFile immagine,
+								Model model) {
+		
+		String[] ragioneSociale = FacilityTool.splitResultBySeparator(nomeLocale);
+		Locale localeScelto = localeServ.findLocaleByCoord(ragioneSociale[0], ragioneSociale[1], ragioneSociale[2]);
+		TipologiaEvento tipoEvento = tipologiaService.getTipologiaEventoById(evento.getTipologia_Eventi().getId());
+		Gruppo g = gruppoServ.findGruppoByUtente(utente);
+		Evento eventoModificato = eventoServ.buildEventForUpdate(evento, localeScelto, g, tipoEvento, immagine);
+		eventoServ.updateEvent(eventoModificato);
+		gruppoServ.update(g);
+		return "redirect:/BackStage/Eventi";
+	}
+
+
+
 	@RequestMapping(value = "/get_locals_list", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody List<String> getCountryList(
 			@RequestParam("term") String query) {
 
-		this.countryList = new ArrayList<Locale>(
+		List<Locale>countryList = new ArrayList<Locale>(
 				localeServ.findLocaleByName(query));
 
 		Iterator<Locale> i = countryList.iterator();
 		List<String> listaLocali = new ArrayList<String>();
 		while (i.hasNext()) {
 			Locale v = i.next();
-			listaLocali.add(v.getNomeLocale());
+			listaLocali.add(v.getNomeLocale() + "::" + v.getIndirizzo() + "::"
+					+ v.getCitta());
 		}
 
 		return listaLocali;

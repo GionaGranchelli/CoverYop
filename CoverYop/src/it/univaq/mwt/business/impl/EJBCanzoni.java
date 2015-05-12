@@ -1,23 +1,19 @@
 package it.univaq.mwt.business.impl;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
+import it.univaq.mwt.business.AlbumService;
 import it.univaq.mwt.business.CanzoneService;
+import it.univaq.mwt.business.model.Album;
 import it.univaq.mwt.business.model.Canzone;
-import it.univaq.mwt.business.model.Foto;
-import it.univaq.mwt.business.model.Gruppo;
 
-import javax.annotation.Resource;
+import java.util.List;
+
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -30,6 +26,9 @@ public class EJBCanzoni implements CanzoneService {
 	@PersistenceContext(unitName="Yop-domain")
 	private EntityManager em;
 	
+	
+	@Autowired
+	AlbumService albumService;
 //	@Resource
 //	private SessionContext etx;
 	
@@ -62,11 +61,10 @@ public class EJBCanzoni implements CanzoneService {
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public void deleteCanzone(int canzoneID) {
 		Canzone c = findCanzoneById(canzoneID);
+		Album a = c.getAlbum();
 		em.remove(c);
-		Query query = em.createQuery("delete from Canzone f where f.id =:canzoneID");
-		query.setParameter("canzoneID", canzoneID);
-		int result = query.executeUpdate();
-		em.getEntityManagerFactory().getCache().evict(Canzone.class);
+		em.refresh(a);
+		em.getEntityManagerFactory().getCache().evictAll();
 		
 	}
 

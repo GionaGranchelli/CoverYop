@@ -354,4 +354,13 @@ public class EJBGruppo implements GruppoService {
 
 	}
 
+	@Override
+	public void refresh(Utente utente) {
+		em.refresh(utente);
+		
+	}
+	
+	
+
+
 }

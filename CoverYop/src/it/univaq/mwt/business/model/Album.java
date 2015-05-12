@@ -123,13 +123,19 @@ public class Album implements Serializable {
 		this.anno = anno;
 	}
 
-	@OneToMany(fetch=FetchType.EAGER,cascade={CascadeType.ALL},mappedBy="album")
+	@OneToMany(fetch=FetchType.EAGER, cascade={CascadeType.ALL}, mappedBy="album")
 	public Set<Canzone> getCanzoni() {
 		return canzoni;
 	}
 
 	public void setCanzoni(Set<Canzone> canzoni) {
 		this.canzoni = canzoni;
+	}
+	
+	public void removeCanzone(Canzone c){
+		
+		this.canzoni.remove(canzoni);
+		
 	}
 
 	@ManyToOne

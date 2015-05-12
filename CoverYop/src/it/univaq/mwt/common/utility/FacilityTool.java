@@ -141,4 +141,9 @@ public final class FacilityTool {
 		return listaGruppi;
 		
 	}
+
+	public static String[] splitResultBySeparator(String nome) {
+		String[] parti = nome.split("::");
+		return parti;
+	}
 }

@@ -49,6 +49,10 @@ public interface GruppoService {
 
 	public void buildFotoProfilo(FormFotoProfilo fotoProfilo, Gruppo g);
 
+	public void refresh(Utente utente);
+
+	
+
 
 	
 	
