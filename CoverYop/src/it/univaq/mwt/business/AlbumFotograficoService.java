@@ -18,6 +18,7 @@ public interface AlbumFotograficoService {
 	public AlbumFotografico getAlbumFotograficoById(int albumID);
 	public List<AlbumFotografico> getLastSubscribed(int i);
 	public void removeEmptyAlbums(Utente utente);
+	public void fixAlbum(Utente utente);
 
 	
 }

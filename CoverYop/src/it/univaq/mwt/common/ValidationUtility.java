@@ -1,9 +1,6 @@
 package it.univaq.mwt.common;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -12,14 +9,11 @@ import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
-
-
 
 import org.springframework.validation.Errors;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
@@ -37,23 +31,18 @@ public class ValidationUtility {
         String nuova = null;
         ArrayList<String> prova = (ArrayList<String>) listImg;
         List<String>temp = new ArrayList<String>();
-        Iterator iter = prova.iterator();
+        Iterator<String> iter = prova.iterator();
         while(iter.hasNext()){
             String url;
             url = (String) iter.next();
             int size = url.length();
-            int firstSlashPos = url.indexOf('/');
+//            int firstSlashPos = url.indexOf('/');
             int lastSlashPos = url.lastIndexOf('/');
-            
             if (lastSlashPos >= 0)
             {
               nuova = url.substring(lastSlashPos+1, size); //strip off the slash8
               temp.add(nuova);
             }
-            System.out.println("Parent ====>>> " + nuova);
-             
-            
-            
         }
         return temp;
     }
@@ -67,14 +56,9 @@ public class ValidationUtility {
 
 	public static void rejectIfNan(Errors errors, String fieldName,
 			String errorMessage, String fieldValue) {
-		
 		try{
 			long number = Long.parseLong(fieldValue); 
 		}catch (NumberFormatException e){errors.rejectValue(fieldName, errorMessage, "error.integer");} 
-		 
-		
-		
-		
 	}
 
 	public static void rejectIfMinLength(Errors errors, String fieldName, String errorMessage, String fieldValue , int minLength) {
@@ -82,24 +66,16 @@ public class ValidationUtility {
 			Object[] args = {minLength};
 			errors.rejectValue(fieldName, errorMessage, args, "errors.minlength");
 		}
-		
 	}
 
-	public static void rejectIfAccented(Errors errors, String fieldName,
-			String errorMessage, String fieldValue) {
+	public static void rejectIfAccented(Errors errors, String fieldName,String errorMessage, String fieldValue) {
 		if(fieldValue.matches("(.*)[à|è|é|ì|ò|ù](.*)")) { 
-			
-		
-		errors.rejectValue(fieldName, errorMessage, "errors.accent");
-			
-			
+			errors.rejectValue(fieldName, errorMessage, "errors.accent");
 		}
-		
-		
+
 	}
 
-	public static void rejectIfNal(Errors errors, String fieldName,
-			String errorMessage, String fieldValue) {
+	public static void rejectIfNal(Errors errors, String fieldName, String errorMessage, String fieldValue) {
 		
 		String filePath = "C://ePubLibrary//lingue.xml";
 		File lingue = new File(filePath);

@@ -25,59 +25,37 @@ public class ControllerImagine {
 	
 	@ResponseBody
 	@RequestMapping(value="/Event/image.html", params= "id" ,method = RequestMethod.GET)
-	///Event/image.html?id=${evento.id}
-	//public byte[] getEventoImage(@PathVariable("id") int id){
-		public byte[] getEventoImage(@RequestParam("id") int id){	
-	
+	public byte[] getEventoImage(@RequestParam("id") int id){	
 		byte[] immagine =  eventoServ.getImmagineEvento(id);
 		return immagine;
 	}
 	
 	@ResponseBody
 	@RequestMapping(value="/Group/image.html", params= "id" ,method = RequestMethod.GET)
-	///Event/image.html?id=${evento.id}
-	//public byte[] getEventoImage(@PathVariable("id") int id){
-		public byte[] getGruppoImage(@RequestParam("id") int id){	
-	
+	public byte[] getGruppoImage(@RequestParam("id") int id){	
 		byte[] immagine =  fotoServ.getFotoProfiloByUtenteIdBlob(id);
 		return immagine;
 	}
 	
 	@ResponseBody
 	@RequestMapping(value="/GroupSlide/image.html", params= "id" ,method = RequestMethod.GET)
-	///Event/image.html?id=${evento.id}
-	//public byte[] getEventoImage(@PathVariable("id") int id){
-		public byte[] getGruppoImageSlider(@RequestParam("id") int id){	
-	
+	public byte[] getGruppoImageSlider(@RequestParam("id") int id){	
 		byte[] immagine =  fotoServ.getFotoSlideShowByUtenteIdBlob(id);
 		return immagine;
 	}
 	
 	@ResponseBody
 	@RequestMapping(value="/Local/image.html", params= "id" ,method = RequestMethod.GET)
-	///Event/image.html?id=${evento.id}
-	//public byte[] getEventoImage(@PathVariable("id") int id){
-		public byte[] getLocaleImage(@RequestParam("id") int id){	
-		
-		
-	
+	public byte[] getLocaleImage(@RequestParam("id") int id){	
 		byte[] immagine =  fotoServ.getFotoProfiloByUtenteIdBlob(id);
 		return immagine;
 	}
 	
 	@ResponseBody
 	@RequestMapping(value="/LocalSlide/image.html", params= "id" ,method = RequestMethod.GET)
-	///Event/image.html?id=${evento.id}
-	//public byte[] getEventoImage(@PathVariable("id") int id){
-		public byte[] getLocaleImageSlider(@RequestParam("id") int id){	
-	
+	public byte[] getLocaleImageSlider(@RequestParam("id") int id){	
 		byte[] immagine =  fotoServ.getByteFotoById(id);
 		return immagine;
 	}
-	
-	
-	
-	
-
 }
 	

@@ -4,6 +4,7 @@ import it.univaq.mwt.business.AlbumFotograficoService;
 import it.univaq.mwt.business.FotoService;
 import it.univaq.mwt.business.LocaleService;
 import it.univaq.mwt.business.form.utente.FormFotoAlbum;
+import it.univaq.mwt.business.form.utente.FormFotoProfilo;
 import it.univaq.mwt.business.model.AlbumFotografico;
 import it.univaq.mwt.business.model.Categoria;
 import it.univaq.mwt.business.model.Foto;
@@ -11,6 +12,7 @@ import it.univaq.mwt.business.model.Locale;
 import it.univaq.mwt.business.model.Utente;
 import it.univaq.mwt.common.utility.SaveFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -275,17 +277,21 @@ public class EJBLocale implements LocaleService {
 	@Override
 	public void buildAlbumFoto(FormFotoAlbum formFotoAlbum, Locale l) {
 		AlbumFotografico toStorePhotoSlider= SaveFile.savePhotoBlobGeneral(formFotoAlbum, l ,"slideshow", "Album da Slider");
-//		System.out.println("toStorePhotoSlider" + toStorePhotoSlider.getUtente().getId());
-//		if(toStorePhotoSlider.getId() != 0){
-//			System.out.println("SOno Entrato NEll Update");
-			albumFotograficoService.updatePhotoAlbum(toStorePhotoSlider);
-//		}else{
-//			System.out.println("SOno Entrato NEll Insert");
-//			albumFotograficoService.insertAlbumFotografico(toStorePhotoSlider);
-//		}
-//		
 		fotoService.insertSetFoto(toStorePhotoSlider.getFoto());
 		
+		
+	}
+
+	@Transactional
+	public void buildAlbumFotoProfilo(FormFotoProfilo formFotoProfilo, Locale l) {
+		Foto f = new Foto();
+		try {
+			SaveFile.savePhotoBlobGeneral(formFotoProfilo, f, "ProfileImage", "Immagine di Profilo");
+			f = addPhotoProfile(l, f);
+			fotoService.insertFoto(f);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 	}
 }

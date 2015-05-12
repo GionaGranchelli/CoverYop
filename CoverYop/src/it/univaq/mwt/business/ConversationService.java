@@ -28,5 +28,7 @@ public interface ConversationService {
 	public void refresh(Conversation conversation);
 
 	public Conversation createConversation(Conversation conversation);
+
+	public ResponseGrid<Message> findAllMessagePaginated(RequestGrid requestGrid);
 	
 }

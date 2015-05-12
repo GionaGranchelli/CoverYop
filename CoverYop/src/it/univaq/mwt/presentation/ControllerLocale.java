@@ -17,20 +17,15 @@ import it.univaq.mwt.business.form.utente.FormFotoProfilo;
 import it.univaq.mwt.business.model.AlbumFotografico;
 import it.univaq.mwt.business.model.Canale;
 import it.univaq.mwt.business.model.Evento;
-import it.univaq.mwt.business.model.Foto;
 import it.univaq.mwt.business.model.Gruppo;
 import it.univaq.mwt.business.model.Locale;
 import it.univaq.mwt.business.model.TipologiaEvento;
 import it.univaq.mwt.business.model.Utente;
 import it.univaq.mwt.business.model.Video;
 import it.univaq.mwt.common.utility.FacilityTool;
-import it.univaq.mwt.common.utility.SaveFile;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -65,11 +60,7 @@ public class ControllerLocale {
 	@Autowired
 	CanzoneService canzoneService;
 	@Autowired
-	EventoService eventoService;
-	Evento eventoDaModificare = new Evento(0);
-	Set<Gruppo> groupP; // Tiene traccia dei gruppi per evento durante la
-						// modifica
-	List<Gruppo> countryList;
+	EventoService eventoService;	
 	@Autowired
 	LocaleService localeService;
 	@Autowired
@@ -115,13 +106,10 @@ public class ControllerLocale {
 	private String multimedia(Model model) {
 
 		Locale l = localeService.findLocaleByUser(utente);
-		List<AlbumFotografico> albums = new ArrayList<AlbumFotografico>(
-				l.getAlbumFotografico());
+		List<AlbumFotografico> albums = new ArrayList<AlbumFotografico>(l.getAlbumFotografico());
 		List<Video> videos = new ArrayList<Video>(l.getVideo());
-
 		model.addAttribute("albums", albums);
 		model.addAttribute("videos", videos);
-
 		model.addAttribute("formFotoProfilo", new FormFotoProfilo());
 		model.addAttribute("formFoto", new FormFotoAlbum());
 		model.addAttribute("formVideo", new Video());
@@ -132,15 +120,7 @@ public class ControllerLocale {
 	private String updateFotoProfile(@ModelAttribute FormFotoProfilo formFotoProfilo,
 			Model model) {
 		Locale l = localeService.findLocaleByUser(utente);
-		Foto f = new Foto();
-		try {
-			SaveFile.savePhotoBlobGeneral(formFotoProfilo, f, 
-					"ProfileImage", "Immagine di Profilo");
-			f = localeService.addPhotoProfile(l, f);
-			fotoService.insertFoto(f);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		localeService.buildAlbumFotoProfilo(formFotoProfilo, l);
 		return "redirect:/Privee/Multimedia";
 	}
 
@@ -170,8 +150,8 @@ public class ControllerLocale {
 	private String eventi(Model model) {
 		Locale l = localeService.findLocaleByUser(utente);
 		List<Evento> eventi = new ArrayList<Evento>(l.getEventi());
-		model.addAttribute("eventi", eventi);
 		List<TipologiaEvento> tipologia = tipologiaService.getAllTipologiaEvento();
+		model.addAttribute("eventi", eventi);
 		model.addAttribute("tipologia", tipologia);
 		model.addAttribute("evento", new Evento());
 		model.addAttribute("locale", l);
@@ -185,7 +165,6 @@ public class ControllerLocale {
 								Model model) {
 		Gruppo gruppoScelto = gruppoService.findGruppoByCorrectName(nomeGruppo);
 		Locale l = localeService.findLocaleByUser(utente);
-		
 		TipologiaEvento tipoEvento = tipologiaService.getTipologiaEventoById(evento.getTipologia_Eventi().getId());
 		Evento eventoModificato = eventoService.buildEventForUpdate(evento, l,nomeGruppo,tipoEvento, immagine);
 		eventoService.updateEvent(eventoModificato);
@@ -201,22 +180,15 @@ public class ControllerLocale {
 		Gruppo gruppoScelto = gruppoService.findGruppoByCorrectName(nomeGruppo);
 		TipologiaEvento tipoEvento = tipologiaService.getTipologiaEventoById(evento.getTipologia_Eventi().getId());
 		Locale l = localeService.findLocaleByUser(utente);
-		Evento toStoreEvent = eventoService.buildEventoInfo(evento,l,gruppoScelto,tipoEvento,immagine);
+		eventoService.buildEventoInfo(evento,l,gruppoScelto,tipoEvento,immagine);
 		gruppoService.update(gruppoScelto);
-//		eventoService.insertEvento(toStoreEvent);
 		return "redirect:/Privee/Eventi";
 	}
 
 	@RequestMapping(value = "/get_groups_list", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody List<String> getGroupsList(@RequestParam("term") String query) {
-
-		this.countryList = new ArrayList<Gruppo>(gruppoService.findGruppoByName(query));
-		Iterator<Gruppo> i = countryList.iterator();
-		List<String> listaGruppi = new ArrayList<String>();
-		while (i.hasNext()) {
-			Gruppo v = i.next();
-			listaGruppi.add(v.getNomeGruppo());
-		}
+		List<Gruppo> groupsList = new ArrayList<Gruppo>(gruppoService.findGruppoByName(query));
+		List<String> listaGruppi = FacilityTool.getStringListOfGroups(groupsList);
 		return listaGruppi;
 	}
 
@@ -239,12 +211,12 @@ public class ControllerLocale {
 	@RequestMapping("/EventoModifica/{id}")
 	private String modificaEvento(@PathVariable int id, Model model) {
 		Evento v = eventoService.findEventoById(id);
-		model.addAttribute("evento", v);
 		Locale l = localeService.findLocaleByUser(utente);
 		List<Evento> eventi = new ArrayList<Evento>(l.getEventi());
-		model.addAttribute("eventi", eventi);
 		List<TipologiaEvento> tipologia = tipologiaService.getAllTipologiaEvento();
 		List<Gruppo> listaGruppi = new ArrayList<Gruppo>(v.getGruppo());
+		model.addAttribute("evento", v);
+		model.addAttribute("eventi", eventi);
 		model.addAttribute("nomeGruppo", listaGruppi.get(0).getNomeGruppo());
 		model.addAttribute("tipologia", tipologia);
 		model.addAttribute("locale", l);
@@ -254,19 +226,7 @@ public class ControllerLocale {
 	@RequestMapping(value = "/deletePhoto/{id}")
 	public String deletePhoto(@PathVariable int id) {
 		fotoService.deleteFotoById(id);
-		List<AlbumFotografico> albums = new ArrayList<AlbumFotografico>();
-		albums = albumFotograficoService.getAllPhotoAlbumsByGroupId(utente.getId());
-
-		Iterator<AlbumFotografico> i = albums.iterator();
-		while (i.hasNext()) {
-			AlbumFotografico alb = i.next();
-			int emptyAlbums = albumFotograficoService.emptyAlbumFotografico(alb);
-
-			if (emptyAlbums < 1) {
-				albumFotograficoService.removeAlbumFotografico(alb.getId());
-			}
-		}
-
+		albumFotograficoService.fixAlbum(utente);
 		return "redirect:/Privee/Multimedia";
 	}
 }

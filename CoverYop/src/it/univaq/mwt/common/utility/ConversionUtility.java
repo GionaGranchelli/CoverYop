@@ -72,7 +72,12 @@ public class ConversionUtility {
 		String result = sb.toString();
 		return result;
 	}
-	
+	public static String addPercentSuffix(String s) {
+		if (s == null || "".equals(s)) {
+			return "%";
+		}
+		return s + "%";
+	}
 	
 	
 //

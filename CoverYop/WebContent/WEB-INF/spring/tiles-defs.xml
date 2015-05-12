@@ -108,6 +108,9 @@
 	 <definition name="list.conversation" extends="standard">
         <put-attribute name="body" value="/WEB-INF/views/inbox/inbox.jsp"/>
     </definition>
+    <definition name="list.dataTableConversation" extends="standard">
+        <put-attribute name="body" value="/WEB-INF/views/inbox/inboxAjax.jsp"/>
+    </definition>
     <definition name="show.conversation" extends="standard">
         <put-attribute name="body" value="/WEB-INF/views/inbox/conversation.jsp"/>
     </definition>
