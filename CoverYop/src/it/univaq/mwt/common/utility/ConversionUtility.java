@@ -76,7 +76,7 @@ public class ConversionUtility {
 		if (s == null || "".equals(s)) {
 			return "%";
 		}
-		return s + "%";
+		return "%" + s + "%";
 	}
 	
 	

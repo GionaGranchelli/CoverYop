@@ -42,7 +42,7 @@ public class Conversation implements Serializable{
 	
 	private String titolo;
 	
-	private List<Message> message = new ArrayList(); 
+	private List<Message> message = new ArrayList<Message>(); 
 	
 	private static final long serialVersionUID = 1L;
 

@@ -29,6 +29,6 @@ public interface ConversationService {
 
 	public Conversation createConversation(Conversation conversation);
 
-	public ResponseGrid<Message> findAllMessagePaginated(RequestGrid requestGrid);
+	public ResponseGrid<Conversation> findAllConversationPaginated(RequestGrid requestGrid, Utente u);
 	
 }

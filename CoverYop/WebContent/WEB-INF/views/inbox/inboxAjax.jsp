@@ -9,46 +9,32 @@
 					function() {
 						$('#titles_id')
 								.dataTable(
-										{
-											"bProcessing" : true,
+										{"bProcessing" : true,
 											"bJQueryUI" : true,
 											"bServerSide" : true,
 											"sAjaxDataProp" : "rows",
 											"aoColumns" : [
-													{
-														"mData" : "id"
-													},
-													{
-														"mData" : "name"
-													},
-													{
-														"mData" : "author"
-													},
-													{
-														"mData" : "titleKind.name",
-														"sDefaultContent" : ""
-													},
-													{
-														"sName" : "id",
-														"bSearchable" : false,
-														"bSortable" : false,
-														"sDefaultContent" : "",
-														"fnRender" : function(
+													{"mData" : "id"},
+													{"mData" : "titolo"},
+													{"mData" : "destinatario.nome", "sDefaultContent": ""},
+													{"mData" : "data"},
+													{"sName" : "id",
+													 "bSearchable" : false,
+													 "bSortable" : false,
+													 "sDefaultContent" : "",
+													 "fnRender" : function(
 																oObj) {
-															return "<a href='${pageContext.request.contextPath}/titles/update_start.do?id="
+															return "<a href='${pageContext.request.contextPath}/messages/update_start.do?id="
 																	+ oObj.aData['id']
 																	+ "'>Modifica</a>"
 																	+ " | "
-																	+ "<a href='${pageContext.request.contextPath}/titles/delete_start.do?id="
+																	+ "<a href='${pageContext.request.contextPath}/messages/delete_start.do?id="
 																	+ oObj.aData['id']
 																	+ "'>Cancella</a>";
 
 														}
 													} ],
-											"sAjaxSource" : "${pageContext.request.contextPath}/titles/findAllTitlesPaginated.do",
-											"oLanguage" : {
-												"sUrl" : "${pageContext.request.contextPath}/resources/datatables/i18n/italian.properties"
-											},
+											"sAjaxSource" : "${pageContext.request.contextPath}/messages/findAllConversationPaginated.do",
 											"fnServerParams" : addsortparams
 										});
 
@@ -86,10 +72,10 @@
 				<thead>
 					<tr>
 						<th>ID</th>
-						<th><spring:message code="title.name" /></th>
-						<th><spring:message code="title.author" /></th>
-						<th><spring:message code="title.titleKind" /></th>
-						<th><spring:message code="common.actions" /></th>
+						<th>Titolo</th>
+						<th>Destinatario</th>
+						<th>Data</th>
+						<th>Azioni</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -221,12 +207,8 @@
 												return {
 
 													//must convert json to javascript object before process
-													suggestions : $
-															.map(
-																	$
-																			.parseJSON(response),
-																	function(
-																			dataItem) {
+													suggestions : $.map($.parseJSON(response),
+																	function(dataItem) {
 																		return {
 																			value : dataItem.value,
 																			data : dataItem.label

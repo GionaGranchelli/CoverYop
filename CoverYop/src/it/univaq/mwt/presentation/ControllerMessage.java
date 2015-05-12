@@ -74,9 +74,9 @@ public class ControllerMessage {
 		return "list.dataTableConversation";
 	}
 
-	@RequestMapping("/findAllTitlesPaginated.do")
-	public @ResponseBody ResponseGrid<Message> findAllTitlesPaginated(@ModelAttribute RequestGrid requestGrid) {
-		ResponseGrid<Message> responseGrid = convesationService.findAllMessagePaginated(requestGrid);
+	@RequestMapping("/findAllConversationPaginated.do")
+	public @ResponseBody ResponseGrid<Conversation> findAllConversationPaginated(@ModelAttribute RequestGrid requestGrid) {
+		ResponseGrid<Conversation> responseGrid = convesationService.findAllConversationPaginated(requestGrid, utente);
 		return responseGrid;
 	}
 

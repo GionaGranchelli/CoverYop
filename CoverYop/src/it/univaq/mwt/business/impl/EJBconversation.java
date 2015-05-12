@@ -49,7 +49,6 @@ public class EJBconversation implements ConversationService {
 		return conversation;
 	}
 
-	@Override
 	@Transactional
 	public Message createMessage(Message messaggio) {
 		Message msg = messaggio;
@@ -71,7 +70,6 @@ public class EJBconversation implements ConversationService {
 
 	}
 
-	@Override
 	@Transactional
 	public Conversation createConversation(Conversation conversation) {
 		Conversation cv = conversation;
@@ -80,27 +78,26 @@ public class EJBconversation implements ConversationService {
 	}
 
 	@Override
-	public ResponseGrid<Message> findAllMessagePaginated(RequestGrid requestGrid) {
+	public ResponseGrid<Conversation> findAllConversationPaginated(RequestGrid requestGrid, Utente u) {
 
 		String orderBy = (!"".equals(requestGrid.getSortCol()) && !"".equals(requestGrid
-				.getSortDir())) ? "order by " + requestGrid.getSortCol() + " "
+				.getSortDir())) ? "ORDER BY " + requestGrid.getSortCol() + " "
 				+ requestGrid.getSortDir() : "";
 				
-		String baseSearch = "select ms "
-				+ "from Message ms "
-				+ "where "
-				+ ((!"".equals(requestGrid.getsSearch())) ? " and t.name like '"
-						+ ConversionUtility.addPercentSuffix(requestGrid.getsSearch())
-						+ "'" : "");
+		String baseSearch = "SELECT DISTINCT cv "
+				+ "FROM Conversation cv "
+				+ "WHERE cv.mittente.id =" + u.getId();
+		if(!("".equals(requestGrid.getsSearch()))){
+			String queryLow = requestGrid.getsSearch().toLowerCase();
+			baseSearch = baseSearch + " AND lower(cv.titolo) LIKE '" + ConversionUtility.addPercentSuffix(queryLow)+"'";
+		}
+		System.out.println("Search Base");
+		System.out.println(baseSearch);
 
-		String sql = "select * from ("
-				+ "select rownum as rn, title_id, name, author, description, isbn, publication_year, editor, title_kind_id, Title_kind_name from ("
-				+ baseSearch + orderBy + ")" + ")" + "where rn >= "
-				+ (requestGrid.getiDisplayStart() + 1) + " and rownum<="
-				+ requestGrid.getiDisplayLength();
-		String countSql = "select count(*) from (" + baseSearch + ")";
-		Query query = em.createQuery(sql);
-		List<Message>result = (List<Message>) query.getResultList();
-		return null;
+//		String countSql = "select count(*) from (" + baseSearch + ")";
+		Query query = em.createQuery(baseSearch);
+		List<Conversation>result = (List<Conversation>) query.getResultList();
+	
+		return new ResponseGrid<Conversation>(requestGrid.getsEcho(), result.size(), result.size(), result);
 	}
 }

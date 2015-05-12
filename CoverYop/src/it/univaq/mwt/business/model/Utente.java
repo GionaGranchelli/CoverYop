@@ -341,7 +341,7 @@ public abstract class Utente implements Serializable{
 		this.ruolo = ruoli;
 	}
 
-	@OneToMany(mappedBy="utente", fetch=FetchType.EAGER,cascade={PERSIST, REFRESH, REMOVE, }) 
+	@OneToMany(mappedBy="utente", fetch=FetchType.LAZY,cascade={PERSIST, REFRESH, REMOVE, }) 
 	public Set<Video> getVideo() {
 		return video;
 	}
