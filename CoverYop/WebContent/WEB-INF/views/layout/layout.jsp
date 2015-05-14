@@ -29,7 +29,10 @@
 <!-- <meta name="robots" content="index,follow"> -->
 
 <!-- ############################# Stylesheets ############################# -->
+
+
 <!-- OWL Carousel -->
+
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/owl.carousel.css"
 	media="screen" />

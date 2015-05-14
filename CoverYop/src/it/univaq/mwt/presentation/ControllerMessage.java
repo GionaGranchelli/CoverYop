@@ -203,7 +203,7 @@ public class ControllerMessage {
 			model.addAttribute("utente2", conversation.getMittente());
 			fotoprofilo2 = fotoService.getFotoProfiloByUtenteId(conversation
 					.getMittente().getId());
-			System.out.println(fotoprofilo2);
+			
 
 		}
 
@@ -228,28 +228,29 @@ public class ControllerMessage {
 		messaggio.setDataInvio(cal);
 		conversation.addMessage(messaggio);
 		conversation = convesationService.updateConversation(conversation);
-		model.addAttribute("utente", utente);
-		model.addAttribute("conversation", conversation);
-		String fotoprofilo2 = null;
-		if (utente.getUsername().equals(conversation.getMittente().getUsername())) {
-			model.addAttribute("utente2", conversation.getDestinatario());
-			fotoprofilo2 = fotoService.getFotoProfiloByUtenteId(conversation
-					.getDestinatario().getId());
-		} else {
-			model.addAttribute("utente2", conversation.getMittente());
-			fotoprofilo2 = fotoService.getFotoProfiloByUtenteId(conversation
-					.getMittente().getId());
-			System.out.println(fotoprofilo2);
-
-		}
-
-		model.addAttribute("messages", conversation.getMessage());
-		String fotoprofilo1 = fotoService.getFotoProfiloByUtenteId(utente.getId());
-		model.addAttribute("fotoprofilo1", fotoprofilo1);
-		model.addAttribute("fotoprofilo2", fotoprofilo2);
-		// System.out.println(fotoprofilo1+"aaaaaa");
-		model.addAttribute("messaggio", new Message());
-		return "show.conversation";
+		return "redirect:/messages/conversation/"+conversation.getId();
+		
+//		model.addAttribute("utente", utente);
+//		model.addAttribute("conversation", conversation);
+//		String fotoprofilo2 = null;
+//		if (utente.getUsername().equals(conversation.getMittente().getUsername())) {
+//			model.addAttribute("utente2", conversation.getDestinatario());
+//			fotoprofilo2 = fotoService.getFotoProfiloByUtenteId(conversation
+//					.getDestinatario().getId());
+//		} else {
+//			model.addAttribute("utente2", conversation.getMittente());
+//			fotoprofilo2 = fotoService.getFotoProfiloByUtenteId(conversation
+//					.getMittente().getId());
+//		
+//
+//		}
+//
+//		model.addAttribute("messages", conversation.getMessage());
+//		String fotoprofilo1 = fotoService.getFotoProfiloByUtenteId(utente.getId());
+//		model.addAttribute("fotoprofilo1", fotoprofilo1);
+//		model.addAttribute("fotoprofilo2", fotoprofilo2);
+//		model.addAttribute("messaggio", new Message());
+//		return "show.conversation";
 	}
 
 	// Questa FUnzione Restituisce in Get, tramite Ajax la lista di tutti i
@@ -287,42 +288,6 @@ public class ControllerMessage {
 		return listaGruppi;
 	}
 
-	// @RequestMapping(value = "/get_groups_list_custom",
-	// method = RequestMethod.GET,
-	// produces="application/json")
-	// public @ResponseBody List<ListForAjax>
-	// getGroupsListCustom(@RequestParam("term") String query) {
-	//
-	// List<Gruppo>countryList = new
-	// ArrayList<Gruppo>(gs.findGruppoByName(query));
-	//
-	// Iterator<Gruppo>i = countryList.iterator();
-	// List<ListForAjax> listaGruppi = new ArrayList<ListForAjax>();
-	// while(i.hasNext()){
-	// Gruppo v = i.next();
-	// listaGruppi.add(new ListForAjax(v.getId(), v.getNomeGruppo()));
-	// }
-	//
-	// return listaGruppi;
-	// }
 
-	// @RequestMapping(value = "/get_groups_list",
-	// method = RequestMethod.GET,
-	// produces="application/json")
-	// public @ResponseBody List<ListForAjax>
-	// getGroupsList(@RequestParam("term") String query) {
-	//
-	// List<Gruppo>countryList = new
-	// ArrayList<Gruppo>(gs.findGruppoByName(query));
-	//
-	// Iterator<Gruppo>i = countryList.iterator();
-	// List<ListForAjax> listaGruppi = new ArrayList<ListForAjax>();
-	// while(i.hasNext()){
-	// Gruppo v = i.next();
-	// listaGruppi.add(new ListForAjax(v.getId(), v.getNomeGruppo()));
-	// }
-	//
-	// return listaGruppi;
-	// }
 
 }

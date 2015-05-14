@@ -12,25 +12,18 @@ import it.univaq.mwt.business.GruppoService;
 import it.univaq.mwt.business.LocaleService;
 import it.univaq.mwt.business.TipologiaEventoService;
 import it.univaq.mwt.business.VideoService;
-import it.univaq.mwt.business.form.group.FormEvento;
-import it.univaq.mwt.business.form.group.FormMusica;
 import it.univaq.mwt.business.form.utente.FormFotoAlbum;
 import it.univaq.mwt.business.form.utente.FormFotoProfilo;
 import it.univaq.mwt.business.model.Album;
-import it.univaq.mwt.business.model.AlbumFotografico;
-import it.univaq.mwt.business.model.Canzone;
 import it.univaq.mwt.business.model.Conversation;
 import it.univaq.mwt.business.model.Evento;
-import it.univaq.mwt.business.model.Foto;
 import it.univaq.mwt.business.model.Gruppo;
 import it.univaq.mwt.business.model.Locale;
 import it.univaq.mwt.business.model.TipologiaEvento;
 import it.univaq.mwt.business.model.Utente;
 import it.univaq.mwt.business.model.Video;
 import it.univaq.mwt.common.utility.FacilityTool;
-import it.univaq.mwt.common.utility.SaveFile;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -86,6 +79,8 @@ public class ControllerGruppo {
 	@Autowired
 	TipologiaEventoService tipologiaService;
 	List<Locale> countryList;
+	@Autowired
+	EventoValidator eventoValidator;
 	
 	
 
@@ -235,7 +230,18 @@ public class ControllerGruppo {
 	private String addEvento(@ModelAttribute("evento") Evento evento,
 							 @RequestParam("nomeLocale") String nomeLocale,
 							 @RequestParam("immagine") CommonsMultipartFile immagine,
+							 BindingResult bindingResult,
 							 Model model) {
+		eventoValidator.validate(evento, bindingResult);
+		if (bindingResult.hasErrors()) {
+			Gruppo gruppo = gruppoServ.findGruppoByUtente(utente);
+			Set<Evento> eventi =  gruppo.getEventi();
+			List<TipologiaEvento> tipologia = tipologiaService.getAllTipologiaEvento();
+			model.addAttribute("eventi", eventi);
+			model.addAttribute("tipologia", tipologia);
+			model.addAttribute("gruppo", gruppo);
+			return "gruppoEventi.loggato";
+		}
 		String[] ragioneSociale = FacilityTool.splitResultBySeparator(nomeLocale);
 		Locale localeScelto = localeServ.findLocaleByCoord(ragioneSociale[0], ragioneSociale[1], ragioneSociale[2]);
 		TipologiaEvento tipoEvento = tipologiaService.getTipologiaEventoById(evento.getTipologia_Eventi().getId());

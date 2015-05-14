@@ -61,6 +61,7 @@ public class EJBconversation implements ConversationService {
 	@Transactional
 	public Conversation updateConversation(Conversation conversation) {
 		Conversation conv = em.merge(conversation);
+		em.getEntityManagerFactory().getCache().evictAll();
 		return conv;
 	}
 

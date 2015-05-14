@@ -213,4 +213,12 @@ public class ValidationUtility {
 		if(!email.matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")){ errors.rejectValue(field, errorMessage, "errore");}
 		
 	}
+
+	public static void rejectIfNaFloat(Errors errors, String field,
+			String errorMessage, float prezzo) {
+		
+		
+		
+		
+	}
 }

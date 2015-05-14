@@ -97,31 +97,39 @@
 								<h2>Aggiungi Evento</h2>
 								<label for="nome">Nome Evento</label>
 								<form:input path="nome" />
+								<form:errors path="nome" cssClass="errorSignup" element="label"/>
 
 								<label for="luogo">Dove</label>
 								<form:input path="luogo" />
+								<form:errors path="luogo" cssClass="errorSignup" element="label"/>
 								
 								<label for="nomeLocale">Locale</label>
 								<input type="text" id="nomeLocale" name="nomeLocale" />
-								
+								<%-- <form:errors path="luogo" cssClass="errorSignup" element="label"/> --%>
 
 								<label for="descrizione">Descrizione</label>
 								<form:input path="descrizione" />
-
+								<form:errors path="descrizione" cssClass="errorSignup" element="label"/>
+								
 								<label for="data">Data</label>
 								<form:input path="data" />
+								<form:errors path="data" cssClass="errorSignup" element="label"/>
 
 								<label for="immagine">Inserisci Locandina</label>
 								<input type="file" name="immagine" />
 
 								<label for="orarioInizio">Ora Inizio</label>
 								<form:input path="orarioInizio" />
+								<form:errors path="orarioInizio" cssClass="errorSignup" element="label"/>
 
 								<label for="orarioFine">Ora Fine</label>
 								<form:input path="orarioFine" />
-
-								<label for="prezzo">Prezzo</label>
+								<form:errors path="orarioFine" cssClass="errorSignup" element="label"/>
+								
+								<label>Prezzo &euro;</label>
 								<form:input path="prezzo" />
+								<form:errors path="prezzo" cssClass="errorSignup" element="label"/>
+								<div id="slider-range-min"></div>
 
 								<label for="tipologia_Eventi">Tipologia Evento</label>
 								<form:select path="tipologia_Eventi.id" items="${tipologia}"
@@ -157,6 +165,16 @@
 								$( "#data" ).datepicker();
 								$('#orarioInizio').timepicker();
 								$('#orarioFine').timepicker();
+							    $( '#slider-range-min' ).slider({
+      															range: 'min',
+															      value: 0,
+															      min: 0,
+															      max: 200,
+															      slide: function( event, ui ) {
+															        $( "#prezzo" ).val(ui.value);
+																      }
+																    });
+																    $( "#prezzo" ).val($( "#slider-range-min" ).slider( "value" ) );
 							});
 						});
 						</script>
