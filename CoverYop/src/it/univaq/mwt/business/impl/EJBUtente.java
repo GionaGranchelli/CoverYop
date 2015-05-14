@@ -1,10 +1,15 @@
 package it.univaq.mwt.business.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import it.univaq.mwt.business.UtenteService;
+import it.univaq.mwt.business.model.Gruppo;
 import it.univaq.mwt.business.model.Utente;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.springframework.stereotype.Service;
 @Service
@@ -24,5 +29,24 @@ public class EJBUtente implements UtenteService {
 		Utente user = em.find(Utente.class, id);
 		return user;
 	}
+
+	@Override
+	public Utente findUtenteByUsername(String username) {
+		String gruppoToLower = username.toLowerCase();
+
+		Query query = em.createQuery("select lc " + "from Utente lc "
+				+ "where lower(lc.username) LIKE :localeLow");
+		query.setParameter("localeLow", "%" + gruppoToLower + "%");
+		query.setMaxResults(1);
+		Utente user;
+		try{
+		 user = (Utente) query.getSingleResult();
+		}catch (NullPointerException e){
+			
+			return null;
+		}
+		return user;
+		}
+	
 
 }

@@ -1,8 +1,17 @@
 package it.univaq.mwt.common;
 
+import it.univaq.mwt.business.GruppoService;
+import it.univaq.mwt.business.UserService;
+import it.univaq.mwt.business.UtenteService;
+import it.univaq.mwt.business.impl.EJBGruppo;
+import it.univaq.mwt.business.impl.EJBUtente;
+import it.univaq.mwt.business.model.Gruppo;
+import it.univaq.mwt.business.model.Utente;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -15,6 +24,7 @@ import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Errors;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.w3c.dom.Document;
@@ -25,6 +35,8 @@ import org.xml.sax.SAXException;
 public class ValidationUtility {
 	
 	
+	
+
 	
 	
 	public static List<String> simplifyURL(List<String> listImg){
@@ -123,8 +135,7 @@ public class ValidationUtility {
 			int index = commonsMultipartFiles[i].getOriginalFilename().lastIndexOf(".");
 					String estensione =commonsMultipartFiles[i].getOriginalFilename().substring(index+1);
 					
-					System.out.println(index);
-					System.out.println(estensione);
+					
 					if (!(estensione.equals(ext))) { errors.rejectValue(field,errorMessage, "errors.extension");}
 		}
 		
@@ -154,6 +165,52 @@ public class ValidationUtility {
 			String errorMessage, String password, String retypePassword) {
 
 		if(!(password.equals(retypePassword))) errors.rejectValue(field, errorMessage, "errore");
+		
+	}
+
+	public static void rejectIfNoDate(Errors errors, String field,
+			String errorMessage, Date data) {
+		
+		
+	}
+
+	public static void rejectIfNotAvaibleUsername(Errors errors, String field,
+			String errorMessage, String username, Utente u) {
+		
+		
+		
+		if(u!=null){
+			
+			if(u.getUsername().toLowerCase().equals(username.toLowerCase())){
+				
+				errors.rejectValue(field, errorMessage, "errore");
+				
+			};
+			
+		}
+		
+		
+	}
+
+	public static void rejectIfHasSpecialChar(Errors errors, String field,
+			String errorMessage, String nome) {
+		
+		            if(!nome.matches("[a-zA-Z]*")){ errors.rejectValue(field, errorMessage, "errore");}
+		
+		
+	}
+	
+	public static void rejectIfNotAUsername(Errors errors, String field,
+			String errorMessage, String nome) {
+		
+		            if(!nome.matches("[a-zA-Z0-9]*")){ errors.rejectValue(field, errorMessage, "errore");}
+		
+		
+	}
+
+	public static void rejectINAMail(Errors errors, String field,
+			String errorMessage, String email) {
+		if(!email.matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")){ errors.rejectValue(field, errorMessage, "errore");}
 		
 	}
 }

@@ -51,6 +51,8 @@ public interface GruppoService {
 
 	public void refresh(Utente utente);
 
+	public Gruppo findGruppoByUsername(String username);
+
 	
 
 

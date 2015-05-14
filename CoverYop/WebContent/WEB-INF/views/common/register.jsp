@@ -1,6 +1,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+
 <section class="comments-section section border-top">
 		<section style="background-image: url(/placeholders/blog-bg.jpg)" class="intro-title section border-bottom">
 		<h1 class="heading-l">Iscriviti a Yop!</h1>
@@ -36,35 +37,35 @@
 							<h2 class="fs-title">Create il Tuo Account</h2>
 							<h3 class="fs-subtitle">Primo Step</h3>
 							<form:input path="nome"  placeholder="Nome" />
-							<form:errors path="nome"/>
+							<form:errors path="nome" cssClass="errorSignup" element="label"/>
 							<form:input  path="cognome"   placeholder="Cognome" />
-							<form:errors path="cognome"/>
+							<form:errors path="cognome" cssClass="errorSignup" element="label"/>
 							<form:input  path="email"    placeholder="Email" />
-							<form:errors path="email"/>
+							<form:errors path="email" cssClass="errorSignup" element="label"/>
 							<form:input  path="username"   placeholder="Username" />
-							<form:errors path="username"/>
+							<form:errors path="username" cssClass="errorSignup" element="label"/>
 							
 							<form:input  path="password"  type="password" placeholder="Password" />
-							<form:errors path="password"/>
+							<form:errors path="password" cssClass="errorSignup" element="label"/>
 							<form:input  path="retypePassword"  type="password" placeholder="Password" />
-							<form:errors path="retypePassword"/>
+							<form:errors path="retypePassword" cssClass="errorSignup" element="label"/>
 							<input type="button" name="next" class="next action-button" value="Next" />
 						</fieldset>
 						<fieldset id="gruppi2">
 							<h2 class="fs-title">Dettagli Gruppo</h2>
 							<h3 class="fs-subtitle">Aumenta le tue possibilità di successo</h3>
 							<form:input path="nomeGruppo"  placeholder="Nome Del Gruppo" />
-							<form:errors path="nomeGruppo"/>
+							<form:errors path="nomeGruppo" cssClass="errorSignup" element="label"/>
 							<form:textarea path="biografia" placeholder="Biografia" />
-							<form:errors path="biografia"/>
+							<form:errors path="biografia" cssClass="errorSignup" element="label"/>
 							<form:input  path="telefono"  placeholder="Telefono" />	
-							<form:errors path="telefono"/>						
+							<form:errors path="telefono" cssClass="errorSignup" element="label"/>						
 							<form:input  path="data" type="date" placeholder="Data di Nascita Del Gruppo" />
-							<form:errors path="data"/>
+							<form:errors path="data" cssClass="errorSignup" element="label"/>
 							<form:input  path="citta"  placeholder="Città"/>
-							<form:errors path="citta"/>
+							<form:errors path="citta" cssClass="errorSignup" element="label"/>
 							<form:input  path="indirizzo" placeholder="Address"/>
-							<form:errors path="indirizzo"/>
+							<form:errors path="indirizzo" cssClass="errorSignup" element="label"/>
 							<!-- <p style="color: black;">Cover Band
  								<input type="checkbox" name="cover" id="cover_Band" placeholder="CoverBand" style="width:35%"/> 
  							<form:select disabled="false" name="coverbandName" path="gruppi_rif" id="coverbandname" items="${gruppiDiRif}" itemLabel="nome" itemValue="nome" />  -->
@@ -122,36 +123,36 @@
 							<h2 class="fs-title">Create il Tuo Account</h2>
 							<h3 class="fs-subtitle">Primo Step</h3>
 							<form:input  path="nome"  placeholder="Nome" />
-							<form:errors path="nome"/>
+							<form:errors path="nome" cssClass="errorSignup" element="label"/>
 							<form:input  path="cognome"  placeholder="Cognome" />
-							<form:errors path="cognome"/>
+							<form:errors path="cognome" cssClass="errorSignup" element="label"/>
 							<form:input  path="username"   placeholder="Username" />
-							<form:errors path="username"/>
+							<form:errors path="username" cssClass="errorSignup" element="label"/>
 							<form:input  path="email"  placeholder="Email" />
-							<form:errors path="email"/>
+							<form:errors path="email" cssClass="errorSignup" element="label"/>
 							<form:input  path="password"  placeholder="Password" />
-							<form:errors path="password"/>
+							<form:errors path="password" cssClass="errorSignup" element="label"/>
 							<form:input  path="retypePassword"  type="password" placeholder="Password" />
-							<form:errors path="retypePassword"/>
+							<form:errors path="retypePassword" cssClass="errorSignup" element="label"/>
 							<input type="button" name="next" class="next action-button" value="Next" />
 						</fieldset>
 						<fieldset id="locali2">
 							<h2 class="fs-title">Dettagli Locale</h2>
 							<h3 class="fs-subtitle">Aumenta le tue possibilità di successo</h3>
 							<form:input path="nomeLocale"  placeholder="Nome Locale" />
-							<form:errors path="nomeLocale"/>
+							<form:errors path="nomeLocale" cssClass="errorSignup" element="label"/>
 							<form:textarea  path="descrizione"  placeholder="Descrizione" />
-							<form:errors path="descrizione"/>
+							<form:errors path="descrizione" cssClass="errorSignup" element="label"/>
 							<form:input  path="telefono" placeholder="Telefono" />
-							<form:errors path="telefono"/>
+							<form:errors path="telefono" cssClass="errorSignup" element="label"/>
 							<form:input   path="orarioApertura"  placeholder="Orario Apertura" />
-							<form:errors path="orarioApertura"/>
+							<form:errors path="orarioApertura" cssClass="errorSignup" element="label"/>
 							<form:input  path="orarioChiusura"  placeholder="Orario Chiusura" />
-							<form:errors path="orarioChiusura"/>
+							<form:errors path="orarioChiusura" cssClass="errorSignup" element="label"/>
 							<form:input  path="citta"  placeholder="Città"/>
-							<form:errors path="citta"/>
+							<form:errors path="citta" cssClass="errorSignup" element="label"/>
 							<form:input  path="indirizzo"  placeholder="Indirizzo"/>
-							<form:errors path="indirizzo"/>
+							<form:errors path="indirizzo" cssClass="errorSignup" element="label"/>
 							<form:hidden path="id" />
 							<form:hidden path="lat" />
 							<form:hidden path="lng" />
@@ -191,11 +192,13 @@
 		<!-- /container -->
 	</section>
 	
-					<!-- jQuery -->
-					<script src="http://thecodeplayer.com/uploads/js/jquery-1.9.1.min.js" type="text/javascript"></script>
-					<!-- jQuery easing plugin -->
-					<script src="http://thecodeplayer.com/uploads/js/jquery.easing.min.js" type="text/javascript"></script>
+<!-- 					jQuery -->
+<!-- 					<script src="http://thecodeplayer.com/uploads/js/jquery-1.9.1.min.js" type="text/javascript"></script> -->
+<!-- 					jQuery easing plugin -->
+<!-- 					<script src="http://thecodeplayer.com/uploads/js/jquery.easing.min.js" type="text/javascript"></script> -->
 	<script>
+		
+	
 	var update = function(){
 		if ($('#cover').is(":checked")){
 			$('#coverbandname').prop('disabled', false);
@@ -294,11 +297,19 @@
 			easing: 'easeInOutBack'
 		});
 	});
-
+	
 	$(".submit").click(function(){
 		return false;
 	});
 	
 	
+	$(document).ready(function() {
+		$("#data").datepicker();
+							});	
+	
+</script>
 
-	</script>
+
+
+
+

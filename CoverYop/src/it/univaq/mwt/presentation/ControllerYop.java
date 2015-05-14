@@ -16,6 +16,7 @@ import it.univaq.mwt.business.GruppoDiRiferimentoService;
 import it.univaq.mwt.business.GruppoService;
 import it.univaq.mwt.business.LocaleService;
 import it.univaq.mwt.business.RuoloService;
+import it.univaq.mwt.business.UtenteService;
 import it.univaq.mwt.business.model.Album;
 import it.univaq.mwt.business.model.AlbumFotografico;
 import it.univaq.mwt.business.model.Canale;
@@ -33,6 +34,7 @@ import it.univaq.mwt.business.model.Utente;
 import it.univaq.mwt.business.model.Video;
 import it.univaq.mwt.common.spring.UserDetailsImpl;
 import it.univaq.mwt.common.utility.ConversionUtility;
+
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -89,6 +91,8 @@ public class ControllerYop {
 	GruppoValidator gv;
 	@Autowired
 	LocaleValidator lv;
+	@Autowired
+	UtenteService us;
 
 	@RequestMapping("/")
 	public String welcome(Model model) throws NamingException {
@@ -129,7 +133,7 @@ public class ControllerYop {
 	}
 	
 	@RequestMapping(value="/createGroup")
-	public String createGroup( @ModelAttribute("formGruppi") Gruppo gruppo, BindingResult bindingResult, Model model) throws Exception {
+	public String createGroup( @ModelAttribute("formGruppi") Gruppo gruppo, BindingResult bindingResult, Model model) throws Exception {		
 		gv.validate(gruppo, bindingResult);
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("formLocali",  new Locale());

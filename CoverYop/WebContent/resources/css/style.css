@@ -3544,3 +3544,9 @@ margin-left: 20%;
 .autocomplete-suggestion { padding: 5px 5px; white-space: nowrap; overflow: hidden; font-size:22px}
 .autocomplete-selected { background: #F0F0F0; }
 /* .autocomplete-suggestions strong { font-weight: bold; color: #3399FF; } */
+
+label.errorSignup{
+	color: #EA4233;
+	font-family: cursive;
+	text-decoration: underline;
+}

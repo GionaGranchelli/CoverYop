@@ -30,6 +30,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -67,6 +68,8 @@ public class ControllerLocale {
 	TipologiaEventoService tipologiaService;
 	@Autowired
 	ConversationService conversationService;
+	@Autowired
+	EventoValidator eventoValidator;
 
 	@RequestMapping("/")
 	public String welcome(Model model) {
@@ -80,7 +83,7 @@ public class ControllerLocale {
 		return "local.loggato";
 	}
 
-	@RequestMapping("/updateLocale")
+	@RequestMapping("/updateLocale")//binding result??
 	private String updateLocale(@ModelAttribute("locale") Locale locale) {
 		Locale viewLocale = localeService.findLocaleByUser(utente);
 		localeService.buildInfoLocale(viewLocale, locale);
@@ -176,7 +179,18 @@ public class ControllerLocale {
 	private String addEvento(@ModelAttribute("evento") Evento evento,
 							 @RequestParam("nomeGruppo") String nomeGruppo,
 							 @RequestParam("immagine") CommonsMultipartFile immagine,
+							 BindingResult bindingResult,
 							 Model model) {
+		eventoValidator.validate(evento, bindingResult);
+		if (bindingResult.hasErrors()) {
+			Locale l = localeService.findLocaleByUser(utente);
+			List<Evento> eventi = new ArrayList<Evento>(l.getEventi());
+			List<TipologiaEvento> tipologia = tipologiaService.getAllTipologiaEvento();
+			model.addAttribute("eventi", eventi);
+			model.addAttribute("tipologia", tipologia);
+			model.addAttribute("locale", l);
+			return "localeEventi.loggato";
+		}
 		Gruppo gruppoScelto = gruppoService.findGruppoByCorrectName(nomeGruppo);
 		TipologiaEvento tipoEvento = tipologiaService.getTipologiaEventoById(evento.getTipologia_Eventi().getId());
 		Locale l = localeService.findLocaleByUser(utente);

@@ -6,4 +6,5 @@ public interface UtenteService {
 
 	public Utente findUtenteById(int id);
 	
+	public Utente findUtenteByUsername(String username);
 }
