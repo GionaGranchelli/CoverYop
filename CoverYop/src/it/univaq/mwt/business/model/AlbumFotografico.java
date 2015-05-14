@@ -1,5 +1,12 @@
 package it.univaq.mwt.business.model;
 
+import static javax.persistence.AccessType.PROPERTY;
+import static javax.persistence.CascadeType.PERSIST;
+import static javax.persistence.CascadeType.REFRESH;
+import static javax.persistence.FetchType.EAGER;
+import static javax.persistence.FetchType.LAZY;
+import static javax.persistence.TemporalType.DATE;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
@@ -7,24 +14,18 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.Access;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Access;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 
-import static javax.persistence.AccessType.PROPERTY;
-import static javax.persistence.FetchType.LAZY;
-import static javax.persistence.FetchType.EAGER;
-import static javax.persistence.TemporalType.DATE;
-import static javax.persistence.CascadeType.PERSIST;
-import static javax.persistence.CascadeType.REFRESH;
-import static javax.persistence.CascadeType.REMOVE;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Entity
 @Access(PROPERTY)
 public class AlbumFotografico implements Serializable {
@@ -39,10 +40,10 @@ public class AlbumFotografico implements Serializable {
 	
 	private String luogo;
 	
-	
+	@JsonBackReference
 	private Utente utente;
 	
-	
+	@JsonManagedReference
 	private Set<Foto> foto = new HashSet<Foto>();
 	
 	private static final long serialVersionUID = 1L;

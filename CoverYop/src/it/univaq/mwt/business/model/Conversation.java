@@ -5,17 +5,13 @@ import static javax.persistence.AccessType.PROPERTY;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 import javax.persistence.Access;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
@@ -25,13 +21,16 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 @Access(PROPERTY)
 public class Conversation implements Serializable{
 	
 	private int id;
-	
+	@JsonBackReference
 	private Utente mittente;
 	
 	private Utente destinatario;
@@ -41,7 +40,7 @@ public class Conversation implements Serializable{
 	private int status;
 	
 	private String titolo;
-	
+
 	private List<Message> message = new ArrayList<Message>(); 
 	
 	private static final long serialVersionUID = 1L;
@@ -84,7 +83,6 @@ public class Conversation implements Serializable{
 	}
 
 	@Id
-	//@GeneratedValue(strategy=GenerationType.SEQUENCE)
 	@GeneratedValue(generator="ConvSeq")
     @SequenceGenerator(name="ConvSeq",sequenceName="CONVERSATION_SEQ",allocationSize=1)
 	public int getId() {
@@ -94,6 +92,7 @@ public class Conversation implements Serializable{
 	public void setId(int id) {
 		this.id = id;
 	}
+	@JsonIgnore
 	@OneToOne
 	@JoinColumn(name="MITTENTE_ID")
 	public Utente getMittente() {
@@ -129,29 +128,15 @@ public class Conversation implements Serializable{
 		this.status = status;
 	}
 
-
-
-
-
-
-
 	public String getTitolo() {
 		return titolo;
 	}
 
-
-
-
-
-
-
 	public void setTitolo(String titolo) {
 		this.titolo = titolo;
 	}
-
-
-
-	@OneToMany(mappedBy="conversation", fetch=FetchType.EAGER , cascade = CascadeType.ALL)
+	@JsonIgnore
+	@OneToMany(mappedBy="conversation", fetch=FetchType.EAGER , cascade = {CascadeType.PERSIST , CascadeType.MERGE,  CascadeType.REMOVE})
 	@OrderBy(value="dataInvio")
 	public List<Message> getMessage() {
 		return message;

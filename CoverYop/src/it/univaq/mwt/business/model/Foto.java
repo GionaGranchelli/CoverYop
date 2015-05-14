@@ -1,30 +1,20 @@
 package it.univaq.mwt.business.model;
 
-import static javax.persistence.FetchType.LAZY;
+import static javax.persistence.AccessType.PROPERTY;
 import static javax.persistence.FetchType.EAGER;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.Set;
 
+import javax.persistence.Access;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
-
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
-import java.util.Collection;
-import java.util.Set;
-
-import javax.persistence.Access;
-
-import static javax.persistence.AccessType.PROPERTY;
-import static javax.persistence.AccessType.FIELD;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 
@@ -36,7 +26,7 @@ public class Foto implements Serializable{
 	
 	private String url;
 	
-	
+	@JsonBackReference
 	private AlbumFotografico albumFotografico;
 	
 	private byte[] fotoBlob; 

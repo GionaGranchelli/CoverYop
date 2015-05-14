@@ -16,6 +16,7 @@ import it.univaq.mwt.business.model.Gruppo;
 import it.univaq.mwt.business.model.Locale;
 import it.univaq.mwt.business.model.Message;
 import it.univaq.mwt.business.model.Utente;
+import it.univaq.mwt.common.utility.FacilityTool;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -61,7 +62,7 @@ public class ControllerMessage {
 		model.addAttribute("user", utente);
 		model.addAttribute("conversation", cl);
 		model.addAttribute("nuovaconv", new Conversation());
-		return "list.conversation";
+		return "list.dataTableConversation";
 	}
 
 	@RequestMapping("/ajax")
@@ -105,8 +106,7 @@ public class ControllerMessage {
 		msg.setStatus(1);
 		conv.addMessage(msg);
 		Conversation cv = convesationService.createConversation(conv);
-		List<Conversation> cl = new ArrayList<Conversation>(
-				convesationService.findAllConversationByUserId(id));
+		List<Conversation> cl = new ArrayList<Conversation>(convesationService.findAllConversationByUserId(id));
 		model.addAttribute("user", utente);
 		model.addAttribute("conversation", cl);
 		model.addAttribute("nuovaconv", new Conversation());
@@ -158,45 +158,31 @@ public class ControllerMessage {
 	public String addConversationGroup(
 			@ModelAttribute("formConversation") FormConversation conversation,
 			BindingResult bindingResult, Model model) throws NamingException {
-
-		int id = utente.getId();
-		// System.out.println(conversation.getCorpo()+conversation.getTitolo());
-		Conversation conv = new Conversation();
-		conv.setTitolo(conversation.getTitolo());
-
-		String[] parti = conversation.getDestinatario().split("::");
-		String nomeGruppo = parti[0];
-		String citta = parti[1];
-
-		Gruppo gruppo = gruppoService.findGruppoByCoord(nomeGruppo, citta);
-
-		// Utente destinatario = us.findUtenteById(gruppo.getId());
-		conv.setDestinatario(gruppo);
-
-		Utente mittente = utenteService.findUtenteById(utente.getId());
-		conv.setMittente(mittente);
-
-		conv.setData(Calendar.getInstance());
-
-		Message msg = new Message();
-		msg.settext(conversation.getCorpo());
-		msg.setAutore(mittente);
-		msg.setConversation(conv);
-		msg.setDataInvio(Calendar.getInstance());
-		msg.setStatus(1);
-		conv.addMessage(msg);
-		// Random rand = new Random();
-		// int randomNum = rand.nextInt((1000 - 10) + 1) + 10;
-		// conv.setId(randomNum);
-		Conversation cv = convesationService.createConversation(conv);
-
-		List<Conversation> cl = new ArrayList<Conversation>(
-				convesationService.findAllConversationByUserId(id));
+		
+		String[] parti = FacilityTool.splitConvNameGroup(conversation.getDestinatario());
+		Gruppo gruppoDestinatario = gruppoService.findGruppoByCoord(parti[0],parti[1]);
+		Utente utenteCompleto = utenteService.findUtente(utente);
+		Conversation toAdd = FacilityTool.createConversation(utenteCompleto,conversation,gruppoDestinatario);
+		System.out.println("Mittente: "+ toAdd.getMittente().getNome());
+		Message messaggio = FacilityTool.createMessagePerConversation(conversation.getCorpo(), toAdd);
+//		messageService.createMessage(messaggio);
+		System.out.println("Destinatario: "+ toAdd.getDestinatario().getNome());
+		System.out.println("Messagi; " + toAdd.getMessage().size());
+		System.out.println("Status; " + toAdd.getStatus());
+		System.out.println("TITOLO " + toAdd.getTitolo());
+//		utente.addSenderConversation(toAdd);
+		
+		gruppoDestinatario.addRiceverConversation(toAdd);
+		//Conversation a = convesationService.createConversation(toAdd);
+//		utenteService.update(utente);
+		gruppoService.update(gruppoDestinatario);
+		
+		
 		model.addAttribute("user", utente);
-		model.addAttribute("conversation", cl);
+		model.addAttribute("conversation", toAdd);
 		model.addAttribute("nuovaconv", new Conversation());
 
-		return "list.conversation";
+		return "redirect:/messages/";
 	}
 
 	@RequestMapping("/conversation/{id}")

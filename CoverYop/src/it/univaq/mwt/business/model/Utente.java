@@ -35,6 +35,9 @@ import java.util.Set;
 
 import javax.persistence.Access;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import static javax.persistence.AccessType.PROPERTY;
 import static javax.persistence.CascadeType.PERSIST;
 import static javax.persistence.CascadeType.REFRESH;
@@ -71,19 +74,20 @@ public abstract class Utente implements Serializable{
 	
 	private float lng;
 	
-	
+	@JsonManagedReference
 	private Set<Video> video = new HashSet<Video>();  //togliere - unidirezionale
-	
+	@JsonManagedReference
 	private Set<AlbumFotografico> albumFotografico = new HashSet<AlbumFotografico>(); //togliere - unidirezionale
 	
 	private Canale canale; 
 	
 	private Ruolo ruolo; //riguardare: Se la relazione è N:N mettere collection al posto di set
 	
+	@JsonManagedReference
 	private Set<Conversation> conversationMitt;
-	
+	@JsonManagedReference
 	private Set<Conversation> conversationDest;
-	
+	@JsonManagedReference
 	private Set<Message> messaggi;
 	
 	private static final long serialVersionUID = 1L;
@@ -192,7 +196,7 @@ public abstract class Utente implements Serializable{
 	}
 
 
-
+	@JsonIgnore
 	public String getPassword() {
 		return password;
 	}
@@ -203,7 +207,7 @@ public abstract class Utente implements Serializable{
 		this.password = password;
 	}
 
-
+	@JsonIgnore
 	@Transient
 	public String getRetypePassword() {
 		return retypePassword;
@@ -307,17 +311,17 @@ public abstract class Utente implements Serializable{
 		this.lng = lng;
 	}
 
-
+	@JsonIgnore
 	@OneToMany(mappedBy="utente",fetch=FetchType.EAGER,cascade={PERSIST, REFRESH, REMOVE })
 	public Set<AlbumFotografico> getAlbumFotografico() {
 		return albumFotografico;
 	}
-
+	@JsonIgnore
 	public void setAlbumFotografico(Set<AlbumFotografico> albumFotografico) {
 		this.albumFotografico = albumFotografico;
 	}
 
-
+	@JsonIgnore
 	@Embedded
 	public Canale getCanale() {
 		return canale;
@@ -329,7 +333,7 @@ public abstract class Utente implements Serializable{
 		this.canale = canale;
 	}
 
-
+	@JsonIgnore
 	@ManyToOne
 	public Ruolo getRuolo() {
 		return ruolo;
@@ -340,7 +344,7 @@ public abstract class Utente implements Serializable{
 	public void setRuolo(Ruolo ruoli) {
 		this.ruolo = ruoli;
 	}
-
+	@JsonIgnore
 	@OneToMany(mappedBy="utente", fetch=FetchType.LAZY,cascade={PERSIST, REFRESH, REMOVE, }) 
 	public Set<Video> getVideo() {
 		return video;
@@ -356,7 +360,7 @@ public abstract class Utente implements Serializable{
 	public void addAlbumFoto(AlbumFotografico albf){
 		albumFotografico.add(albf);
 	}
-	
+	@JsonIgnore
 	@OneToMany(mappedBy="mittente", fetch=FetchType.EAGER, cascade={PERSIST, REFRESH})
 	public Set<Conversation> getConversationMitt() {
 		return conversationMitt;
@@ -365,6 +369,7 @@ public abstract class Utente implements Serializable{
 	public void setConversationMitt(Set<Conversation> conversationMitt) {
 		this.conversationMitt = conversationMitt;
 	}
+	@JsonIgnore
 	@OneToMany(mappedBy="destinatario", fetch=FetchType.EAGER, cascade={PERSIST, REFRESH})
 	public Set<Conversation> getConversationDest() {
 		return conversationDest;
@@ -373,6 +378,7 @@ public abstract class Utente implements Serializable{
 	public void setConversationDest(Set<Conversation> conversationDest) {
 		this.conversationDest = conversationDest;
 	}
+	@JsonIgnore
 	@OneToMany(mappedBy="autore", fetch=FetchType.LAZY, cascade={PERSIST, REFRESH})
 	public Set<Message> getMessaggi() {
 		return messaggi;
@@ -398,22 +404,6 @@ public abstract class Utente implements Serializable{
 		}
 		return null;
 	}
-	
-//	public Foto getFotoProfilo(){
-//		//Iterator<AlbumFotografico> iA = this.albumFotografico.iterator();
-//		//int i = this.albumFotografico.size();
-//		List<AlbumFotografico> albumFotografici = new ArrayList<AlbumFotografico>(this.albumFotografico);
-//			for(int i=0 ; i<albumFotografici.size(); i++){
-//				if(albumFotografici.get(i).getTag().contains("profile")){
-//					List<Foto> fotos = new ArrayList<Foto>(albumFotografici.get(i).getFoto());
-//					for(int j=0; j<fotos.size(); j++){
-//						return fotos.get(j);
-//					}
-//				
-//				}
-//			}
-//			return null;
-//	}
 	
 	public void setFotoProfilo(AlbumFotografico al){
 		//AlbumFotografico albumFotograficoProfilo = this.getAlbumProfilo();
@@ -495,5 +485,10 @@ public abstract class Utente implements Serializable{
 		}
 		return null; //Gestire con un eccezzione
 	}
-	
+	public void addSenderConversation(Conversation c){
+		this.conversationMitt.add(c);
+	}
+	public void addRiceverConversation(Conversation c){
+		this.conversationDest.add(c);
+	}
 	}

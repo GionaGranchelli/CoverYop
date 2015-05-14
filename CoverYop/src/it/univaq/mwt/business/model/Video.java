@@ -1,28 +1,21 @@
 package it.univaq.mwt.business.model;
 
+import static javax.persistence.AccessType.PROPERTY;
+import static javax.persistence.FetchType.LAZY;
+import static javax.persistence.TemporalType.DATE;
+
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Set;
 
+import javax.persistence.Access;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
-
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 
-import java.util.Collection;
-import java.util.Set;
-
-import static javax.persistence.FetchType.LAZY;
-
-import javax.persistence.Access;
-
-import static javax.persistence.TemporalType.DATE;
-import static javax.persistence.AccessType.PROPERTY;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Access(PROPERTY)
@@ -39,7 +32,7 @@ public class Video implements Serializable{
 
 	private String url;
 	
-	
+	@JsonBackReference
 	private Utente utente; 
 
 	private static final long serialVersionUID = 1L;

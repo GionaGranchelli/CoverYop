@@ -1,19 +1,16 @@
 package it.univaq.mwt.business.model;
 
 import static javax.persistence.AccessType.PROPERTY;
-import static javax.persistence.CascadeType.PERSIST;
-import static javax.persistence.CascadeType.REFRESH;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.Calendar;
 
 import javax.persistence.Access;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;

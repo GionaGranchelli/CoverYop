@@ -26,6 +26,8 @@ import javax.persistence.OrderBy;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Temporal;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Access(PROPERTY)
 @PrimaryKeyJoinColumn(name = "gruppo_id", referencedColumnName = "USER_ID")
@@ -132,7 +134,7 @@ public class Gruppo extends Utente implements Serializable {
 	public void setNomeGruppo(String nomeGruppo) {
 		this.nomeGruppo = nomeGruppo;
 	}
-
+	@JsonIgnore
 	@Embedded
 	public ServiceMusicale getService() {
 		return service;
@@ -141,7 +143,7 @@ public class Gruppo extends Utente implements Serializable {
 	public void setService(ServiceMusicale service) {
 		this.service = service;
 	}
-
+	@JsonIgnore
 	@Embedded
 	public Cachet getCachet() {
 		return cachet;
@@ -151,7 +153,7 @@ public class Gruppo extends Utente implements Serializable {
 		this.cachet = cachet;
 	}
 
-
+	@JsonIgnore
 	@OneToMany(fetch=FetchType.EAGER, mappedBy="gruppo",cascade={PERSIST, REFRESH, REMOVE, CascadeType.MERGE})
 	public Set<Album> getAlbums() {
 		return albums;
@@ -164,7 +166,7 @@ public class Gruppo extends Utente implements Serializable {
 	public void addAlbum(Album album) {
 		this.albums.add(album);
 	}
-
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "gruppo", cascade = { PERSIST,
 			REFRESH, REMOVE })
 	public Set<Componente> getComponente() {
@@ -178,7 +180,7 @@ public class Gruppo extends Utente implements Serializable {
 	public void addComponente(Componente componente) {
 		this.componente.add(componente);
 	}
-
+	@JsonIgnore
 	// @ManyToMany(mappedBy="gruppi")
 	@ManyToMany(cascade = { PERSIST, MERGE, REFRESH })
 	@OrderBy("data DESC")
@@ -196,7 +198,7 @@ public class Gruppo extends Utente implements Serializable {
 	public void removeEvento(Evento evento){
 		this.eventi.remove(evento);
 	}
-
+	@JsonIgnore
 	@ManyToMany(fetch = FetchType.EAGER, cascade = { PERSIST, REFRESH })
 	public Set<Genere> getGeneri() {
 		return generi;
@@ -231,7 +233,7 @@ public class Gruppo extends Utente implements Serializable {
 	// public void setFeedback(Set<Feedback> feedback) {
 	// this.feedback = feedback;
 	// }
-
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, cascade = { PERSIST, REFRESH }, mappedBy = "gruppo")
 	public Set<Tour> getTour() {
 		return tour;
@@ -245,7 +247,7 @@ public class Gruppo extends Utente implements Serializable {
 		t.setGruppo(this);
 		tour.add(t);
 	}
-
+	@JsonIgnore
 	@OneToOne(cascade = { REMOVE })
 	public Scaletta getScaletta() {
 		return scaletta;
@@ -254,7 +256,7 @@ public class Gruppo extends Utente implements Serializable {
 	public void setScaletta(Scaletta scaletta) {
 		this.scaletta = scaletta;
 	}
-
+	@JsonIgnore
 	@ManyToMany(cascade = { PERSIST, REFRESH })
 	public Set<GruppoDiRiferimento> getGruppi_rif() {
 		return gruppi_rif;

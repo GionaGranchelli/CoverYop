@@ -1,29 +1,22 @@
 package it.univaq.mwt.business.model;
 
+import static javax.persistence.AccessType.PROPERTY;
+import static javax.persistence.CascadeType.PERSIST;
+import static javax.persistence.CascadeType.REFRESH;
+
 import java.io.Serializable;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Access;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.Id;
-
-import static javax.persistence.CascadeType.PERSIST;
-import static javax.persistence.CascadeType.REFRESH;
-
 import javax.persistence.OneToMany;
-
-import java.util.Collection;
-import java.util.Set;
-
-import javax.persistence.Access;
-
-import static javax.persistence.AccessType.PROPERTY;
-
 import javax.persistence.PrimaryKeyJoinColumn;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Access(PROPERTY)
@@ -101,7 +94,7 @@ public class Locale extends Utente implements Serializable{
 		this.nomeLocale = nomeLocale;
 	}
 
-
+	@JsonIgnore
 	@Embedded
 	public ServiceMusicale getService() {
 		return service;
@@ -137,7 +130,7 @@ public class Locale extends Utente implements Serializable{
 		this.contatti = contatti;
 	}
 
-
+	@JsonIgnore
 	@OneToMany(mappedBy="locale", fetch=FetchType.EAGER, cascade={PERSIST, REFRESH})
 	public Set<Evento> getEventi() {
 		return eventi;
