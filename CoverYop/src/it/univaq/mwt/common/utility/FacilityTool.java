@@ -1,19 +1,25 @@
 package it.univaq.mwt.common.utility;
 
+import it.univaq.mwt.business.GruppoService;
+import it.univaq.mwt.business.RuoloService;
+import it.univaq.mwt.business.form.utente.FormConversation;
+import it.univaq.mwt.business.model.AlbumFotografico;
+import it.univaq.mwt.business.model.Conversation;
+import it.univaq.mwt.business.model.Foto;
+import it.univaq.mwt.business.model.Gruppo;
+import it.univaq.mwt.business.model.Locale;
+import it.univaq.mwt.business.model.Message;
+import it.univaq.mwt.business.model.Ruolo;
+import it.univaq.mwt.business.model.Utente;
+
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import it.univaq.mwt.business.RuoloService;
-import it.univaq.mwt.business.model.AlbumFotografico;
-import it.univaq.mwt.business.model.Foto;
-import it.univaq.mwt.business.model.Gruppo;
-import it.univaq.mwt.business.model.Locale;
-import it.univaq.mwt.business.model.Ruolo;
-import it.univaq.mwt.business.model.Utente;
+import javax.print.attribute.HashAttributeSet;
 
 public final class FacilityTool {
 
@@ -144,6 +150,39 @@ public final class FacilityTool {
 
 	public static String[] splitResultBySeparator(String nome) {
 		String[] parti = nome.split("::");
+		return parti;
+	}
+	
+	//Solo con nuove conversazioni
+	public static Conversation createConversation(Utente mittente, FormConversation conversation, Gruppo gruppoDestinatario){
+		
+		Conversation conv = new Conversation();
+		conv.setTitolo(conversation.getTitolo());
+		conv.setMittente(mittente);
+		conv.setDestinatario(gruppoDestinatario);
+		conv.setData(Calendar.getInstance());
+		conv.setStatus(1);
+
+		return conv;
+	}
+	public static Message createMessagePerConversation(String corpo, Conversation conv){
+		
+
+		Message msg = new Message();
+		msg.settext(corpo);
+		msg.setAutore(conv.getMittente());
+		msg.setConversation(conv);
+		msg.setDataInvio(Calendar.getInstance());
+		msg.setStatus(1);
+		List<Message> messaggi = new ArrayList<Message>();
+		messaggi.add(msg);
+		conv.setMessage(messaggi);
+		return msg;
+	}
+
+	public static String[] splitConvNameGroup(String destinatario) {
+		String[] parti = destinatario.split("::");
+		
 		return parti;
 	}
 }

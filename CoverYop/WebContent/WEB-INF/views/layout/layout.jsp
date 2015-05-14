@@ -89,8 +89,8 @@
 <!-- Generic page styles -->
 <%-- <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/upload-file/css/style.css"> --%>
 <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/upload-file/css/jquery.fileupload.css">
+<!-- <link rel="stylesheet" -->
+<%-- 	href="${pageContext.request.contextPath}/resources/upload-file/css/jquery.fileupload.css"> --%>
 <!-- Data Picker -->
 <script
 	src="${pageContext.request.contextPath}/resources/js/jquery.ui.timepicker.js"></script>

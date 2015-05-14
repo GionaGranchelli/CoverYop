@@ -4,40 +4,42 @@
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <script type="text/javascript" charset="utf-8">
-	$(document)
-			.ready(
-					function() {
-						$('#titles_id')
-								.dataTable(
+	$(document).ready(function() {
+						$('#titles_id').dataTable(
 										{"bProcessing" : true,
-											"bJQueryUI" : true,
-											"bServerSide" : true,
-											"sAjaxDataProp" : "rows",
-											"aoColumns" : [
+										 "bJQueryUI" : true,
+										 "bServerSide" : true,
+										 "sAjaxDataProp" : "rows",
+										 "aoColumns" : [
 													{"mData" : "id"},
 													{"mData" : "titolo"},
-													{"mData" : "destinatario.nome", "sDefaultContent": ""},
+													{"mData" : "destinatario.username", 
+													 "sDefaultContent": ""},
 													{"mData" : "data"},
 													{"sName" : "id",
 													 "bSearchable" : false,
 													 "bSortable" : false,
 													 "sDefaultContent" : "",
-													 "fnRender" : function(
-																oObj) {
-															return "<a href='${pageContext.request.contextPath}/messages/update_start.do?id="
+													 "fnRender" : function(oObj) {
+													 
+														 return "<a href='${pageContext.request.contextPath}/messages/conversation/"
 																	+ oObj.aData['id']
-																	+ "'>Modifica</a>"
+																	+ "'>Leggi</a>"
 																	+ " | "
-																	+ "<a href='${pageContext.request.contextPath}/messages/delete_start.do?id="
+																	+ "<a href='${pageContext.request.contextPath}/messages/conversation/delete/"
 																	+ oObj.aData['id']
 																	+ "'>Cancella</a>";
 
 														}
 													} ],
 											"sAjaxSource" : "${pageContext.request.contextPath}/messages/findAllConversationPaginated.do",
-											"fnServerParams" : addsortparams
-										});
-
+											"fnServerParams" : addsortparams,
+											"fnDrawCallback" : function( oSetting){
+												getDateJJ();
+												
+											}
+										})
+						
 					});
 </script>
 
@@ -68,10 +70,10 @@
 	<div class="container">
 		<div class="col-md-1"></div>
 		<div class="col-md-9">
-			<table id="titles_id">
+			<table id="titles_id" class="layout display responsive-table">
 				<thead>
 					<tr>
-						<th>ID</th>
+						<th>Id</th>
 						<th>Titolo</th>
 						<th>Destinatario</th>
 						<th>Data</th>
@@ -82,130 +84,125 @@
 				</tbody>
 			</table>
 		</div>
+
+
 		<div class="col-md-2"></div>
 		<hr class="divider">
 
-		<!-- 				<h2>Invia Un Messaggio</h2> -->
-		<!-- 				contact form -->
+						<h2>Invia Un Messaggio</h2>
+						contact form
 
-		<!-- 		        <div class="tabs-wrap"> -->
-		<!-- 		         <ul class="tabs"> -->
-		<!--                             <li><a href="#tab-gruppo" class="active-tab">Contatta Un Gruppo</a></li> -->
-		<!--                             <li><a href="#tab-locale">Contatta Un Locale</a></li> -->
-		<!-- 		       </ul> -->
+				        <div class="tabs-wrap">
+				         <ul class="tabs">
+		                            <li><a href="#tab-gruppo" class="active-tab">Contatta Un Gruppo</a></li>
+		                            <li><a href="#tab-locale">Contatta Un Locale</a></li>
+				       </ul>
 
-		<!-- 		       <div id="tab-gruppo" class="tab-content"> -->
+				       <div id="tab-gruppo" class="tab-content">
 
-		<%-- 		        <form action="${pageContext.request.contextPath}/messages/addconversationGroup/"  --%>
-		<%-- 		        	method="post"  --%>
-		<%-- 		        	class="form contact-form" --%>
-		<%-- 		        	id="formConversation"> --%>
-		<!-- 		        	<div class="row clearfix"> -->
+				        <form action="${pageContext.request.contextPath}/messages/addconversationGroup/" 
+		 		        	method="post" 
+		 		        	class="form contact-form"
+				        	id="formConversation"> 
+				        	<div class="row clearfix">
 
-		<!-- 		 				<div class="col-1-3"> -->
-		<!-- 		 					<label for="contact-name"><strong>Nome Del Gruppo</strong> </label> -->
-		<!-- 							<input type="text" name="destinatario"  id="idGruppo" required> -->
-		<!-- 		 				</div> -->
-		<!-- 		 				<div class="col-1-3"> -->
-		<!-- 		 						<label for="contact-www"><strong>Titolo</strong></label> -->
-		<!-- 							<input   name="titolo"  id="titolo"></input> -->
-		<!-- 		 				</div> -->
-		<!-- 		 				<div class="col-1-3 last"> -->
+				 				<div class="col-1-3">
+				 					<label for="contact-name"><strong>Nome Del Gruppo</strong> </label>
+									<input type="text" name="destinatario"  id="idGruppo" required>
+				 				</div>
+				 				<div class="col-1-3">
+				 						<label for="contact-www"><strong>Titolo</strong></label>
+									<input   name="titolo"  id="titolo"></input>
+				 				</div>
+				 				<div class="col-1-3 last">
 
-		<!-- 		 				</div> -->
-		<!-- 		        	</div> -->
-		<!-- 		        	<div class="row clearfix"> -->
-		<!-- 		        		<div class="col-1-1"> -->
-		<!-- 		        			<label for="contact-message"><strong>Testo</strong> </label> -->
-		<!-- 							<textarea name="corpo" id="corpo"></textarea> -->
-		<!-- 						</div> -->
-		<!-- 		        	</div> -->
-		<!-- 					<input type="submit" value="Invia" class="large invert"> -->
-		<!-- 					<div class="clear"></div> -->
-		<%-- 		        </form> --%>
-		<!-- 		</div> -->
+				 				</div>
+				        	</div>
+				        	<div class="row clearfix">
+				        		<div class="col-1-1">
+				        			<label for="contact-message"><strong>Testo</strong> </label>
+									<textarea name="corpo" id="corpo"></textarea>
+								</div>
+				        	</div>
+							<input type="submit" value="Invia" class="large invert">
+							<div class="clear"></div>
+				        </form>
+				</div>
 
 
-		<!-- 		 <div id="tab-locale" class="tab-content"> -->
+				 <div id="tab-locale" class="tab-content">
 
-		<%-- 		        <form action="${pageContext.request.contextPath}/messages/addconversationLocal/"  --%>
-		<%-- 		        	method="post"  --%>
-		<%-- 		        	class="form contact-form" --%>
-		<%-- 		        	id="formConversation"> --%>
-		<!-- 		        	<div class="row clearfix"> -->
-		<!-- 		 				<div class="col-1-3"> -->
-		<!-- 		 					<label for="contact-name"><strong>Nome Del Locale</strong> </label> -->
-		<!-- 							<input type="text" name="destinatario"  id="idLocale" required> -->
-		<!-- 		 				</div> -->
-		<!-- 		 				<div class="col-1-3"> -->
-		<!-- 		 						<label for="contact-www"><strong>Titolo</strong></label> -->
-		<!-- 							<input   name="titolo"  id="titolo"></input> -->
-		<!-- 		 				</div> -->
-		<!-- 		 				<div class="col-1-3 last"> -->
+				        <form action="${pageContext.request.contextPath}/messages/addconversationLocal/" 
+		        	method="post" 
+				        	class="form contact-form"
+		 		        	id="formConversation"> 
+				        	<div class="row clearfix">
+				 				<div class="col-1-3">
+				 					<label for="contact-name"><strong>Nome Del Locale</strong> </label>
+									<input type="text" name="destinatario"  id="idLocale" required>
+				 				</div>
+				 				<div class="col-1-3">
+				 						<label for="contact-www"><strong>Titolo</strong></label>
+									<input   name="titolo"  id="titolo"></input>
+				 				</div>
+				 				<div class="col-1-3 last">
 
-		<!-- 		 				</div> -->
-		<!-- 		        	</div> -->
-		<!-- 		        	<div class="row clearfix"> -->
-		<!-- 		        		<div class="col-1-1"> -->
-		<!-- 		        			<label for="contact-message"><strong>Testo</strong> </label> -->
-		<!-- 							<textarea name="corpo" id="corpo"></textarea> -->
-		<!-- 						</div> -->
-		<!-- 		        	</div> -->
-		<!-- 					<input type="submit" value="Invia" class="large invert"> -->
-		<!-- 					<div class="clear"></div> -->
-		<%-- 		        </form> --%>
-		<!-- 		</div> -->
+				 				</div>
+				        	</div>
+				        	<div class="row clearfix">
+				        		<div class="col-1-1">
+				        			<label for="contact-message"><strong>Testo</strong> </label>
+									<textarea name="corpo" id="corpo"></textarea>
+								</div>
+				        	</div>
+							<input type="submit" value="Invia" class="large invert">
+							<div class="clear"></div>
+				        </form>
+				</div>
 
-		<!-- 		</div> -->
-		<!-- /container -->
+				</div>
+		</container>
 
 	</div>
 
 </section>
-
 <script>
-	$(document)
-			.ready(
-					function() {
-						$("#idGruppo")
-								.autocomplete(
+
+function timeConverter(UNIX_timestamp){
+	  var a = new Date(UNIX_timestamp);
+	  var months = ['Gen','Feb','Mar','Apr','Mag','Giu','Lug','Ago','Set','Ott','Nov','Dic'];
+	  var year = a.getFullYear();
+	  var month = months[a.getMonth()];
+	  var date = a.getDate();
+	  var hour = a.getHours();
+	  var min = a.getMinutes();
+	  var sec = a.getSeconds();
+	  var time = date + ', ' + month + ' ' + year ;
+	  return time;
+	}
+	function getDateJJ(){
+		setTimeout(function (){
+			$('table tr td:nth-child(4)').each(function( index ) {
+ 				  var qualcosa = parseInt($( this ).text());
+ 				  
+ 				 console.log("Ualcosa " + qualcosa);
+				  $(this).empty();
+				  $(this).append(timeConverter(qualcosa));
+				});
+
+			}, 1000);	
+	}
+	
+</script>
+<script>
+	$(document).ready(function() {
+						$("#idGruppo").autocomplete(
 										{
 											source : "${pageContext.request.contextPath}/messages/get_groups_list",
 											paramName : "term",
 											delimiter : ",",
 											transformResult : function(response) {
-
-												return {
-
-													//must convert json to javascript object before process
-													suggestions : $
-															.map(
-																	$
-																			.parseJSON(response),
-																	function(
-																			dataItem) {
-																		return {
-																			value : dataItem.value,
-																			data : dataItem.label
-																		};
-																	})
-
-												};
-
-											}
-
-										});
-
-						$("#idLocale")
-								.autocomplete(
-										{
-											source : "${pageContext.request.contextPath}/messages/get_locals_list",
-											paramName : "term",
-											delimiter : ",",
-											transformResult : function(response) {
-
-												return {
-
+											return {
 													//must convert json to javascript object before process
 													suggestions : $.map($.parseJSON(response),
 																	function(dataItem) {
@@ -220,7 +217,33 @@
 											}
 
 										});
+					$("#idLocale").autocomplete(
+										{
+											source : "${pageContext.request.contextPath}/messages/get_locals_list",
+											paramName : "term",
+											delimiter : ",",
+											transformResult : function(response) {
+											return {
+											//must convert json to javascript object before process
+													suggestions : $.map($.parseJSON(response),
+																	function(dataItem) {
+																		return {
+																			value : dataItem.value,
+																			data : dataItem.label
+																		};
+																	})
 
+												};
+
+											}
+
+										});
+						
 					});
+
+	
+		
+	
+
 </script>
 

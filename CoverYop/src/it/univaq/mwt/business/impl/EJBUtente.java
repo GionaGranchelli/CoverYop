@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 @Service
 public class EJBUtente implements UtenteService {
 	
@@ -24,5 +25,14 @@ public class EJBUtente implements UtenteService {
 		Utente user = em.find(Utente.class, id);
 		return user;
 	}
+	@Transactional
+	public void update(Utente utente){
+		em.merge(utente);
+	}
 
+	@Override
+	public Utente findUtente(Utente u) {
+		Utente user = em.find(Utente.class, u.getId());
+		return user;
+	}
 }

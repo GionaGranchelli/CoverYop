@@ -39,7 +39,7 @@ public class EJBconversation implements ConversationService {
 
 	@Override
 	public Set<Conversation> findAllConversationByUserId(Utente u) {
-		// TODO Auto-generated method stub
+		Conversation conversation = em.find(Conversation.class, u.getId());
 		return null;
 	}
 
@@ -79,11 +79,15 @@ public class EJBconversation implements ConversationService {
 
 	@Override
 	public ResponseGrid<Conversation> findAllConversationPaginated(RequestGrid requestGrid, Utente u) {
-
-		String orderBy = (!"".equals(requestGrid.getSortCol()) && !"".equals(requestGrid
-				.getSortDir())) ? "ORDER BY " + requestGrid.getSortCol() + " "
-				+ requestGrid.getSortDir() : "";
-				
+		
+		if ("id".equals(requestGrid.getSortCol())) {
+			requestGrid.setSortCol("cv.id");
+		} else {
+			requestGrid.setSortCol("cv." + requestGrid.getSortCol());
+		}
+		
+		String orderBy = (!"".equals(requestGrid.getSortCol()) && !"".equals(requestGrid.getSortDir())) ? "order by " + requestGrid.getSortCol() + " " + requestGrid.getSortDir() : "";
+		
 		String baseSearch = "SELECT DISTINCT cv "
 				+ "FROM Conversation cv "
 				+ "WHERE cv.mittente.id =" + u.getId();
@@ -91,10 +95,7 @@ public class EJBconversation implements ConversationService {
 			String queryLow = requestGrid.getsSearch().toLowerCase();
 			baseSearch = baseSearch + " AND lower(cv.titolo) LIKE '" + ConversionUtility.addPercentSuffix(queryLow)+"'";
 		}
-		System.out.println("Search Base");
-		System.out.println(baseSearch);
-
-//		String countSql = "select count(*) from (" + baseSearch + ")";
+		if(orderBy != null ) baseSearch = baseSearch + orderBy;
 		Query query = em.createQuery(baseSearch);
 		List<Conversation>result = (List<Conversation>) query.getResultList();
 	
