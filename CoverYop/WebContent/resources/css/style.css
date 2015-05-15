@@ -3551,3 +3551,22 @@ label.errorSignup{
 	font-family: cursive;
 	text-decoration: underline;
 }
+
+.qualcosa {
+	  width: 250px;
+  height: 250px;
+  float: left;
+}
+.photoDeleter{
+  width: 68px;
+  /* margin-top: -10%; */
+  /* margin-left: 5%; */
+  border: 1px solid black;
+  z-index: 1;
+  position: relative;
+  top: -12%;
+  left: 1px;
+  background-color:#ea4233;}
+  .photoDeleter a{
+  color:black;
+  }

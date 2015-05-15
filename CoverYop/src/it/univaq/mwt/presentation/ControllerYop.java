@@ -2,12 +2,10 @@ package it.univaq.mwt.presentation;
 
 //import it.univaq.mwt.business.model.Gruppo;
 
-
 import it.univaq.mwt.common.utility.FacilityTool;
 import it.univaq.mwt.business.AlbumFotograficoService;
 import it.univaq.mwt.business.AlbumService;
 import it.univaq.mwt.business.CanzoneService;
-
 
 import it.univaq.mwt.business.EventoService;
 import it.univaq.mwt.business.FotoService;
@@ -69,7 +67,7 @@ import com.sun.org.apache.bcel.internal.generic.NEWARRAY;
 @RequestMapping("/")
 public class ControllerYop {
 
-	@Autowired 
+	@Autowired
 	CanzoneService cs;
 	@Autowired
 	AlbumService fs;
@@ -98,7 +96,7 @@ public class ControllerYop {
 
 	@RequestMapping("/")
 	public String welcome(Model model) throws NamingException {
-		//ultimi artisti
+		// ultimi artisti
 		List<Gruppo> ultimiGruppi = gs.findLastSubscribed(4);
 		List<Genere> generi = ges.findAllGeneri();
 		List<Canzone> ultimeSong = cs.findLastSong(4);
@@ -121,7 +119,7 @@ public class ControllerYop {
 	public String accedi() {
 		return "common.login";
 	}
-	
+
 	@RequestMapping("/ContactUs")
 	public String contactUs() {
 		return "common.contactus";
@@ -129,93 +127,92 @@ public class ControllerYop {
 
 	@RequestMapping("/Signup")
 	public String signUp(Model model) {
-		model.addAttribute("formGruppi",  new Gruppo());
-		model.addAttribute("formLocali",  new Locale());
+		model.addAttribute("formGruppi", new Gruppo());
+		model.addAttribute("formLocali", new Locale());
 		return "common.register";
 	}
-	
-	@RequestMapping(value="/createGroup")
-	public String createGroup( @ModelAttribute("formGruppi") Gruppo gruppo, BindingResult bindingResult, Model model) throws Exception {		
+
+	@RequestMapping(value = "/createGroup")
+	public String createGroup(@ModelAttribute("formGruppi") Gruppo gruppo, BindingResult bindingResult, Model model) throws Exception {
 		gv.validate(gruppo, bindingResult);
 		if (bindingResult.hasErrors()) {
-			model.addAttribute("formLocali",  new Locale());
+			model.addAttribute("formLocali", new Locale());
 			return "common.register";
 		}
 		gruppo = FacilityTool.finalizeGruppoInfo(gruppo, rs);
-	    gs.createGruppo(gruppo);
+		gs.createGruppo(gruppo);
 		return "common.index";
 	}
-	
+
 	@RequestMapping("/createLocale")
-	public String createLocale(@ModelAttribute("formLocali") Locale locale, BindingResult bindingResult, Model model) throws Exception {	   
+	public String createLocale(@ModelAttribute("formLocali") Locale locale,
+			BindingResult bindingResult, Model model) throws Exception {
 		lv.validate(locale, bindingResult);
 		if (bindingResult.hasErrors()) {
-			model.addAttribute("formGruppi",  new Gruppo());
+			model.addAttribute("formGruppi", new Gruppo());
 			return "common.register";
 		}
-	    locale = FacilityTool.finalizeLocaleInfo(locale, rs);
-	    ls.createLocale(locale);
-	    return "common.index";
+		locale = FacilityTool.finalizeLocaleInfo(locale, rs);
+		ls.createLocale(locale);
+		return "common.index";
 	}
-	
+
 	@RequestMapping("/Cerca")
-	public String cerca(@RequestParam(value = "nome", required=false)String nome, Model model){
+	public String cerca(@RequestParam(value = "nome", required = false) String nome,
+			Model model) {
 		List<Utente> risultati = gs.SearchUsers(nome);
 		List<Gruppo> risultatoGruppi = FacilityTool.splitResultG(risultati, 1);
 		List<Locale> risultatoLocali = FacilityTool.splitResultL(risultati, 2);
-		model.addAttribute("gruppi",risultatoGruppi);
-		model.addAttribute("locali",risultatoLocali);
+		model.addAttribute("gruppi", risultatoGruppi);
+		model.addAttribute("locali", risultatoLocali);
 		List<Evento> risultatoEventi = es.findEventoByName(nome);
-		model.addAttribute("eventi",risultatoEventi);
+		model.addAttribute("eventi", risultatoEventi);
 		return "common.general_search";
 	}
-	
+
 	@RequestMapping("/Groups")
-	public String groupHome(@RequestParam(value = "nome", required=false)String nome,
-							@RequestParam(value = "citta", required=false)String citta,
-							@RequestParam(value = "genere", required=false)String genere,
-							Model model) {
+	public String groupHome(@RequestParam(value = "nome", required = false) String nome,
+			@RequestParam(value = "citta", required = false) String citta,
+			@RequestParam(value = "genere", required = false) String genere, Model model) {
 		List<Gruppo> gruppi = gs.customSearchGruppi(nome, citta, genere);
 		model.addAttribute("gruppi", gruppi);
 		List<Genere> generi = ges.findAllGeneri();
-		model.addAttribute("generi",generi);
+		model.addAttribute("generi", generi);
 		return "group.welcome";
 	}
-	
+
 	@RequestMapping("/Groups/SearchResult")
-	public String groupSearch(){
-		
+	public String groupSearch() {
 		return null;
 	}
 
 	@RequestMapping("/Group/{id}")
-	public String groupProfile(@PathVariable("id") int id, Model model){
-		
+	public String groupProfile(@PathVariable("id") int id, Model model) {
 		Gruppo viewGroup = gs.findGruppoById(id);
 		model.addAttribute("gruppo", viewGroup);
-		
-		String[] title = FacilityTool.splitName(viewGroup.getNomeGruppo()); 
+		String[] title = FacilityTool.splitName(viewGroup.getNomeGruppo());
 		model.addAttribute("titolo_page_1", title[0]);
-		model.addAttribute("titolo_page_1", title[1]);		
-		model.addAttribute("album", viewGroup.getAlbums());				
-		model.addAttribute("album_foto", viewGroup.getAlbumFotografico());		
+		model.addAttribute("titolo_page_2", title[1]);
+		model.addAttribute("album", viewGroup.getAlbums());;		
 		model.addAttribute("soundcloud", new ArrayList<Video>(viewGroup.getVideo()));		
 		model.addAttribute("eventi", viewGroup.getEventi());			
 		model.addAttribute("canali",viewGroup.getCanale());				
 		model.addAttribute("generi", viewGroup.getGeneri());			
+
 		model.addAttribute("gruppidiriferimento", viewGroup.getGruppi_rif());
-		model.addAttribute("scaletta", viewGroup.getScaletta().getCanzoni());	 
+		model.addAttribute("scaletta", viewGroup.getScaletta().getCanzoni());
 		return "group.profile";
-	 }
+	}
 
 	@RequestMapping("/Locals")
-	public String localHome(@RequestParam(value = "nome", required=false)String nome,
-							@RequestParam(value = "citta", required=false)String citta,
-							@RequestParam(value = "tipologia", required=false)String tipologia, Model model) {
-		
+	public String localHome(@RequestParam(value = "nome", required = false) String nome,
+			@RequestParam(value = "citta", required = false) String citta,
+			@RequestParam(value = "tipologia", required = false) String tipologia,
+			Model model) {
+
 		List<Locale> locali = ls.customSearchLocali(nome, citta, tipologia);
 		model.addAttribute("locali", locali);
-		
+
 		List<Categoria> categorie = new ArrayList<Categoria>();
 		categorie = ls.getAllCategorieByLocali(locali);
 		model.addAttribute("categorie", categorie);
@@ -223,41 +220,37 @@ public class ControllerYop {
 	}
 
 	@RequestMapping("/Local/{id}")
-	public String localProfile(@PathVariable("id") int id, Model model){
-	
-	
-	Locale locale = ls.findLocaleById(id);
-	String[] title = FacilityTool.splitName(locale.getNomeLocale());
-	model.addAttribute("titolo_page_1", title[0]);
-	model.addAttribute("titolo_page_2", title[1]);
+	public String localProfile(@PathVariable("id") int id, Model model) {
 
-	model.addAttribute("locale",locale);
-	Set<Evento> events = new HashSet<Evento>(locale.getEventi());	
-	model.addAttribute("eventi", events);
-	Canale channel = locale.getCanale();
-	model.addAttribute("canali",channel); 
-	
-	model.addAttribute("slideshow", locale.getAlbumSlider().getFoto());
-	
-	List<Video> video = new ArrayList<Video>(locale.getVideo());
-	model.addAttribute("video", video);
+		Locale locale = ls.findLocaleById(id);
+		String[] title = FacilityTool.splitName(locale.getNomeLocale());
+		model.addAttribute("titolo_page_1", title[0]);
+		model.addAttribute("titolo_page_2", title[1]);
+		model.addAttribute("locale", locale);
+		Set<Evento> events = new HashSet<Evento>(locale.getEventi());
+		model.addAttribute("eventi", events);
+		Canale channel = locale.getCanale();
+		model.addAttribute("canali", channel);
+		model.addAttribute("slideshow", locale.getAlbumSlider().getFoto());
+		List<Video> video = new ArrayList<Video>(locale.getVideo());
+		model.addAttribute("video", video);
 
-	return "local.profile";
+		return "local.profile";
 	}
 
 	@RequestMapping("/Group/welcome.do")
 	public String groupWelcome() {
 		return "group.profile";
 	}
-	
+
 	@RequestMapping("/redirect")
-	 public String redirectHome() {
-	 	String role = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
-	 	return FacilityTool.getLoginRedirection(role);
-	 }
-	
+	public String redirectHome() {
+		String role = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
+		return FacilityTool.getLoginRedirection(role);
+	}
+
 	@RequestMapping("/inbox")
-	 public String inbox() {
-	 	return "list.conversation";
-	 }
+	public String inbox() {
+		return "list.conversation";
+	}
 }

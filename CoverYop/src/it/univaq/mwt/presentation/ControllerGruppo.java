@@ -112,16 +112,15 @@ public class ControllerGruppo {
 	@RequestMapping("/Utente")
 	private String profilo(Model model) {
 		Gruppo viewGroup = gruppoServ.findGruppoByUtente(utente);
+		String[] title = FacilityTool.splitName(viewGroup.getNomeGruppo());
+		model.addAttribute("titolo_page_1", title[0]);
+		model.addAttribute("titolo_page_2", title[1]);
 		model.addAttribute("utente", viewGroup);
 		return "profiloUtente.loggato";
 	}
 
 	@RequestMapping(value = "/updateUtente", method = RequestMethod.POST)
-	private String modificaUtente(@ModelAttribute("utente") Gruppo gruppo,
-	// BindingResult bindingResult, inserire controllo e
-	// validazione----successivamente provare a mergiare direttamente senza fare
-	// i set
-			Model model) {
+	private String modificaUtente(@ModelAttribute("utente") Gruppo gruppo,	Model model) {
 		Gruppo viewGroup = gruppoServ.findGruppoByUtente(utente);
 		gruppoServ.buildInfoUtente(viewGroup, gruppo);
 		gruppoServ.update(viewGroup);
@@ -131,9 +130,11 @@ public class ControllerGruppo {
 	@RequestMapping("/Multimedia")
 	private String ModificaMultimedia(Model model) {
 		Gruppo viewGroup = gruppoServ.findGruppoByUtente(utente);
+		String[] title = FacilityTool.splitName(viewGroup.getNomeGruppo());
+		model.addAttribute("titolo_page_1", title[0]);
+		model.addAttribute("titolo_page_2", title[1]);
 		model.addAttribute("gruppo", viewGroup);
-		model.addAttribute("fotoProfilo", viewGroup.getFotoProfilo());
-		model.addAttribute("albums", viewGroup.getAlbumFotografico());
+		model.addAttribute("albums", viewGroup.getAlbumSlider());
 		model.addAttribute("albumsMusic", viewGroup.getAlbums());
 		model.addAttribute("videos", viewGroup.getVideo());
 		model.addAttribute("formFotoProfilo", new FormFotoProfilo());
@@ -216,6 +217,9 @@ public class ControllerGruppo {
 	@RequestMapping("/Eventi")
 	private String eventi(Model model) {
 		Gruppo gruppo = gruppoServ.findGruppoByUtente(utente);
+		String[] title = FacilityTool.splitName(gruppo.getNomeGruppo());
+		model.addAttribute("titolo_page_1", title[0]);
+		model.addAttribute("titolo_page_2", title[1]);
 		Set<Evento> eventi =  gruppo.getEventi();
 		List<TipologiaEvento> tipologia = tipologiaService.getAllTipologiaEvento();
 		model.addAttribute("eventi", eventi);

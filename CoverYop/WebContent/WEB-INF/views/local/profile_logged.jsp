@@ -10,8 +10,7 @@
 	<section class="intro-title section border-bottom"
 		style="background-image: url(${pageContext.request.contextPath}/resources/placeholders/blog-grid-bg.jpg)">
 
-		<h2 class="heading-l">${titolo_page_1}
-			<span class="color">${titolo_page_2}</span>
+		<h2 class="heading-l">${titolo_page_1}<span class="color">${titolo_page_2}</span>
 		</h2>
 		<br>
 		<!-- Overlay -->

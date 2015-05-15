@@ -57,10 +57,8 @@ public class ControllerEvento {
 		
 		List<Evento> eventiSet = es.CustomSearchEventi(nome, tipo, luogo);
 		model.addAttribute("eventi", eventiSet);
-		
 		List<TipologiaEvento> tipologia = ts.getAllTipologiaEvento();
 		model.addAttribute("tipologia", tipologia);
-		
 		List<Gruppo> gruppiSet = gs.findAllGruppi();
 		List<Gruppo> gruppi = new ArrayList<Gruppo>(gruppiSet);
 		model.addAttribute("gruppi", gruppi);

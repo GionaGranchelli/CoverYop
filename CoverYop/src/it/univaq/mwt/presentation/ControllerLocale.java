@@ -17,6 +17,7 @@ import it.univaq.mwt.business.form.utente.FormFotoProfilo;
 import it.univaq.mwt.business.model.AlbumFotografico;
 import it.univaq.mwt.business.model.Canale;
 import it.univaq.mwt.business.model.Evento;
+import it.univaq.mwt.business.model.Foto;
 import it.univaq.mwt.business.model.Gruppo;
 import it.univaq.mwt.business.model.Locale;
 import it.univaq.mwt.business.model.TipologiaEvento;
@@ -93,6 +94,10 @@ public class ControllerLocale {
 
 	@RequestMapping("/Utente")
 	private String utenteMod(Model model) {
+		Locale viewLocal = localeService.findLocaleByUser(utente);
+		String[] title = FacilityTool.splitName(viewLocal.getNomeLocale());
+		model.addAttribute("titolo_page_1", title[0]);
+		model.addAttribute("titolo_page_2", title[1]);
 		model.addAttribute("locale", utente);
 		return "localeUtente.loggato";
 	}
@@ -100,6 +105,7 @@ public class ControllerLocale {
 	@RequestMapping(value = "/updateUtente", method = RequestMethod.POST)
 	private String updateUtente(@ModelAttribute("locale") Locale locale, Model model) {
 		Locale l = localeService.findLocaleByUser(utente);
+		
 		localeService.buildInfoUtente(l, locale);
 		localeService.update(l);
 		return "redirect:/Privee/Utente";
@@ -109,9 +115,13 @@ public class ControllerLocale {
 	private String multimedia(Model model) {
 
 		Locale l = localeService.findLocaleByUser(utente);
-		List<AlbumFotografico> albums = new ArrayList<AlbumFotografico>(l.getAlbumFotografico());
+		String[] title = FacilityTool.splitName(l.getNomeLocale());
+		model.addAttribute("titolo_page_1", title[0]);
+		model.addAttribute("titolo_page_2", title[1]);
+		AlbumFotografico albums = l.getAlbumSlider();
 		List<Video> videos = new ArrayList<Video>(l.getVideo());
 		model.addAttribute("albums", albums);
+		model.addAttribute("profilo", l.getId());
 		model.addAttribute("videos", videos);
 		model.addAttribute("formFotoProfilo", new FormFotoProfilo());
 		model.addAttribute("formFoto", new FormFotoAlbum());
@@ -152,6 +162,9 @@ public class ControllerLocale {
 	@RequestMapping("/Eventi")
 	private String eventi(Model model) {
 		Locale l = localeService.findLocaleByUser(utente);
+		String[] title = FacilityTool.splitName(l.getNomeLocale());
+		model.addAttribute("titolo_page_1", title[0]);
+		model.addAttribute("titolo_page_2", title[1]);
 		List<Evento> eventi = new ArrayList<Evento>(l.getEventi());
 		List<TipologiaEvento> tipologia = tipologiaService.getAllTipologiaEvento();
 		model.addAttribute("eventi", eventi);

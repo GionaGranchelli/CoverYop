@@ -396,8 +396,12 @@ public abstract class Utente implements Serializable{
 				if(albumFotograficoTemp.getTag().contains("profile")){
 					while(iF.hasNext()){
 						Foto fotoTemp = iF.next();
-						//System.out.println("+++++ "+fotoTemp.getUrl());
-						return fotoTemp;
+						System.out.println("FOTOID= " + fotoTemp.getId());
+						System.out.println("ALBUM= " + fotoTemp.getAlbumFotografico().getId());
+						if(fotoTemp != null){
+							return fotoTemp;
+						}
+						
 						
 					}
 				}
@@ -428,7 +432,7 @@ public abstract class Utente implements Serializable{
 		}
 		return null;
 	}
-
+	
 	public Conversation sendMessage(Utente l, String Titolo, String Testo) {
 		int id = this.getId();
 		//System.out.println(conversation.getCorpo()+conversation.getTitolo());
