@@ -7,7 +7,7 @@
 
 	<!-- ############################# Intro ############################# -->
 	<section class="revoslider section border-bottom">
-	
+
 		<div class="fullwidthbanner">
 			<ul>
 				<!-- Slide 01 -->
@@ -43,7 +43,7 @@
 				</li>
 				<!-- Slide 02 -->
 				<li data-transition="fade" data-slotamount="0"
-					data-masterspeed="300">	
+					data-masterspeed="300">
 					<!-- Image --> <img
 					src="${pageContext.request.contextPath}/resources/placeholders/revoslider/slide02-bg.jpg">
 					<!-- Layers -->
@@ -108,51 +108,56 @@
 			<!-- Releases -->
 			<div id="featured-releases"
 				class="owl-carousel carousel featured-releases-list">
-			<c:forEach  items="${song}" var="song" varStatus="status">
-				<!-- Release -->
-				<div class="col-1-4 carousel-item featured-release">
-					<!-- Thumbnail -->
-					<a class="thumb-glitch release tip sp-play-track" href="${pageContext.request.contextPath}/resources/${song.url}"
-						 data-thumbicon="plus"> <span
-						class="hoverlayer"></span> <span class="release-badge">${song.titolo.substring(0, 25).concat("...")}</span>
-						<span class="img"> <img
-							src="${pageContext.request.contextPath}/Group/image.html?id=${song.getAlbum().getGruppo().getId()}"
-							alt="Release Image" />
-					</span> <!-- tooltip -->
-						<div class="tip-content hidden">
-							<span>${song.durata}</span> ${song.titolo}
-						</div> <!-- /tooltip -->
-					</a>
-					<!-- /Thumbnail -->
-					<!-- Release footer -->
-					<div class="release-footer">
-						<h2 class="release-title">
-							<a class="track sp-play-track" href="${pageContext.request.contextPath}/resources/${song.url}">${song.getAlbum().nome}</a>
-						</h2>
-						<span class="release-artists"> ${song.getAlbum().getGruppo().getNomeGruppo()}</span>
+				<c:forEach items="${song}" var="song" varStatus="status">
+					<!-- Release -->
+					<div class="col-1-4 carousel-item featured-release">
+						<!-- Thumbnail -->
+						<a class="thumb-glitch release tip sp-play-track"
+							href="${pageContext.request.contextPath}/resources/${song.url}"
+							data-thumbicon="plus"> 
+							<span class="hoverlayer"></span> 
+							<span class="release-badge">${song.titolo}</span>
+							<span class="img"> 
+							<img src="${pageContext.request.contextPath}/Group/image.html?id=${song.getAlbum().getGruppo().getId()}" alt="Release Image" />
+						</span> <!-- tooltip -->
+							<div class="tip-content hidden">
+								<span>Ascolta l'ultima tracci di <strong style="color:#ea4233;">${song.getAlbum().getGruppo().getNomeGruppo()}</strong> dal titolo </span> 
+								<strong style="color:#ea4233;">${song.titolo}</strong> 
+								<span>ed entra nel loro profilo per saperne  di più </span>
+							</div> <!-- /tooltip -->
+						</a>
+						<!-- /Thumbnail -->
+						<!-- Release footer -->
+						<div class="release-footer">
+							<h2 class="release-title">
+								<a class="track sp-play-track"
+									href="${pageContext.request.contextPath}/resources/${song.url}">Album: ${song.getAlbum().nome}</a>
+							</h2>
+							<span class="release-artists">
+								Gruppo: ${song.getAlbum().getGruppo().getNomeGruppo()}</span>
+						</div>
+						<!-- /release footer -->
+						<!-- Release social 
+						<div class="release-social">
+							<a href="${pageContext.request.contextPath}/javascript:;"
+								class="facebook-share"><i class="icon icon-facebook"></i></a> <a
+								href="${pageContext.request.contextPath}/javascript:;"
+								class="twitter-share"><i class="icon icon-twitter"></i></a> <a
+								href="${pageContext.request.contextPath}/javascript:;"
+								class="googleplus-share"><i class="icon icon-googleplus"></i></a>
+							<a href="${pageContext.request.contextPath}/javascript:;"
+								class="googleplus-share floatright"><i
+								class="icon icon-download"></i></a>
+						</div>
+						<!-- /release social -->
 					</div>
-					<!-- /release footer -->
-					<!-- Release social -->
-					<div class="release-social">
-						<a href="${pageContext.request.contextPath}/javascript:;"
-							class="facebook-share"><i class="icon icon-facebook"></i></a> <a
-							href="${pageContext.request.contextPath}/javascript:;"
-							class="twitter-share"><i class="icon icon-twitter"></i></a> <a
-							href="${pageContext.request.contextPath}/javascript:;"
-							class="googleplus-share"><i class="icon icon-googleplus"></i></a>
-						<a href="${pageContext.request.contextPath}/javascript:;"
-							class="googleplus-share floatright"><i
-							class="icon icon-download"></i></a>
-					</div>
-					<!-- /release social -->
-				</div>
-				<!-- /release -->
-		</c:forEach>
-				
+					<!-- /release -->
+				</c:forEach>
+
 
 			</div>
 			<!-- /releases -->
-			
+
 		</div>
 		<!-- /container -->
 	</section>
@@ -178,10 +183,10 @@
 					<select class='nice-select filter' name="genres">
 						<option value="placeholder">All Genres</option>
 						<option value="*">All Genres</option>
-		<c:forEach  items="${generiGruppi}" var="generi" varStatus="status">
-						<option value="${generi.getGenere()}">${generi.getGenere()}</option>
-		</c:forEach>
-						
+						<c:forEach items="${generiGruppi}" var="generi" varStatus="status">
+							<option value="${generi.getGenere()}">${generi.getGenere()}</option>
+						</c:forEach>
+
 					</select>
 
 				</div>
@@ -190,46 +195,42 @@
 
 				<!-- Artists -->
 				<div id="artists" class="masonry clearfix">
-				
-				
-	<c:forEach  items="${gruppi}" var="gruppi" varStatus="status">	
-					<!-- Artist -->
-					<div class="col-1-4 item" data-genres=<c:forEach  items="${gruppi.getGeneri()}" var="generi">
+
+
+					<c:forEach items="${gruppi}" var="gruppi" varStatus="status">
+						<!-- Artist -->
+						<div class="col-1-4 item"
+							data-genres=<c:forEach  items="${gruppi.getGeneri()}" var="generi">
 															"${generi.genere}"
-															</c:forEach> >
-						<!-- Thumbnail -->
-						<a
-							href="${pageContext.request.contextPath}/Group/${gruppi.id}"
-							class="thumb-glitch artist" data-thumbicon="plus"> <span
-							class="hoverlayer"></span> <span class="img"> <img
-								src="${pageContext.request.contextPath}/Group/image.html?id=${gruppi.id}"
-								alt="Artist Image" />
-						</span>
-						</a>
-						<!-- /Thumbnail -->
-						<!-- Artist footer -->
-						<div class="artist-footer">
-							<h2 class="artist-title">
-								<a
-									href="${pageContext.request.contextPath}/Group/${gruppi.id}">${gruppi.nomeGruppo}</a>
-							</h2>
-							<span class="artist-genres">
-															</span>
+															</c:forEach>>
+							<!-- Thumbnail -->
+							<a href="${pageContext.request.contextPath}/Group/${gruppi.id}"
+								class="thumb-glitch artist" data-thumbicon="plus"> <span
+								class="hoverlayer"></span> <span class="img"> <img
+									src="${pageContext.request.contextPath}/Group/image.html?id=${gruppi.id}"
+									alt="Artist Image" />
+							</span>
+							</a>
+							<!-- /Thumbnail -->
+							<!-- Artist footer -->
+							<div class="artist-footer">
+								<h2 class="artist-title">
+									<a href="${pageContext.request.contextPath}/Group/${gruppi.id}">${gruppi.nomeGruppo}</a>
+								</h2>
+								<span class="artist-genres"> </span>
+							</div>
+							<!-- /artist footer -->
+							<!-- Artist social -->
+							<div class="artist-social">
+								<a href="${gruppi.canale.facebook}"	class="facebook-share"><i class="icon icon-facebook"></i></a>
+							<a href="${gruppi.canale.twitter}" class="twitter-share"><i class="icon icon-twitter"></i></a>
+							<a href="${gruppi.canale.googlePlus}" class="googleplus-share"><i class="icon icon-googleplus"></i></a>
+							<a href="${gruppi.canale.youtube}" class="googleplus-share floatright"><i class="icon icon-download"></i></a>
 						</div>
-						<!-- /artist footer -->
-						<!-- Artist social -->
-						<div class="artist-social">
-							<a href="${pageContext.request.contextPath}/javascript:;"
-								class="facebook-share"><i class="icon icon-facebook"></i></a> <a
-								href="${pageContext.request.contextPath}/javascript:;"
-								class="twitter-share"><i class="icon icon-twitter"></i></a> <a
-								href="${pageContext.request.contextPath}/javascript:;"
-								class="googleplus-share"><i class="icon icon-googleplus"></i></a>
+							<!-- /artist social -->
 						</div>
-						<!-- /artist social -->
-					</div>
-					<!-- /artist -->
-			</c:forEach>
+						<!-- /artist -->
+					</c:forEach>
 
 					<!-- row -->
 
@@ -240,19 +241,20 @@
 				<!-- /artists -->
 
 
-			</div>
+			</div><br/>
 			<!-- /container -->
 			<div class="text-center">
-				<a href="${pageContext.request.contextPath}/#!/pages/releases"
-					class="by-ajax btn">View More</a>
+				<a href="${pageContext.request.contextPath}/Groups" class="by-ajax btn">Scopri Altri Gruppi!</a>
 			</div>
 		</section>
 		<!-- /Content -->
-		
+
 	</section>
 	<!-- /page -->
 	<!--  FINE NUOVI ARTISTI -->
-	<section id="featured-section" class="featured-releases section border-top border-bottom" style="background-image: url(${pageContext.request.contextPath}/resources/placeholders/featured-releases-bg.jpg)">
+	<section id="featured-section"
+		class="featured-releases section border-top border-bottom"
+		style="background-image: url(${pageContext.request.contextPath}/resources/placeholders/featured-releases-bg.jpg)">
 		<div class="container">
 			<header class="section-header">
 				<h2 class="section-title">Ultimi Locali</h2>
@@ -260,93 +262,101 @@
 			</header>
 
 			<!-- Releases -->
-			<div id="featured-releases" class="owl-carousel carousel featured-releases-list">
-				
-				<c:forEach items="${locali}" var="locali" varStatus="status">
-				
-				<!-- Release -->
-				<div class="col-1-4 carousel-item featured-release">
-					<!-- Thumbnail -->
-					<a href="#!/pages/release-single" class="thumb-glitch release tip" data-thumbicon="plus">
-						<span class="hoverlayer"></span>
-						<span class="release-badge">${locali.getCategoria().nomeCat} </span>
-						<span class="img">
-							<img src="${pageContext.request.contextPath}/Local/image.html?id=${locali.id}" alt="Release Image" />
-						</span>
-						<!-- tooltip -->
-						<div class="tip-content hidden">
-							<span>${locali.orarioApertura} >>> ${locali.orarioChiusura}</span>
-							${locali.descrizione.substring(0,15).concat("...")}
-						</div>
-						<!-- /tooltip -->
-					</a>
-					<!-- /Thumbnail -->
-					<!-- Release footer -->
-					<div class="release-footer">
-						<h2 class="release-title"><a href="#!/pages/release-single">${locali.nomeLocale}</a></h2>
-						<span class="release-artists">${locali.indirizzo}</span>
-					</div>
-					<!-- /release footer -->
-					<!-- Release social -->
-					<div class="release-social">
-						<a href="${pageContext.request.contextPath}/javascript:;" class="facebook-share"><i class="icon icon-facebook"></i></a>
-						<a href="${pageContext.request.contextPath}/javascript:;" class="twitter-share"><i class="icon icon-twitter"></i></a>
-						<a href="${pageContext.request.contextPath}/javascript:;" class="googleplus-share"><i class="icon icon-googleplus"></i></a>
-						<a href="${pageContext.request.contextPath}/javascript:;" class="googleplus-share floatright"><i class="icon icon-download"></i></a>
-					</div>
-					<!-- /release social -->
-				</div>
-				<!-- /release -->
-		</c:forEach>
+			<div id="featured-releases"
+				class="owl-carousel carousel featured-releases-list">
 
-				
+				<c:forEach items="${locali}" var="locali" varStatus="status">
+
+					<!-- Release -->
+					<div class="col-1-4 carousel-item featured-release">
+						<!-- Thumbnail -->
+						<a href="${pageContext.request.contextPath}/Local/${locali.id}" class="thumb-glitch release tip"
+							data-thumbicon="plus"> <span class="hoverlayer"></span> <span
+							class="release-badge">${locali.getCategoria().nomeCat} </span> <span
+							class="img"> <img
+								src="${pageContext.request.contextPath}/Local/image.html?id=${locali.id}"
+								alt="Release Image" />
+						</span> <!-- tooltip -->
+							<div class="tip-content hidden">
+								<span>
+								Orario A: ${locali.orarioApertura} </br>
+								Orario C:${locali.orarioChiusura}
+								</span>
+								Noi: ${locali.descrizione.substring(0,20).concat("...")}
+							</div> <!-- /tooltip -->
+						</a>
+						<!-- /Thumbnail -->
+						<!-- Release footer -->
+						<div class="release-footer">
+							<h2 class="release-title">
+								<a href="${pageContext.request.contextPath}/Local/${locali.id}">${locali.nomeLocale}</a>
+							</h2>
+							<span class="release-artists">${locali.indirizzo}</span>
+						</div>
+						<!-- /release footer -->
+						<!-- Release social -->
+						<div class="release-social">
+							<a href="${locali.canale.facebook}"	class="facebook-share"><i class="icon icon-facebook"></i></a>
+							<a href="${locali.canale.twitter}" class="twitter-share"><i class="icon icon-twitter"></i></a>
+							<a href="${locali.canale.googlePlus}" class="googleplus-share"><i class="icon icon-googleplus"></i></a>
+							<a href="${locali.canale.youtube}" class="googleplus-share floatright"><i class="icon icon-download"></i></a>
+						</div>
+						<!-- /release social -->
+					</div>
+					<!-- /release -->
+				</c:forEach>
+
+
 
 			</div>
 			<!-- /releases -->
-			
+
 		</div>
+		<br/>
 		<!-- /container -->
-		<div class="text-center"><a href="#!/pages/releases" class="by-ajax btn">Ancora</a></div>
+		<div class="text-center">
+			<a href="${pageContext.request.contextPath}/Groups" class="by-ajax btn">Scopri Altri Locali</a>
+		</div>
 	</section>
 	<!-- ############################# Homepage about ############################# -->
-	<section class="homepage-about section border-top"
-		style="background-image: url(${pageContext.request.contextPath}/resources/placeholders/homepage-footer-bg.jpg)">
-		<!-- container -->
-		<div class="container">
+<!-- 	<section class="homepage-about section border-top" -->
+<%-- 		style="background-image: url(${pageContext.request.contextPath}/resources/placeholders/homepage-footer-bg.jpg)"> --%>
+<!-- 		<!-- container -->
+<!-- 		<div class="container"> -->
 
-			<div class="col-1-2">
-				<h1 class="heading-xl">Yop!</h1>
-				<p class="intro-text caps">Il Social CoverBand</p>
-				<p class="intro-text">Join The Community</p>
-				<a class="stamp-button"
-					href="${pageContext.request.contextPath}/ContactUs">More!</a>
+<!-- 			<div class="col-1-2"> -->
+<!-- 				<h1 class="heading-xl">Yop!</h1> -->
+<!-- 				<p class="intro-text caps">Il Social CoverBand</p> -->
+<!-- 				<p class="intro-text">Join The Community</p> -->
+<!-- 				<a class="stamp-button" -->
+<%-- 					href="${pageContext.request.contextPath}/ContactUs">More!</a> --%>
 
-			</div>
+<!-- 			</div> -->
 
-		</div>
-		<!-- /container -->
-	</section>
+<!-- 		</div> -->
+<!-- 		<!-- /container -->
+<!-- 	</section> -->
 	<!-- /section -->
 
 	<!-- ############################# Newsletter ############################# -->
-<!-- 	<section id="newsletter"> -->
-<!-- 		<!-- container --> 
-<!-- 		<div class="container"> -->
-<!-- 			<div class="newsletter-left"> -->
-<!-- 				<span class="newsletter-icon"></span> <span class="newsletter-title">Newsletter</span> -->
-<!-- 			</div> -->
-<!-- 			<div class="newsletter-right"> -->
-<!-- 				subscribe form -->
-<!-- 				<form action="#post" method="post" id="subscribe-form"> -->
-<!-- 					<input type="email" name="subscribe_email" value="" -->
-<!-- 						id="subscribe-email" placeholder="Enter your email..." required> -->
-<!-- 					<input type="submit" value="+" class="large" id="subscribe-submit"> -->
-<!-- 				</form> -->
-<!-- 				/subscribe form -->
-<!-- 			</div> -->
-<!-- 		</div> -->
-<!-- 		<!-- /container --> 
-<!-- 	</section> -->
+	<!-- 	<section id="newsletter"> -->
+	<!-- 		<!-- container -->
+	<!-- 		<div class="container"> -->
+	<!-- 			<div class="newsletter-left"> -->
+	<!-- 				<span class="newsletter-icon"></span> <span class="newsletter-title">Newsletter</span> -->
+	<!-- 			</div> -->
+	<!-- 			<div class="newsletter-right"> -->
+	<!-- 				subscribe form -->
+	<!-- 				<form action="#post" method="post" id="subscribe-form"> -->
+	<!-- 					<input type="email" name="subscribe_email" value="" -->
+	<!-- 						id="subscribe-email" placeholder="Enter your email..." required> -->
+	<!-- 					<input type="submit" value="+" class="large" id="subscribe-submit"> -->
+	<!-- 				</form> -->
+	<!-- 				/subscribe form -->
+	<!-- 			</div> -->
+	<!-- 		</div> -->
+	<!-- 		<!-- /container -->
+	<!-- 	</section> -->
 	<!-- /newsletter -->
 
 </section>

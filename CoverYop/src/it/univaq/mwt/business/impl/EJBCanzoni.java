@@ -71,7 +71,7 @@ public class EJBCanzoni implements CanzoneService {
 	@Override
 	public List<Canzone> findLastSong(int i) {
 		
-			String queryString="select cz from Gruppo grp, Album alb, Canzone cz where cz.album = alb and alb.gruppo = grp  ORDER BY cz.id DESC";
+			String queryString="select distinct(cz) from Gruppo grp, Album alb, Canzone cz where cz.album = alb and alb.gruppo = grp  ORDER BY cz.id DESC";
 		
 		//String queryString = "select c from Canzone c ORDER BY c.id";
 		Query query = em.createQuery(queryString);

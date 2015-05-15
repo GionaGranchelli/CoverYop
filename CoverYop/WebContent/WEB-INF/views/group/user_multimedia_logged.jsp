@@ -53,7 +53,16 @@
 							class="icon icon-dribbble"></i> Gestione Eventi
 						</a>
 					</div>
+					<div class="gallery-3-col gallery-join">
+						<span class="icon-wrap" style="float: left;">Foto Profilo</span>
+						<br>
+						<div class="photos">
+							<img
+								src="${pageContext.request.contextPath}/Group/image.html?id=${gruppo.id}"
+								alt="Artist Image">
 
+						</div>
+					</div>
 					<!-- <div class="details-social-box">
 						
 					</div>
@@ -96,14 +105,7 @@
 
 							</form:form>
 
-							<div class="gallery-3-col gallery-join">
-								<div class="photos">
-									<img
-										src="${pageContext.request.contextPath}/Group/image.html?id=${gruppo.id}"
-										alt="Artist Image"> <span class="icon-wrap"
-										style="float: left;">
-								</div>
-							</div>
+
 
 
 
@@ -120,77 +122,78 @@
 							</form:form>
 							<br />
 
-							<div class="details-countdown gallery-3-col gallery-join">
-								<c:forEach items="${albums}" var="albums" varStatus="status">
-									<div class="details-meta photoAlbums" id="${albums.id}">
-										<h2>${albums.titolo}</h2>
-										<c:forEach items="${albums.foto}" var="foto"
-											varStatus="status">
-											<div class="photos">
+							<!--<div class="details-countdown gallery-3-col gallery-join"> -->
 
-												<img
-													src="${pageContext.request.contextPath}/LocalSlide/image.html?id=${foto.id}"
-													alt="Image Title" class="immaginiModifica"> <span
-													class="icon-wrap" style="float: left;"> <c:if
-														test="${albums.tag=='slideshow'}">
-														<a
-															href="${pageContext.request.contextPath}/BackStage/deletePhoto/${foto.id}">Cancella<span
-															class="icon icon-cancel-circle"></span>
-														</a>
-													</c:if>
-												</span>
-											</div>
-										</c:forEach>
+							<%-- 	<div class="details-meta photoAlbums" id="${albums.id}"> --%>
+							<h2>${albums.titolo}</h2>
+							
+								<c:forEach items="${albums.foto}" var="foto" varStatus="status">
+								<div class="qualcosa">
+									<div class="photos">
+										<img
+											src="${pageContext.request.contextPath}/LocalSlide/image.html?id=${foto.id}"
+											alt="Image Title" class="immaginiModifica">
+									</div>
+									<div class="photoDeleter">
+										<a href="${pageContext.request.contextPath}/BackStage/deletePhoto/${foto.id}">&nbsp;Cancella</a>
+									</div>
 									</div>
 								</c:forEach>
-							</div>
-						</div>
-
-
-						<!--------------------------- MUSICA------------------------- -->
-
-						<div class="tab-content" id="tab-music">
-
-							<h2>La tua Musica</h2>
-
-							<div class="comandi">
-
-								<c:forEach items="${albumsMusic}" var="album" varStatus="status">
-									<div class="albumsView" id="${album.id}">
-										<p	style="text-align: center; margin: 0px; padding: 0px; border-bottom: 1px solid rgb(68, 68, 68);">
-											${album.nome}</p>
-										<ol id="release-list" class="tracklist">
-											<c:forEach items="${album.canzoni}" var="songs"
-												varStatus="status">
-												<li>
-													<div class="track-details">
-														<a class="track sp-play-track"
-															href="${pageContext.request.contextPath}/resources/${songs.url}"
-															data-cover="${pageContext.request.contextPath}/resources/placeholders/release-image02.jpg">
-															<!-- cover --> <img class="track-cover"
-															src="${pageContext.request.contextPath}/resources/img/cover.png"
-															alt="Traccia Durata"> <!-- Title --> <span
-															class="track-title">${songs.titolo}</span> <!-- Artists -->
-															<span class="track-artists">${songs.durata}</span>
-														</a>
-														<div class="track-buttons">
-															<a
-																href="${pageContext.request.contextPath}/BackStage/deleteSong/${songs.id}"><span
-																class="icon icon-cancel-circle"></span>Cancella</a> <a
-																href="javascript:;" class="googleplus-share"><i
-																class="icon icon-soundcloud"></i></a>
-															<!-- <a href="javascript:;" class="googleplus-share"><i class="icon icon-download"></i></a> -->
-														</div>
-													</div>
-												</li>
-											</c:forEach>
-										</ol>
-										
-										<p>
-						<!--  	<a href="javascript:;" class="btn invert sp-play-list" data-id="release-list">Aggiungi All'album</a>-->
-							<a href="${pageContext.request.contextPath}/BackStage/deleteAlbum/${album.id}">Rimuovi Album</a>
 							
-							<%--    <form:form
+							<!-- </div> -->
+					
+
+						</div>
+					</div>
+
+
+					<!--------------------------- MUSICA------------------------- -->
+
+					<div class="tab-content" id="tab-music">
+
+						<h2>La tua Musica</h2>
+
+						<div class="comandi">
+
+							<c:forEach items="${albumsMusic}" var="album" varStatus="status">
+								<div class="albumsView" id="${album.id}">
+									<p
+										style="text-align: center; margin: 0px; padding: 0px; border-bottom: 1px solid rgb(68, 68, 68);">
+										${album.nome}</p>
+									<ol id="release-list" class="tracklist">
+										<c:forEach items="${album.canzoni}" var="songs"
+											varStatus="status">
+											<li>
+												<div class="track-details">
+													<a class="track sp-play-track"
+														href="${pageContext.request.contextPath}/resources/${songs.url}"
+														data-cover="${pageContext.request.contextPath}/resources/placeholders/release-image02.jpg">
+														<!-- cover --> <img class="track-cover"
+														src="${pageContext.request.contextPath}/resources/img/cover.png"
+														alt="Traccia Durata"> <!-- Title --> <span
+														class="track-title">${songs.titolo}</span> <!-- Artists -->
+														<span class="track-artists">${songs.durata}</span>
+													</a>
+													<div class="track-buttons">
+														<a
+															href="${pageContext.request.contextPath}/BackStage/deleteSong/${songs.id}"><span
+															class="icon icon-cancel-circle"></span>Cancella</a> <a
+															href="javascript:;" class="googleplus-share"><i
+															class="icon icon-soundcloud"></i></a>
+														<!-- <a href="javascript:;" class="googleplus-share"><i class="icon icon-download"></i></a> -->
+													</div>
+												</div>
+											</li>
+										</c:forEach>
+									</ol>
+
+									<p>
+										<!--  	<a href="javascript:;" class="btn invert sp-play-list" data-id="release-list">Aggiungi All'album</a>-->
+										<a
+											href="${pageContext.request.contextPath}/BackStage/deleteAlbum/${album.id}">Rimuovi
+											Album</a>
+
+										<%--    <form:form
 								action="${pageContext.request.contextPath}/BackStage/updateMultimedia/AddMusic"
 								method="POST" class="form contact-form" commandName="AlbumMusica"
 								enctype="multipart/form-data">
@@ -203,112 +206,110 @@
 							<input type="submit" value="Aggiungi" />
                             
                             </form:form> --%>
-						</p>
-										
-									</div>
-								</c:forEach>
-								<div class="toggle"></div>
-								
+									</p>
+
+								</div>
+							</c:forEach>
+							<div class="toggle"></div>
+
 							<div class="toggle">
-                        <h4 class="toggle-title"> Inserisci Un Album Con La Tua Musica</h4>
-                        <div style="display: none;" class="toggle-content">
-                            <p>
-                            <form:form
-								action="${pageContext.request.contextPath}/BackStage/updateMultimedia/Music"
-								method="POST" class="form contact-form" commandName="AlbumMusica"
-								enctype="multipart/form-data">
-								
-								
-								
-							<label for="nome">Nome Album</label>	
-							<form:input path="nome" />	
-							
-							<label for="durata">Durata</label>	
-							<form:input path="durata" />
-							
-							<label for="anno">Anno</label>	
-							<form:input path="anno" />
-								
-							<label for="musicFile">Inserisci Le Tracce</label>	
-                            <input name="musicFile" type="file" multiple="multiple" />
-                            
-                            <input type="submit" value="Crea" />
-                            
-                            </form:form>
-                            
-                            
-                            
-                            </p>
-                        </div>
-                    </div>
+								<h4 class="toggle-title">Inserisci Un Album Con La Tua
+									Musica</h4>
+								<div style="display: none;" class="toggle-content">
+									<p>
+										<form:form
+											action="${pageContext.request.contextPath}/BackStage/updateMultimedia/Music"
+											method="POST" class="form contact-form"
+											commandName="AlbumMusica" enctype="multipart/form-data">
 
 
+
+											<label for="nome">Nome Album</label>
+											<form:input path="nome" />
+
+											<label for="durata">Durata</label>
+											<form:input path="durata" />
+
+											<label for="anno">Anno</label>
+											<form:input path="anno" />
+
+											<label for="musicFile">Inserisci Le Tracce</label>
+											<input name="musicFile" type="file" multiple="multiple" />
+
+											<input type="submit" value="Crea" />
+
+										</form:form>
+
+
+
+									</p>
+								</div>
 							</div>
 
 
-
-
-
-
-
 						</div>
 
 
 
-						<!--------------------------- /MUSICA------------------------- -->
 
-						<!--------------------------- VIDEO------------------------- -->
-
-						<div class="tab-content" id="tab-video">
-							<form:form
-								action="${pageContext.request.contextPath}/BackStage/updateMultimedia/Video"
-								method="POST" class="form contact-form" commandName="formVideo">
-
-								<h2>Inserisci un nuovo video</h2>
-
-								<div class="comandi" style="margin-bottom: 25px;">
-
-									<span>Titolo Video</span>
-									<form:input path="titolo" type="text" />
-
-									<span>Inserisci Iframe</span>
-									<form:input path="url" type="text" />
-
-									<span>Inserisci Tag</span>
-									<form:input path="tag" type="text" />
-
-									<input type="submit" value="Yop - Video"
-										style="margin-top: 15px;" />
-
-
-								</div>
-								<div id="videoCollection">
-									<h2>I tuoi video</h2>
-									<c:forEach items="${videos}" var="soundcloud">
-										<span>${soundcloud.titolo}</span>
-										<span style="float: right;"><a
-											href="${pageContext.request.contextPath}/BackStage/deleteVideo/${soundcloud.id}"><span
-												class="icon icon-cancel-circle"></span>Cancella</a></span>
-										<div>${soundcloud.url}</div>
-									</c:forEach>
-								</div>
-
-							</form:form>
-						</div>
 
 
 
 					</div>
 
-				</article>
-				<!-- /article -->
 
-				<!-- Page navigation -->
-				<!-- <div class="page-nav">
+
+					<!--------------------------- /MUSICA------------------------- -->
+
+					<!--------------------------- VIDEO------------------------- -->
+
+					<div class="tab-content" id="tab-video">
+						<form:form
+							action="${pageContext.request.contextPath}/BackStage/updateMultimedia/Video"
+							method="POST" class="form contact-form" commandName="formVideo">
+
+							<h2>Inserisci un nuovo video</h2>
+
+							<div class="comandi" style="margin-bottom: 25px;">
+
+								<span>Titolo Video</span>
+								<form:input path="titolo" type="text" />
+
+								<span>Inserisci Iframe</span>
+								<form:input path="url" type="text" />
+
+								<span>Inserisci Tag</span>
+								<form:input path="tag" type="text" />
+
+								<input type="submit" value="Yop - Video"
+									style="margin-top: 15px;" />
+
+
+							</div>
+							<div id="videoCollection">
+								<h2>I tuoi video</h2>
+								<c:forEach items="${videos}" var="soundcloud">
+									<span>${soundcloud.titolo}</span>
+									<span style="float: right;"><a
+										href="${pageContext.request.contextPath}/BackStage/deleteVideo/${soundcloud.id}"><span
+											class="icon icon-cancel-circle"></span>Cancella</a></span>
+									<div>${soundcloud.url}</div>
+								</c:forEach>
+							</div>
+
+						</form:form>
+					</div>
+			</div>
+
+			</article>
+			<!-- /article -->
+
+			<!-- Page navigation -->
+			<!-- <div class="page-nav">
 					<a href="javascript:;" class="prev"><span class="icon icon-arrow-left"></span> Previous</a><a href="javascript:;" class="next">Next <span class="icon icon-arrow-right"></span></a>
 				</div> -->
-			</div>
-			<!-- /main -->
+		</div>
+		<!-- /main -->
 		</div>
 		<!-- /container -->
 	</section>

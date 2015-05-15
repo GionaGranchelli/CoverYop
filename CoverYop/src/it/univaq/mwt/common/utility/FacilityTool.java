@@ -27,7 +27,15 @@ public final class FacilityTool {
 
 	
 	public static String[] splitName(String nome){
+		String[] array = new String[2];
 		String[] title = nome.split(" ");
+		if(title.length != 2){
+			int lunghezza = nome.length();
+			int mezzaLung = lunghezza/2;
+			array[0] = nome.substring(0, mezzaLung);
+			array[1] = nome.substring(mezzaLung, lunghezza);
+			return array;
+		}
 		return title;
 	}
 	
