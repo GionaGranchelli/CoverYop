@@ -276,8 +276,11 @@
 								</p>
 							
 							<br>
+							<c:if test="${!soundcloud.isEmpty()}">
 							<h3>My Videos</h3>
-							${video.url}
+							
+							${soundcloud.get(0)}
+							</c:if>
 							<!-- <iframe width="560" height="315" src="//" frameborder="0" allowfullscreen></iframe> -->
 							<!-- <p>
 								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi eget tellus vitae lacus vestibulum sagittis. Nullam sed risus blandit, pretium magna id, varius lectus. Praesent a condimentum est. Pellentesque rutrum consectetur metus. Curabitur scelerisque, tortor quis ullamcorper semper, lacus metus placerat tellus, et aliquam libero tortor et lectus. Maecenas rhoncus, sem a pellentesque convallis, dolor nulla semper dolor, vestibulum luctus sapien lectus in quam. Nunc accumsan consequat est a porttitor. Proin vitae dolor mauris. Aliquam erat volutpat. Quisque quis tincidunt mi.

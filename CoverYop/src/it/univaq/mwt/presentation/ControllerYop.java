@@ -63,6 +63,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import com.sun.org.apache.bcel.internal.generic.NEWARRAY;
+
 @Controller
 @RequestMapping("/")
 public class ControllerYop {
@@ -197,7 +199,7 @@ public class ControllerYop {
 		model.addAttribute("titolo_page_1", title[1]);		
 		model.addAttribute("album", viewGroup.getAlbums());				
 		model.addAttribute("album_foto", viewGroup.getAlbumFotografico());		
-		model.addAttribute("soundcloud", viewGroup.getVideo());		
+		model.addAttribute("soundcloud", new ArrayList<Video>(viewGroup.getVideo()));		
 		model.addAttribute("eventi", viewGroup.getEventi());			
 		model.addAttribute("canali",viewGroup.getCanale());				
 		model.addAttribute("generi", viewGroup.getGeneri());			
