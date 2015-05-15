@@ -13,6 +13,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
@@ -60,7 +61,6 @@ public class Message implements Serializable {
 		this.conversation = conversation;
 	}
 	@Id
-	//@GeneratedValue(strategy=GenerationType.SEQUENCE)
 	@GeneratedValue(generator="MesSeq")
     @SequenceGenerator(name="MesSeq",sequenceName="MESSAGE_SEQ",allocationSize=1)
 	public int getId() {
@@ -104,7 +104,7 @@ public class Message implements Serializable {
 	public void setStatus(int status) {
 		this.status = status;
 	}
-	@OneToOne(fetch=FetchType.EAGER)
+	@OneToOne
 	@JoinColumn(name="CONVERSATION_ID")
 	public Conversation getConversation() {
 		return conversation;

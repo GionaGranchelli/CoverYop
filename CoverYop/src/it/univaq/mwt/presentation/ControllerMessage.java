@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import javax.naming.NamingException;
 
@@ -57,27 +56,16 @@ public class ControllerMessage {
 
 	@RequestMapping("/")
 	public String inbox(Model model) throws NamingException {
-		Set<Conversation> cl = utente.getConversationMitt();
-		cl.addAll(utente.getConversationDest());
 		model.addAttribute("user", utente);
-		model.addAttribute("conversation", cl);
-		model.addAttribute("nuovaconv", new Conversation());
-		return "list.dataTableConversation";
-	}
-
-	@RequestMapping("/ajax")
-	public String inboxAjax(Model model) throws NamingException {
-		Set<Conversation> cl = utente.getConversationMitt();
-		cl.addAll(utente.getConversationDest());
-		model.addAttribute("user", utente);
-		model.addAttribute("conversation", cl);
 		model.addAttribute("nuovaconv", new Conversation());
 		return "list.dataTableConversation";
 	}
 
 	@RequestMapping("/findAllConversationPaginated.do")
-	public @ResponseBody ResponseGrid<Conversation> findAllConversationPaginated(@ModelAttribute RequestGrid requestGrid) {
-		ResponseGrid<Conversation> responseGrid = convesationService.findAllConversationPaginated(requestGrid, utente);
+	public @ResponseBody ResponseGrid<Conversation> findAllConversationPaginated(
+			@ModelAttribute RequestGrid requestGrid) {
+		ResponseGrid<Conversation> responseGrid = convesationService
+				.findAllConversationPaginated(requestGrid, utente);
 		return responseGrid;
 	}
 
@@ -86,18 +74,14 @@ public class ControllerMessage {
 			@ModelAttribute("formContatta") FormContatta conversation,
 			BindingResult bindingResult, Model model) throws NamingException {
 		int id = utente.getId();
-		// System.out.println(conversation.getCorpo()+conversation.getTitolo());
 		Conversation conv = new Conversation();
 		conv.setTitolo(conversation.getTitolo());
-
-		Utente destinatario = utenteService.findUtenteById(conversation.getId());
+		Utente destinatario = utenteService
+				.findUtenteById(conversation.getId());
 		conv.setDestinatario(destinatario);
-
 		Utente mittente = utenteService.findUtenteById(utente.getId());
 		conv.setMittente(mittente);
-
 		conv.setData(Calendar.getInstance());
-
 		Message msg = new Message();
 		msg.settext(conversation.getCorpo());
 		msg.setAutore(mittente);
@@ -106,7 +90,8 @@ public class ControllerMessage {
 		msg.setStatus(1);
 		conv.addMessage(msg);
 		Conversation cv = convesationService.createConversation(conv);
-		List<Conversation> cl = new ArrayList<Conversation>(convesationService.findAllConversationByUserId(id));
+		List<Conversation> cl = new ArrayList<Conversation>(
+				convesationService.findAllConversationByUserId(id));
 		model.addAttribute("user", utente);
 		model.addAttribute("conversation", cl);
 		model.addAttribute("nuovaconv", new Conversation());
@@ -124,15 +109,12 @@ public class ControllerMessage {
 		String nomeLocale = parti[0];
 		String indirizzo = parti[1];
 		String citta = parti[2];
-		Locale lc = localeService.findLocaleByCoord(nomeLocale, indirizzo, citta);
-		// Utente destinatario = us.findUtenteById(lc.getId());
+		Locale lc = localeService.findLocaleByCoord(nomeLocale, indirizzo,
+				citta);
 		conv.setDestinatario(lc);
-
 		Utente mittente = utenteService.findUtenteById(utente.getId());
 		conv.setMittente(mittente);
-
 		conv.setData(Calendar.getInstance());
-
 		Message msg = new Message();
 		msg.settext(conversation.getCorpo());
 		msg.setAutore(mittente);
@@ -140,17 +122,12 @@ public class ControllerMessage {
 		msg.setDataInvio(Calendar.getInstance());
 		msg.setStatus(1);
 		conv.addMessage(msg);
-		// Random rand = new Random();
-		// int randomNum = rand.nextInt((1000 - 10) + 1) + 10;
-		// conv.setId(randomNum);
 		Conversation cv = convesationService.createConversation(conv);
-
 		List<Conversation> cl = new ArrayList<Conversation>(
 				convesationService.findAllConversationByUserId(id));
 		model.addAttribute("user", utente);
 		model.addAttribute("conversation", cl);
 		model.addAttribute("nuovaconv", new Conversation());
-
 		return "list.conversation";
 	}
 
@@ -158,43 +135,33 @@ public class ControllerMessage {
 	public String addConversationGroup(
 			@ModelAttribute("formConversation") FormConversation conversation,
 			BindingResult bindingResult, Model model) throws NamingException {
-		
-		String[] parti = FacilityTool.splitConvNameGroup(conversation.getDestinatario());
-		Gruppo gruppoDestinatario = gruppoService.findGruppoByCoord(parti[0],parti[1]);
+		String[] parti = FacilityTool.splitConvNameGroup(conversation
+				.getDestinatario());
+		Gruppo gruppoDestinatario = gruppoService.findGruppoByCoord(parti[0],
+				parti[1]);
 		Utente utenteCompleto = utenteService.findUtente(utente);
-		Conversation toAdd = FacilityTool.createConversation(utenteCompleto,conversation,gruppoDestinatario);
-		System.out.println("Mittente: "+ toAdd.getMittente().getNome());
-		Message messaggio = FacilityTool.createMessagePerConversation(conversation.getCorpo(), toAdd);
-//		messageService.createMessage(messaggio);
-		System.out.println("Destinatario: "+ toAdd.getDestinatario().getNome());
-		System.out.println("Messagi; " + toAdd.getMessage().size());
-		System.out.println("Status; " + toAdd.getStatus());
-		System.out.println("TITOLO " + toAdd.getTitolo());
-//		utente.addSenderConversation(toAdd);
-		
+		Conversation toAdd = FacilityTool.createConversation(utenteCompleto,
+				conversation, gruppoDestinatario);
+		System.out.println("Mittente: " + toAdd.getMittente().getNome());
+		Message messaggio = FacilityTool.createMessagePerConversation(
+				conversation.getCorpo(), toAdd);
 		gruppoDestinatario.addRiceverConversation(toAdd);
-		//Conversation a = convesationService.createConversation(toAdd);
-//		utenteService.update(utente);
 		gruppoService.update(gruppoDestinatario);
-		
-		
 		model.addAttribute("user", utente);
 		model.addAttribute("conversation", toAdd);
 		model.addAttribute("nuovaconv", new Conversation());
-
 		return "redirect:/messages/";
 	}
 
 	@RequestMapping("/conversation/{id}")
 	public String readConversation(@PathVariable("id") int id, Model model)
 			throws NamingException {
-
 		Conversation conversation = convesationService.findConversationById(id);
-
 		model.addAttribute("utente", utente);
 		model.addAttribute("conversation", conversation);
 		String fotoprofilo2 = null;
-		if (utente.getUsername().equals(conversation.getMittente().getUsername())) {
+		if (utente.getUsername().equals(
+				conversation.getMittente().getUsername())) {
 			model.addAttribute("utente2", conversation.getDestinatario());
 			fotoprofilo2 = fotoService.getFotoProfiloByUtenteId(conversation
 					.getDestinatario().getId());
@@ -203,12 +170,11 @@ public class ControllerMessage {
 			model.addAttribute("utente2", conversation.getMittente());
 			fotoprofilo2 = fotoService.getFotoProfiloByUtenteId(conversation
 					.getMittente().getId());
-			
-
 		}
 
 		model.addAttribute("messages", conversation.getMessage());
-		String fotoprofilo1 = fotoService.getFotoProfiloByUtenteId(utente.getId());
+		String fotoprofilo1 = fotoService.getFotoProfiloByUtenteId(utente
+				.getId());
 		model.addAttribute("fotoprofilo1", fotoprofilo1);
 		model.addAttribute("fotoprofilo2", fotoprofilo2);
 		model.addAttribute("messaggio", new Message());
@@ -217,50 +183,27 @@ public class ControllerMessage {
 
 	@RequestMapping("/addreply/{id}")
 	public String addreply(@PathVariable("id") int id,
-			@ModelAttribute("messaggio") Message messaggio, BindingResult bindingResult,
-			Model model) throws NamingException {
+			@ModelAttribute("messaggio") Message messaggio,
+			BindingResult bindingResult, Model model) throws NamingException {
 		Conversation conversation = convesationService.findConversationById(id);
 		Calendar cal = Calendar.getInstance();
 		Utente user = utenteService.findUtenteById(utente.getId());
-		messaggio.setAutore(user);
-		messaggio.setConversation(conversation);
-		messaggio.setStatus(1);
-		messaggio.setDataInvio(cal);
-		conversation.addMessage(messaggio);
+		Message msg = new Message();
+		msg.setAutore(user);
+		msg.setConversation(conversation);
+		msg.setStatus(1);
+		msg.setDataInvio(cal);
+		msg.settext(messaggio.gettext());
+		conversation.addMessage(msg);
 		conversation = convesationService.updateConversation(conversation);
-		return "redirect:/messages/conversation/"+conversation.getId();
-		
-//		model.addAttribute("utente", utente);
-//		model.addAttribute("conversation", conversation);
-//		String fotoprofilo2 = null;
-//		if (utente.getUsername().equals(conversation.getMittente().getUsername())) {
-//			model.addAttribute("utente2", conversation.getDestinatario());
-//			fotoprofilo2 = fotoService.getFotoProfiloByUtenteId(conversation
-//					.getDestinatario().getId());
-//		} else {
-//			model.addAttribute("utente2", conversation.getMittente());
-//			fotoprofilo2 = fotoService.getFotoProfiloByUtenteId(conversation
-//					.getMittente().getId());
-//		
-//
-//		}
-//
-//		model.addAttribute("messages", conversation.getMessage());
-//		String fotoprofilo1 = fotoService.getFotoProfiloByUtenteId(utente.getId());
-//		model.addAttribute("fotoprofilo1", fotoprofilo1);
-//		model.addAttribute("fotoprofilo2", fotoprofilo2);
-//		model.addAttribute("messaggio", new Message());
-//		return "show.conversation";
+		return "redirect:/messages/conversation/" + conversation.getId();
 	}
 
-	// Questa FUnzione Restituisce in Get, tramite Ajax la lista di tutti i
-	// Locali che iniziano con "term"
 	@RequestMapping(value = "/get_locals_list", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody List<String> getCountryList(@RequestParam("term") String query) {
-
+	public @ResponseBody List<String> getCountryList(
+			@RequestParam("term") String query) {
 		List<Locale> countryList = new ArrayList<Locale>(
 				localeService.findLocaleByName(query));
-
 		Iterator<Locale> i = countryList.iterator();
 		List<String> listaLocali = new ArrayList<String>();
 		while (i.hasNext()) {
@@ -268,26 +211,21 @@ public class ControllerMessage {
 			listaLocali.add(v.getNomeLocale() + "::" + v.getIndirizzo() + "::"
 					+ v.getCitta());
 		}
-
 		return listaLocali;
 	}
 
 	@RequestMapping(value = "/get_groups_list", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody List<String> getGroupsList(@RequestParam("term") String query) {
-
+	public @ResponseBody List<String> getGroupsList(
+			@RequestParam("term") String query) {
 		List<Gruppo> countryList = new ArrayList<Gruppo>(
 				gruppoService.findGruppoByName(query));
-
 		Iterator<Gruppo> i = countryList.iterator();
 		List<String> listaGruppi = new ArrayList<String>();
 		while (i.hasNext()) {
 			Gruppo v = i.next();
 			listaGruppi.add(v.getNomeGruppo() + "::" + v.getCitta());
 		}
-
 		return listaGruppi;
 	}
-
-
 
 }

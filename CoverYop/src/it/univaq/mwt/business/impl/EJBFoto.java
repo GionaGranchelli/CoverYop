@@ -7,17 +7,21 @@ import java.util.Set;
 
 import it.univaq.mwt.business.AlbumFotograficoService;
 import it.univaq.mwt.business.FotoService;
+import it.univaq.mwt.business.UtenteService;
 import it.univaq.mwt.business.model.AlbumFotografico;
 import it.univaq.mwt.business.model.Canzone;
 import it.univaq.mwt.business.model.Evento;
 import it.univaq.mwt.business.model.Foto;
 import it.univaq.mwt.business.model.Gruppo;
+import it.univaq.mwt.common.utility.FacilityTool;
 
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.servlet.ServletContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,6 +39,9 @@ public class EJBFoto implements FotoService {
 	
 	@Autowired
 	AlbumFotograficoService albumFotograficoService;
+	
+	@Autowired 
+	ServletContext servletContext;
 
 	public EJBFoto() {
 		// TODO Auto-generated constructor stub
@@ -117,19 +124,18 @@ public class EJBFoto implements FotoService {
 						+ "u.id=:id AND af.tag =:profile AND af.utente.id=u.id AND ft.albumFotografico.id=af.id");
 		query.setParameter("id", id);
 		query.setParameter("profile", "profile");
-
-		// byte[] fotoProfilo = null;
-
-		List<byte[]> lf = new ArrayList<byte[]>(query.getResultList());
-		byte[] fotoProfilo = lf.get(0);
-
-		// if(query.getSingleResult().equals(null)){
-		// fotoProfilo = (byte[]) query.getSingleResult(); //inserire controllo
-		// se immagine non c'è
-		// }
-		// inserire avatar default
-
+		query.setMaxResults(1);
+		byte[] fotoProfilo = null;
+		try{
+		fotoProfilo = (byte[]) query.getSingleResult();}
+		catch(NoResultException e){
+			fotoProfilo= FacilityTool.getDefaultImage(servletContext);
+			//fotoProfilo
+			}
 		return fotoProfilo;
+//		List<byte[]> lf = new ArrayList<byte[]>(query.getResultList());
+//		byte[] fotoProfilo = lf.get(0);
+//		return fotoProfilo;
 	}
 
 	@Override

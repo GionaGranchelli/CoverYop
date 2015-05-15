@@ -1,6 +1,5 @@
 package it.univaq.mwt.common.utility;
 
-import it.univaq.mwt.business.GruppoService;
 import it.univaq.mwt.business.RuoloService;
 import it.univaq.mwt.business.form.utente.FormConversation;
 import it.univaq.mwt.business.model.AlbumFotografico;
@@ -12,14 +11,17 @@ import it.univaq.mwt.business.model.Message;
 import it.univaq.mwt.business.model.Ruolo;
 import it.univaq.mwt.business.model.Utente;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import javax.print.attribute.HashAttributeSet;
+import javax.servlet.ServletContext;
 
 public final class FacilityTool {
 
@@ -184,5 +186,44 @@ public final class FacilityTool {
 		String[] parti = destinatario.split("::");
 		
 		return parti;
+	}
+
+	public static byte[] getDefaultImage(ServletContext servletContext) {
+	
+		
+		String fullPath = servletContext.getRealPath("/resources/placeholders/artist01.jpg");
+		 File imgPath = new File(fullPath);
+		 byte fileContent[]=null;
+		 FileInputStream fin = null;
+			try {
+				// create FileInputStream object
+				fin = new FileInputStream(imgPath);
+
+				 fileContent = new byte[(int)imgPath.length()];
+				
+				// Reads up to certain bytes of data from this input stream into an array of bytes.
+				fin.read(fileContent);
+				//create string from byte array
+				
+				
+			}
+			catch (FileNotFoundException e) {
+				System.out.println("File not found" + e);
+			}
+			catch (IOException ioe) {
+				System.out.println("Exception while reading file " + ioe);
+			}
+			finally {
+				// close the streams using close method
+				try {
+					if (fin != null) {
+						fin.close();
+					}
+				}
+				catch (IOException ioe) {
+					System.out.println("Error while closing stream: " + ioe);
+				}
+			}
+		return fileContent;
 	}
 }

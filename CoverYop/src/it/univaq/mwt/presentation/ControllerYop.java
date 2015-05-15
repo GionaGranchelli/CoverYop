@@ -194,34 +194,15 @@ public class ControllerYop {
 		
 		String[] title = FacilityTool.splitName(viewGroup.getNomeGruppo()); 
 		model.addAttribute("titolo_page_1", title[0]);
-		model.addAttribute("titolo_page_1", title[1]);
-		
-		List<Album> discografia = new ArrayList<Album>(viewGroup.getAlbums());
-		model.addAttribute("album", discografia);
-		
-		List<AlbumFotografico> af = new ArrayList<AlbumFotografico>(viewGroup.getAlbumFotografico());
-		model.addAttribute("album_foto", af);
-		
-		List<Video> videos = new ArrayList<Video>(viewGroup.getVideo());
-		model.addAttribute("video", videos.get(0));
-		model.addAttribute("soundcloud", videos);
-		
-		List<Evento> eventi = new ArrayList<Evento>(viewGroup.getEventi());
-		model.addAttribute("eventi", eventi);
-		
-		Canale channel = viewGroup.getCanale();
-		model.addAttribute("canali",channel);
-		
-		List<Genere> generi = new ArrayList<Genere>(viewGroup.getGeneri());
-		model.addAttribute("generi", generi);
-		
-		List<GruppoDiRiferimento> gdr = new ArrayList<GruppoDiRiferimento>(viewGroup.getGruppi_rif());
-		model.addAttribute("gruppidiriferimento", gdr);
-		
-		Scaletta scl = viewGroup.getScaletta();
-		List<Canzone> scaletta = new ArrayList<Canzone>(scl.getCanzoni());
-		model.addAttribute("scaletta", scaletta);
-	 
+		model.addAttribute("titolo_page_1", title[1]);		
+		model.addAttribute("album", viewGroup.getAlbums());				
+		model.addAttribute("album_foto", viewGroup.getAlbumFotografico());		
+		model.addAttribute("soundcloud", viewGroup.getVideo());		
+		model.addAttribute("eventi", viewGroup.getEventi());			
+		model.addAttribute("canali",viewGroup.getCanale());				
+		model.addAttribute("generi", viewGroup.getGeneri());			
+		model.addAttribute("gruppidiriferimento", viewGroup.getGruppi_rif());
+		model.addAttribute("scaletta", viewGroup.getScaletta().getCanzoni());	 
 		return "group.profile";
 	 }
 

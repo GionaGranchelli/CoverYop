@@ -202,7 +202,7 @@
 							href="${pageContext.request.contextPath}/Group/${gruppi.id}"
 							class="thumb-glitch artist" data-thumbicon="plus"> <span
 							class="hoverlayer"></span> <span class="img"> <img
-								src="${pageContext.request.contextPath}/${gruppi.getFotoProfilo().url}"
+								src="${pageContext.request.contextPath}/Group/image.html?id=${gruppi.id}"
 								alt="Artist Image" />
 						</span>
 						</a>
@@ -271,7 +271,7 @@
 						<span class="hoverlayer"></span>
 						<span class="release-badge">${locali.getCategoria().nomeCat} </span>
 						<span class="img">
-							<img src="${pageContext.request.contextPath}/${locali.getFotoProfilo().url}" alt="Release Image" />
+							<img src="${pageContext.request.contextPath}/Local/image.html?id=${locali.id}" alt="Release Image" />
 						</span>
 						<!-- tooltip -->
 						<div class="tip-content hidden">

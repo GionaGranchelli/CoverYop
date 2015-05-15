@@ -42,7 +42,7 @@ public class EJBMessages implements MessageService {
 	public Message createMessage(Message messaggio) {
 		
 		Message msg = messaggio;
-		System.out.println(msg.gettext());
+		
 		em.persist(msg);
 		em.getEntityManagerFactory().getCache().evict(Conversation.class);
 		

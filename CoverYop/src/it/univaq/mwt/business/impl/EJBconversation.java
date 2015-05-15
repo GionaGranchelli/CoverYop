@@ -91,7 +91,7 @@ public class EJBconversation implements ConversationService {
 		
 		String baseSearch = "SELECT DISTINCT cv "
 				+ "FROM Conversation cv "
-				+ "WHERE cv.mittente.id =" + u.getId();
+				+ "WHERE cv.mittente.id =" + u.getId() +" OR cv.destinatario.id =" + u.getId();
 		if(!("".equals(requestGrid.getsSearch()))){
 			String queryLow = requestGrid.getsSearch().toLowerCase();
 			baseSearch = baseSearch + " AND lower(cv.titolo) LIKE '" + ConversionUtility.addPercentSuffix(queryLow)+"'";

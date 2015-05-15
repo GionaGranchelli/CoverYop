@@ -136,7 +136,7 @@ public class Conversation implements Serializable{
 		this.titolo = titolo;
 	}
 	@JsonIgnore
-	@OneToMany(mappedBy="conversation", fetch=FetchType.EAGER , cascade = {CascadeType.PERSIST , CascadeType.MERGE,  CascadeType.REMOVE})
+	@OneToMany(mappedBy="conversation", fetch=FetchType.EAGER , cascade = {CascadeType.ALL })
 	@OrderBy(value="dataInvio")
 	public List<Message> getMessage() {
 		return message;
