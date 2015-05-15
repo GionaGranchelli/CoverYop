@@ -36,7 +36,7 @@
 						<c:when test="${utente.username == message.autore.username}">
 							<article>
 								<div class="avatar">
-									<img src="${pageContext.request.contextPath}/${fotoprofilo1}">
+									<img src="${pageContext.request.contextPath}/Group/image.html?id=${message.autore.id}">
 								</div>
 								<div class="comment-meta">
 									<h5 class="author"><a href="#">${message.autore.username}</a></h5>
@@ -50,7 +50,7 @@
 				  <c:otherwise>
                             <article class="message-response">
 								<div class="avatar">
-									<img src="${pageContext.request.contextPath}/${fotoprofilo2}">
+									<img src="${pageContext.request.contextPath}/Group/image.html?id=${message.autore.id}">
 								</div>
 								<div class="comment-meta">
 									<h5 class="author"><a href="#">${message.autore.username}</a></h5>

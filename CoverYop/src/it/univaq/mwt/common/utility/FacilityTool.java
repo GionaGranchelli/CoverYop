@@ -156,10 +156,10 @@ public final class FacilityTool {
 	}
 	
 	//Solo con nuove conversazioni
-	public static Conversation createConversation(Utente mittente, FormConversation conversation, Gruppo gruppoDestinatario){
+	public static Conversation createConversation(Utente mittente, String titolo, Utente gruppoDestinatario){
 		
 		Conversation conv = new Conversation();
-		conv.setTitolo(conversation.getTitolo());
+		conv.setTitolo(titolo);
 		conv.setMittente(mittente);
 		conv.setDestinatario(gruppoDestinatario);
 		conv.setData(Calendar.getInstance());
@@ -225,5 +225,16 @@ public final class FacilityTool {
 				}
 			}
 		return fileContent;
+	}
+
+	public static Message AddNewMessage(String gettext, Utente user, Conversation conversation) {
+		Message msg = new Message();
+		msg.settext(gettext);
+		msg.setAutore(user);
+		msg.setConversation(conversation);
+		msg.setDataInvio(Calendar.getInstance());
+		msg.setStatus(1);
+		conversation.addMessage(msg);
+		return msg;
 	}
 }

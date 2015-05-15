@@ -102,8 +102,7 @@
 
 				        <form action="${pageContext.request.contextPath}/messages/addconversationGroup/" 
 		 		        	method="post" 
-		 		        	class="form contact-form"
-				        	id="formConversation"> 
+		 		        	class="form contact-form">
 				        	<div class="row clearfix">
 
 				 				<div class="col-1-3">
@@ -112,7 +111,7 @@
 				 				</div>
 				 				<div class="col-1-3">
 				 						<label for="contact-www"><strong>Titolo</strong></label>
-									<input   name="titolo"  id="titolo"></input>
+									<input type="text" name="titolo" id="titolo"></input>
 				 				</div>
 				 				<div class="col-1-3 last">
 
@@ -121,7 +120,7 @@
 				        	<div class="row clearfix">
 				        		<div class="col-1-1">
 				        			<label for="contact-message"><strong>Testo</strong> </label>
-									<textarea name="corpo" id="corpo"></textarea>
+									<textarea name="messaggio" id="messaggio1"></textarea>
 								</div>
 				        	</div>
 							<input type="submit" value="Invia" class="large invert">
@@ -133,17 +132,16 @@
 				 <div id="tab-locale" class="tab-content">
 
 				        <form action="${pageContext.request.contextPath}/messages/addconversationLocal/" 
-		        	method="post" 
-				        	class="form contact-form"
-		 		        	id="formConversation"> 
+		        			method="post" 
+				        	class="form contact-form"> 
 				        	<div class="row clearfix">
 				 				<div class="col-1-3">
 				 					<label for="contact-name"><strong>Nome Del Locale</strong> </label>
-									<input type="text" name="destinatario"  id="idLocale" required>
+									<input type="text" name="destinatario"  id="idLocale" required/>
 				 				</div>
 				 				<div class="col-1-3">
 				 						<label for="contact-www"><strong>Titolo</strong></label>
-									<input   name="titolo"  id="titolo"></input>
+									<input type="text" name="titolo" id="titolo"/>
 				 				</div>
 				 				<div class="col-1-3 last">
 
@@ -152,10 +150,10 @@
 				        	<div class="row clearfix">
 				        		<div class="col-1-1">
 				        			<label for="contact-message"><strong>Testo</strong> </label>
-									<textarea name="corpo" id="corpo"></textarea>
+									<textarea name="messaggio" id="messaggio2" ></textarea>
 								</div>
 				        	</div>
-							<input type="submit" value="Invia" class="large invert">
+							<input type="submit" value="Invia" class="large invert"/>
 							<div class="clear"></div>
 				        </form>
 				</div>

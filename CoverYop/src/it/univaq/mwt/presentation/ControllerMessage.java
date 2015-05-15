@@ -57,7 +57,6 @@ public class ControllerMessage {
 	@RequestMapping("/")
 	public String inbox(Model model) throws NamingException {
 		model.addAttribute("user", utente);
-		model.addAttribute("nuovaconv", new Conversation());
 		return "list.dataTableConversation";
 	}
 
@@ -73,83 +72,44 @@ public class ControllerMessage {
 	public String addConversation(
 			@ModelAttribute("formContatta") FormContatta conversation,
 			BindingResult bindingResult, Model model) throws NamingException {
-		int id = utente.getId();
-		Conversation conv = new Conversation();
-		conv.setTitolo(conversation.getTitolo());
-		Utente destinatario = utenteService
-				.findUtenteById(conversation.getId());
-		conv.setDestinatario(destinatario);
-		Utente mittente = utenteService.findUtenteById(utente.getId());
-		conv.setMittente(mittente);
-		conv.setData(Calendar.getInstance());
-		Message msg = new Message();
-		msg.settext(conversation.getCorpo());
-		msg.setAutore(mittente);
-		msg.setConversation(conv);
-		msg.setDataInvio(Calendar.getInstance());
-		msg.setStatus(1);
-		conv.addMessage(msg);
-		Conversation cv = convesationService.createConversation(conv);
-		List<Conversation> cl = new ArrayList<Conversation>(
-				convesationService.findAllConversationByUserId(id));
-		model.addAttribute("user", utente);
-		model.addAttribute("conversation", cl);
-		model.addAttribute("nuovaconv", new Conversation());
-		return "list.conversation";
+	Utente destinatario = utenteService.findUtenteById(conversation.getId());
+	Utente utenteCompleto = utenteService.findUtente(utente);
+	Conversation toAdd = FacilityTool.createConversation(utenteCompleto, conversation.getTitolo(), destinatario);
+	Message messaggio1 = FacilityTool.createMessagePerConversation(conversation.getCorpo(), toAdd);
+	destinatario.addRiceverConversation(toAdd);
+	utenteService.update(destinatario);
+		return "redirect:/messages/";
 	}
 
 	@RequestMapping("/addconversationLocal")
 	public String addConversationLocal(
-			@ModelAttribute("formConversation") FormConversation conversation,
-			BindingResult bindingResult, Model model) throws NamingException {
-		int id = utente.getId();
-		Conversation conv = new Conversation();
-		conv.setTitolo(conversation.getTitolo());
-		String[] parti = conversation.getDestinatario().split("::");
-		String nomeLocale = parti[0];
-		String indirizzo = parti[1];
-		String citta = parti[2];
-		Locale lc = localeService.findLocaleByCoord(nomeLocale, indirizzo,
-				citta);
-		conv.setDestinatario(lc);
-		Utente mittente = utenteService.findUtenteById(utente.getId());
-		conv.setMittente(mittente);
-		conv.setData(Calendar.getInstance());
-		Message msg = new Message();
-		msg.settext(conversation.getCorpo());
-		msg.setAutore(mittente);
-		msg.setConversation(conv);
-		msg.setDataInvio(Calendar.getInstance());
-		msg.setStatus(1);
-		conv.addMessage(msg);
-		Conversation cv = convesationService.createConversation(conv);
-		List<Conversation> cl = new ArrayList<Conversation>(
-				convesationService.findAllConversationByUserId(id));
-		model.addAttribute("user", utente);
-		model.addAttribute("conversation", cl);
-		model.addAttribute("nuovaconv", new Conversation());
-		return "list.conversation";
+			@RequestParam("titolo") String titolo,
+			@RequestParam("destinatario") String destinatario,
+			@RequestParam("messaggio") String messaggio,
+			Model model) throws NamingException {
+		String[] parti = FacilityTool.splitConvNameGroup(destinatario);
+		Locale localeDestinatario = localeService.findLocaleByCoord(parti[0], parti[1], parti[2]);
+		Utente utenteCompleto = utenteService.findUtente(utente);
+		Conversation toAdd = FacilityTool.createConversation(utenteCompleto, titolo, localeDestinatario);
+		Message messaggio1 = FacilityTool.createMessagePerConversation(messaggio, toAdd);
+		localeDestinatario.addRiceverConversation(toAdd);
+		localeService.update(localeDestinatario);
+		return "redirect:/messages/";
 	}
 
 	@RequestMapping("/addconversationGroup")
 	public String addConversationGroup(
-			@ModelAttribute("formConversation") FormConversation conversation,
-			BindingResult bindingResult, Model model) throws NamingException {
-		String[] parti = FacilityTool.splitConvNameGroup(conversation
-				.getDestinatario());
-		Gruppo gruppoDestinatario = gruppoService.findGruppoByCoord(parti[0],
-				parti[1]);
+			@RequestParam("titolo") String titolo,
+			@RequestParam("destinatario") String destinatario,
+			@RequestParam("messaggio") String messaggio,
+			Model model) throws NamingException {		
+		String[] parti = FacilityTool.splitConvNameGroup(destinatario);
+		Gruppo gruppoDestinatario = gruppoService.findGruppoByCoord(parti[0], parti[1]);
 		Utente utenteCompleto = utenteService.findUtente(utente);
-		Conversation toAdd = FacilityTool.createConversation(utenteCompleto,
-				conversation, gruppoDestinatario);
-		System.out.println("Mittente: " + toAdd.getMittente().getNome());
-		Message messaggio = FacilityTool.createMessagePerConversation(
-				conversation.getCorpo(), toAdd);
+		Conversation toAdd = FacilityTool.createConversation(utenteCompleto, titolo, gruppoDestinatario);
+		Message messaggio1 = FacilityTool.createMessagePerConversation(messaggio, toAdd);
 		gruppoDestinatario.addRiceverConversation(toAdd);
-		gruppoService.update(gruppoDestinatario);
-		model.addAttribute("user", utente);
-		model.addAttribute("conversation", toAdd);
-		model.addAttribute("nuovaconv", new Conversation());
+		gruppoService.update(gruppoDestinatario);	
 		return "redirect:/messages/";
 	}
 
@@ -158,25 +118,8 @@ public class ControllerMessage {
 			throws NamingException {
 		Conversation conversation = convesationService.findConversationById(id);
 		model.addAttribute("utente", utente);
-		model.addAttribute("conversation", conversation);
-		String fotoprofilo2 = null;
-		if (utente.getUsername().equals(
-				conversation.getMittente().getUsername())) {
-			model.addAttribute("utente2", conversation.getDestinatario());
-			fotoprofilo2 = fotoService.getFotoProfiloByUtenteId(conversation
-					.getDestinatario().getId());
-			System.out.println();
-		} else {
-			model.addAttribute("utente2", conversation.getMittente());
-			fotoprofilo2 = fotoService.getFotoProfiloByUtenteId(conversation
-					.getMittente().getId());
-		}
-
 		model.addAttribute("messages", conversation.getMessage());
-		String fotoprofilo1 = fotoService.getFotoProfiloByUtenteId(utente
-				.getId());
-		model.addAttribute("fotoprofilo1", fotoprofilo1);
-		model.addAttribute("fotoprofilo2", fotoprofilo2);
+		model.addAttribute("conversation", conversation);
 		model.addAttribute("messaggio", new Message());
 		return "show.conversation";
 	}
@@ -186,15 +129,8 @@ public class ControllerMessage {
 			@ModelAttribute("messaggio") Message messaggio,
 			BindingResult bindingResult, Model model) throws NamingException {
 		Conversation conversation = convesationService.findConversationById(id);
-		Calendar cal = Calendar.getInstance();
 		Utente user = utenteService.findUtenteById(utente.getId());
-		Message msg = new Message();
-		msg.setAutore(user);
-		msg.setConversation(conversation);
-		msg.setStatus(1);
-		msg.setDataInvio(cal);
-		msg.settext(messaggio.gettext());
-		conversation.addMessage(msg);
+		Message msg = FacilityTool.AddNewMessage(messaggio.gettext(), user, conversation);
 		conversation = convesationService.updateConversation(conversation);
 		return "redirect:/messages/conversation/" + conversation.getId();
 	}

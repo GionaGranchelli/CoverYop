@@ -1528,6 +1528,7 @@ table .buy-tickets.sold, table .buy-tickets.sold:hover {
 				z-index: 1;
 				left: 0;
 				top: 0;
+				border-radius: 54px;
 			}
 			.comment .avatar img { 
 				margin: 0;
