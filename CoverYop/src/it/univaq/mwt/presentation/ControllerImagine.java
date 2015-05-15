@@ -1,13 +1,13 @@
 package it.univaq.mwt.presentation;
 
-import java.util.List;
-
 import it.univaq.mwt.business.EventoService;
 import it.univaq.mwt.business.FotoService;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -56,6 +56,20 @@ public class ControllerImagine {
 	public byte[] getLocaleImageSlider(@RequestParam("id") int id){	
 		byte[] immagine =  fotoServ.getByteFotoById(id);
 		return immagine;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/LocalSlide/imageUrl.html", params= "id" ,method = RequestMethod.GET)
+	public byte[] getLocaleImageSliderUrl(@RequestParam("id") int id){	
+		byte[] immagine =  fotoServ.getByteFotoById(id);
+		File temp = null;
+		try {
+			temp = File.createTempFile("temp-file-name", ".jpg");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return temp;
 	}
 }
 	

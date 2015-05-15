@@ -198,7 +198,7 @@ public class ControllerYop {
 		model.addAttribute("eventi", viewGroup.getEventi());			
 		model.addAttribute("canali",viewGroup.getCanale());				
 		model.addAttribute("generi", viewGroup.getGeneri());			
-
+		model.addAttribute("album_foto", viewGroup.getAlbumFotografico());
 		model.addAttribute("gruppidiriferimento", viewGroup.getGruppi_rif());
 		model.addAttribute("scaletta", viewGroup.getScaletta().getCanzoni());
 		return "group.profile";
