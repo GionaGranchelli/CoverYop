@@ -156,7 +156,7 @@
 						<a href="${pageContext.request.contextPath}/Group/${gruppi.id}" class="thumb-glitch artist" data-thumbicon="plus">
 							<span class="hoverlayer"></span>
 							<span class="img">
-								<img src="${pageContext.request.contextPath}/${gruppi.getFotoProfilo().url}" alt="Artist Image" />
+								<img src="${pageContext.request.contextPath}/Group/image.html?id=${gruppi.id}" alt="Artist Image" />
 							</span>
 						</a>
 						<!-- /Thumbnail -->
@@ -198,7 +198,7 @@
 						<a href="${pageContext.request.contextPath}/Local/${locali.id}" class="thumb-glitch artist" data-thumbicon="plus">
 							<span class="hoverlayer"></span>
 							<span class="img">
-								<img src="${pageContext.request.contextPath}/${locali.getFotoProfilo().url}" alt="Artist Image" />
+								<img src="${pageContext.request.contextPath}/Local/image.html?id=${gruppi.id}" alt="Artist Image" />
 							</span>
 						</a>
 						<!-- /Thumbnail -->
@@ -224,7 +224,7 @@
 		 <!-- Events -->
 			<div id="events" class="masonry events-grid clearfix">
 			<div class="col-1-1">
-			<h1>Locali</h1></br>
+			<h1>Eventi</h1></br>
 				<c:if test="${empty eventi}">
 				<h3>Non ci sono Eventi che contengano quel nome</h3>
 				</c:if>	 
