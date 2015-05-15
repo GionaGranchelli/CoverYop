@@ -4,7 +4,10 @@ import it.univaq.mwt.business.EventoService;
 import it.univaq.mwt.business.FotoService;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+
+import javax.servlet.ServletContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,7 +19,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class ControllerImagine {
-	
+	@Autowired
+	ServletContext servletContext;
 	
 	@Autowired
 	EventoService eventoServ;
@@ -60,16 +64,20 @@ public class ControllerImagine {
 	
 	@ResponseBody
 	@RequestMapping(value="/LocalSlide/imageUrl.html", params= "id" ,method = RequestMethod.GET)
-	public byte[] getLocaleImageSliderUrl(@RequestParam("id") int id){	
+	public String getLocaleImageSliderUrl(@RequestParam("id") int id){	
 		byte[] immagine =  fotoServ.getByteFotoById(id);
-		File temp = null;
+		File tempFile = null;
 		try {
-			temp = File.createTempFile("temp-file-name", ".jpg");
+			String path = servletContext.getRealPath("/resources/");
+			tempFile = File.createTempFile(path+"foto-temp", ".jpg",null);
+			FileOutputStream fos = new FileOutputStream(tempFile);
+			fos.write(immagine);
+			fos.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return temp;
+		return tempFile.getAbsolutePath();
 	}
 }
 	

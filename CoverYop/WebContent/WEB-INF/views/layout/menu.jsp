@@ -18,7 +18,7 @@
 
 		   	<!-- ############ logo ############ -->
 		   	<a href="${pageContext.request.contextPath}/" id="logo">
-		   		<img src="${pageContext.request.contextPath}/resources/placeholders/logo.png" alt="Logo">
+		   		<img src="${pageContext.request.contextPath}/resources/placeholders/logo3.png" alt="Logo">
 		   	</a>
 		   	<!-- /logo -->
 
