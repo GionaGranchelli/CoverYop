@@ -1,17 +1,18 @@
 package it.univaq.mwt.business;
 
-import java.util.List;
+import it.univaq.mwt.business.model.Utente;
+import it.univaq.mwt.business.model.Video;
 
-import it.univaq.mwt.business.model.*;
+import java.util.List;
 
 
 public interface VideoService {
 	
-	public List<Video> getAllVideoByGroupId(int groupId);
-	public int deleteVideo(int videoID);
-	public Video getVideoById(int videoID);
-	public Video updateVideo(Video v);
-	public void deleteVideo(Video v);
-	public Video insertVideo(Video v);
-	public Video buildVideoInfo(Utente l, Video v);
+	List<Video> getAllVideoByGroupId(int groupId);
+	int deleteVideo(int videoID);
+	Video getVideoById(int videoID);
+	Video updateVideo(Video v);
+	void deleteVideo(Video v);
+	Video insertVideo(Video v);
+	Video buildVideoInfo(Utente l, Video v);
 }

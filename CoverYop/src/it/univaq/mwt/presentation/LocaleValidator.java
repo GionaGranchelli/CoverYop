@@ -18,14 +18,13 @@ public class LocaleValidator implements Validator {
 	@Autowired
 	UtenteService us;
 	
-	@Override
+	
 	public boolean supports(Class<?> klass) {
 		// TODO Auto-generated method stub
 		return Locale.class.isAssignableFrom(klass);
 	}
 
 	public void validate(Object target, Errors errors) {
-		
 		Locale locale = (Locale) target;
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "nome", "errors.required");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "cognome", "errors.required");
@@ -37,7 +36,6 @@ public class LocaleValidator implements Validator {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "orarioChiusura", "errors.required");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "citta", "errors.required");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "indirizzo", "errors.required");
-	
 		ValidationUtility.rejectIfAccented(errors, "nome", "errors.accented", locale.getNome());
 		ValidationUtility.rejectIfAccented(errors, "cognome", "errors.accented", locale.getCognome());
 		ValidationUtility.rejectIfNotAUsername(errors, "username", "errors.validusername", locale.getUsername());

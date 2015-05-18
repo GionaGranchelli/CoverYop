@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class ControllerImagine {
+	
 	@Autowired
 	ServletContext servletContext;
-	
 	@Autowired
 	EventoService eventoServ;
 	@Autowired

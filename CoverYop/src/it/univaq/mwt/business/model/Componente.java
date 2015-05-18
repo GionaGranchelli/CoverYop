@@ -1,60 +1,40 @@
 package it.univaq.mwt.business.model;
 
-import static javax.persistence.FetchType.LAZY;
+import static javax.persistence.AccessType.PROPERTY;
+import static javax.persistence.TemporalType.DATE;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
+import javax.persistence.Access;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
-
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
-import javax.persistence.Transient;
-
-import java.util.Collection;
-import java.util.Set;
-
-import javax.persistence.Access;
-
-import static javax.persistence.AccessType.PROPERTY;
-import static javax.persistence.CascadeType.PERSIST;
-import static javax.persistence.CascadeType.REFRESH;
-import static javax.persistence.TemporalType.DATE;
 
 @Entity
 @Access(PROPERTY)
-public class Componente implements Serializable{
-	
-	
+public class Componente implements Serializable {
+
 	private int id;
-	
-	
+
 	private Strumento strumento;
-	
+
 	private String nome;
-	
+
 	private String cognome;
-	
+
 	private String nickName;
-	
-	
+
 	private Date nascita;
-	
+
 	private String bio;
-	
-	
+
 	private Gruppo gruppo;
-	
+
 	private static final long serialVersionUID = 1L;
 
 	public Componente() {
@@ -74,8 +54,8 @@ public class Componente implements Serializable{
 		this.gruppo = gruppo;
 	}
 
-	public Componente(Strumento strumento, String nome, String cognome,
-			String nickName, Date nascita, String bio, Gruppo gruppo) {
+	public Componente(Strumento strumento, String nome, String cognome, String nickName,
+			Date nascita, String bio, Gruppo gruppo) {
 		super();
 		this.strumento = strumento;
 		this.nome = nome;
@@ -85,7 +65,7 @@ public class Componente implements Serializable{
 		this.bio = bio;
 		this.gruppo = gruppo;
 	}
-	
+
 	public Componente(int id, Strumento strumento, String nome, String cognome,
 			String nickName, Date nascita, String bio) {
 		super();
@@ -97,9 +77,9 @@ public class Componente implements Serializable{
 		this.nascita = nascita;
 		this.bio = bio;
 	}
-	
-	public Componente(Strumento strumento, String nome, String cognome,
-			String nickName, Date nascita, String bio) {
+
+	public Componente(Strumento strumento, String nome, String cognome, String nickName,
+			Date nascita, String bio) {
 		super();
 		this.strumento = strumento;
 		this.nome = nome;
@@ -108,10 +88,11 @@ public class Componente implements Serializable{
 		this.nascita = nascita;
 		this.bio = bio;
 	}
+
 	@Id
-	//@GeneratedValue(strategy=GenerationType.SEQUENCE)
-	@GeneratedValue(generator="CompSeq")
-    @SequenceGenerator(name="CompSeq",sequenceName="COMPONENTE_SEQ",allocationSize=1)
+	// @GeneratedValue(strategy=GenerationType.SEQUENCE)
+	@GeneratedValue(generator = "CompSeq")
+	@SequenceGenerator(name = "CompSeq", sequenceName = "COMPONENTE_SEQ", allocationSize = 1)
 	public int getId() {
 		return id;
 	}
@@ -120,7 +101,8 @@ public class Componente implements Serializable{
 		this.id = id;
 	}
 
-	@ManyToOne    //un componente può suonare più strumenti
+	@ManyToOne
+	// un componente può suonare più strumenti
 	public Strumento getStrumento() {
 		return strumento;
 	}
@@ -152,6 +134,7 @@ public class Componente implements Serializable{
 	public void setNickName(String nickName) {
 		this.nickName = nickName;
 	}
+
 	@Temporal(DATE)
 	public Date getNascita() {
 		return nascita;
@@ -169,8 +152,8 @@ public class Componente implements Serializable{
 		this.bio = bio;
 	}
 
-	@ManyToOne(fetch=FetchType.EAGER)
-//	@JoinColumn(name="gruppoId")
+	@ManyToOne(fetch = FetchType.EAGER)
+	// @JoinColumn(name="gruppoId")
 	public Gruppo getGruppo() {
 		return gruppo;
 	}
@@ -179,6 +162,4 @@ public class Componente implements Serializable{
 		this.gruppo = gruppo;
 	}
 
-	
-	
 }

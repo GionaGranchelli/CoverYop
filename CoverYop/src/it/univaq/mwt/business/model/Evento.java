@@ -221,7 +221,8 @@ public class Evento implements Serializable {
 		return tour;
 	}
 
-	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "eventi",cascade={CascadeType.MERGE,CascadeType.REFRESH})
+	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "eventi", cascade = {
+			CascadeType.MERGE, CascadeType.REFRESH })
 	public Set<Gruppo> getGruppo() {
 		return gruppo;
 	}
@@ -260,10 +261,11 @@ public class Evento implements Serializable {
 		this.locandinaBlob = locandinaBlob;
 	}
 
-	public void addGruppo(Gruppo gr){
+	public void addGruppo(Gruppo gr) {
 		this.gruppo.add(gr);
 	}
-	public void removeGruppo(Gruppo gr){
+
+	public void removeGruppo(Gruppo gr) {
 		this.gruppo.remove(gr);
 	}
 }

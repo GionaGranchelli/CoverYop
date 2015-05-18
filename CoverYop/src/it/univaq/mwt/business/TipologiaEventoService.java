@@ -1,14 +1,13 @@
 package it.univaq.mwt.business;
 
-import java.util.List;
-import java.util.Set;
+import it.univaq.mwt.business.model.TipologiaEvento;
 
-import it.univaq.mwt.business.model.*;
+import java.util.List;
 
 
 public interface TipologiaEventoService {
 
-	public List<TipologiaEvento> getAllTipologiaEvento();
+	List<TipologiaEvento> getAllTipologiaEvento();
 	
-	public TipologiaEvento getTipologiaEventoById(int tipoloEventoID);
+	TipologiaEvento getTipologiaEventoById(int tipoloEventoID);
 }

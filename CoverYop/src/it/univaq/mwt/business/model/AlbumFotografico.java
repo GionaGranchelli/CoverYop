@@ -26,34 +26,35 @@ import javax.persistence.Temporal;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Access(PROPERTY)
 public class AlbumFotografico implements Serializable {
-	
+
 	private int id;
-	
+
 	private String titolo;
-	
+
 	private Date data;
-	
+
 	private String tag;
-	
+
 	private String luogo;
-	
+
 	@JsonBackReference
 	private Utente utente;
-	
+
 	@JsonManagedReference
 	private Set<Foto> foto = new HashSet<Foto>();
-	
+
 	private static final long serialVersionUID = 1L;
 
 	public AlbumFotografico() {
 		super();
 	}
 
-	public AlbumFotografico(int id, String titolo, Date data, String tag,
-			String luogo,Utente utente, Set<Foto> foto) {
+	public AlbumFotografico(int id, String titolo, Date data, String tag, String luogo,
+			Utente utente, Set<Foto> foto) {
 		super();
 		this.id = id;
 		this.titolo = titolo;
@@ -63,8 +64,8 @@ public class AlbumFotografico implements Serializable {
 		this.foto = foto;
 	}
 
-	public AlbumFotografico(String titolo, Date data, String tag,
-			String luogo,Utente utente, Set<Foto> foto) {
+	public AlbumFotografico(String titolo, Date data, String tag, String luogo,
+			Utente utente, Set<Foto> foto) {
 		super();
 		this.titolo = titolo;
 		this.data = data;
@@ -72,25 +73,28 @@ public class AlbumFotografico implements Serializable {
 		this.utente = utente;
 		this.foto = foto;
 	}
-	
-	public AlbumFotografico(int id, String titolo, Date data, String tag,String luogo,Set<Foto> foto) {
+
+	public AlbumFotografico(int id, String titolo, Date data, String tag, String luogo,
+			Set<Foto> foto) {
 		super();
 		this.id = id;
 		this.titolo = titolo;
 		this.data = data;
 		this.tag = tag;
 	}
-	
-	public AlbumFotografico( String titolo, Date data, String tag,String luogo,Set<Foto> foto) {
+
+	public AlbumFotografico(String titolo, Date data, String tag, String luogo,
+			Set<Foto> foto) {
 		super();
 		this.titolo = titolo;
 		this.data = data;
 		this.tag = tag;
 	}
+
 	@Id
-	//@GeneratedValue(strategy=GenerationType.SEQUENCE)
-	@GeneratedValue(generator="AlbFotSeq")
-    @SequenceGenerator(name="AlbFotSeq",sequenceName="ALBUMFOTOGRAFICO_SEQ",allocationSize=1)
+	// @GeneratedValue(strategy=GenerationType.SEQUENCE)
+	@GeneratedValue(generator = "AlbFotSeq")
+	@SequenceGenerator(name = "AlbFotSeq", sequenceName = "ALBUMFOTOGRAFICO_SEQ", allocationSize = 1)
 	public int getId() {
 		return id;
 	}
@@ -106,6 +110,7 @@ public class AlbumFotografico implements Serializable {
 	public void setTitolo(String titolo) {
 		this.titolo = titolo;
 	}
+
 	@Temporal(DATE)
 	public Date getData() {
 		return data;
@@ -123,7 +128,7 @@ public class AlbumFotografico implements Serializable {
 		this.tag = tag;
 	}
 
-	@ManyToOne (fetch = LAZY,cascade={PERSIST, REFRESH}) 
+	@ManyToOne(fetch = LAZY, cascade = { PERSIST, REFRESH })
 	public Utente getUtente() {
 		return utente;
 	}
@@ -132,7 +137,7 @@ public class AlbumFotografico implements Serializable {
 		this.utente = utente;
 	}
 
-	@OneToMany (fetch = EAGER, mappedBy="albumFotografico",cascade= CascadeType.ALL)
+	@OneToMany(fetch = EAGER, mappedBy = "albumFotografico", cascade = CascadeType.ALL)
 	public Set<Foto> getFoto() {
 		return foto;
 	}
@@ -148,25 +153,26 @@ public class AlbumFotografico implements Serializable {
 	public void setLuogo(String luogo) {
 		this.luogo = luogo;
 	}
-	
-	public void addFoto(Foto f){
+
+	public void addFoto(Foto f) {
 		foto.add(f);
 	}
-	public void removeFoto(Foto f){
+
+	public void removeFoto(Foto f) {
 		foto.remove(f);
 	}
 
-	public void addListFoto(List<Foto> f){
+	public void addListFoto(List<Foto> f) {
 		foto.addAll(f);
 	}
-	
-	public void setIdForFoto(){
-		
+
+	public void setIdForFoto() {
+
 		Iterator<Foto> i = foto.iterator();
-		while(i.hasNext()){
+		while (i.hasNext()) {
 			i.next().setAlbumFotografico(this);
 		}
-		
+
 	}
-	
+
 }

@@ -1,22 +1,16 @@
 package it.univaq.mwt.business;
 
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import it.univaq.mwt.business.model.Canzone;
 
-
-
-import it.univaq.mwt.business.model.*;
+import java.util.List;
 
 
 public interface CanzoneService {
-	public Canzone findCanzoneById(int canzoniID);
-	public List<Canzone> findAllCanzoni();
-	public void deleteCanzone(int canzoneID);
-	public List<Canzone> findLastSong(int i);
+	Canzone findCanzoneById(int canzoniID);
+	List<Canzone> findAllCanzoni();
+	void deleteCanzone(int canzoneID);
+	List<Canzone> findLastSong(int i);
 	
 }
 

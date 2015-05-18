@@ -9,17 +9,17 @@ import java.util.Set;
 
 public interface FotoService {
 
-	public Foto getFotoById(int fotoID);
-	public void deleteFotoById(int fotoID);
+	Foto getFotoById(int fotoID);
+	void deleteFotoById(int fotoID);
 	void deleteFotoByObj(Foto f);
-	public Foto insertFoto(Foto f);
-	public String getFotoProfiloByUtenteId(int id);
-	public Foto updatePhoto(Foto foto);
+	Foto insertFoto(Foto f);
+	String getFotoProfiloByUtenteId(int id);
+	Foto updatePhoto(Foto foto);
 	byte[] getFotoProfiloByUtenteIdBlob(int id);
 	//byte[] getFotoSliderByUtenteIdBlob(int id);
 	byte[] getFotoSlideShowByUtenteIdBlob(int id);
-	public List<byte[]> getFotoSliderByUtenteIdBlob(int id);
-	public AlbumFotografico getAlbumSliderByUserId(int id);
-	public byte[] getByteFotoById(int id);
-	public void insertSetFoto(Set<Foto> setFoto);
+	List<byte[]> getFotoSliderByUtenteIdBlob(int id);
+	AlbumFotografico getAlbumSliderByUserId(int id);
+	byte[] getByteFotoById(int id);
+	void insertSetFoto(Set<Foto> setFoto);
 }

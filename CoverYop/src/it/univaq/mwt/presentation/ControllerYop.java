@@ -209,10 +209,8 @@ public class ControllerYop {
 			@RequestParam(value = "citta", required = false) String citta,
 			@RequestParam(value = "tipologia", required = false) String tipologia,
 			Model model) {
-
 		List<Locale> locali = ls.customSearchLocali(nome, citta, tipologia);
 		model.addAttribute("locali", locali);
-
 		List<Categoria> categorie = new ArrayList<Categoria>();
 		categorie = ls.getAllCategorieByLocali(locali);
 		model.addAttribute("categorie", categorie);
@@ -221,7 +219,6 @@ public class ControllerYop {
 
 	@RequestMapping("/Local/{id}")
 	public String localProfile(@PathVariable("id") int id, Model model) {
-
 		Locale locale = ls.findLocaleById(id);
 		String[] title = FacilityTool.splitName(locale.getNomeLocale());
 		model.addAttribute("titolo_page_1", title[0]);
@@ -234,7 +231,6 @@ public class ControllerYop {
 		model.addAttribute("slideshow", locale.getAlbumSlider().getFoto());
 		List<Video> video = new ArrayList<Video>(locale.getVideo());
 		model.addAttribute("video", video);
-
 		return "local.profile";
 	}
 

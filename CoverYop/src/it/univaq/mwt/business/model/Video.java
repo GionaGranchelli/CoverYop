@@ -19,30 +19,28 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Access(PROPERTY)
-public class Video implements Serializable{
-
+public class Video implements Serializable {
 
 	private int id;
 
 	private String titolo;
 
 	private Date data;
-	
+
 	private String tag;
 
 	private String url;
-	
+
 	@JsonBackReference
-	private Utente utente; 
+	private Utente utente;
 
 	private static final long serialVersionUID = 1L;
-	
+
 	public Video() {
 		super();
 	}
 
-	public Video(int id, String titolo, Date data, String tag, String url,
-			Utente utente) {
+	public Video(int id, String titolo, Date data, String tag, String url, Utente utente) {
 		super();
 		this.id = id;
 		this.titolo = titolo;
@@ -51,15 +49,14 @@ public class Video implements Serializable{
 		this.url = url;
 		this.utente = utente;
 	}
-	
-	public Video(String titolo, Date data, String tag, String url,
-			Gruppo gruppo) {
+
+	public Video(String titolo, Date data, String tag, String url, Gruppo gruppo) {
 		super();
 		this.titolo = titolo;
 		this.data = data;
 		this.tag = tag;
 		this.url = url;
-		this.utente= utente;
+		this.utente = utente;
 	}
 
 	public Video(int id, String titolo, Date data, String tag, String url) {
@@ -70,7 +67,7 @@ public class Video implements Serializable{
 		this.tag = tag;
 		this.url = url;
 	}
-	
+
 	public Video(String titolo, Date data, String tag, String url) {
 		super();
 		this.titolo = titolo;
@@ -78,10 +75,11 @@ public class Video implements Serializable{
 		this.tag = tag;
 		this.url = url;
 	}
+
 	@Id
-	//@GeneratedValue(strategy=GenerationType.SEQUENCE)
-	@GeneratedValue(generator="VidSeq")
-    @SequenceGenerator(name="VidSeq",sequenceName="VIDEO_SEQ",allocationSize=1)
+	// @GeneratedValue(strategy=GenerationType.SEQUENCE)
+	@GeneratedValue(generator = "VidSeq")
+	@SequenceGenerator(name = "VidSeq", sequenceName = "VIDEO_SEQ", allocationSize = 1)
 	public int getId() {
 		return id;
 	}
@@ -97,6 +95,7 @@ public class Video implements Serializable{
 	public void setTitolo(String titolo) {
 		this.titolo = titolo;
 	}
+
 	@Temporal(DATE)
 	public Date getData() {
 		return data;
@@ -131,7 +130,4 @@ public class Video implements Serializable{
 		this.utente = utente;
 	}
 
-
-
-	
 }

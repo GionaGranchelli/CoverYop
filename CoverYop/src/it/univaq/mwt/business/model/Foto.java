@@ -17,22 +17,20 @@ import javax.persistence.SequenceGenerator;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
-
 @Access(PROPERTY)
-public class Foto implements Serializable{
-	
-	
+public class Foto implements Serializable {
+
 	private int id;
-	
+
 	private String url;
-	
+
 	@JsonBackReference
 	private AlbumFotografico albumFotografico;
-	
-	private byte[] fotoBlob; 
+
+	private byte[] fotoBlob;
 
 	private static final long serialVersionUID = 1L;
-	
+
 	public Foto() {
 		super();
 	}
@@ -43,7 +41,7 @@ public class Foto implements Serializable{
 		this.url = url;
 		this.albumFotografico = albumFotografico;
 	}
-	
+
 	public Foto(String url, AlbumFotografico albumFotografico) {
 		super();
 		this.url = url;
@@ -55,15 +53,16 @@ public class Foto implements Serializable{
 		this.id = id;
 		this.url = url;
 	}
-	
+
 	public Foto(String url) {
 		super();
 		this.url = url;
 	}
+
 	@Id
-	//@GeneratedValue(strategy=GenerationType.SEQUENCE)
-	@GeneratedValue(generator="FotoSeq")
-    @SequenceGenerator(name="FotoSeq",sequenceName="FOTO_SEQ",allocationSize=1)
+	// @GeneratedValue(strategy=GenerationType.SEQUENCE)
+	@GeneratedValue(generator = "FotoSeq")
+	@SequenceGenerator(name = "FotoSeq", sequenceName = "FOTO_SEQ", allocationSize = 1)
 	public int getId() {
 		return id;
 	}
@@ -80,8 +79,8 @@ public class Foto implements Serializable{
 		this.url = url;
 	}
 
-	@ManyToOne (fetch = EAGER)
-	@JoinColumn(name="albumFotograficoId", referencedColumnName="id")
+	@ManyToOne(fetch = EAGER)
+	@JoinColumn(name = "albumFotograficoId", referencedColumnName = "id")
 	public AlbumFotografico getAlbumFotografico() {
 		return albumFotografico;
 	}
@@ -99,5 +98,4 @@ public class Foto implements Serializable{
 		this.fotoBlob = fotoBlob;
 	}
 
-	
 }

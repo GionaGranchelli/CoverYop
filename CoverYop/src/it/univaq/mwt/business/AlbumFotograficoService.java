@@ -8,17 +8,17 @@ import it.univaq.mwt.business.model.*;
 
 public interface AlbumFotograficoService {
 	
-	public List<AlbumFotografico> getAllPhotoAlbumsByGroupId(int groupID);
-	public Foto getFotoProfiloByGroupId(int groupID);
-	public void addPhotoAlbum(AlbumFotografico album);
-	public AlbumFotografico updatePhotoAlbum(AlbumFotografico album);
-	public AlbumFotografico insertAlbumFotografico(AlbumFotografico album);
-	public int emptyAlbumFotografico(AlbumFotografico album);
-	public void removeAlbumFotografico(int albumID);
-	public AlbumFotografico getAlbumFotograficoById(int albumID);
-	public List<AlbumFotografico> getLastSubscribed(int i);
-	public void removeEmptyAlbums(Utente utente);
-	public void fixAlbum(Utente utente);
+	List<AlbumFotografico> getAllPhotoAlbumsByGroupId(int groupID);
+	Foto getFotoProfiloByGroupId(int groupID);
+	void addPhotoAlbum(AlbumFotografico album);
+	AlbumFotografico updatePhotoAlbum(AlbumFotografico album);
+	AlbumFotografico insertAlbumFotografico(AlbumFotografico album);
+	int emptyAlbumFotografico(AlbumFotografico album);
+	void removeAlbumFotografico(int albumID);
+	AlbumFotografico getAlbumFotograficoById(int albumID);
+	List<AlbumFotografico> getLastSubscribed(int i);
+	void removeEmptyAlbums(Utente utente);
+	void fixAlbum(Utente utente);
 
 	
 }

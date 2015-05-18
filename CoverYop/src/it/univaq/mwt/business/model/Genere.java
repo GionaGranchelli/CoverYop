@@ -1,38 +1,28 @@
 package it.univaq.mwt.business.model;
 
+import static javax.persistence.AccessType.PROPERTY;
+
 import java.io.Serializable;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Access;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
-
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 
-import java.util.Set;
-import java.util.Set;
-
-import javax.persistence.Access;
-
-import static javax.persistence.AccessType.PROPERTY;
-
 @Entity
 @Access(PROPERTY)
-public class Genere implements Serializable{
-
+public class Genere implements Serializable {
 
 	private int id;
-	
+
 	private String genere;
-	
-	
+
 	private Set<Gruppo> gruppo = new HashSet<Gruppo>();
-	
+
 	private static final long serialVersionUID = 1L;
 
 	public Genere() {
@@ -45,7 +35,7 @@ public class Genere implements Serializable{
 		this.genere = genere;
 		this.gruppo = gruppo;
 	}
-	
+
 	public Genere(String genere, Set<Gruppo> gruppo) {
 		super();
 		this.genere = genere;
@@ -57,15 +47,16 @@ public class Genere implements Serializable{
 		this.id = id;
 		this.genere = genere;
 	}
-	
+
 	public Genere(String genere) {
 		super();
 		this.genere = genere;
 	}
+
 	@Id
-	//@GeneratedValue(strategy=GenerationType.SEQUENCE)
-	@GeneratedValue(generator="GenSeq")
-    @SequenceGenerator(name="GenSeq",sequenceName="GENERE_SEQ",allocationSize=1)
+	// @GeneratedValue(strategy=GenerationType.SEQUENCE)
+	@GeneratedValue(generator = "GenSeq")
+	@SequenceGenerator(name = "GenSeq", sequenceName = "GENERE_SEQ", allocationSize = 1)
 	public int getId() {
 		return id;
 	}
@@ -82,7 +73,7 @@ public class Genere implements Serializable{
 		this.genere = genere;
 	}
 
-	@ManyToMany(mappedBy="generi")
+	@ManyToMany(mappedBy = "generi")
 	public Set<Gruppo> getGruppo() {
 		return gruppo;
 	}
@@ -91,6 +82,4 @@ public class Genere implements Serializable{
 		this.gruppo = gruppo;
 	}
 
-	
-	
 }

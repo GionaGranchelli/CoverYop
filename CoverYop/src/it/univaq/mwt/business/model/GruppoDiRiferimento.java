@@ -1,41 +1,28 @@
 package it.univaq.mwt.business.model;
 
+import static javax.persistence.AccessType.PROPERTY;
+
 import java.io.Serializable;
-import java.util.Date;
-import java.util.Set;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
-
-import javax.persistence.ManyToMany;
-import javax.persistence.SequenceGenerator;
-
-import java.util.Set;
 import java.util.HashSet;
 import java.util.Set;
 
-
-import java.util.Set;
-
 import javax.persistence.Access;
-
-import static javax.persistence.AccessType.PROPERTY;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.SequenceGenerator;
 
 @Entity
 @Access(PROPERTY)
-public class GruppoDiRiferimento implements Serializable{
-	
+public class GruppoDiRiferimento implements Serializable {
 
 	private int id;
-	
+
 	private String nome;
-	
-	
+
 	private Set<Gruppo> gruppo = new HashSet<Gruppo>();
-	
+
 	private static final long serialVersionUID = 1L;
 
 	public GruppoDiRiferimento() {
@@ -48,7 +35,7 @@ public class GruppoDiRiferimento implements Serializable{
 		this.nome = nome;
 		this.gruppo = gruppo;
 	}
-	
+
 	public GruppoDiRiferimento(String nome, Set<Gruppo> gruppo) {
 		super();
 		this.nome = nome;
@@ -60,15 +47,16 @@ public class GruppoDiRiferimento implements Serializable{
 		this.id = id;
 		this.nome = nome;
 	}
-	
+
 	public GruppoDiRiferimento(String nome) {
 		super();
 		this.nome = nome;
 	}
+
 	@Id
-	//@GeneratedValue(strategy=GenerationType.SEQUENCE)
-	@GeneratedValue(generator="GdrSeq")
-    @SequenceGenerator(name="GdrSeq",sequenceName="GRUPPODIRIFERIMENTO_SEQ",allocationSize=1)
+	// @GeneratedValue(strategy=GenerationType.SEQUENCE)
+	@GeneratedValue(generator = "GdrSeq")
+	@SequenceGenerator(name = "GdrSeq", sequenceName = "GRUPPODIRIFERIMENTO_SEQ", allocationSize = 1)
 	public int getId() {
 		return id;
 	}
@@ -85,7 +73,7 @@ public class GruppoDiRiferimento implements Serializable{
 		this.nome = nome;
 	}
 
-	@ManyToMany(mappedBy="gruppi_rif")
+	@ManyToMany(mappedBy = "gruppi_rif")
 	public Set<Gruppo> getGruppo() {
 		return gruppo;
 	}
@@ -93,7 +81,5 @@ public class GruppoDiRiferimento implements Serializable{
 	public void setGruppo(Set<Gruppo> gruppo) {
 		this.gruppo = gruppo;
 	}
-	
 
-	
 }

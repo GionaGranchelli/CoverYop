@@ -43,6 +43,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 @Controller
 @RequestMapping("/Privee")
 public class ControllerLocale {
+	
 	@Autowired
 	private Utente utente;
 	@Autowired
@@ -105,7 +106,6 @@ public class ControllerLocale {
 	@RequestMapping(value = "/updateUtente", method = RequestMethod.POST)
 	private String updateUtente(@ModelAttribute("locale") Locale locale, Model model) {
 		Locale l = localeService.findLocaleByUser(utente);
-		
 		localeService.buildInfoUtente(l, locale);
 		localeService.update(l);
 		return "redirect:/Privee/Utente";
@@ -113,7 +113,6 @@ public class ControllerLocale {
 
 	@RequestMapping("/Multimedia")
 	private String multimedia(Model model) {
-
 		Locale l = localeService.findLocaleByUser(utente);
 		String[] title = FacilityTool.splitName(l.getNomeLocale());
 		model.addAttribute("titolo_page_1", title[0]);

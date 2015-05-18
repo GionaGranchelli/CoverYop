@@ -36,7 +36,6 @@ public class GruppoValidator implements Validator {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "data", "errors.required");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "indirizzo", "errors.required");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "citta", "errors.required");
-		
 		ValidationUtility.rejectIfAccented(errors, "nome", "errors.accented", gruppo.getNome());
 		ValidationUtility.rejectIfAccented(errors, "cognome", "errors.accented", gruppo.getCognome());
 		ValidationUtility.rejectIfNotAUsername(errors, "username", "errors.validusername", gruppo.getUsername());

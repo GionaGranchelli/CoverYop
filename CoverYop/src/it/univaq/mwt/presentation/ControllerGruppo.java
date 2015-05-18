@@ -67,7 +67,6 @@ public class ControllerGruppo {
 	CanzoneService canzoneServ;
 	@Autowired
 	EventoService eventoServ;
-	Evento eventoDaModificare = new Evento(0);
 	@Autowired
 	LocaleService localeServ;
 	@Autowired
@@ -197,10 +196,6 @@ public class ControllerGruppo {
 		return "redirect:/BackStage/Multimedia";
 	}
 	
-	
-	
-	
-
 	@RequestMapping(value = "/deleteVideo/{id}")
 	public String deleteVideo(@PathVariable int id) {
 		videoServ.deleteVideo(id);
@@ -209,10 +204,8 @@ public class ControllerGruppo {
 
 	@RequestMapping("/Tour")
 	private String ModificaTour() {
-
 		return "utente.loggato";
 	}
-	
 	
 	@RequestMapping("/Eventi")
 	private String eventi(Model model) {
@@ -228,7 +221,6 @@ public class ControllerGruppo {
 		model.addAttribute("gruppo", gruppo);
 		return "gruppoEventi.loggato";
 	}
-	
 	
 	@RequestMapping(value = "/addEvento", method = RequestMethod.POST)
 	private String addEvento(@ModelAttribute("evento") Evento evento,
@@ -274,7 +266,6 @@ public class ControllerGruppo {
 		return "redirect:/BackStage/Eventi";
 	}
 
-
 	@RequestMapping("/EventoModifica/{id}")
 	private String modificaEvento(@PathVariable int id, Model model) {
 		Evento v = eventoServ.findEventoById(id);
@@ -315,7 +306,6 @@ public class ControllerGruppo {
 
 		List<Locale>countryList = new ArrayList<Locale>(
 				localeServ.findLocaleByName(query));
-
 		Iterator<Locale> i = countryList.iterator();
 		List<String> listaLocali = new ArrayList<String>();
 		while (i.hasNext()) {
@@ -323,7 +313,6 @@ public class ControllerGruppo {
 			listaLocali.add(v.getNomeLocale() + "::" + v.getIndirizzo() + "::"
 					+ v.getCitta());
 		}
-
 		return listaLocali;
 	}
 

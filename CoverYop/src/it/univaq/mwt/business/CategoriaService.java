@@ -1,12 +1,12 @@
 package it.univaq.mwt.business;
 
-import java.util.List;
+import it.univaq.mwt.business.model.Categoria;
 
-import it.univaq.mwt.business.model.*;
+import java.util.List;
 
 
 public interface CategoriaService {
 
-	public List<Categoria> findAllCategory();
+	List<Categoria> findAllCategory();
 	
 }

@@ -62,7 +62,6 @@ public class ControllerEvento {
 		List<Gruppo> gruppiSet = gs.findAllGruppi();
 		List<Gruppo> gruppi = new ArrayList<Gruppo>(gruppiSet);
 		model.addAttribute("gruppi", gruppi);
-		
 		return "list.event";
 		
 	}
@@ -71,16 +70,13 @@ public class ControllerEvento {
 	public String eventProfile(@PathVariable("id") int id, Model model){
 	
 		Evento evento = es.findEventoById(id);
-		
 		String[] title = FacilityTool.splitName(evento.getNome());
 		model.addAttribute("titolo_page_1", title[0]);
 		model.addAttribute("titolo_page_2", title[1]);
-		
 		List<Gruppo> gruppi = new ArrayList<Gruppo>(evento.getGruppo());
 		model.addAttribute("evento", evento);
 		model.addAttribute("fotoBlob", evento.getLocandinaBlob());
 		model.addAttribute("gruppi", gruppi);
-		
 		return "evento.profile";
 		
 	}

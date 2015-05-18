@@ -13,17 +13,11 @@ import it.univaq.mwt.business.model.*;
 
 public interface AlbumService {
 
-	public Album getAllCanzoniByAlbumId(int albumId);
-	
-	public List<Album> getAllAlbumsByGroupId(int groupId);
-	
-	public void deleteAlbum(int albumID);
-	
-	public int emptyAlbum(Album alb);
-	
-	public void saveAlbumWithSong(Utente utente, Album album,
-			CommonsMultipartFile[] tracce);
-
-	public void updateAlbum(Album a);
+	Album getAllCanzoniByAlbumId(int albumId);
+	List<Album> getAllAlbumsByGroupId(int groupId);
+	void deleteAlbum(int albumID);
+	int emptyAlbum(Album alb);
+	void saveAlbumWithSong(Utente utente, Album album, CommonsMultipartFile[] tracce);
+	void updateAlbum(Album a);
 	
 }

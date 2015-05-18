@@ -1,26 +1,20 @@
 package it.univaq.mwt.business.model;
 
+import static javax.persistence.AccessType.PROPERTY;
+import static javax.persistence.CascadeType.PERSIST;
+import static javax.persistence.CascadeType.REFRESH;
+
 import java.io.Serializable;
-import java.util.Date;
 import java.util.Set;
 
+import javax.persistence.Access;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
-
-import java.util.Collection;
-import java.util.Set;
-
-import javax.persistence.Access;
-
-import static javax.persistence.AccessType.PROPERTY;
-import static javax.persistence.CascadeType.PERSIST;
-import static javax.persistence.CascadeType.REFRESH;
 
 @Entity
 @Access(PROPERTY)
@@ -31,11 +25,11 @@ public class Scaletta implements Serializable {
 	private float durata;
 
 	private Set<Canzone> canzoni;
-	
+
 	private Gruppo gruppo;
 
 	private static final long serialVersionUID = 1L;
-	
+
 	public Scaletta() {
 		super();
 	}
@@ -65,9 +59,9 @@ public class Scaletta implements Serializable {
 	}
 
 	@Id
-	//@GeneratedValue(strategy=GenerationType.SEQUENCE)
-	@GeneratedValue(generator="ScaSeq")
-    @SequenceGenerator(name="ScaSeq",sequenceName="SCALETTA_SEQ",allocationSize=1)
+	// @GeneratedValue(strategy=GenerationType.SEQUENCE)
+	@GeneratedValue(generator = "ScaSeq")
+	@SequenceGenerator(name = "ScaSeq", sequenceName = "SCALETTA_SEQ", allocationSize = 1)
 	public int getId() {
 		return id;
 	}
@@ -84,7 +78,8 @@ public class Scaletta implements Serializable {
 		this.durata = durata;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY,mappedBy="scaletta",cascade={PERSIST, REFRESH})
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "scaletta", cascade = { PERSIST,
+			REFRESH })
 	public Set<Canzone> getCanzoni() {
 		return canzoni;
 	}
@@ -92,15 +87,14 @@ public class Scaletta implements Serializable {
 	public void setCanzoni(Set<Canzone> canzoni) {
 		this.canzoni = canzoni;
 	}
+
 	@OneToOne
 	public Gruppo getGruppo() {
 		return gruppo;
 	}
-	
 
 	public void setGruppo(Gruppo gruppo) {
 		this.gruppo = gruppo;
 	}
-	
 
 }

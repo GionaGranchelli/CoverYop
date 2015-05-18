@@ -8,9 +8,7 @@ import java.util.List;
 
 public interface GenereService {
 	
-	public List<Genere> findAllGeneri();
-	
-	public List<String> findAllGeneriTitoli();
-
-	public Genere getGenereById(int Id);
+	List<Genere> findAllGeneri();
+	List<String> findAllGeneriTitoli();
+	Genere getGenereById(int Id);
 }

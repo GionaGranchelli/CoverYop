@@ -61,23 +61,19 @@ public class ControllerMessage {
 	}
 
 	@RequestMapping("/findAllConversationPaginated.do")
-	public @ResponseBody ResponseGrid<Conversation> findAllConversationPaginated(
-			@ModelAttribute RequestGrid requestGrid) {
-		ResponseGrid<Conversation> responseGrid = convesationService
-				.findAllConversationPaginated(requestGrid, utente);
+	public @ResponseBody ResponseGrid<Conversation> findAllConversationPaginated(@ModelAttribute RequestGrid requestGrid) {
+		ResponseGrid<Conversation> responseGrid = convesationService.findAllConversationPaginated(requestGrid, utente);
 		return responseGrid;
 	}
 
 	@RequestMapping("/addconversation")
-	public String addConversation(
-			@ModelAttribute("formContatta") FormContatta conversation,
-			BindingResult bindingResult, Model model) throws NamingException {
-	Utente destinatario = utenteService.findUtenteById(conversation.getId());
-	Utente utenteCompleto = utenteService.findUtente(utente);
-	Conversation toAdd = FacilityTool.createConversation(utenteCompleto, conversation.getTitolo(), destinatario);
-	Message messaggio1 = FacilityTool.createMessagePerConversation(conversation.getCorpo(), toAdd);
-	destinatario.addRiceverConversation(toAdd);
-	utenteService.update(destinatario);
+	public String addConversation(@ModelAttribute("formContatta") FormContatta conversation, BindingResult bindingResult, Model model) throws NamingException {
+		Utente destinatario = utenteService.findUtenteById(conversation.getId());
+		Utente utenteCompleto = utenteService.findUtente(utente);
+		Conversation toAdd = FacilityTool.createConversation(utenteCompleto, conversation.getTitolo(), destinatario);
+		Message messaggio1 = FacilityTool.createMessagePerConversation(conversation.getCorpo(), toAdd);
+		destinatario.addRiceverConversation(toAdd);
+		utenteService.update(destinatario);
 		return "redirect:/messages/";
 	}
 

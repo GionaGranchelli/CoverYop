@@ -6,42 +6,38 @@ import java.io.Serializable;
 import java.util.Calendar;
 
 import javax.persistence.Access;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-
 @Entity
 @Access(PROPERTY)
 public class Message implements Serializable {
-	
+
 	private int id;
-	
+
 	private String text;
-	
+
 	private Utente autore;
-	
+
 	private Calendar dataInvio;
-	
+
 	private int status;
-	
+
 	private Conversation conversation;
 
 	public Message() {
 		super();
 	}
 
-	public Message(int id, String text, Utente autore,
-			Calendar data, int status, Conversation conversation) {
+	public Message(int id, String text, Utente autore, Calendar data, int status,
+			Conversation conversation) {
 		super();
 		this.id = id;
 		this.text = text;
@@ -51,8 +47,8 @@ public class Message implements Serializable {
 		this.conversation = conversation;
 	}
 
-	public Message(String text, Utente autore, Calendar data,
-			int status, Conversation conversation) {
+	public Message(String text, Utente autore, Calendar data, int status,
+			Conversation conversation) {
 		super();
 		this.text = text;
 		this.autore = autore;
@@ -60,9 +56,10 @@ public class Message implements Serializable {
 		this.status = status;
 		this.conversation = conversation;
 	}
+
 	@Id
-	@GeneratedValue(generator="MesSeq")
-    @SequenceGenerator(name="MesSeq",sequenceName="MESSAGE_SEQ",allocationSize=1)
+	@GeneratedValue(generator = "MesSeq")
+	@SequenceGenerator(name = "MesSeq", sequenceName = "MESSAGE_SEQ", allocationSize = 1)
 	public int getId() {
 		return id;
 	}
@@ -78,8 +75,9 @@ public class Message implements Serializable {
 	public void settext(String text) {
 		this.text = text;
 	}
+
 	@OneToOne
-	@JoinColumn(name="AUTORE_ID")
+	@JoinColumn(name = "AUTORE_ID")
 	public Utente getAutore() {
 		return autore;
 	}
@@ -87,7 +85,8 @@ public class Message implements Serializable {
 	public void setAutore(Utente autore) {
 		this.autore = autore;
 	}
-	@Column(name="DATA")
+
+	@Column(name = "DATA")
 	@Temporal(TemporalType.TIMESTAMP)
 	public Calendar getDataInvio() {
 		return dataInvio;
@@ -104,8 +103,9 @@ public class Message implements Serializable {
 	public void setStatus(int status) {
 		this.status = status;
 	}
+
 	@OneToOne
-	@JoinColumn(name="CONVERSATION_ID")
+	@JoinColumn(name = "CONVERSATION_ID")
 	public Conversation getConversation() {
 		return conversation;
 	}
@@ -113,9 +113,5 @@ public class Message implements Serializable {
 	public void setConversation(Conversation conversation) {
 		this.conversation = conversation;
 	}
-	
-	
-	
-	
 
 }

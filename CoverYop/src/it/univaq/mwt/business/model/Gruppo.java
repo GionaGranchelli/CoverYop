@@ -134,6 +134,7 @@ public class Gruppo extends Utente implements Serializable {
 	public void setNomeGruppo(String nomeGruppo) {
 		this.nomeGruppo = nomeGruppo;
 	}
+
 	@JsonIgnore
 	@Embedded
 	public ServiceMusicale getService() {
@@ -143,6 +144,7 @@ public class Gruppo extends Utente implements Serializable {
 	public void setService(ServiceMusicale service) {
 		this.service = service;
 	}
+
 	@JsonIgnore
 	@Embedded
 	public Cachet getCachet() {
@@ -154,7 +156,8 @@ public class Gruppo extends Utente implements Serializable {
 	}
 
 	@JsonIgnore
-	@OneToMany(fetch=FetchType.EAGER, mappedBy="gruppo",cascade={PERSIST, REFRESH, REMOVE, CascadeType.MERGE})
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "gruppo", cascade = { PERSIST,
+			REFRESH, REMOVE, CascadeType.MERGE })
 	public Set<Album> getAlbums() {
 		return albums;
 	}
@@ -166,6 +169,7 @@ public class Gruppo extends Utente implements Serializable {
 	public void addAlbum(Album album) {
 		this.albums.add(album);
 	}
+
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "gruppo", cascade = { PERSIST,
 			REFRESH, REMOVE })
@@ -180,6 +184,7 @@ public class Gruppo extends Utente implements Serializable {
 	public void addComponente(Componente componente) {
 		this.componente.add(componente);
 	}
+
 	@JsonIgnore
 	// @ManyToMany(mappedBy="gruppi")
 	@ManyToMany(cascade = { PERSIST, MERGE, REFRESH })
@@ -195,9 +200,11 @@ public class Gruppo extends Utente implements Serializable {
 	public void addEvento(Evento evento) {
 		this.eventi.add(evento);
 	}
-	public void removeEvento(Evento evento){
+
+	public void removeEvento(Evento evento) {
 		this.eventi.remove(evento);
 	}
+
 	@JsonIgnore
 	@ManyToMany(fetch = FetchType.EAGER, cascade = { PERSIST, REFRESH })
 	public Set<Genere> getGeneri() {
@@ -247,6 +254,7 @@ public class Gruppo extends Utente implements Serializable {
 		t.setGruppo(this);
 		tour.add(t);
 	}
+
 	@JsonIgnore
 	@OneToOne(cascade = { REMOVE })
 	public Scaletta getScaletta() {
@@ -256,6 +264,7 @@ public class Gruppo extends Utente implements Serializable {
 	public void setScaletta(Scaletta scaletta) {
 		this.scaletta = scaletta;
 	}
+
 	@JsonIgnore
 	@ManyToMany(cascade = { PERSIST, REFRESH })
 	public Set<GruppoDiRiferimento> getGruppi_rif() {
