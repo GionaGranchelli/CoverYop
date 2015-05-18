@@ -1,6 +1,5 @@
 package it.univaq.mwt.common.utility;
 
-
 import it.univaq.mwt.business.form.utente.FormFotoAlbum;
 import it.univaq.mwt.business.form.utente.FormFotoProfilo;
 import it.univaq.mwt.business.model.AlbumFotografico;
@@ -128,8 +127,9 @@ public final class SaveFile {
 		return f;
 	}
 
-	public static void savePhotoBlobGeneral(FormFotoProfilo toSaveFile, Foto f, String type, String title) throws IOException {
-		
+	public static void savePhotoBlobGeneral(FormFotoProfilo toSaveFile, Foto f,
+			String type, String title) throws IOException {
+
 		CommonsMultipartFile cpFile = toSaveFile.getPhotoFile();
 		try {
 			f.setUrl(title);
@@ -208,10 +208,9 @@ public final class SaveFile {
 
 	}
 
+	public static AlbumFotografico savePhotoBlobGeneral(FormFotoAlbum formFotoAlbum,
+			Utente l, String albumType, String description) {
 
-	public static AlbumFotografico savePhotoBlobGeneral(FormFotoAlbum formFotoAlbum, Utente l,
-			String albumType, String description) {
-		
 		CommonsMultipartFile[] tempFileUploaded = formFotoAlbum.getPhotoFile();
 		int size = tempFileUploaded.length;
 		int i = 0; // iterator
@@ -238,25 +237,22 @@ public final class SaveFile {
 		return tempSlider;
 	}
 
-
 	public static byte[] extractBytes(String ImageName) throws IOException {
-		FileInputStream fileInputStream=null;
-		 
-        File file = new File(ImageName);
- 
-        byte[] bFile = new byte[(int) file.length()];
- 
-        try {
-            //convert file into array of bytes
-	    fileInputStream = new FileInputStream(file);
-	    fileInputStream.read(bFile);
-	    fileInputStream.close();
-		}catch(Exception ex){
+		FileInputStream fileInputStream = null;
+
+		File file = new File(ImageName);
+
+		byte[] bFile = new byte[(int) file.length()];
+
+		try {
+			// convert file into array of bytes
+			fileInputStream = new FileInputStream(file);
+			fileInputStream.read(bFile);
+			fileInputStream.close();
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-	        return bFile;
+		return bFile;
 
-		}
 	}
-	
-
+}

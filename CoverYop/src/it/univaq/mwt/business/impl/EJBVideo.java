@@ -1,16 +1,11 @@
 package it.univaq.mwt.business.impl;
 
-import java.util.Date;
-import java.util.List;
-
 import it.univaq.mwt.business.VideoService;
-
-
-import it.univaq.mwt.business.model.Album;
-import it.univaq.mwt.business.model.Canzone;
-import it.univaq.mwt.business.model.Locale;
 import it.univaq.mwt.business.model.Utente;
 import it.univaq.mwt.business.model.Video;
+
+import java.util.Date;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -26,31 +21,31 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class EJBVideo implements VideoService {
 
-	@PersistenceContext(unitName="Yop-domain")
+	@PersistenceContext(unitName = "Yop-domain")
 	private EntityManager em;
-	
-    public EJBVideo() {
-        // TODO Auto-generated constructor stub
-    }
+
+	public EJBVideo() {
+		// TODO Auto-generated constructor stub
+	}
 
 	@Override
 	public List<Video> getAllVideoByGroupId(int groupId) {
-		
-		Query query = em.createQuery("select ab "
-				+ "from Video ab, Gruppo gr "
+
+		Query query = em.createQuery("select ab " + "from Video ab, Gruppo gr "
 				+ "where ab.utente.id =:groupId");
 		query.setParameter("groupId", groupId);
 		List<Video> result = (List<Video>) query.getResultList();
 		return result;
 	}
+
 	@Transactional
-	public int deleteVideo(int videoID){
-		
+	public int deleteVideo(int videoID) {
+
 		Query query = em.createQuery("delete from Video f where f.id =:videoID");
 		query.setParameter("videoID", videoID);
 		int result = query.executeUpdate();
 		em.getEntityManagerFactory().getCache().evictAll();
-		
+
 		return result;
 	}
 
@@ -66,13 +61,13 @@ public class EJBVideo implements VideoService {
 	public Video updateVideo(Video v) {
 		Video updatedVideo = em.merge(v);
 		return updatedVideo;
-		
+
 	}
 
 	@Override
 	public void deleteVideo(Video v) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Transactional
@@ -90,8 +85,7 @@ public class EJBVideo implements VideoService {
 		toPersist.setData(new Date());
 		toPersist.setTag("Video");
 		return toPersist;
-		
-		
+
 	}
 
 }

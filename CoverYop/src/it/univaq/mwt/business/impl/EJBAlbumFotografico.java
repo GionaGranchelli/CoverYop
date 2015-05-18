@@ -37,8 +37,7 @@ public class EJBAlbumFotografico implements AlbumFotograficoService {
 				.createQuery("SELECT alb FROM AlbumFotografico alb, Gruppo g WHERE g.id=:groupID AND  alb.utente.id = g.id");
 		query.setParameter("groupID", groupID);
 
-		List<AlbumFotografico> albums = (List<AlbumFotografico>) query
-				.getResultList();
+		List<AlbumFotografico> albums = (List<AlbumFotografico>) query.getResultList();
 		Iterator<AlbumFotografico> i = albums.iterator();
 		em.flush();
 
@@ -124,8 +123,7 @@ public class EJBAlbumFotografico implements AlbumFotograficoService {
 		String queryString = "select af from AlbumFotografico af ORDER BY af.id";
 		Query query = em.createQuery(queryString);
 		query.setMaxResults(i);
-		List<AlbumFotografico> result = (List<AlbumFotografico>) query
-				.getResultList();
+		List<AlbumFotografico> result = (List<AlbumFotografico>) query.getResultList();
 		return result;
 
 	}
@@ -157,9 +155,7 @@ public class EJBAlbumFotografico implements AlbumFotograficoService {
 				removeAlbumFotografico(alb.getId());
 			}
 		}
-		
+
 	}
-	
-	 
 
 }

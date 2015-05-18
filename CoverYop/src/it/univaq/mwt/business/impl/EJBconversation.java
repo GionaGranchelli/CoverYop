@@ -79,27 +79,33 @@ public class EJBconversation implements ConversationService {
 	}
 
 	@Override
-	public ResponseGrid<Conversation> findAllConversationPaginated(RequestGrid requestGrid, Utente u) {
-		
+	public ResponseGrid<Conversation> findAllConversationPaginated(
+			RequestGrid requestGrid, Utente u) {
+
 		if ("id".equals(requestGrid.getSortCol())) {
 			requestGrid.setSortCol("cv.id");
 		} else {
 			requestGrid.setSortCol("cv." + requestGrid.getSortCol());
 		}
-		
-		String orderBy = (!"".equals(requestGrid.getSortCol()) && !"".equals(requestGrid.getSortDir())) ? "order by " + requestGrid.getSortCol() + " " + requestGrid.getSortDir() : "";
-		
-		String baseSearch = "SELECT DISTINCT cv "
-				+ "FROM Conversation cv "
-				+ "WHERE cv.mittente.id =" + u.getId() +" OR cv.destinatario.id =" + u.getId();
-		if(!("".equals(requestGrid.getsSearch()))){
+
+		String orderBy = (!"".equals(requestGrid.getSortCol()) && !"".equals(requestGrid
+				.getSortDir())) ? "order by " + requestGrid.getSortCol() + " "
+				+ requestGrid.getSortDir() : "";
+
+		String baseSearch = "SELECT DISTINCT cv " + "FROM Conversation cv "
+				+ "WHERE cv.mittente.id =" + u.getId() + " OR cv.destinatario.id ="
+				+ u.getId();
+		if (!("".equals(requestGrid.getsSearch()))) {
 			String queryLow = requestGrid.getsSearch().toLowerCase();
-			baseSearch = baseSearch + " AND lower(cv.titolo) LIKE '" + ConversionUtility.addPercentSuffix(queryLow)+"'";
+			baseSearch = baseSearch + " AND lower(cv.titolo) LIKE '"
+					+ ConversionUtility.addPercentSuffix(queryLow) + "'";
 		}
-		if(orderBy != null ) baseSearch = baseSearch + orderBy;
+		if (orderBy != null)
+			baseSearch = baseSearch + orderBy;
 		Query query = em.createQuery(baseSearch);
-		List<Conversation>result = (List<Conversation>) query.getResultList();
-	
-		return new ResponseGrid<Conversation>(requestGrid.getsEcho(), result.size(), result.size(), result);
+		List<Conversation> result = (List<Conversation>) query.getResultList();
+
+		return new ResponseGrid<Conversation>(requestGrid.getsEcho(), result.size(),
+				result.size(), result);
 	}
 }

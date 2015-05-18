@@ -35,13 +35,13 @@ public class EJBLocale implements LocaleService {
 
 	@PersistenceContext(unitName = "Yop-domain")
 	private EntityManager em;
-	
+
 	@Autowired
 	FotoService fotoService;
 
 	@Autowired
 	AlbumFotograficoService albumFotograficoService;
-	
+
 	public EJBLocale() {
 		// TODO Auto-generated constructor stub
 	}
@@ -248,7 +248,6 @@ public class EJBLocale implements LocaleService {
 
 	}
 
-	
 	public Foto addPhotoProfile(Locale l, Foto f) {
 
 		Set<AlbumFotografico> allPhotoAlbums = l.getAlbumFotografico();
@@ -259,7 +258,7 @@ public class EJBLocale implements LocaleService {
 				f.setAlbumFotografico(temp);
 				Set<Foto> fotoDaCancellare = temp.getFoto();
 				Iterator<Foto> j = fotoDaCancellare.iterator();
-				while(j.hasNext()){
+				while (j.hasNext()) {
 					Foto tempFotoToDelete = (Foto) j.next();
 					deleteFotoProfile(tempFotoToDelete);
 				}
@@ -269,29 +268,31 @@ public class EJBLocale implements LocaleService {
 		em.getEntityManagerFactory().getCache().evict(Locale.class);
 		return f;
 	}
+
 	@Transactional
-	public void deleteFotoProfile(Foto f){
+	public void deleteFotoProfile(Foto f) {
 		fotoService.deleteFotoById(f.getId());
 	}
 
 	@Override
 	public void buildAlbumFoto(FormFotoAlbum formFotoAlbum, Locale l) {
-		AlbumFotografico toStorePhotoSlider= SaveFile.savePhotoBlobGeneral(formFotoAlbum, l ,"slideshow", "Album da Slider");
+		AlbumFotografico toStorePhotoSlider = SaveFile.savePhotoBlobGeneral(
+				formFotoAlbum, l, "slideshow", "Album da Slider");
 		fotoService.insertSetFoto(toStorePhotoSlider.getFoto());
-		
-		
+
 	}
 
 	@Transactional
 	public void buildAlbumFotoProfilo(FormFotoProfilo formFotoProfilo, Locale l) {
 		Foto f = new Foto();
 		try {
-			SaveFile.savePhotoBlobGeneral(formFotoProfilo, f, "ProfileImage", "Immagine di Profilo");
+			SaveFile.savePhotoBlobGeneral(formFotoProfilo, f, "ProfileImage",
+					"Immagine di Profilo");
 			f = addPhotoProfile(l, f);
 			fotoService.insertFoto(f);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 }

@@ -357,28 +357,25 @@ public class EJBGruppo implements GruppoService {
 	@Override
 	public void refresh(Utente utente) {
 		em.refresh(utente);
-		
+
 	}
-	
+
 	@Transactional
 	public Gruppo findGruppoByUsername(String username) {
 		String gruppoToLower = username.toLowerCase();
 
-		Query query =  em.createQuery("select lc " + "from Gruppo lc "
+		Query query = em.createQuery("select lc " + "from Gruppo lc "
 				+ "where lower(lc.username) LIKE :localeLow");
 		query.setParameter("localeLow", "%" + gruppoToLower + "%");
 		query.setMaxResults(1);
 		Gruppo user;
-		try{
-		 user = (Gruppo) query.getSingleResult();
-		}catch (NullPointerException e){
-			
+		try {
+			user = (Gruppo) query.getSingleResult();
+		} catch (NullPointerException e) {
+
 			return null;
 		}
 		return user;
-		}
-	
-	
-
+	}
 
 }

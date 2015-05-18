@@ -2,9 +2,6 @@ package it.univaq.mwt.business.impl;
 
 import it.univaq.mwt.business.ComponenteService;
 
-
-
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 

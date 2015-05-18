@@ -1,10 +1,6 @@
 package it.univaq.mwt.business.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import it.univaq.mwt.business.UtenteService;
-import it.univaq.mwt.business.model.Gruppo;
 import it.univaq.mwt.business.model.Utente;
 
 import javax.persistence.EntityManager;
@@ -13,16 +9,15 @@ import javax.persistence.Query;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 @Service
 public class EJBUtente implements UtenteService {
-	
-	
 
-	@PersistenceContext(unitName="Yop-domain")
+	@PersistenceContext(unitName = "Yop-domain")
 	private EntityManager em;
 
 	public EJBUtente() {
-		
+
 	}
 
 	@Override
@@ -30,13 +25,13 @@ public class EJBUtente implements UtenteService {
 		Utente user = em.find(Utente.class, id);
 		return user;
 	}
+
 	@Transactional
-	public void update(Utente utente){
+	public void update(Utente utente) {
 		em.merge(utente);
 	}
 
 	@Override
-
 	public Utente findUtenteByUsername(String username) {
 		String gruppoToLower = username.toLowerCase();
 
@@ -45,16 +40,14 @@ public class EJBUtente implements UtenteService {
 		query.setParameter("localeLow", "%" + gruppoToLower + "%");
 		query.setMaxResults(1);
 		Utente user;
-		try{
-		 user = (Utente) query.getSingleResult();
-		}catch (NullPointerException e){
-			
+		try {
+			user = (Utente) query.getSingleResult();
+		} catch (NullPointerException e) {
+
 			return null;
 		}
 		return user;
-		}
-	
-
+	}
 
 	public Utente findUtente(Utente u) {
 		Utente user = em.find(Utente.class, u.getId());

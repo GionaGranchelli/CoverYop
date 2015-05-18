@@ -1,19 +1,15 @@
 package it.univaq.mwt.business.impl;
 
+import it.univaq.mwt.business.AlbumFotograficoService;
+import it.univaq.mwt.business.FotoService;
+import it.univaq.mwt.business.model.AlbumFotografico;
+import it.univaq.mwt.business.model.Foto;
+import it.univaq.mwt.common.utility.FacilityTool;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-
-import it.univaq.mwt.business.AlbumFotograficoService;
-import it.univaq.mwt.business.FotoService;
-import it.univaq.mwt.business.UtenteService;
-import it.univaq.mwt.business.model.AlbumFotografico;
-import it.univaq.mwt.business.model.Canzone;
-import it.univaq.mwt.business.model.Evento;
-import it.univaq.mwt.business.model.Foto;
-import it.univaq.mwt.business.model.Gruppo;
-import it.univaq.mwt.common.utility.FacilityTool;
 
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -36,11 +32,11 @@ public class EJBFoto implements FotoService {
 
 	@PersistenceContext(unitName = "Yop-domain")
 	private EntityManager em;
-	
+
 	@Autowired
 	AlbumFotograficoService albumFotograficoService;
-	
-	@Autowired 
+
+	@Autowired
 	ServletContext servletContext;
 
 	public EJBFoto() {
@@ -49,8 +45,7 @@ public class EJBFoto implements FotoService {
 
 	@Override
 	public Foto getFotoById(int fotoID) {
-		Query query = em
-				.createQuery("select f from Foto f where f.id =:fotoID");
+		Query query = em.createQuery("select f from Foto f where f.id =:fotoID");
 		query.setParameter("fotoID", fotoID);
 		Foto f = (Foto) query.getSingleResult();
 		// Canzone c = new Canzone();
@@ -67,7 +62,7 @@ public class EJBFoto implements FotoService {
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public void deleteFotoById(int fotoID) {
 		Foto f = getFotoById(fotoID);
-		AlbumFotografico af=f.getAlbumFotografico();
+		AlbumFotografico af = f.getAlbumFotografico();
 		em.remove(f);
 		em.refresh(af);
 	}
@@ -126,16 +121,16 @@ public class EJBFoto implements FotoService {
 		query.setParameter("profile", "profile");
 		query.setMaxResults(1);
 		byte[] fotoProfilo = null;
-		try{
-		fotoProfilo = (byte[]) query.getSingleResult();}
-		catch(NoResultException e){
-			fotoProfilo= FacilityTool.getDefaultImage(servletContext);
-			//fotoProfilo
-			}
+		try {
+			fotoProfilo = (byte[]) query.getSingleResult();
+		} catch (NoResultException e) {
+			fotoProfilo = FacilityTool.getDefaultImage(servletContext);
+			// fotoProfilo
+		}
 		return fotoProfilo;
-//		List<byte[]> lf = new ArrayList<byte[]>(query.getResultList());
-//		byte[] fotoProfilo = lf.get(0);
-//		return fotoProfilo;
+		// List<byte[]> lf = new ArrayList<byte[]>(query.getResultList());
+		// byte[] fotoProfilo = lf.get(0);
+		// return fotoProfilo;
 	}
 
 	@Override
@@ -167,21 +162,19 @@ public class EJBFoto implements FotoService {
 
 	@Override
 	public AlbumFotografico getAlbumSliderByUserId(int id) {
-		Query query = em.createQuery("SELECT af"
-				+ " FROM Utente u, AlbumFotografico af"
-				+ " WHERE af.utente.id = u.id AND u.id=:idutente"
-				+ " AND af.tag=:slider");
+		Query query = em
+				.createQuery("SELECT af" + " FROM Utente u, AlbumFotografico af"
+						+ " WHERE af.utente.id = u.id AND u.id=:idutente"
+						+ " AND af.tag=:slider");
 		query.setParameter("idutente", id);
 		query.setParameter("slider", "slideshow");
-		List<AlbumFotografico> a = new ArrayList<AlbumFotografico>(
-				query.getResultList());
+		List<AlbumFotografico> a = new ArrayList<AlbumFotografico>(query.getResultList());
 		return null;
 	}
 
 	@Override
 	public byte[] getByteFotoById(int id) {
-		Query query = em
-				.createQuery("select f from Foto f where f.id =:fotoID");
+		Query query = em.createQuery("select f from Foto f where f.id =:fotoID");
 		query.setParameter("fotoID", id);
 		Foto f = (Foto) query.getSingleResult();
 		byte[] temp = f.getFotoBlob();

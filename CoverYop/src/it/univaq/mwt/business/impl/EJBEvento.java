@@ -20,7 +20,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.servlet.ServletContext;
 
-import org.eclipse.persistence.sessions.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,6 +39,7 @@ public class EJBEvento implements EventoService {
 	GruppoService gruppoService;
 	@Autowired
 	ServletContext servletContext;
+
 	public EJBEvento() {
 		// TODO Auto-generated constructor stub
 	}
@@ -207,10 +207,11 @@ public class EJBEvento implements EventoService {
 		listaGruppi.add(gruppo);
 		result.setGruppo(listaGruppi);
 		if (immagine.getSize() != 0) {
-		result.setLocandinaBlob(immagine.getBytes());
-		}else{
+			result.setLocandinaBlob(immagine.getBytes());
+		} else {
 			try {
-				result.setLocandinaBlob(SaveFile.extractBytes(servletContext.getRealPath("/resources/placeholders/artist01.jpg")));
+				result.setLocandinaBlob(SaveFile.extractBytes(servletContext
+						.getRealPath("/resources/placeholders/artist01.jpg")));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -261,14 +262,15 @@ public class EJBEvento implements EventoService {
 		if (immagine.getSize() != 0) {
 			toUpdateEvent.setLocandinaBlob(immagine.getBytes());
 		} else {
-			// Se non è stata inserita			
+			// Se non è stata inserita
 			if (eventoOrginale.getLocandinaBlob() != null) {
 				toUpdateEvent.setLocandinaBlob(eventoOrginale.getLocandinaBlob());
 			} else {
 				try {
-					toUpdateEvent.setLocandinaBlob(SaveFile.extractBytes(servletContext.getRealPath("/resources/placeholders/artist01.jpg")));
+					toUpdateEvent.setLocandinaBlob(SaveFile.extractBytes(servletContext
+							.getRealPath("/resources/placeholders/artist01.jpg")));
 				} catch (IOException e) {
-				
+
 					e.printStackTrace();
 				}
 			}
@@ -279,53 +281,51 @@ public class EJBEvento implements EventoService {
 	}
 
 	@Override
-	public Evento buildEventForUpdate(Evento evento, Locale localeScelto,
-			Gruppo g, TipologiaEvento tipoEvento, CommonsMultipartFile immagine) {
+	public Evento buildEventForUpdate(Evento evento, Locale localeScelto, Gruppo g,
+			TipologiaEvento tipoEvento, CommonsMultipartFile immagine) {
 		// Ottengo l'evento Originale che si vuole Modficare
-				Evento eventoOrginale = findEventoById(evento.getId());
-				// Asseggno ad toUpdateEvent, l'oggetto evento ottenuto dalla form
-				Evento toUpdateEvent = evento;
-				// Controllo se è stato Cambiato il Gruppo che suonerà all'Evento
-				
-					// Ottengo la Lista dei Gruppi da Rimuovere
-					// NB Per semplicità Al Momento nonostante si può possono inserire
-					// più gruppi, utilizzeremo gli eventi come se avessero un solo
-					// gruppo
-					Set<Gruppo> listaGruppiDaRimuovere = eventoOrginale.getGruppo();
-					// Per Ogni Gruppo gli rimuovo l'evento di riferimento
-					Iterator<Gruppo> i = listaGruppiDaRimuovere.iterator();
-					while (i.hasNext()) {
-						Gruppo gruppoDaEliminareDallEvento = i.next();
-						gruppoDaEliminareDallEvento.removeEvento(eventoOrginale);
-						gruppoService.update(gruppoDaEliminareDallEvento);
-					}
+		Evento eventoOrginale = findEventoById(evento.getId());
+		// Asseggno ad toUpdateEvent, l'oggetto evento ottenuto dalla form
+		Evento toUpdateEvent = evento;
+		// Controllo se è stato Cambiato il Gruppo che suonerà all'Evento
 
-					Set<Gruppo> listaGruppiDaInserire = new HashSet<Gruppo>();
-					
+		// Ottengo la Lista dei Gruppi da Rimuovere
+		// NB Per semplicità Al Momento nonostante si può possono inserire
+		// più gruppi, utilizzeremo gli eventi come se avessero un solo
+		// gruppo
+		Set<Gruppo> listaGruppiDaRimuovere = eventoOrginale.getGruppo();
+		// Per Ogni Gruppo gli rimuovo l'evento di riferimento
+		Iterator<Gruppo> i = listaGruppiDaRimuovere.iterator();
+		while (i.hasNext()) {
+			Gruppo gruppoDaEliminareDallEvento = i.next();
+			gruppoDaEliminareDallEvento.removeEvento(eventoOrginale);
+			gruppoService.update(gruppoDaEliminareDallEvento);
+		}
 
-					g.addEvento(toUpdateEvent);
-					listaGruppiDaInserire.add(g);
-					toUpdateEvent.setGruppo(listaGruppiDaInserire);
-				
-				if (immagine.getSize() != 0) {
-					toUpdateEvent.setLocandinaBlob(immagine.getBytes());
-				} else {
-					// Se non è stata inserita			
-					if (eventoOrginale.getLocandinaBlob() != null) {
-						toUpdateEvent.setLocandinaBlob(eventoOrginale.getLocandinaBlob());
-					} else {
-						try {
-							toUpdateEvent.setLocandinaBlob(SaveFile.extractBytes(servletContext.getRealPath("/resources/placeholders/artist01.jpg")));
-						} catch (IOException e) {
-						
-							e.printStackTrace();
-						}
-					}
+		Set<Gruppo> listaGruppiDaInserire = new HashSet<Gruppo>();
+
+		g.addEvento(toUpdateEvent);
+		listaGruppiDaInserire.add(g);
+		toUpdateEvent.setGruppo(listaGruppiDaInserire);
+
+		if (immagine.getSize() != 0) {
+			toUpdateEvent.setLocandinaBlob(immagine.getBytes());
+		} else {
+			// Se non è stata inserita
+			if (eventoOrginale.getLocandinaBlob() != null) {
+				toUpdateEvent.setLocandinaBlob(eventoOrginale.getLocandinaBlob());
+			} else {
+				try {
+					toUpdateEvent.setLocandinaBlob(SaveFile.extractBytes(servletContext
+							.getRealPath("/resources/placeholders/artist01.jpg")));
+				} catch (IOException e) {
+
+					e.printStackTrace();
 				}
-				toUpdateEvent.setTipologia_Eventi(tipoEvento);
-				toUpdateEvent.setLocale(localeScelto);
-				return toUpdateEvent;
 			}
+		}
+		toUpdateEvent.setTipologia_Eventi(tipoEvento);
+		toUpdateEvent.setLocale(localeScelto);
+		return toUpdateEvent;
 	}
-
-
+}
