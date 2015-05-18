@@ -304,16 +304,8 @@ public class ControllerGruppo {
 	public @ResponseBody List<String> getCountryList(
 			@RequestParam("term") String query) {
 
-		List<Locale>countryList = new ArrayList<Locale>(
-				localeServ.findLocaleByName(query));
-		Iterator<Locale> i = countryList.iterator();
-		List<String> listaLocali = new ArrayList<String>();
-		while (i.hasNext()) {
-			Locale v = i.next();
-			listaLocali.add(v.getNomeLocale() + "::" + v.getIndirizzo() + "::"
-					+ v.getCitta());
-		}
-		return listaLocali;
+		List<Locale>countryList = new ArrayList<Locale>(localeServ.findLocaleByName(query));
+		return FacilityTool.getLocaleForAjax(countryList);
 	}
 
 }

@@ -74,48 +74,5 @@ public class ConversionUtility {
 		return "%" + s + "%";
 	}
 
-	//
-	// public static long string2long(String s) {
-	// if (s == null || s.isEmpty()) {
-	// return 0;
-	// }
-	// return Long.parseLong(s);
-	//
-	// }
-	//
-	// public static int string2int(String s) {
-	// if (s == null || s.isEmpty()) {
-	// return 0;
-	// }
-	// return Integer.parseInt(s);
-	// }
-	//
-	//
-	//
-	// public static RequestGrid getRequestGrid(HttpServletRequest req) {
-	// Long iDisplayStart = string2long(req.getParameter("iDisplayStart"));
-	// Long iDisplayLength = string2long(req.getParameter("iDisplayLength"));
-	// String sEcho = req.getParameter("sEcho");
-	// String sSearch = req.getParameter("sSearch");
-	// String sortCol = req.getParameter("sortCol");
-	// String sortDir = req.getParameter("sortDir");
-	//
-	// RequestGrid requestGrid = new RequestGrid();
-	// requestGrid.setiDisplayStart(iDisplayStart);
-	// requestGrid.setiDisplayLength(iDisplayLength);
-	// requestGrid.setsEcho(sEcho);
-	// requestGrid.setsSearch(sSearch);
-	// requestGrid.setSortCol(sortCol);
-	// requestGrid.setSortDir(sortDir);
-	//
-	// return requestGrid;
-	//
-	// }
-	//
-	// public static String addPercentSuffix(String s) {
-	// if (s == null || "".equals(s)) {
-	// return "%";
-	// }
-	// return s + "%";
-	// }
+	
 }

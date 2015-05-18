@@ -243,4 +243,16 @@ public final class FacilityTool {
 		conversation.addMessage(msg);
 		return msg;
 	}
+	
+	public static List<String> getLocaleForAjax(List<Locale> countryList){
+		Iterator<Locale> i = countryList.iterator();
+		List<String> listaLocali = new ArrayList<String>();
+		while (i.hasNext()) {
+			Locale v = i.next();
+			listaLocali.add(v.getNomeLocale() + "::" + v.getIndirizzo() + "::"
+					+ v.getCitta());
+		}
+		return listaLocali;
+		
+	}
 }

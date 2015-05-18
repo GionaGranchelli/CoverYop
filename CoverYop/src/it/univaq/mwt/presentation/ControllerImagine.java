@@ -64,12 +64,13 @@ public class ControllerImagine {
 	
 	@ResponseBody
 	@RequestMapping(value="/LocalSlide/imageUrl.html", params= "id" ,method = RequestMethod.GET)
-	public String getLocaleImageSliderUrl(@RequestParam("id") int id){	
+	public String getLocaleImageSliderUrl(@RequestParam("id") int id) throws IOException{	
 		byte[] immagine =  fotoServ.getByteFotoById(id);
 		File tempFile = null;
 		try {
+			File path2= new java.io.File("./resour");
 			String path = servletContext.getRealPath("/resources/");
-			tempFile = File.createTempFile(path+"foto-temp", ".jpg",null);
+			tempFile = File.createTempFile(path+"foto-temp", ".jpg",path2);
 			FileOutputStream fos = new FileOutputStream(tempFile);
 			fos.write(immagine);
 			fos.close();
@@ -77,7 +78,7 @@ public class ControllerImagine {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return tempFile.getAbsolutePath();
+		return tempFile.getCanonicalPath();
 	}
 }
 	

@@ -54,6 +54,9 @@
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/style.css"
 	media="screen" />
+	<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/colorbox.css"
+	media="screen" />
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/media-queries.css"
 	media="screen" />
@@ -106,6 +109,8 @@
 	src="${pageContext.request.contextPath}/resources/datatables/my.js"></script>
 <script
 	src="${pageContext.request.contextPath}/resources/datatables/js/jquery.dataTables.min.js"></script>
+	<script
+	src="${pageContext.request.contextPath}/resources/js/jquery.colorbox.js"></script>
 </head>
 
 <body>
