@@ -125,6 +125,9 @@
         <put-attribute name="body" value="/WEB-INF/views/inbox/conversation.jsp"/>
     </definition>
     
+    <definition name="eccezione.throws" extends="standard">
+    	 <put-attribute name="body" value="/WEB-INF/views/common/eccezione.jsp"/>
+    </definition> 
     
     
 </tiles-definitions>
